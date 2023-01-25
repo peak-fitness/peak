@@ -65,7 +65,7 @@ const Navbar = () => {
             sx={{ display: { xs: "flex", md: "flex" } }}
           >
             <Link
-              href="/signup"
+              href="/auth/signup"
               style={{
                 margin: "20px",
                 padding: "10px",
@@ -76,7 +76,7 @@ const Navbar = () => {
               SIGN UP
             </Link>
             <Link
-              href="/signin"
+              href="/auth/login"
               style={{
                 margin: "20px",
                 padding: "10px",
