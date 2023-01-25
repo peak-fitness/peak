@@ -1,5 +1,6 @@
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSupabaseClient, useSession } from "@supabase/auth-helpers-react";
 import { useState } from "react";
+import { useRouter } from "next/router";
 
 export default function Signup() {
   const supabase = useSupabaseClient();
@@ -8,6 +9,10 @@ export default function Signup() {
   const [username, setUsername] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [usernameTaken, setUsernameTaken] = useState(false);
+  const router = useRouter();
+
+  const session = useSession();
+  if (session) router.push('/')
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
@@ -46,8 +51,16 @@ export default function Signup() {
   };
 
   return (
+    !session && 
     <div>
       <form onSubmit={handleSubmit}>
+        <label>Username</label>
+        <input
+          type="username"
+          onChange={(evt) => {
+            setUsername(evt.target.value);
+          }}
+        />
         <label>Email</label>
         <input
           type="email"
@@ -60,13 +73,6 @@ export default function Signup() {
           type="password"
           onChange={(evt) => {
             setPassword(evt.target.value);
-          }}
-        />
-        <label>Username</label>
-        <input
-          type="username"
-          onChange={(evt) => {
-            setUsername(evt.target.value);
           }}
         />
         <button type="submit">Submit</button>
