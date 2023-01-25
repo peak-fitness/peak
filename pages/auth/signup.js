@@ -1,7 +1,6 @@
-// import { supabase } from "../../lib/supabaseClient";
-// import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
-export default function Signup() {
+function Signup() {
   return (
     <div>
       <form>
@@ -13,3 +12,5 @@ export default function Signup() {
     </div>
   );
 }
+
+export default Signup;
