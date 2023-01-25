@@ -2,15 +2,7 @@ import { useSupabaseClient, useSession } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Container, Box, FormControl, InputLabel, Input } from "@mui/material";
-// import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Checkbox from "@mui/material/Checkbox";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Grid from "@mui/material/Grid";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
+import { Container, Box, Typography, TextField, Grid, Button } from "@mui/material";
 
 export default function Signup() {
   const supabase = useSupabaseClient();
