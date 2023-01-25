@@ -1,7 +1,7 @@
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-// import { Auth, ThemeSupa } from "@supabase/auth-ui-react";
 import { useState } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function Login() {
   const supabase = useSupabaseClient();
@@ -10,21 +10,21 @@ export default function Login() {
   const [failedLogin, setFailedLogin] = useState(false);
   const router = useRouter();
   const session = useSession();
-  if (session) router.push('/')
+  if (session) router.push("/");
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
-    const {data, error} = await supabase.auth.signInWithPassword({
-        email, 
-        password
-    }); 
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email,
+      password,
+    });
     if (error) setFailedLogin(true);
   };
 
   return (
-    !session &&
-     <div>
+    !session && (
+      <div>
         <form onSubmit={handleSubmit}>
           <label>Email</label>
           <input
@@ -41,21 +41,13 @@ export default function Login() {
             }}
           />
           <button type="submit">Log In</button>
+          <p>
+            {`Don't have an account? `}
+            <Link href="/auth/signup">Register here</Link>
+          </p>
         </form>
         {failedLogin && <p>Incorrect Email or Password. Please try again</p>}
-    </div>
-  )
+      </div>
+    )
+  );
 }
-
-// <div className="container" style={{ padding: "50px 0 100px 0" }}>
-// {!session ? (
-//   <Auth
-//     supabaseClient={supabase}
-//     appearance={{ theme: ThemeSupa }}
-//     theme="dark"
-//   />
-// ) : (
-//   <p>Temp</p>
-// )}
-// </div>
-// </>
