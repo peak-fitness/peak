@@ -9,11 +9,12 @@ export default function Signup() {
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email: email,
       password: password,
     });
 
+    console.log(data);
     console.log(error);
   };
 
