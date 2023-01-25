@@ -1,7 +1,8 @@
 // import { supabase } from "../../lib/supabaseClient";
-// import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export default function Signup() {
+  const supabase = useSupabaseClient();
   return (
     <div>
       <form>
