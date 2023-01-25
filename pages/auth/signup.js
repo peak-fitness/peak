@@ -43,9 +43,6 @@ export default function Signup() {
     } else {
       setUsernameTaken(true);
     }
-
-    // console.log(data);
-    // console.log(error);
   };
 
   return (
