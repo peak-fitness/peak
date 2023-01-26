@@ -5,7 +5,7 @@ import Link from "next/link";
 
 const Navbar = () => {
   return (
-    <AppBar position="sticky" sx={{ backgroundColor: "primary" }}>
+    <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
       <Container maxWidth="xxl">
         <Toolbar disableGutters>
           {/* <img src="" width="200" /> */}
