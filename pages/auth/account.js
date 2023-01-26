@@ -14,8 +14,6 @@ export default function Account() {
   const [website, setWebsite] = useState(null);
   const [avatar_url, setAvatarUrl] = useState(null);
 
-  console.log(session);
-
   useEffect(() => {
     getProfile();
   }, [session]);
