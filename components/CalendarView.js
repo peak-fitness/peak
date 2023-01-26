@@ -13,7 +13,7 @@ function preventDefault(event) {
   event.preventDefault();
 }
 
-export default function Deposits() {
+export default function CalendarView() {
   const [date, setDate] = useState(null);
 
   return (
