@@ -2,7 +2,14 @@ import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Container, Box, Typography, TextField, Grid, Button } from "@mui/material";
+import {
+  Container,
+  Box,
+  Typography,
+  TextField,
+  Grid,
+  Button,
+} from "@mui/material";
 
 export default function Login() {
   const supabase = useSupabaseClient();
@@ -23,15 +30,23 @@ export default function Login() {
     if (error) setFailedLogin(true);
   };
 
-  return (
+  const handleOAuth = async (evt) => {
+    evt.preventDefault();
+    const { data, error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+    });
+    if (error) setFailedLogin(true);
+  };
 
+  return (
     <Container component="main" maxWidth="xs">
       <Box
         sx={{
-          marginTop: 8,
+          marginTop: "8rem",
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          minHeight: "100vh",
         }}
       >
         <Typography component="h1" variant="h5">
@@ -43,7 +58,8 @@ export default function Login() {
           variant="p"
           sx={{ color: "#959595", textAlign: "center" }}
         >
-          Welcome back. We hope you continue to use Peak to achieve your goals for this year!
+          Welcome back. We hope you continue to use Peak to achieve your goals
+          for this year!
         </Typography>
 
         <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
@@ -94,6 +110,9 @@ export default function Login() {
             sx={{ mt: 3, mb: 2 }}
           >
             Sign into Your Account
+          </Button>
+          <Button onClick={handleOAuth} fullWidth variant="contained">
+            Sign in with Google
           </Button>
           {failedLogin && <p>Incorrect Email or Password. Please try again</p>}
           <Grid container justifyContent="flex-end">

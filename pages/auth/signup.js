@@ -2,7 +2,14 @@ import { useSupabaseClient, useSession } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import { Container, Box, Typography, TextField, Grid, Button } from "@mui/material";
+import {
+  Container,
+  Box,
+  Typography,
+  TextField,
+  Grid,
+  Button,
+} from "@mui/material";
 
 export default function Signup() {
   const supabase = useSupabaseClient();
@@ -116,6 +123,7 @@ export default function Signup() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
+          minHeight: "100vh",
         }}
       >
         <Typography component="h1" variant="h5">
