@@ -24,7 +24,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 const Footer = () => {
   return (
     <Box
-      style={{ position: "fixed", bottom: 0, width: "100%" }}
+      style={{ position: "static", bottom: 0, width: "100%" }}
       sx={{
         display: "flex",
         flexDirection: "column",
