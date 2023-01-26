@@ -13,14 +13,6 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
-// const Copyright = () => {
-//   return (
-//     <Typography variant="body2" color="#434343" align="center">
-//       {"Copyright @ 2023 Peak. All rights reserved. "}
-//     </Typography>
-//   );
-// };
-
 const Footer = () => {
   return (
     <Box
