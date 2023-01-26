@@ -1,4 +1,3 @@
-// import * as React from "react";
 import {
   CssBaseline,
   Box,
@@ -17,7 +16,7 @@ const Footer = () => {
   return (
     <Box
       style={{
-        position: "fixed",
+        position: "static",
         bottom: 0,
         width: "100%",
       }}
