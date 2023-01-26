@@ -1,3 +1,4 @@
+
 *,
 *::before,
 *::after {
@@ -27,6 +28,10 @@ img {
 a {
   text-underline-position: under;
   text-decoration-thickness: 8;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 @media (prefers-reduced-motion: no-preference) {

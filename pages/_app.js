@@ -1,4 +1,8 @@
 import "@/styles/globals.css";
+
+import { createBrowserSupabaseClient } from "@supabase/auth-helpers-nextjs";
+import { SessionContextProvider } from "@supabase/auth-helpers-react";
+import { useState } from "react";
 import Layout from "@/comps/Layout";
 import Head from "next/head";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -18,11 +22,20 @@ export const theme = createTheme({
 });
 
 export default function App({ Component, pageProps }) {
+const [supabase] = useState(() => createBrowserSupabaseClient());
   return (
     <Layout>
+    
       <ThemeProvider theme={theme}>
+      <SessionContextProvider
+      supabaseClient={supabase}
+      initialSession={pageProps.initialSession}
+    >
         <Component {...pageProps} />
+        </SessionContextProvider>
       </ThemeProvider>
     </Layout>
   );
 }
+
+export default App;
