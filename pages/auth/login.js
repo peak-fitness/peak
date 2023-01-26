@@ -92,7 +92,6 @@ export default function Login() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          alignItems: "center",
           minHeight: "100vh",
         }}
       >
@@ -132,7 +131,7 @@ export default function Login() {
             <Box
               component="form"
               onSubmit={handleSubmit}
-              sx={{ mt: 3, width: "20rem" }}
+              sx={{ mt: 3, width: "20rem", marginBottom: "4.5rem" }}
             >
               <Grid container spacing={2}>
                 <Grid item xs={12}>
@@ -186,19 +185,14 @@ export default function Login() {
               {failedLogin && (
                 <p>Incorrect Email or Password. Please try again</p>
               )}
-              <Grid container justifyContent="flex-end">
-                <Grid item xs={12}></Grid>
-              </Grid>
             </Box>
           </Box>{" "}
           <Box
             sx={{
-              marginLeft: "4rem",
               borderLeft: "1px solid #959595",
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
-
               marginLeft: "7rem",
               paddingTop: "4rem",
             }}
