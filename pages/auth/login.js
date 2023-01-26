@@ -11,6 +11,9 @@ import {
   Button,
 } from "@mui/material";
 
+import { AppBar } from "@mui/material";
+import { Toolbar } from "@mui/material";
+
 export default function Login() {
   const supabase = useSupabaseClient();
   const [email, setEmail] = useState("");
@@ -39,103 +42,178 @@ export default function Login() {
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <Box
+    <>
+      <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
+        <Container maxWidth="xxl">
+          <Toolbar
+            disableGutters
+            sx={{ display: "flex", justifyContent: "space-between" }}
+          >
+            <Typography
+              variant="h4"
+              noWrap
+              component="a"
+              href="/"
+              sx={{
+                mr: 1,
+                display: { xs: "flex", md: "flex" },
+                fontWeight: 700,
+                letterSpacing: ".1rem",
+                color: "#E8E8E8",
+                textDecoration: "none",
+                margin: "15px",
+                fontFamily: "Montserrat",
+              }}
+            >
+              {"Peak"}
+            </Typography>
+            <Typography
+              component="p"
+              variant="p"
+              sx={{ p: { color: "#959595" }, textAlign: "center" }}
+            >
+              {`Don't have an account?`}{" "}
+              <Link
+                href="/auth/signup"
+                style={{
+                  color: "#ffffff",
+                }}
+              >
+                Register here
+              </Link>
+            </Typography>
+          </Toolbar>
+        </Container>
+      </AppBar>
+
+      <Container
+        maxWidth="lg"
         sx={{
-          marginTop: "8rem",
           display: "flex",
           flexDirection: "column",
+          alignItems: "center",
           alignItems: "center",
           minHeight: "100vh",
         }}
       >
-        <Typography component="h1" variant="h5">
-          Welcome back to Peak
-        </Typography>
-
-        <Typography
-          component="p"
-          variant="p"
-          sx={{ color: "#959595", textAlign: "center" }}
+        <Box
+          sx={{
+            width: "20rem",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: "5rem",
+          }}
         >
-          Welcome back. We hope you continue to use Peak to achieve your goals
-          for this year!
-        </Typography>
-
-        <Box component="form" onSubmit={handleSubmit} sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
-            <Grid item xs={12}>
-              <TextField
-                sx={{
-                  backgroundColor: "#242424",
-                  input: { color: "#959595" },
-                  label: { color: "#959595" },
-                }}
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                type="email"
-                name="email"
-                autoComplete="email"
-                onChange={(evt) => {
-                  setEmail(evt.target.value);
-                }}
-              />
-            </Grid>
-            <Grid item xs={12}>
-              <TextField
-                sx={{
-                  backgroundColor: "#242424",
-                  input: { color: "#959595" },
-                  label: { color: "#959595" },
-                }}
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="password"
-                onChange={(evt) => {
-                  setPassword(evt.target.value);
-                }}
-              />
-            </Grid>
-          </Grid>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            sx={{ mt: 3, mb: 2 }}
+          <Typography component="h1" variant="h5">
+            Welcome back to Peak
+          </Typography>
+          <Typography
+            component="p"
+            variant="p"
+            sx={{ color: "#959595", textAlign: "center" }}
           >
-            Sign into Your Account
-          </Button>
-          <Button onClick={handleOAuth} fullWidth variant="contained">
-            Sign in with Google
-          </Button>
-          {failedLogin && <p>Incorrect Email or Password. Please try again</p>}
-          <Grid container justifyContent="flex-end">
-            <Grid item xs={12}>
-              <Typography
-                component="p"
-                variant="p"
-                sx={{ p: { color: "#959595" }, textAlign: "center" }}
-              >
-                {`Don't have an account?`}{" "}
-                <Link
-                  href="/auth/signup"
-                  style={{
-                    color: "#ffffff",
-                  }}
-                >
-                  Register here
-                </Link>
-              </Typography>
-            </Grid>
-          </Grid>
+            Welcome back. We hope you continue to use Peak to achieve your goals
+            for this year!
+          </Typography>
         </Box>
-      </Box>
-    </Container>
+        <Container
+          component="main"
+          maxWidth="md"
+          sx={{ display: "flex", marginTop: "2rem" }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Box
+              component="form"
+              onSubmit={handleSubmit}
+              sx={{ mt: 3, width: "20rem" }}
+            >
+              <Grid container spacing={2}>
+                <Grid item xs={12}>
+                  <TextField
+                    sx={{
+                      backgroundColor: "#242424",
+                      input: { color: "#959595" },
+                      label: { color: "#959595" },
+                    }}
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email Address"
+                    type="email"
+                    name="email"
+                    autoComplete="email"
+                    onChange={(evt) => {
+                      setEmail(evt.target.value);
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    sx={{
+                      backgroundColor: "#242424",
+                      input: { color: "#959595" },
+                      label: { color: "#959595" },
+                    }}
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="password"
+                    onChange={(evt) => {
+                      setPassword(evt.target.value);
+                    }}
+                  />
+                </Grid>
+              </Grid>
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Sign into Your Account
+              </Button>
+
+              {failedLogin && (
+                <p>Incorrect Email or Password. Please try again</p>
+              )}
+              <Grid container justifyContent="flex-end">
+                <Grid item xs={12}></Grid>
+              </Grid>
+            </Box>
+          </Box>{" "}
+          <Box
+            sx={{
+              marginLeft: "4rem",
+              borderLeft: "1px solid #959595",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+
+              marginLeft: "7rem",
+              paddingTop: "4rem",
+            }}
+          >
+            <Button
+              onClick={handleOAuth}
+              fullWidth
+              variant="contained"
+              sx={{ marginLeft: "7rem", padding: "1rem 7rem 1rem 0rem" }}
+            >
+              Sign in with Google
+            </Button>
+          </Box>
+        </Container>
+      </Container>
+    </>
   );
 }
