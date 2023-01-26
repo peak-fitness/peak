@@ -2,6 +2,38 @@
   min-height: 100vh;
 }
 
+.learnHeader {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 30vh;
+  text-align: center;
+  background-image: linear-gradient(
+    to left bottom,
+    #121212,
+    #171717,
+    #1b1b1b,
+    #202020,
+    #242424
+  );
+  box-shadow: 20px 20px 45px #161616;
+}
+
+.learnHeader p {
+  margin: 0 3rem;
+}
+
+.learnHeader p:last-child {
+  width: 50%;
+  color: rgb(170, 170, 170);
+}
+
+.learnSlogan {
+  font-size: 36px;
+  font-weight: 500;
+}
+
 .content {
   display: flex;
   flex-flow: column;
@@ -11,5 +43,52 @@
 }
 
 .contentHeader {
-  font-size: 28px;
+  font-size: 36px;
+  margin: 0;
+}
+
+.whyContent {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  width: 80%;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.offerContent {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem;
+  margin-top: 2rem;
+  gap: 2rem;
+  border-radius: 10px;
+  background: #242424;
+  box-shadow: 20px 20px 45px #161616;
+}
+
+.services {
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.service {
+  flex: 1 1 0px;
+  text-align: center;
+  padding: 0.5rem;
+}
+
+.service p:last-child {
+  color: #959595;
+  font-weight: 500;
+  margin: 0;
+  margin-top: 0.5rem;
+}
+
+.serviceHeader {
+  font-size: 24px;
+  margin: 0;
 }
