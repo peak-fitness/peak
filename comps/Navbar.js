@@ -30,7 +30,7 @@ const Navbar = () => {
 
           <Box sx={{ flexGrow: 2, display: { xs: "flex", md: "flex" } }}>
             <Link
-              href="/hello"
+              href="/learn"
               style={{
                 margin: "20px",
                 color: "#E8E8E8",
