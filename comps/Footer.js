@@ -13,18 +13,14 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import GitHubIcon from "@mui/icons-material/GitHub";
 
-// const Copyright = () => {
-//   return (
-//     <Typography variant="body2" color="#434343" align="center">
-//       {"Copyright @ 2023 Peak. All rights reserved. "}
-//     </Typography>
-//   );
-// };
-
 const Footer = () => {
   return (
     <Box
-      style={{ position: "fixed", bottom: 0, width: "100%" }}
+      style={{
+        position: "fixed",
+        bottom: 0,
+        width: "100%",
+      }}
       sx={{
         display: "flex",
         flexDirection: "column",
@@ -35,42 +31,45 @@ const Footer = () => {
       }}
     >
       <CssBaseline />
-      <Container>
-        <Toolbar disableGutters>
-          <Typography
-            variant="h4"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 1,
-              display: {
-                xs: "flex",
-                md: "flex",
-              },
-              fontWeight: 700,
-              letterSpacing: ".1rem",
-              color: "#E8E8E8",
-              textDecoration: "none",
-              margin: "0 15px 0 15px",
-
-              //   margin: "0 15px 0 15px",
-              border: "solid",
-              fontFamily: "Montserrat",
-              //   padding: "0 20px 0 0",
-            }}
-          >
-            {"Peak"}
-          </Typography>
+      <Container display="flex" align="center" maxWidth={false}>
+        <Toolbar
+          disableGutters
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            width: "80%",
+          }}
+        >
+          <Box>
+            <Typography
+              variant="h4"
+              noWrap
+              component="a"
+              href="/"
+              sx={{
+                mr: 1,
+                display: {
+                  xs: "flex",
+                  md: "flex",
+                },
+                boxSizing: "border-box",
+                padding: "0px 25px 0px",
+                fontWeight: 700,
+                letterSpacing: ".1rem",
+                color: "#E8E8E8",
+                textDecoration: "none",
+                margin: "0 15px 0 0",
+                fontFamily: "Montserrat",
+              }}
+            >
+              {"Peak"}
+            </Typography>
+          </Box>
           <Box
             sx={{
               justifyContent: "center",
-              flexGrow: 2,
-              border: "solid",
-              display: {
-                xs: "flex",
-                md: "flex",
-              },
+              display: "flex",
+              margin: "0 0 0 48px",
             }}
           >
             <Link
@@ -106,9 +105,8 @@ const Footer = () => {
           </Box>
           <Box
             sx={{
-              display: { xs: "flex", md: "flex" },
-              border: "solid",
-              margin: "0 15px 0 15px",
+              display: "flex",
+              margin: "0 30px 0 15px",
               justifyContent: "center",
             }}
           >
@@ -151,7 +149,13 @@ const Footer = () => {
           </Box>
         </Toolbar>
       </Container>
-      <Container maxWidth="m">
+      <Container
+        maxWidth="m"
+        style={{
+          width: "80%",
+          borderTop: "1px solid #434343",
+        }}
+      >
         <Typography variant="body2" color="#434343" align="center">
           {"Copyright @ 2023 Peak. All rights reserved. "}
         </Typography>
