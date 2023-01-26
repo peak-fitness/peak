@@ -10,68 +10,81 @@ import {
 } from "recharts";
 import Title from "./Title";
 
+import { createMuiTheme } from "@material-ui/core/styles";
+import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+
 // Generate Sales Data
 function createData(time, amount) {
   return { time, amount };
 }
 
 const data = [
-  createData("1/01", 160),
-  createData("1/07", 162),
-  createData("1/12", 160),
-  createData("1/17", 161),
-  createData("1/24", 163),
-  createData("1/31", 164),
-  createData("2/05", 163),
-  createData("2/10", 164),
+  createData("Jan", 0),
+  createData("Feb", 15),
+  createData("Mar", 20),
+  createData("Apr", 21),
+  createData("May", 21),
+  createData("Jul", 18),
+  createData("Aug", 20),
+  createData("Sep", 19),
+  createData("Oct", 23),
+  createData("Nov", 25),
+  createData("Dec", 15),
 ];
 
-export default function Chart() {
-  const theme = useTheme();
+const theme = createMuiTheme({
+  palette: {
+    type: "dark",
+    primary: { main: "#03DAC5" },
+    text: "white",
+  },
+  background: { default: "#161616" },
+});
 
+export default function Chart() {
   return (
-    <React.Fragment>
-      <Title>Workout Progress</Title>
-      <ResponsiveContainer>
-        <LineChart
-          data={data}
-          margin={{
-            top: 16,
-            right: 16,
-            bottom: 0,
-            left: 24,
-          }}
-        >
-          <XAxis
-            dataKey="time"
-            stroke={theme.palette.text.secondary}
-            style={theme.typography.body2}
-          />
-          <YAxis
-            stroke={theme.palette.text.secondary}
-            style={theme.typography.body2}
+    <ThemeProvider theme={theme}>
+      <React.Fragment>
+        <Title>Workout Progress</Title>
+        <ResponsiveContainer>
+          <LineChart
+            data={data}
+            margin={{
+              top: 16,
+              right: 16,
+              bottom: 0,
+              left: 24,
+            }}
           >
-            <Label
-              angle={270}
-              position="left"
-              style={{
-                textAnchor: "middle",
-                fill: theme.palette.text.primary,
-                ...theme.typography.body1,
-              }}
-            >
-              Weight (lbs)
-            </Label>
-          </YAxis>
-          <Line
-            isAnimationActive={false}
-            type="monotone"
-            dataKey="amount"
-            stroke={theme.palette.primary.main}
-            dot={false}
-          />
-        </LineChart>
-      </ResponsiveContainer>
-    </React.Fragment>
+            <XAxis
+              dataKey="time"
+              stroke={theme.palette.text}
+              style={theme.typography.body2}
+            />
+
+            <YAxis stroke={theme.palette.text} style={theme.typography.body2}>
+              <Label
+                angle={270}
+                position="left"
+                style={{
+                  textAnchor: "middle",
+                  fill: theme.palette.primary.main,
+                  ...theme.typography.body1,
+                }}
+              >
+                # of Workouts
+              </Label>
+            </YAxis>
+            <Line
+              isAnimationActive={false}
+              type="monotone"
+              dataKey="amount"
+              stroke={theme.palette.primary.main}
+              dot={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </React.Fragment>
+    </ThemeProvider>
   );
 }

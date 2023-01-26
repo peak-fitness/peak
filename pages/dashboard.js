@@ -16,11 +16,24 @@ import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import NotificationsIcon from "@mui/icons-material/Notifications";
+import AccountBoxRoundedIcon from "@mui/icons-material/AccountBoxRounded";
 import { mainListItems, secondaryListItems } from "../components/listItems";
 import Chart from "../components/Chart";
 import CalendarView from "../components/CalendarView";
 import Orders from "../components/WorkoutSessions";
+import { createMuiTheme } from "@material-ui/core/styles";
+import Navbar from "../comps/Navbar";
+
+const darkTheme = createMuiTheme({
+  palette: {
+    type: "dark",
+  },
+  text: {
+    primary: "#ffffff",
+    secondary: "#aaa",
+  },
+  background: { default: "#161616" },
+});
 
 function Copyright(props) {
   return (
@@ -67,6 +80,7 @@ const Drawer = styled(MuiDrawer, {
     position: "relative",
     whiteSpace: "nowrap",
     width: drawerWidth,
+    backgroundColor: "#161616",
     transition: theme.transitions.create("width", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.enteringScreen,
@@ -95,13 +109,14 @@ function DashboardContent() {
   };
 
   return (
-    <ThemeProvider theme={mdTheme}>
+    <ThemeProvider theme={darkTheme}>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
         <AppBar position="absolute" open={open}>
           <Toolbar
             sx={{
               pr: "24px", // keep right padding when drawer closed
+              backgroundColor: darkTheme.background.default,
             }}
           >
             <IconButton
@@ -126,12 +141,13 @@ function DashboardContent() {
               Dashboard
             </Typography>
             <IconButton color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <NotificationsIcon />
+              <Badge badgeContent={1} color="secondary">
+                <AccountBoxRoundedIcon />
               </Badge>
             </IconButton>
           </Toolbar>
         </AppBar>
+
         <Drawer variant="permanent" open={open}>
           <Toolbar
             sx={{
@@ -148,17 +164,14 @@ function DashboardContent() {
           <Divider />
           <List component="nav">
             {mainListItems}
-            <Divider sx={{ my: 1 }} />
-            {secondaryListItems}
+            {/* <Divider sx={{ my: 1 }} />
+            {secondaryListItems} */}
           </List>
         </Drawer>
+
         <Box
           component="main"
           sx={{
-            backgroundColor: (theme) =>
-              theme.palette.mode === "dark"
-                ? theme.palette.grey[100]
-                : theme.palette.grey[900],
             flexGrow: 1,
             height: "100vh",
             overflow: "auto",
@@ -181,10 +194,13 @@ function DashboardContent() {
                 </Paper>
               </Grid>
               {/* Calendar*/}
-              <Grid item xs={12} md={4} lg={3}>
+              <Grid item xs={10} md={4} lg={3}>
                 <Paper
                   sx={{
-                    p: 2,
+                    pt: 2,
+                    pb: 2,
+                    pl: 0,
+                    pr: 0,
                     display: "flex",
                     flexDirection: "column",
                     height: 240,

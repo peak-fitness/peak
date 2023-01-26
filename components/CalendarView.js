@@ -8,10 +8,33 @@ import Grid from "@mui/material/Grid";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { CalendarPicker } from "@mui/x-date-pickers/CalendarPicker";
+import { styled } from "@mui/material/styles";
 
 function preventDefault(event) {
   event.preventDefault();
 }
+
+const CustomizedCalendar = styled(CalendarPicker)`
+  max-width: 215px;
+  max-height: 200px;
+
+  & .MuiPickersCalendarHeader-labelContainer {
+    margin-right: 0px;
+  }
+
+  & .MuiPickersCalendarHeader-root {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  & .PrivatePickersYear-yearButton {
+    font-size: 12px;
+  }
+
+  & .MuiPickersCalendarHeader-labelContainer {
+    font-size: 13.5px;
+  }
+`;
 
 export default function CalendarView() {
   const [date, setDate] = useState(null);
@@ -20,16 +43,10 @@ export default function CalendarView() {
     <React.Fragment>
       <div>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <Grid container>
-            <Grid item xs={6} md={3}>
-              <CalendarPicker
-                date={date}
-                onChange={(newDate) => setDate(newDate)}
-              />
-            </Grid>
-            <Grid item xs={6} md={3}></Grid>
-            <Grid item xs={6} md={6}></Grid>
-          </Grid>
+          <CustomizedCalendar
+            date={date}
+            onChange={(newDate) => setDate(newDate)}
+          />
         </LocalizationProvider>
       </div>
     </React.Fragment>
