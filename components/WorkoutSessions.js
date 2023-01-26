@@ -34,7 +34,7 @@ const theme = createTheme({
   background: { default: "#161616" },
 });
 
-export default function Orders() {
+export default function RecentWorkouts() {
   return (
     <ThemeProvider theme={theme}>
       <React.Fragment>
