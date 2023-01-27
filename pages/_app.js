@@ -18,6 +18,12 @@ export const theme = createTheme({
       main: "#03DAC5",
     },
   },
+  typography: {
+    fontFamily: `"Montserrat", sans-serif`,
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,
+  },
 });
 
 export default function App({ Component, pageProps }) {
@@ -29,7 +35,9 @@ export default function App({ Component, pageProps }) {
           supabaseClient={supabase}
           initialSession={pageProps.initialSession}
         >
-          <Component {...pageProps} />
+          <div className="main-container">
+            <Component {...pageProps} />
+          </div>
         </SessionContextProvider>
       </ThemeProvider>
     </Layout>

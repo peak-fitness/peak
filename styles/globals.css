@@ -10,6 +10,7 @@ html {
   text-size-adjust: none; /* for other mobile browsers */
 }
 
+html,
 body {
   margin: 0;
   /* Font of some sort */
@@ -37,4 +38,8 @@ a:hover {
   html {
     scroll-behavior: smooth;
   }
+}
+
+.main-container {
+  background-color: #161616;
 }
