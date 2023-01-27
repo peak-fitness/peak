@@ -1,3 +1,25 @@
 .container {
   min-height: 100vh;
 }
+
+.profiles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0 4rem;
+}
+
+.profile {
+  flex: 0 0 15%;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  background-color: #242424;
+  border-radius: 10px;
+  border-radius: 10px;
+  background: linear-gradient(145deg, #202020, #272727);
+  box-shadow: 20px 20px 82px #121212, -5px -5px 10px rgba(54, 54, 54, 0.4);
+}
