@@ -11,6 +11,8 @@ import {
   Button,
 } from "@mui/material";
 
+import { ArrowRightAlt, Google, Facebook, East } from "@mui/icons-material";
+
 import { AppBar } from "@mui/material";
 import { Toolbar } from "@mui/material";
 
@@ -71,21 +73,24 @@ export default function Login() {
             >
               {"Peak"}
             </Typography>
-            <Typography
-              component="p"
-              variant="p"
-              sx={{ p: { color: "#959595" }, textAlign: "center" }}
-            >
-              {`Don't have an account?`}{" "}
-              <Link
-                href="/auth/signup"
-                style={{
-                  color: "#ffffff",
-                }}
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Typography
+                component="p"
+                variant="p"
+                sx={{ p: { color: "#959595" }, textAlign: "center" }}
               >
-                Register here
-              </Link>
-            </Typography>
+                {`Don't have an account?`}{" "}
+                <Link
+                  href="/auth/signup"
+                  style={{
+                    color: "#ffffff",
+                  }}
+                >
+                  Register here
+                </Link>
+              </Typography>
+              <ArrowRightAlt />
+            </Box>
           </Toolbar>
         </Container>
       </AppBar>
@@ -181,9 +186,15 @@ export default function Login() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, padding: "1rem 0rem 1rem 0rem" }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  mt: 3,
+                  mb: 2,
+                  padding: "1rem 1rem 1rem 1rem",
+                }}
               >
-                Sign into Your Account
+                Sign into Your Account <East />
               </Button>
 
               {failedLogin && (
@@ -199,6 +210,7 @@ export default function Login() {
               alignItems: "center",
               marginLeft: "7rem",
               paddingTop: "4rem",
+              gap: "1.5rem",
             }}
           >
             <Button
@@ -206,8 +218,16 @@ export default function Login() {
               fullWidth
               name="google"
               variant="contained"
-              sx={{ marginLeft: "7rem", padding: "1rem 7rem 1rem 0rem" }}
+              sx={{
+                marginLeft: "7rem",
+                padding: "1rem 7rem 1rem 0rem",
+              }}
             >
+              <Google
+                sx={{
+                  marginRight: "4.2rem",
+                }}
+              />{" "}
               Sign in with Google
             </Button>
             <Button
@@ -215,8 +235,13 @@ export default function Login() {
               fullWidth
               name="facebook"
               variant="contained"
-              sx={{ marginLeft: "7rem", padding: "1rem 7rem 1rem 0rem" }}
+              sx={{
+                marginLeft: "7rem",
+
+                padding: "1rem 7rem 1rem 0rem",
+              }}
             >
+              <Facebook sx={{ marginRight: "3rem" }} />
               Sign in with Facebook
             </Button>
           </Box>
