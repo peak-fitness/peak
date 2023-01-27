@@ -8,7 +8,7 @@ import { useEffect } from "react";
 
 export default function MyWorkouts(){
     const [date, setDate] = useState(null);
-    const [highlightedDays, setHighlightedDays] = useState([5, 18, 22]);
+    const [highlightedDays, setHighlightedDays] = useState([5, 18, 22]); // dummyo data for now
     const [workouts, setWorkouts] = useState([]);
     const supabase = useSupabaseClient();
 
@@ -34,8 +34,7 @@ export default function MyWorkouts(){
     console.log(workouts);
 
     const fetchWorkouts = async () =>{
-     // convert date to what you need to match
-        // date.$y-(date.$M+1)-(date.$d)
+        // need to set default date
         const dateString = `${date.$y}-0${date.$M + 1}-${date.$D >= 10 ? '' : '0'}${date.$D}`
         const {data, error} = await supabase.from('workout').select(`
             routine, notes, duration, date, user_id,
