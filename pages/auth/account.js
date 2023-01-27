@@ -11,8 +11,8 @@ export default function Account() {
   const session = useSession();
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState(null);
-  const [website, setWebsite] = useState(null);
-  const [avatar_url, setAvatarUrl] = useState(null);
+  const [firstName, setFirstName] = useState(null);
+  const [lastName, setLastName] = useState(null);
 
   useEffect(() => {
     getProfile();
@@ -20,13 +20,16 @@ export default function Account() {
 
   async function getProfile() {
     try {
+      console.log(user.id);
+
       setLoading(true);
 
       let { data, error, status } = await supabase
-        .from("profiles")
-        .select(`username, website, avatar_url`)
-        .eq("id", user.id)
+        .from("user")
+        .select(`username, first_name, last_name`)
+        .eq("auth_id", user.id)
         .single();
+      console.log(data);
 
       if (error && status !== 406) {
         throw error;
@@ -34,8 +37,8 @@ export default function Account() {
 
       if (data && session) {
         setUsername(data.username);
-        setWebsite(data.website);
-        setAvatarUrl(data.avatar_url);
+        setFirstName(data.first_name);
+        setLastName(data.last_name);
       }
     } catch (error) {
       console.log(error);
@@ -44,19 +47,19 @@ export default function Account() {
     }
   }
 
-  async function updateProfile({ username, website, avatar_url }) {
+  async function updateProfile({ username, first_name, last_name }) {
     try {
       setLoading(true);
 
       const updates = {
         id: user.id,
         username,
-        website,
-        avatar_url,
+        first_name,
+        last_name,
         updated_at: new Date().toISOString(),
       };
 
-      let { error } = await supabase.from("profiles").upsert(updates);
+      let { error } = await supabase.from("user").upsert(updates);
       if (error) throw error;
       alert("Profile updated!");
     } catch (error) {
@@ -84,11 +87,11 @@ export default function Account() {
           />
         </div>
         <div>
-          <label htmlFor="website">Website</label>
+          <label htmlFor="website">Last Name</label>
           <input
-            id="website"
-            type="website"
-            value={website || ""}
+            id="lastName"
+            type="text"
+            value={lastName || ""}
             onChange={(e) => setWebsite(e.target.value)}
           />
         </div>

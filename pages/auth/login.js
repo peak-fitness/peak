@@ -192,6 +192,9 @@ export default function Login() {
                   mt: 3,
                   mb: 2,
                   padding: "1rem 1rem 1rem 1rem",
+                  color: "#161616",
+                  background:
+                    "linear-gradient(90deg, #03dac5, #56ca82, #89b33e, #b59500, #da6b03)",
                 }}
               >
                 Sign into Your Account <East />
@@ -220,6 +223,9 @@ export default function Login() {
               variant="contained"
               sx={{
                 marginLeft: "7rem",
+                background:
+                  "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#03dac5, #56ca82, #89b33e, #b59500, #da6b03) border-box",
+                border: "2px solid transparent",
                 padding: "1rem 7rem 1rem 0rem",
               }}
             >
@@ -237,7 +243,9 @@ export default function Login() {
               variant="contained"
               sx={{
                 marginLeft: "7rem",
-
+                background:
+                  "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#da6b03, #b59500, #89b33e, #56ca82, #03dac5) border-box",
+                border: "2px solid transparent",
                 padding: "1rem 7rem 1rem 0rem",
               }}
             >
