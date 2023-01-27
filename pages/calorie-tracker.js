@@ -17,7 +17,6 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AccountBoxRoundedIcon from "@mui/icons-material/AccountBoxRounded";
-
 import {
   mainListItems,
   secondaryListItems,
@@ -138,63 +137,11 @@ function DashboardContent() {
                     variant="h5"
                     style={{ color: "#03dac5", paddingTop: "10px" }}
                   >
-                    DASHBOARD
+                    Calorie Tracker
                   </Typography>
                 </div>
 
-                <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
-                  <Grid container spacing={3}>
-                    {/* Chart */}
-                    <Grid item xs={12} md={7} lg={9}>
-                      <Paper
-                        sx={{
-                          p: 2,
-                          display: "flex",
-                          flexDirection: "column",
-                          height: 240,
-                        }}
-                        style={{ backgroundColor: "#202020" }}
-                      >
-                        <Chart />
-                      </Paper>
-                    </Grid>
-                    {/* Calendar*/}
-                    <Grid item xs={9} md={5} lg={3}>
-                      <Paper
-                        sx={{
-                          pt: 2,
-                          pb: 2,
-                          pl: 0,
-                          pr: 0,
-                          display: "flex",
-                          flexDirection: "column",
-                          height: 240,
-                        }}
-                        style={{ backgroundColor: "#202020" }}
-                      >
-                        <CalendarView />
-                      </Paper>
-                    </Grid>
-                    {/* Recent Orders */}
-                    <Grid item xs={12} md={9} lg={9}>
-                      <Paper
-                        sx={{ p: 2, display: "flex", flexDirection: "column" }}
-                        style={{ backgroundColor: "#202020" }}
-                      >
-                        <RecentWorkouts />
-                      </Paper>
-                    </Grid>
-
-                    <Grid item xs={7} md={3} lg={3}>
-                      <Paper
-                        sx={{ p: 1, display: "flex", flexDirection: "row" }}
-                        style={{ backgroundColor: "#202020" }}
-                      >
-                        <Achievements />
-                      </Paper>
-                    </Grid>
-                  </Grid>
-                </Container>
+                <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}></Container>
               </Box>
             </Box>
           </Grid>

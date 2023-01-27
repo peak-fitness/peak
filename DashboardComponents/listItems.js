@@ -10,6 +10,7 @@ import ShowChartRoundedIcon from "@mui/icons-material/ShowChartRounded";
 import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import { Grid, Avatar, Typography } from "@material-ui/core";
 import Divider from "@mui/material/Divider";
+import Link from "next/link";
 
 export const mainListItems = (
   <React.Fragment>
@@ -34,6 +35,7 @@ export const mainListItems = (
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
+
         <ListItemText primary="Dashboard" />
       </ListItemButton>
 
@@ -55,7 +57,10 @@ export const mainListItems = (
         <ListItemIcon>
           <ShowChartRoundedIcon />
         </ListItemIcon>
-        <ListItemText primary="Calorie Tracker" />
+
+        <Link href="/calorie-tracker">
+          <ListItemText primary="Calorie Tracker" />
+        </Link>
       </ListItemButton>
 
       <ListItemButton>
