@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import Link from "next/link";
 import {
   Container,
@@ -17,22 +18,61 @@ import {
   FormControl,
 } from "@mui/material";
 
-const handleSubmit = async (evt) => {
-  evt.preventDefault();
-  console.log("HI");
-};
-
 export default function SignupInfo() {
+  const supabase = useSupabaseClient();
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [currentWeight, setCurrentWeight] = useState("");
   const [targetWeight, setTargetWeight] = useState("");
-  const [date, setDate] = useState("");
+  const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
+  const [height, setHeight] = useState("");
+  const [targetCalories, setTargetCalories] = useState("");
+
+  const router = useRouter();
+  const session = useSession();
+
+  const formatDate = (inputDate) => {
+    let date = new Date(inputDate);
+    if (!isNaN(date.getTime())) {
+      return (
+        date.getMonth() + 1 + "/" + date.getDate() + "/" + date.getFullYear()
+      );
+    }
+  };
+
+  const ageConversion = (date) => {
+    let convertDate = formatDate(date);
+    let dob = new Date(convertDate);
+    let month_diff = Date.now() - dob.getTime();
+    let age_dt = new Date(month_diff);
+    let year = age_dt.getUTCFullYear();
+    let age = Math.abs(year - 1970);
+    return age;
+  };
 
   const handleChangeGender = (event) => {
     setGender(event.target.value);
-    console.log(event.target.value);
+  };
+
+  const handleSubmit = async (evt) => {
+    evt.preventDefault();
+    const id = session.user.id;
+    const { data, error } = await supabase
+      .from("user")
+      .update({
+        first_name: firstName,
+        last_name: lastName,
+        age: age,
+        current_weight: currentWeight,
+        target_weight: targetWeight,
+        height: height,
+        gender: gender,
+        target_calories: targetCalories,
+      })
+      .eq("auth_id", session.user.id)
+      .select("*");
+    router.push("/dashboard");
   };
 
   return (
@@ -70,7 +110,7 @@ export default function SignupInfo() {
             flexDirection: "column",
             alignItems: "center",
             minHeight: "100vh",
-            alignContent: "center",
+            textAlign: "center",
           }}
         >
           <Typography component="h1" variant="h4">
@@ -124,12 +164,13 @@ export default function SignupInfo() {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} lg={12}>
+              <Grid item xs={12} lg={6}>
                 <TextField
                   id="date"
                   label="Date of Birth"
                   type="date"
                   fullWidth
+                  required
                   sx={{
                     backgroundColor: "#242424",
                     input: { color: "#959595" },
@@ -139,7 +180,24 @@ export default function SignupInfo() {
                     shrink: true,
                   }}
                   onChange={(evt) => {
-                    setDate(evt.target.value);
+                    let currentAge = ageConversion(evt.target.value);
+                    setAge(currentAge);
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+                <TextField
+                  sx={{
+                    backgroundColor: "#242424",
+                    input: { color: "#959595" },
+                    label: { color: "#959595" },
+                  }}
+                  required
+                  fullWidth
+                  id="targetCalories"
+                  label="Target Calories"
+                  onChange={(evt) => {
+                    setTargetCalories(Number(evt.target.value));
                   }}
                 />
               </Grid>
@@ -155,7 +213,7 @@ export default function SignupInfo() {
                   id="currentWeight"
                   label="Current Weight (lbs)"
                   onChange={(evt) => {
-                    setCurrentWeight(evt.target.value);
+                    setCurrentWeight(Number(evt.target.value));
                   }}
                 />
               </Grid>
@@ -171,7 +229,7 @@ export default function SignupInfo() {
                   id="targetWeight"
                   label="Target Weight (lbs)"
                   onChange={(evt) => {
-                    setTargetWeight(evt.target.value);
+                    setTargetWeight(parseFloat(evt.target.value));
                   }}
                 />
               </Grid>
@@ -187,7 +245,7 @@ export default function SignupInfo() {
                   id="height"
                   label="Height (in)"
                   onChange={(evt) => {
-                    setHeight(evt.target.value);
+                    setHeight(parseFloat(evt.target.value));
                   }}
                 />
               </Grid>
@@ -216,23 +274,22 @@ export default function SignupInfo() {
                 </FormControl>
               </Grid>
             </Grid>
-            <Link
-              href="/dashboard"
-              style={{
+
+            <Button
+              type="submit"
+              variant="contained"
+              sx={{
+                mt: 3,
+                mb: 2,
                 color: "#161616",
+                background:
+                  "linear-gradient(90deg, #03dac5, #56ca82, #89b33e, #b59500, #da6b03)",
+                width: "35%",
               }}
+              onSubmit={handleSubmit}
             >
-              <Button
-                type="submit"
-                color="contrast"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
-                // onSubmit={handleSubmit}
-              >
-                Save
-              </Button>
-            </Link>
+              Save
+            </Button>
             <Typography textAlign="center" color="#808080">
               I&apos;ll do it later,{" "}
               <Link
