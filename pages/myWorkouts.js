@@ -1,5 +1,5 @@
 import Navbar from "@/comps/Navbar";
-import { Badge, Box, Button, Container, Grid, TextField } from "@material-ui/core";
+import { createTheme, Badge, Box, Button, Container, Grid, TextField, ThemeProvider } from "@material-ui/core";
 import { LocalizationProvider, PickersDay, StaticDatePicker } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
@@ -9,82 +9,50 @@ export default function MyWorkouts(){
     const [date, setDate] = useState(null);
     const [highlightedDays, setHighlightedDays] = useState([5, 18, 22]);
     const supabase = useSupabaseClient();
+
+    const theme = createTheme({
+        // palette: {
+        //   primary: { main: "#03DAC5" },
+        //   text: "white",
+        // },
+        // background: { default: "#161616" },
+      });
     
 
     const handle = async () =>{
-        console.log(date); // convert date to what you need to match 
-        const {data, error} = await supabase.from('user').select(`
-        username,
-        workout (
-            routine, notes, duration, date,
+        //console.log(date); // convert date to what you need to match
+        // date.$y-(date.$M+1)-(date.$d)
+        const dateString = `${date.$y}-0${date.$M + 1}-${date.$D >= 10 ? '' : '0'}${date.$D}`
+        console.log(dateString);
+        const {data, error} = await supabase.from('workout').select(`
+            routine, notes, duration, date, user_id,
             exercise (
                 *,
                 set (*)
-            )
-        )`
-        ).match({id: 1})
+            )`
+        ).eq('date', dateString)
+        //match({id: 1})
         console.log(data);
+        console.log(error);
     }
 
     handle();
 
     return(
-        // <CalendarView/>
-        // <div>
-        // <LocalizationProvider dateAdapter={AdapterDayjs}>
-        //     <CalendarPicker />
-        // </LocalizationProvider>
-        // </div>
-        // <Grid container spacing={2}>
-        // <Grid item xs={12}>
-        // <LocalizationProvider dateAdapter={AdapterDayjs}>
-        //     <Navbar/>
-        //     <Container>
-        //         <Box sx={{
-        //             margin: 'auto'
-        //         }}>
-        //         <StaticDatePicker
-        //             displayStaticWrapperAs="desktop"
-        //             value={date}
-        //             onChange={(newDate) => {
-        //             setDate(newDate);
-        //             }}
-        //             renderInput={(params) => <TextField {...params} />}
-        //             dayOfWeekFormatter={(day) => `${day}.`}
-        //             showToolbar
-        //             renderDay={(day, _value, DayComponentProps) => {
-        //                 const isSelected =
-        //                 !DayComponentProps.outsideCurrentMonth &&
-        //                 highlightedDays.indexOf(day.date()) >= 0;
-            
-        //                 return (
-        //                 <Badge
-        //                     key={day.toString()}
-        //                     overlap="circular"
-        //                     color='primary'
-        //                     variant={isSelected ? 'dot' : null}
-        //                     // badgeContent={isSelected ? '✅' : undefined}
-        //                 >
-        //                     <PickersDay {...DayComponentProps} />
-        //                 </Badge>
-        //                 );
-        //             }}
-        //         />
-        //         </Box>
-        //         <Box sx={{margin: 'auto'}}>
-        //             <Button>HELLO</Button>
-        //         </Box>
-        //     </Container>
+        <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <Container sx={{
-                backgroundColor: '#161616'
-                }}>
+            <Navbar />
+            <Container>
                 <Grid container>
-                    <Grid item lg={11} sx={{
+                    <Grid item lg={9} sx={{
                         display: 'flex',
-                        justifyContent:'flex-start'
+                        justifyContent:'flex-start', 
                     }}>
-                    <StaticDatePicker
+                    <StaticDatePicker 
+                        sx={{
+                        backgroundColor: '#161616', 
+                        '.MuiTypography-root': {color: 'white'},
+                        }}
                         displayStaticWrapperAs="desktop"
                         value={date}
                         onChange={(newDate) => {
@@ -102,7 +70,7 @@ export default function MyWorkouts(){
                             <Badge
                                 key={day.toString()}
                                 overlap="circular"
-                                b color='primary'
+                                color='primary'
                                 variant={isSelected ? 'dot' : null}
                             >
                                 <PickersDay {...DayComponentProps} />
@@ -111,11 +79,12 @@ export default function MyWorkouts(){
                         }}
                     />
                     </Grid>
-                    <Grid item lg={1}> 
-                        <Button>HELLO</Button>
+                    <Grid item lg={3}> 
+                            This is sample text
                     </Grid>
                 </Grid>
             </Container>
         </LocalizationProvider>
+        </ThemeProvider>
     )
 }
