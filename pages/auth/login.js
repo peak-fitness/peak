@@ -40,7 +40,7 @@ export default function Login() {
   const handleOAuth = async (evt) => {
     evt.preventDefault();
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
+      provider: evt.target.name,
     });
     if (error) setFailedLogin(true);
   };
@@ -204,10 +204,20 @@ export default function Login() {
             <Button
               onClick={handleOAuth}
               fullWidth
+              name="google"
               variant="contained"
               sx={{ marginLeft: "7rem", padding: "1rem 7rem 1rem 0rem" }}
             >
               Sign in with Google
+            </Button>
+            <Button
+              onClick={handleOAuth}
+              fullWidth
+              name="facebook"
+              variant="contained"
+              sx={{ marginLeft: "7rem", padding: "1rem 7rem 1rem 0rem" }}
+            >
+              Sign in with Facebook
             </Button>
           </Box>
         </Container>
