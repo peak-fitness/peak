@@ -27,6 +27,7 @@ export default function SignupInfo() {
   const [age, setAge] = useState("");
   const [gender, setGender] = useState("");
   const [height, setHeight] = useState("");
+  const [targetCalories, setTargetCalories] = useState("");
 
   const router = useRouter();
   const session = useSession();
@@ -67,6 +68,7 @@ export default function SignupInfo() {
         target_weight: targetWeight,
         height: height,
         gender: gender,
+        target_calories: targetCalories,
       })
       .eq("auth_id", session.user.id)
       .select("*");
@@ -162,7 +164,7 @@ export default function SignupInfo() {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} lg={12}>
+              <Grid item xs={12} lg={6}>
                 <TextField
                   id="date"
                   label="Date of Birth"
@@ -180,6 +182,22 @@ export default function SignupInfo() {
                   onChange={(evt) => {
                     let currentAge = ageConversion(evt.target.value);
                     setAge(currentAge);
+                  }}
+                />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+                <TextField
+                  sx={{
+                    backgroundColor: "#242424",
+                    input: { color: "#959595" },
+                    label: { color: "#959595" },
+                  }}
+                  required
+                  fullWidth
+                  id="targetCalories"
+                  label="Target Calories"
+                  onChange={(evt) => {
+                    setTargetCalories(Number(evt.target.value));
                   }}
                 />
               </Grid>
