@@ -18,15 +18,14 @@ export default function About() {
             </p>
             <p>
               We&apos;re a group of like-minded individuals who wanted an app
-              that would take care of all of our fitness needs. We found most
-              apps to only have one of the many features we wanted, or none at
-              all. Our goal with this app is to bring more people closer to
-              their fitness goals and make it a more seamless experience for our
-              users to do what they love to without fighting the design.
+              that would take care of all of our fitness needs. Our goal with
+              this app is to bring more people closer to their fitness goals and
+              make it a more seamless experience for our users to do what they
+              love to without fighting the design.
             </p>
           </div>
         </div>
-        <p>Meet the team at Peak</p>
+        <p className={styles.meetTeam}>Meet the team at Peak</p>
         <div className={styles.profiles}>
           <div className={styles.profile}>
             <PersonIcon
