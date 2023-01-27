@@ -20,6 +20,8 @@ export default function Signup() {
   const [username, setUsername] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [usernameTaken, setUsernameTaken] = useState(false);
+  const [emailTaken, setEmailTaken] = useState(false);
+  const [error, setError] = useState(false);
   const router = useRouter();
 
   const session = useSession();
@@ -41,25 +43,49 @@ export default function Signup() {
       return true;
     };
 
-    if (checkUsernames(usernames.data)) {
+    const checkEmails = (emailArr) => {
+      for (const user of emailArr) {
+        if (user.email === email) {
+          return false;
+        }
+      }
+      return true;
+    };
+    checkEmails(emails.data);
+
+    const usernameAvailable = checkUsernames(usernames.data);
+    const emailAvailable = checkEmails(emails.data);
+
+    if (usernameAvailable && emailAvailable) {
       const { data, error } = await supabase.auth.signUp({
         email: email,
         password: password,
       });
-      setSubmitted(true);
+      console.log(data);
+      if (error) {
+        setError(true);
+        setSubmitted(false);
+      } else {
+        const res = await supabase
+          .from("user")
+          .insert({
+            auth_id: data.user.id,
+            email: data.user.email,
+            username: username,
+          })
+          .select("*");
 
-      const res = await supabase
-        .from("user")
-        .insert({
-          auth_id: data.user.id,
-          email: data.user.email,
-          username: username,
-        })
-        .select("*");
-
-      setUsernameTaken(false);
+        setSubmitted(true);
+        setUsernameTaken(false);
+        setEmailTaken(false);
+        setError(false);
+      }
     } else {
-      setUsernameTaken(true);
+      if (!usernameAvailable) {
+        setUsernameTaken(true);
+      } else if (!emailAvailable) {
+        setEmailTaken(true);
+      }
     }
   };
 
@@ -237,6 +263,8 @@ export default function Signup() {
                 <p>Please check your email for a verification link!</p>
               )}
               {usernameTaken && <p>Username already in use!</p>}
+              {emailTaken && <p>Email already in use!</p>}
+              {error && <p>Password must be at least 6 characters long</p>}
             </Box>
           </Box>
           <Box
