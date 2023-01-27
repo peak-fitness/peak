@@ -13,6 +13,8 @@ import {
   Toolbar,
 } from "@mui/material";
 
+import { ArrowRightAlt, Google, Facebook, East } from "@mui/icons-material";
+
 export default function Signup() {
   const supabase = useSupabaseClient();
   const [email, setEmail] = useState("");
@@ -20,6 +22,8 @@ export default function Signup() {
   const [username, setUsername] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [usernameTaken, setUsernameTaken] = useState(false);
+  const [emailTaken, setEmailTaken] = useState(false);
+  const [error, setError] = useState(false);
   const router = useRouter();
 
   const session = useSession();
@@ -30,6 +34,8 @@ export default function Signup() {
 
     const usernames = await supabase.from("user").select("username");
 
+    const emails = await supabase.from("user").select("email");
+
     const checkUsernames = (usernameArr) => {
       for (const name of usernameArr) {
         if (name.username === username) {
@@ -39,32 +45,56 @@ export default function Signup() {
       return true;
     };
 
-    if (checkUsernames(usernames.data)) {
+    const checkEmails = (emailArr) => {
+      for (const user of emailArr) {
+        if (user.email === email) {
+          return false;
+        }
+      }
+      return true;
+    };
+    checkEmails(emails.data);
+
+    const usernameAvailable = checkUsernames(usernames.data);
+    const emailAvailable = checkEmails(emails.data);
+
+    if (usernameAvailable && emailAvailable) {
       const { data, error } = await supabase.auth.signUp({
         email: email,
         password: password,
       });
-      setSubmitted(true);
+      console.log(data);
+      if (error) {
+        setError(true);
+        setSubmitted(false);
+      } else {
+        const res = await supabase
+          .from("user")
+          .insert({
+            auth_id: data.user.id,
+            email: data.user.email,
+            username: username,
+          })
+          .select("*");
 
-      const res = await supabase
-        .from("user")
-        .insert({
-          auth_id: data.user.id,
-          email: data.user.email,
-          username: username,
-        })
-        .select("*");
-
-      setUsernameTaken(false);
+        setSubmitted(true);
+        setUsernameTaken(false);
+        setEmailTaken(false);
+        setError(false);
+      }
     } else {
-      setUsernameTaken(true);
+      if (!usernameAvailable) {
+        setUsernameTaken(true);
+      } else if (!emailAvailable) {
+        setEmailTaken(true);
+      }
     }
   };
 
   const handleOAuth = async (evt) => {
     evt.preventDefault();
     const { data, error } = await supabase.auth.signInWithOAuth({
-      provider: "google",
+      provider: evt.target.name,
     });
 
     if (error) setFailedLogin(true);
@@ -96,21 +126,28 @@ export default function Signup() {
             >
               {"Peak"}
             </Typography>
-            <Typography
-              component="p"
-              variant="p"
-              sx={{ p: { color: "#959595" }, textAlign: "center" }}
-            >
-              {`Already have an account?`}{" "}
-              <Link
-                href="/auth/login"
-                style={{
-                  color: "#ffffff",
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <Typography
+                component="p"
+                variant="p"
+                sx={{
+                  p: { color: "#959595" },
+                  textAlign: "center",
                 }}
               >
-                Sign in
-              </Link>
-            </Typography>
+                {`Already have an account?`}{" "}
+                <Link
+                  href="/auth/login"
+                  style={{
+                    color: "#ffffff",
+                  }}
+                >
+                  {" "}
+                  Sign in
+                </Link>
+              </Typography>
+              <ArrowRightAlt />
+            </Box>
           </Toolbar>
         </Container>
       </AppBar>
@@ -227,14 +264,22 @@ export default function Signup() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, padding: "1rem 0rem 1rem 0rem" }}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  mt: 3,
+                  mb: 2,
+                  padding: "1rem 1rem 1rem 1rem",
+                }}
               >
-                Sign Up
+                Create Your Account <East />
               </Button>
               {submitted && (
                 <p>Please check your email for a verification link!</p>
               )}
               {usernameTaken && <p>Username already in use!</p>}
+              {emailTaken && <p>Email already in use!</p>}
+              {error && <p>Password must be at least 6 characters long</p>}
             </Box>
           </Box>
           <Box
@@ -244,16 +289,40 @@ export default function Signup() {
               display: "flex",
               flexDirection: "column",
               alignItems: "center",
+              gap: "1.5rem",
               paddingTop: "4rem",
             }}
           >
             <Button
               onClick={handleOAuth}
               fullWidth
+              name="google"
               variant="contained"
-              sx={{ marginLeft: "7rem", padding: "1rem 7rem 1rem 0rem" }}
+              sx={{
+                marginLeft: "7rem",
+                padding: "1rem 7rem 1rem 0rem",
+              }}
             >
+              <Google
+                sx={{
+                  marginRight: "4.2rem",
+                }}
+              />{" "}
               Sign up with Google
+            </Button>
+            <Button
+              onClick={handleOAuth}
+              fullWidth
+              name="facebook"
+              variant="contained"
+              sx={{
+                marginLeft: "7rem",
+
+                padding: "1rem 7rem 1rem 0rem",
+              }}
+            >
+              <Facebook sx={{ marginRight: "3rem" }} />
+              Sign up with Facebook
             </Button>
           </Box>
         </Container>

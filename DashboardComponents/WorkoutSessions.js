@@ -6,7 +6,8 @@ import TableCell from "@mui/material/TableCell";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Title from "./Title";
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import { styled, ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "@material-ui/core/styles";
 
 // Generate Order Data
 function createData(id, date, name, shipTo, paymentMethod, amount) {
