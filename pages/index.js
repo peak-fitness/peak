@@ -1,6 +1,4 @@
-// import Head from "next/head";
-// import Image from "next/image";
-// import { Inter } from "@next/font/google";
+import Head from "next/head";
 import styles from "@/styles/Home.module.css";
 import Navbar from "../comps/Navbar";
 import {
@@ -19,6 +17,7 @@ import CalculateIcon from "@mui/icons-material/Calculate";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 // const inter = Inter({ subsets: ["latin"] });
 
@@ -43,6 +42,9 @@ export default function Home() {
 
   return (
     <div>
+      <Head>
+        <title>Peak | Home</title>
+      </Head>
       <Navbar />
       <Container
         maxWidth="xl"
@@ -74,30 +76,34 @@ export default function Home() {
               </Typography>
             </Grid>
             <Grid item>
-              <Button
-                variant="contained"
-                color="contrast"
-                sx={{
-                  borderRadius: "20px",
-                  color: "#161616",
-                  textTransform: "unset",
-                }}
-              >
-                Try it out
-              </Button>
+              <Link href="/auth/signup">
+                <Button
+                  variant="contained"
+                  color="contrast"
+                  sx={{
+                    borderRadius: "20px",
+                    color: "#161616",
+                    textTransform: "unset",
+                  }}
+                >
+                  Try it out
+                </Button>
+              </Link>
             </Grid>
             <Grid item>
-              <Button
-                color="contrast"
-                sx={{
-                  borderRadius: "20px",
-                  color: "#E8E8E8",
-                  textTransform: "unset",
-                  textDecoration: "underline",
-                }}
-              >
-                Learn More
-              </Button>
+              <Link href="/learn">
+                <Button
+                  color="contrast"
+                  sx={{
+                    borderRadius: "20px",
+                    color: "#E8E8E8",
+                    textTransform: "unset",
+                    textDecoration: "underline",
+                  }}
+                >
+                  Learn More
+                </Button>
+              </Link>
             </Grid>
           </Grid>
         </Container>

@@ -72,7 +72,7 @@ const Footer = () => {
             }}
           >
             <Link
-              href="/learnmore"
+              href="/learn"
               style={{
                 margin: "20px",
                 color: "#E8E8E8",

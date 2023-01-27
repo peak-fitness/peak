@@ -1,0 +1,40 @@
+.container {
+  min-height: 100vh;
+  color: #fafafa;
+}
+
+.header {
+  font-size: 25px;
+  font-weight: 500;
+  min-height: 20vh;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-image: linear-gradient(to right, #fc5c7d, #6a82fb);
+}
+
+.content {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.contact {
+  width: 70%;
+  text-align: center;
+}
+
+.contactHeader {
+  font-size: 60px;
+  margin: 0;
+}
+
+.contactInfo p {
+  font-size: 24px;
+  font-weight: 500;
+  margin: 0.5rem;
+  margin-top: 1rem;
+}
