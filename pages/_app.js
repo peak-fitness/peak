@@ -19,19 +19,26 @@ export const theme = createTheme({
       main: "#03DAC5",
     },
   },
+  typography: {
+    fontFamily: `"Montserrat", sans-serif`,
+    fontWeightLight: 300,
+    fontWeightRegular: 400,
+    fontWeightMedium: 500,
+  },
 });
 
 export default function App({ Component, pageProps }) {
-const [supabase] = useState(() => createBrowserSupabaseClient());
+  const [supabase] = useState(() => createBrowserSupabaseClient());
   return (
     <Layout>
-    
       <ThemeProvider theme={theme}>
-      <SessionContextProvider
-      supabaseClient={supabase}
-      initialSession={pageProps.initialSession}
-    >
-        <Component {...pageProps} />
+        <SessionContextProvider
+          supabaseClient={supabase}
+          initialSession={pageProps.initialSession}
+        >
+          <div className="main-container">
+            <Component {...pageProps} />
+          </div>
         </SessionContextProvider>
       </ThemeProvider>
     </Layout>
