@@ -20,10 +20,13 @@ export const mainListItems = (
         </ListItemIcon>
         <div>
           <Typography variant="h6">SpongeBob</Typography>
+          <div style={{ width: "100%" }}>
+            <Divider color="5A5A5A" orientation="horizontal" flexItem />
+          </div>
 
-          <Divider color="5A5A5A" orientation="horizontal" flexItem />
-          <Typography variant="body2">{`Height: 2'6"`}</Typography>
-          <Typography variant="body2">Weight: 1lbs</Typography>
+          <Typography variant="caption">{`Height: 2'6"`}</Typography>
+          <br />
+          <Typography variant="caption">Weight: 1lbs</Typography>
         </div>
       </ListItemButton>
 

@@ -17,13 +17,16 @@ import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import AccountBoxRoundedIcon from "@mui/icons-material/AccountBoxRounded";
-import { mainListItems, secondaryListItems } from "../components/listItems";
-import Chart from "../components/Chart";
-import CalendarView from "../components/CalendarView";
-import RecentWorkouts from "../components/WorkoutSessions";
-import Achievements from "../components/Achievements";
+import {
+  mainListItems,
+  secondaryListItems,
+} from "../DashboardComponents/listItems";
+import Chart from "../DashboardComponents/Chart";
+import CalendarView from "../DashboardComponents/CalendarView";
+import RecentWorkouts from "../DashboardComponents/WorkoutSessions";
+import Achievements from "../DashboardComponents/Achievements";
 import Navbar from "../comps/Navbar";
-import { createTheme } from '@material-ui/core/styles';
+import { createTheme } from "@material-ui/core/styles";
 
 const darkTheme = createTheme({
   palette: {
@@ -36,43 +39,7 @@ const darkTheme = createTheme({
   background: { default: "#161616" },
 });
 
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
-
 const drawerWidth = 240;
-
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(["width", "margin"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
 
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
@@ -88,6 +55,7 @@ const Drawer = styled(MuiDrawer, {
       duration: theme.transitions.duration.enteringScreen,
     }),
     boxSizing: "border-box",
+    border: "solid #161616 1px",
     ...(!open && {
       overflowX: "hidden",
       transition: theme.transitions.create("width", {
@@ -125,41 +93,6 @@ function DashboardContent() {
           <Grid>
             <Box sx={{ display: "flex" }}>
               <CssBaseline />
-              {/* <AppBar position="absolute" open={open}>
-                <Toolbar
-                  sx={{
-                    pr: "24px", // keep right padding when drawer closed
-                    backgroundColor: darkTheme.background.default,
-                  }}
-                >
-                  <IconButton
-                    edge="start"
-                    color="inherit"
-                    aria-label="open drawer"
-                    onClick={toggleDrawer}
-                    sx={{
-                      marginRight: "36px",
-                      ...(open && { display: "none" }),
-                    }}
-                  >
-                    <MenuIcon />
-                  </IconButton>
-                  <Typography
-                    component="h1"
-                    variant="h6"
-                    color="inherit"
-                    noWrap
-                    sx={{ flexGrow: 1 }}
-                  >
-                    Dashboard
-                  </Typography>
-                  <IconButton color="inherit">
-                    <Badge badgeContent={1} color="secondary">
-                      <AccountBoxRoundedIcon />
-                    </Badge>
-                  </IconButton>
-                </Toolbar>
-              </AppBar> */}
 
               <Drawer variant="permanent" open={open}>
                 <Toolbar
@@ -167,7 +100,7 @@ function DashboardContent() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "flex-start",
-                    px: [1],
+                    px: [2],
                   }}
                 >
                   <IconButton onClick={toggleDrawer}>
@@ -196,16 +129,22 @@ function DashboardContent() {
                     display: "flex",
                     alignItems: "center",
                     justifyContent: "center",
-                    paddingTop: "20px",
+                    paddingTop: "0px",
+                    marginTop: "5px",
                   }}
                 >
-                  <Typography variant="h5">Dashboard</Typography>
+                  <Typography
+                    variant="h5"
+                    style={{ color: "#03dac5", paddingTop: "10px" }}
+                  >
+                    DASHBOARD
+                  </Typography>
                 </div>
 
-                <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
+                <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
                   <Grid container spacing={3}>
                     {/* Chart */}
-                    <Grid item xs={12} md={8} lg={9}>
+                    <Grid item xs={12} md={7} lg={9}>
                       <Paper
                         sx={{
                           p: 2,
@@ -218,7 +157,7 @@ function DashboardContent() {
                       </Paper>
                     </Grid>
                     {/* Calendar*/}
-                    <Grid item xs={6} md={4} lg={3}>
+                    <Grid item xs={9} md={5} lg={3}>
                       <Paper
                         sx={{
                           pt: 2,
@@ -234,7 +173,7 @@ function DashboardContent() {
                       </Paper>
                     </Grid>
                     {/* Recent Orders */}
-                    <Grid item xs={12} md={8} lg={9}>
+                    <Grid item xs={12} md={9} lg={9}>
                       <Paper
                         sx={{ p: 2, display: "flex", flexDirection: "column" }}
                       >
@@ -242,7 +181,7 @@ function DashboardContent() {
                       </Paper>
                     </Grid>
 
-                    <Grid item xs={7} md={4} lg={3}>
+                    <Grid item xs={7} md={3} lg={3}>
                       <Paper
                         sx={{ p: 1, display: "flex", flexDirection: "row" }}
                       >
@@ -250,7 +189,6 @@ function DashboardContent() {
                       </Paper>
                     </Grid>
                   </Grid>
-                  <Copyright sx={{ pt: 1 }} />
                 </Container>
               </Box>
             </Box>
