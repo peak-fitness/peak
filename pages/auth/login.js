@@ -30,7 +30,11 @@ export default function Login() {
       email,
       password,
     });
-    if (error) setFailedLogin(true);
+    if (error) {
+      setFailedLogin(true);
+    } else {
+      router.push("/dashboard");
+    }
   };
 
   const handleOAuth = async (evt) => {
