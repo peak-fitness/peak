@@ -45,7 +45,7 @@ export default function CreateUsername() {
         })
         .select("*");
       if (res.data) {
-        router.push("/dashboard");
+        router.push("/auth/signup/info");
       }
     } else {
       setFailed(true);
