@@ -30,6 +30,8 @@ export default function Signup() {
 
     const usernames = await supabase.from("user").select("username");
 
+    const emails = await supabase.from("user").select("email");
+
     const checkUsernames = (usernameArr) => {
       for (const name of usernameArr) {
         if (name.username === username) {
