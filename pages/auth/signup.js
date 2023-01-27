@@ -66,6 +66,7 @@ export default function Signup() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: "google",
     });
+
     if (error) setFailedLogin(true);
   };
 
@@ -252,7 +253,7 @@ export default function Signup() {
               variant="contained"
               sx={{ marginLeft: "7rem", padding: "1rem 7rem 1rem 0rem" }}
             >
-              Sign in with Google
+              Sign up with Google
             </Button>
           </Box>
         </Container>

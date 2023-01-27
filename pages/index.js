@@ -17,10 +17,28 @@ import GroupIcon from "@mui/icons-material/Group";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 
 // const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
+  const supabase = useSupabaseClient();
+  const session = useSession();
+  const router = useRouter();
+  const checkUser = async (session) => {
+    const res = await supabase
+      .from("user")
+      .select("auth_id")
+      .eq("auth_id", session.user.id);
+    if (!res.data[0]) {
+      router.push("/auth/username");
+    }
+  };
+  if (session) {
+    checkUser(session);
+  }
+
   return (
     <div>
       <Navbar />
