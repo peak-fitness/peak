@@ -26,8 +26,7 @@ img {
 }
 
 a {
-  text-underline-position: under;
-  text-decoration-thickness: 8;
+  text-decoration: none;
 }
 
 a:hover {
