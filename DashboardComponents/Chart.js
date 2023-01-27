@@ -10,8 +10,8 @@ import {
 } from "recharts";
 import Title from "./Title";
 
-import { createMuiTheme } from "@material-ui/core/styles";
-import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
+import { styled, ThemeProvider } from "@mui/material/styles";
+import { createTheme } from "@material-ui/core/styles";
 
 // Generate Sales Data
 function createData(time, amount) {
@@ -32,7 +32,7 @@ const data = [
   createData("Dec", 15),
 ];
 
-const theme = createMuiTheme({
+const theme = createTheme({
   palette: {
     type: "dark",
     primary: { main: "#03DAC5" },
@@ -60,9 +60,14 @@ export default function Chart() {
               dataKey="time"
               stroke={theme.palette.text}
               style={theme.typography.body2}
+              strokeWidth={2}
             />
 
-            <YAxis stroke={theme.palette.text} style={theme.typography.body2}>
+            <YAxis
+              stroke={theme.palette.text}
+              style={theme.typography.body2}
+              strokeWidth={2}
+            >
               <Label
                 angle={270}
                 position="left"
@@ -76,11 +81,12 @@ export default function Chart() {
               </Label>
             </YAxis>
             <Line
-              isAnimationActive={false}
+              isAnimationActive={true}
               type="monotone"
               dataKey="amount"
               stroke={theme.palette.primary.main}
-              dot={false}
+              dot={true}
+              strokeWidth={2}
             />
           </LineChart>
         </ResponsiveContainer>
