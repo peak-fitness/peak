@@ -113,7 +113,7 @@ export default function SignupInfo() {
           }}
         >
           <Typography component="h1" variant="h4">
-            You're almost there!
+            You&apos;re almost there!
           </Typography>
           <Typography
             component="p"
@@ -274,7 +274,7 @@ export default function SignupInfo() {
               Save
             </Button>
             <Typography textAlign="center" color="#808080">
-              I'll do it later,{" "}
+              I&apos;ll do it later,{" "}
               <Link
                 href="/dashboard"
                 style={{
