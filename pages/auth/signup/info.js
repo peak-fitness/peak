@@ -17,7 +17,6 @@ import {
   MenuItem,
   FormControl,
 } from "@mui/material";
-import { userAgent } from "next/server";
 
 export default function SignupInfo() {
   const supabase = useSupabaseClient();
