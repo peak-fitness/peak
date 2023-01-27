@@ -33,6 +33,8 @@ export default function Home() {
       .eq("auth_id", session.user.id);
     if (!res.data[0]) {
       router.push("/auth/username");
+    } else {
+      router.push("/dashboard");
     }
   };
   if (session) {

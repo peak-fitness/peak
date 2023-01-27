@@ -56,6 +56,7 @@ export default function Signup() {
         .select("*");
 
       setUsernameTaken(false);
+      router.push("/dashboard");
     } else {
       setUsernameTaken(true);
     }
