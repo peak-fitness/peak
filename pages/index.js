@@ -15,9 +15,31 @@ import GroupIcon from "@mui/icons-material/Group";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import CalculateIcon from "@mui/icons-material/Calculate";
 import EmojiEventsIcon from "@mui/icons-material/EmojiEvents";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 import Link from "next/link";
 
+// const inter = Inter({ subsets: ["latin"] });
+
 export default function Home() {
+  const supabase = useSupabaseClient();
+  const session = useSession();
+  const router = useRouter();
+  const checkUser = async (session) => {
+    const res = await supabase
+      .from("user")
+      .select("auth_id")
+      .eq("auth_id", session.user.id);
+    if (!res.data[0]) {
+      router.push("/auth/username");
+    } else {
+      router.push("/dashboard");
+    }
+  };
+  if (session) {
+    checkUser(session);
+  }
+
   return (
     <div>
       <Head>
@@ -29,6 +51,7 @@ export default function Home() {
         sx={{
           display: "flex",
           flexDirection: "row",
+          minHeight: "100vh",
         }}
       >
         <Container
@@ -87,15 +110,15 @@ export default function Home() {
         </Container>
 
         <Container sx={{ margin: "40px", padding: "10%" }}>
-          <Grid container spacing={1} direction="row" align="center">
+          <Grid container spacing={3} direction="row" align="center">
             <Grid item sm={12} md={6} lg={6}>
               <Card
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  margin: "0 15px 10px 130px",
-                  width: "9vw",
-                  height: "9vw",
+                  margin: "0 0 10px 150px",
+                  width: "11em",
+                  height: "11em",
                   backgroundColor: "#242424",
                   justifyContent: "center",
                   borderRadius: "15px",
@@ -112,9 +135,9 @@ export default function Home() {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  margin: "0 130px 0 15px",
-                  width: "9vw",
-                  height: "9vw",
+                  margin: "0 50px 0 0",
+                  width: "11em",
+                  height: "11em",
                   backgroundColor: "#242424",
                   justifyContent: "center",
                   borderRadius: "15px",
@@ -131,9 +154,9 @@ export default function Home() {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  margin: "0 15px 10px 130px",
-                  width: "9vw",
-                  height: "9vw",
+                  margin: "0 0 10px 150px",
+                  width: "11em",
+                  height: "11em",
                   backgroundColor: "#242424",
                   justifyContent: "center",
                   borderRadius: "15px",
@@ -150,9 +173,9 @@ export default function Home() {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  margin: "0 130px 0 15px",
-                  width: "9vw",
-                  height: "9vw",
+                  margin: "0 50px 0 0",
+                  width: "11em",
+                  height: "11em",
                   backgroundColor: "#242424",
                   justifyContent: "center",
                   borderRadius: "15px",
