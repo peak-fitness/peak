@@ -51,6 +51,7 @@ export default function Home() {
         sx={{
           display: "flex",
           flexDirection: "row",
+          minHeight: "100vh",
         }}
       >
         <Container
@@ -109,15 +110,15 @@ export default function Home() {
         </Container>
 
         <Container sx={{ margin: "40px", padding: "10%" }}>
-          <Grid container spacing={1} direction="row" align="center">
+          <Grid container spacing={3} direction="row" align="center">
             <Grid item sm={12} md={6} lg={6}>
               <Card
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  margin: "0 15px 10px 130px",
-                  width: "9vw",
-                  height: "9vw",
+                  margin: "0 0 10px 150px",
+                  width: "11em",
+                  height: "11em",
                   backgroundColor: "#242424",
                   justifyContent: "center",
                   borderRadius: "15px",
@@ -134,9 +135,9 @@ export default function Home() {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  margin: "0 130px 0 15px",
-                  width: "9vw",
-                  height: "9vw",
+                  margin: "0 50px 0 0",
+                  width: "11em",
+                  height: "11em",
                   backgroundColor: "#242424",
                   justifyContent: "center",
                   borderRadius: "15px",
@@ -153,9 +154,9 @@ export default function Home() {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  margin: "0 15px 10px 130px",
-                  width: "9vw",
-                  height: "9vw",
+                  margin: "0 0 10px 150px",
+                  width: "11em",
+                  height: "11em",
                   backgroundColor: "#242424",
                   justifyContent: "center",
                   borderRadius: "15px",
@@ -172,9 +173,9 @@ export default function Home() {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  margin: "0 130px 0 15px",
-                  width: "9vw",
-                  height: "9vw",
+                  margin: "0 50px 0 0",
+                  width: "11em",
+                  height: "11em",
                   backgroundColor: "#242424",
                   justifyContent: "center",
                   borderRadius: "15px",

@@ -139,7 +139,7 @@ const Footer = () => {
             <IconButton aria-label="github">
               <Link
                 color="inherit"
-                href="https://github.com/capstone-peak"
+                href="https://github.com/capstone-peak/peak"
                 target="_blank"
               >
                 <GitHubIcon sx={{ color: "#E8E8E8" }} />
