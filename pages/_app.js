@@ -22,16 +22,15 @@ export const theme = createTheme({
 });
 
 export default function App({ Component, pageProps }) {
-const [supabase] = useState(() => createBrowserSupabaseClient());
+  const [supabase] = useState(() => createBrowserSupabaseClient());
   return (
     <Layout>
-    
       <ThemeProvider theme={theme}>
-      <SessionContextProvider
-      supabaseClient={supabase}
-      initialSession={pageProps.initialSession}
-    >
-        <Component {...pageProps} />
+        <SessionContextProvider
+          supabaseClient={supabase}
+          initialSession={pageProps.initialSession}
+        >
+          <Component {...pageProps} />
         </SessionContextProvider>
       </ThemeProvider>
     </Layout>
