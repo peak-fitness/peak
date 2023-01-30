@@ -7,7 +7,20 @@ import {
 
 import Navbar from "../../comps/Navbar";
 
+import Link from "next/link";
+
 import { Container, Typography, Box, Grid, Button } from "@mui/material";
+// import {
+//   // InstagramIcon,
+//   FacebookIcon,
+//   TwitterIcon,
+//   YoutubeIcon,
+// } from "@mui/icons-material";
+
+import InstagramIcon from "@mui/icons-material/Instagram";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import YoutubeIcon from "@mui/icons-material/Youtube";
 
 export default function Account() {
   const supabase = useSupabaseClient();
@@ -22,6 +35,12 @@ export default function Account() {
   const [height, setHeight] = useState(null);
   const [age, setAge] = useState(null);
   const [location, setLocation] = useState(null);
+  const [bio, setBio] = useState(null);
+  const [streak, setStreak] = useState(null);
+  const [instagram, setInstagram] = useState(null);
+  const [facebook, setFacebook] = useState(null);
+  const [twitter, setTwitter] = useState(null);
+  const [youtube, setYoutube] = useState(null);
 
   useEffect(() => {
     getProfile();
@@ -34,11 +53,11 @@ export default function Account() {
       let { data, error, status } = await supabase
         .from("user")
         .select(
-          `username, first_name, last_name, email, created_at, height, current_weight, age`
+          `username, first_name, last_name, email, created_at, height, current_weight, age, location, bio, social_medias`
         )
         .eq("auth_id", user.id)
         .single();
-      console.log(data.age, "DATA");
+      console.log(data, "DATA");
 
       if (error && status !== 406) {
         throw error;
@@ -52,6 +71,12 @@ export default function Account() {
         setWeight(data.current_weight);
         setHeight(data.height);
         setAge(data.age);
+        setLocation(data.location);
+        setBio(data.bio);
+        setInstagram(data.social_medias.instagram);
+        setFacebook(data.social_medias.facebook);
+        setTwitter(data.social_medias.twitter);
+        setYoutube(data.social_medias.youtube);
       }
     } catch (error) {
       console.log(error);
@@ -83,8 +108,6 @@ export default function Account() {
     }
   }
 
-  console.log(session);
-
   return (
     session && (
       <>
@@ -113,12 +136,108 @@ export default function Account() {
             <Typography variant="h4" sx={{ color: "#E8E8E8" }}>
               {username}
             </Typography>
+            <Box
+              sx={{
+                marginTop: "2rem",
+                display: "flex",
+                flexDirection: "column",
+                gap: "1rem",
+                alignItems: "center",
+              }}
+            >
+              {instagram && (
+                <>
+                  <Link
+                    href={instagram}
+                    target="_blank"
+                    style={{
+                      padding: "10px",
+                      color: "#E8E8E8",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        gap: ".2rem",
+                      }}
+                    >
+                      <InstagramIcon /> <p style={{ margin: "0" }}>Instagram</p>
+                    </Box>
+                  </Link>
+                </>
+              )}
+              {facebook && (
+                <Link
+                  href={facebook}
+                  target="_blank"
+                  style={{
+                    padding: "10px",
+                    color: "#E8E8E8",
+                    textDecoration: "none",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: ".2rem",
+                    }}
+                  >
+                    <FacebookIcon /> <p style={{ margin: "0" }}>Facebook</p>
+                  </Box>
+                </Link>
+              )}
+              {twitter && (
+                <Link
+                  href={twitter}
+                  target="_blank"
+                  style={{
+                    padding: "10px",
+                    color: "#E8E8E8",
+                    textDecoration: "none",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: ".2rem",
+                    }}
+                  >
+                    <TwitterIcon /> <p style={{ margin: "0" }}>Twitter</p>
+                  </Box>
+                </Link>
+              )}
+              {youtube && (
+                <Link
+                  href={youtube}
+                  target="_blank"
+                  style={{
+                    padding: "10px",
+                    color: "#E8E8E8",
+                    textDecoration: "none",
+                  }}
+                >
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: ".2rem",
+                    }}
+                  >
+                    <YoutubeIcon /> <p style={{ margin: "0" }}>Youtube</p>
+                  </Box>
+                </Link>
+              )}
+            </Box>
           </Box>
           <Box
             sx={{
               backgroundColor: "#242424",
               padding: "3rem 6rem 6rem 6rem",
-              width: "48.5rem",
+              width: "49rem",
               boxShadow: "0px 10px 10px rgba(0,0,0,0.2)",
               borderRadius: "4px",
             }}
@@ -142,14 +261,14 @@ export default function Account() {
                 EDIT
               </Button>
             </Box>
-            <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
-              <Grid item xs={3}>
-                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
+            <Grid container spacing={2} sx={{ marginBottom: "2rem" }}>
+              <Grid item xs={4}>
+                <Typography variant="h5" sx={{ color: "#E8E8E8" }}>
                   {firstName || `First Name`}
                 </Typography>
               </Grid>
-              <Grid item xs={3}>
-                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
+              <Grid item xs={6}>
+                <Typography variant="h5" sx={{ color: "#E8E8E8" }}>
                   {lastName || `Last Name`}
                 </Typography>
               </Grid>
@@ -157,45 +276,45 @@ export default function Account() {
             <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
               <Grid item xs={3}>
                 <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                  {`H: ${height} in` || `Height:`}
+                  {height ? `H: ${height} in` : `H: `}
                 </Typography>
               </Grid>
               <Grid item xs={3}>
                 <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                  {`W: ${weight} lbs` || `Weight:`}
+                  {weight ? `W: ${weight} lbs` : `W: `}
                 </Typography>
               </Grid>
               <Grid item xs={3}>
                 <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                  {`A: ${age} yrs` || `Age:`}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
-              <Grid item xs={3}>
-                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                  {location || `Location`}
+                  {age ? `A: ${age} yrs` : `A: `}
                 </Typography>
               </Grid>
             </Grid>
             <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
-              <Grid item xs={3}>
+              <Grid item xs={9}>
                 <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                  {`Current Streak: ${location || `0`}`}
+                  {location || `Location not specified`}
                 </Typography>
               </Grid>
             </Grid>
             <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
-              <Grid item xs={3}>
+              <Grid item xs={9}>
                 <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                  PRs
+                  {`Current Streak: ${streak || `0`}`}
                 </Typography>
               </Grid>
             </Grid>
             <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
-              <Grid item xs={3}>
+              <Grid item xs={9}>
                 <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                  Bio
+                  PRs or Achievements
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
+              <Grid item xs={9}>
+                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
+                  {bio || ""}
                 </Typography>
               </Grid>
             </Grid>
