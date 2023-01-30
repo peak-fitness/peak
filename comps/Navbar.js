@@ -31,39 +31,43 @@ const Navbar = () => {
             <Typography
               variant="h4"
               noWrap
-              component="a"
-              href="/dashboard"
               sx={{
-                mr: 1,
-                display: { xs: "flex", md: "flex" },
-                fontWeight: 700,
-                letterSpacing: ".1rem",
-                color: "#E8E8E8",
-                textDecoration: "none",
-                margin: "15px",
-                fontFamily: "Montserrat",
+                display: { xs: "flex", md: "flex", lg: "flex" },
               }}
             >
-              {"Peak"}
+              <Link
+                href="/dashboard"
+                style={{
+                  color: "#E8E8E8",
+                  textDecoration: "none",
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  margin: "15px",
+                }}
+              >
+                Peak
+              </Link>
             </Typography>
           ) : (
             <Typography
               variant="h4"
               noWrap
-              component="a"
-              href="/"
               sx={{
-                mr: 1,
-                display: { xs: "flex", md: "flex" },
-                fontWeight: 700,
-                letterSpacing: ".1rem",
-                color: "#E8E8E8",
-                textDecoration: "none",
-                margin: "15px",
-                fontFamily: "Montserrat",
+                display: { xs: "flex", md: "flex", lg: "flex" },
               }}
             >
-              {"Peak"}
+              <Link
+                href="/"
+                style={{
+                  color: "#E8E8E8",
+                  textDecoration: "none",
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  margin: "15px",
+                }}
+              >
+                Peak
+              </Link>
             </Typography>
           )}
 
