@@ -19,26 +19,10 @@ import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-// const inter = Inter({ subsets: ["latin"] });
-
 export default function Home() {
   const supabase = useSupabaseClient();
   const session = useSession();
   const router = useRouter();
-  const checkUser = async (session) => {
-    const res = await supabase
-      .from("user")
-      .select("auth_id")
-      .eq("auth_id", session.user.id);
-    if (!res.data[0]) {
-      router.push("/auth/username");
-    } else {
-      router.push("/dashboard");
-    }
-  };
-  if (session) {
-    checkUser(session);
-  }
 
   return (
     <div>
