@@ -1,0 +1,14 @@
+.container {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+}
+
+.groupContainer {
+  display: flex;
+  background-color: bisque;
+}
+
+.active {
+  color: #03dac5;
+}
