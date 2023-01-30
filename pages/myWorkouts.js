@@ -1,6 +1,7 @@
 import Navbar from "@/comps/Navbar";
-import { createTheme, Badge, Box, Button, Container, Grid, TextField, ThemeProvider, List, ListItem, IconButton, ListItemAvatar, Avatar, ListItemText } from "@material-ui/core";
+import { createTheme, Badge, Box, Button, Container, Grid, TextField, ThemeProvider, List, ListItem, IconButton, ListItemAvatar, Avatar, ListItemText, Typography, ListItemIcon } from "@material-ui/core";
 import { LocalizationProvider, PickersDay, StaticDatePicker } from "@mui/x-date-pickers";
+import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import React, { useState } from "react";
@@ -32,8 +33,6 @@ export default function MyWorkouts(){
     useEffect(()=>{
         fetchWorkouts();
     }, [date]);
-    console.log(workout);
-    console.log(exercises);
 
     const fetchWorkouts = async () =>{
         // need to set default date
@@ -52,6 +51,7 @@ export default function MyWorkouts(){
           else setExercises([]);
         }
     }
+    
 
     return(
         <ThemeProvider theme={theme}>
@@ -99,8 +99,7 @@ export default function MyWorkouts(){
                     {exercises && exercises.map((exercise)=>{
                       return (
                           <>
-                          {/* // eslint-disable-next-line react/jsx-key */}
-                          <List>
+                          <List key={exercise.id}>
                             <ListItem
                               secondaryaction={
                                 <IconButton edge="end" aria-label="delete">
@@ -108,14 +107,25 @@ export default function MyWorkouts(){
                                 </IconButton>
                               }
                             >
-                              <ListItemAvatar>
-                                <Avatar>
-                                  {/* <FolderIcon /> */}
-                                </Avatar>
-                              </ListItemAvatar>
-                              <ListItemText
+                              {/* <ListItemIcon>
+                                <FitnessCenterIcon/>
+                              </ListItemIcon> */}
+                              <ListItemText sx={{
+                                	'.MuiListItemText-secondary': {
+                                    color: '#959595'
+                                  }
+                              }}
                                 primary={exercise.name}
-                                secondary={'secondaryText'}
+                                secondary={<ul>{
+                                  exercise.sets.map((set)=>{
+                                    return (
+                                      <>
+                                      <li className='sets'>Set {exercise.sets.indexOf(set) + 1} - Reps: {set.reps}, Weight: {set.weight} lbs</li>
+                                      </>
+                                    )
+                                  })
+                                }
+                                </ul>}
                               />
                             </ListItem>,
                         </List>
@@ -129,3 +139,5 @@ export default function MyWorkouts(){
         </ThemeProvider>
     )
 }
+
+//secondary={renderSets(exercise.sets)}
