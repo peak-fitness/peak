@@ -115,8 +115,6 @@ export default function Signup() {
             <Typography
               variant="h4"
               noWrap
-              component="a"
-              href="/"
               sx={{
                 mr: 1,
                 display: { xs: "flex", md: "flex" },
@@ -128,7 +126,15 @@ export default function Signup() {
                 fontFamily: "Montserrat",
               }}
             >
-              {"Peak"}
+              <Link
+                href="/"
+                style={{
+                  color: "#E8E8E8",
+                  textDecoration: "none",
+                }}
+              >
+                Peak
+              </Link>
             </Typography>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Typography
