@@ -3,12 +3,10 @@ import styles from "@/styles/Home.module.css";
 import Navbar from "../comps/Navbar";
 import {
   Container,
-  Box,
   Grid,
   Typography,
   Button,
   Card,
-  CardMedia,
   CardContent,
 } from "@mui/material";
 import GroupIcon from "@mui/icons-material/Group";
