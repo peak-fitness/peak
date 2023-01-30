@@ -10,6 +10,7 @@ import {
   AppBar,
   Toolbar,
 } from "@mui/material";
+import Link from "next/link";
 
 export default function CreateUsername() {
   const supabase = useSupabaseClient();
@@ -49,6 +50,7 @@ export default function CreateUsername() {
       }
     } else {
       setFailed(true);
+      setUsername("");
     }
   };
 
@@ -63,20 +65,23 @@ export default function CreateUsername() {
             <Typography
               variant="h4"
               noWrap
-              component="a"
-              href="/"
               sx={{
-                mr: 1,
-                display: { xs: "flex", md: "flex" },
+                display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
                 fontWeight: 700,
                 letterSpacing: ".1rem",
-                color: "#E8E8E8",
-                textDecoration: "none",
                 margin: "15px",
                 fontFamily: "Montserrat",
               }}
             >
-              {"Peak"}
+              <Link
+                href="/"
+                style={{
+                  color: "#E8E8E8",
+                  textDecoration: "none",
+                }}
+              >
+                Peak
+              </Link>
             </Typography>
           </Toolbar>
         </Container>
@@ -110,6 +115,7 @@ export default function CreateUsername() {
               input: { color: "#959595" },
               label: { color: "#959595" },
             }}
+            value={username}
             onChange={(evt) => {
               setUsername(evt.target.value);
             }}
