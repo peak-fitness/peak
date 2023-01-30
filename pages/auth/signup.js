@@ -63,7 +63,6 @@ export default function Signup() {
         email: email,
         password: password,
       });
-      console.log(data);
       if (error) {
         setError(true);
         setSubmitted(false);
@@ -81,12 +80,17 @@ export default function Signup() {
         setUsernameTaken(false);
         setEmailTaken(false);
         setError(false);
+        setUsername("");
+        setEmail("");
+        setPassword("");
       }
     } else {
       if (!usernameAvailable) {
         setUsernameTaken(true);
+        setUsername("");
       } else if (!emailAvailable) {
         setEmailTaken(true);
+        setEmail("");
       }
     }
   };
@@ -216,6 +220,7 @@ export default function Signup() {
                     label="Username"
                     name="username"
                     autoComplete="username"
+                    value={username}
                     onChange={(evt) => {
                       setUsername(evt.target.value);
                     }}
@@ -235,6 +240,7 @@ export default function Signup() {
                     type="email"
                     name="email"
                     autoComplete="email"
+                    value={email}
                     onChange={(evt) => {
                       setEmail(evt.target.value);
                     }}
@@ -254,6 +260,7 @@ export default function Signup() {
                     type="password"
                     id="password"
                     autoComplete="new-password"
+                    value={password}
                     onChange={(evt) => {
                       setPassword(evt.target.value);
                     }}
