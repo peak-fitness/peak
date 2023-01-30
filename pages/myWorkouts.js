@@ -37,18 +37,20 @@ export default function MyWorkouts(){
 
     const fetchWorkouts = async () =>{
         // need to set default date
-        const dateString = `${date.$y}-0${date.$M + 1}-${date.$D >= 10 ? '' : '0'}${date.$D}`
-        const {data, error} = await supabase.from('workout').select(`
-            routine, notes, duration, date, user_id,
-            exercises (
-                *,
-                sets (*)
-            )`
-        ).eq('date', dateString)
-        .single();
-        setWorkout(data);
-        if (data) setExercises(data.exercises);
-        else setExercises([]);
+        if (date) {
+          const dateString = `${date.$y}-0${date.$M + 1}-${date.$D >= 10 ? '' : '0'}${date.$D}`;
+          const {data, error} = await supabase.from('workout').select(`
+              routine, notes, duration, date, user_id,
+              exercises (
+                  *,
+                  sets (*)
+              )`
+          ).eq('date', dateString)
+          .single();
+          setWorkout(data);
+          if (data) setExercises(data.exercises);
+          else setExercises([]);
+        }
     }
 
     return(
@@ -99,7 +101,6 @@ export default function MyWorkouts(){
                           <>
                           {/* // eslint-disable-next-line react/jsx-key */}
                           <List>
-                          {generate(
                             <ListItem
                               secondaryaction={
                                 <IconButton edge="end" aria-label="delete">
@@ -113,11 +114,10 @@ export default function MyWorkouts(){
                                 </Avatar>
                               </ListItemAvatar>
                               <ListItemText
-                                primary="Single-line item"
+                                primary={exercise.name}
                                 secondary={'secondaryText'}
                               />
                             </ListItem>,
-                          )}
                         </List>
                         </>
                       )
