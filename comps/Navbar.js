@@ -10,13 +10,16 @@ import {
 import { borderRadius } from "@mui/system";
 import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const session = useSession();
   const supabase = useSupabaseClient();
+  const router = useRouter();
 
   const signout = async () => {
     const { error } = await supabase.auth.signOut();
+    router.push("/");
   };
 
   return (
