@@ -3,24 +3,19 @@ import { createTheme, Badge, Box, Button, Container, Grid, TextField, ThemeProvi
 import { LocalizationProvider, PickersDay, StaticDatePicker } from "@mui/x-date-pickers";
 import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import React, { useState } from "react";
 import { useEffect } from "react";
 
 export default function MyWorkouts(){
     const [date, setDate] = useState(null);
     const [highlightedDays, setHighlightedDays] = useState([5, 18, 22]); // dummyo data for now
-    const [workout, setWorkout] = useState({});
+    const [workout, setWorkout] = useState(null);
     const [exercises, setExercises] = useState([]);
     const supabase = useSupabaseClient();
+    const session = useSession();
 
-    function generate(element) {
-        return [0, 1, 2].map((value) =>
-          React.cloneElement(element, {
-            key: value,
-          }),
-        );
-      }
+    console.log(session);
 
     const theme = createTheme({
         // palette: {
@@ -35,21 +30,23 @@ export default function MyWorkouts(){
     }, [date]);
 
     const fetchWorkouts = async () =>{
-        // need to set default date
-        if (date) {
-          const dateString = `${date.$y}-0${date.$M + 1}-${date.$D >= 10 ? '' : '0'}${date.$D}`;
-          const {data, error} = await supabase.from('workout').select(`
-              routine, notes, duration, date, user_id,
+      if (date) {
+        const dateString = `${date.$y}-0${date.$M + 1}-${date.$D >= 10 ? '' : '0'}${date.$D}`;
+        const {data, error} = await supabase.from('user').select(`
+          auth_id, workout (
+            routine, notes, duration, date, user_id,
               exercises (
-                  *,
-                  sets (*)
-              )`
-          ).eq('date', dateString)
-          .single();
-          setWorkout(data);
-          if (data) setExercises(data.exercises);
-          else setExercises([]);
-        }
+                *,
+                sets (*)
+            )
+          )`
+        ).eq('auth_id', session.user.id)
+        .eq('workout.date', dateString)
+        .single();
+        setWorkout(data.workout[0]);
+        if (data.workout.length) setExercises(data.workout[0].exercises);
+        else setExercises([]);
+      }
     }
     
 
@@ -95,7 +92,10 @@ export default function MyWorkouts(){
                     />
                     </Grid>
                     <Grid item lg={3} sx={{color: 'white'}}> 
-                    {workout && <h2 key={workout.id}>Workout: {workout.routine}</h2>}
+                    {/* {workout ? <Typography variant='h2'>Workout: {workout.routine}</Typography>
+                     : 
+                     <Typography variant='h2'>No workouts for this day!</Typography>} */}
+                     <Typography variant='h6'>{workout ? `Workout: ${workout.routine}` : 'No workouts for this day!'}</Typography>
                     {exercises && exercises.map((exercise)=>{
                       return (
                           <>
@@ -127,7 +127,7 @@ export default function MyWorkouts(){
                                 }
                                 </ul>}
                               />
-                            </ListItem>,
+                            </ListItem>
                         </List>
                         </>
                       )
