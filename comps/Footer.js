@@ -48,7 +48,6 @@ const Footer = () => {
                 variant="h4"
                 noWrap
                 sx={{
-                  mr: 1,
                   display: {
                     xs: "flex",
                     sm: "flex",
@@ -78,7 +77,6 @@ const Footer = () => {
                 variant="h4"
                 noWrap
                 sx={{
-                  mr: 1,
                   display: {
                     xs: "flex",
                     sm: "flex",
