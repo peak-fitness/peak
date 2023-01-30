@@ -90,7 +90,6 @@ function DashboardContent() {
       .from("user")
       .select()
       .eq("auth_id", session.user.id);
-    // console.log(res.data[0]);
     if (!res.data[0]) {
       router.push("/auth/username");
     }
