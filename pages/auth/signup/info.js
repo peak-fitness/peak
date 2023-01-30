@@ -19,7 +19,6 @@ import {
   MenuItem,
   FormControl,
 } from "@mui/material";
-import { RouteRounded } from "@mui/icons-material";
 
 export default function SignupInfo() {
   const supabase = useSupabaseClient();
@@ -259,7 +258,7 @@ export default function SignupInfo() {
                   />
                 </Grid>
                 <Grid item xs={12} lg={6}>
-                  <FormControl fullWidth>
+                  <FormControl fullWidth required>
                     <InputLabel id="gender" sx={{ color: "#959595" }}>
                       Gender
                     </InputLabel>
