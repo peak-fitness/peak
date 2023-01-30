@@ -8,19 +8,15 @@ import {
 import Navbar from "../../comps/Navbar";
 
 import Link from "next/link";
+import Image from "next/image";
 
 import { Container, Typography, Box, Grid, Button } from "@mui/material";
-// import {
-//   // InstagramIcon,
-//   FacebookIcon,
-//   TwitterIcon,
-//   YoutubeIcon,
-// } from "@mui/icons-material";
 
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import YoutubeIcon from "@mui/icons-material/Youtube";
+import AccountCircle from "@mui/icons-material/AccountCircle";
 
 export default function Account() {
   const supabase = useSupabaseClient();
@@ -108,6 +104,8 @@ export default function Account() {
     }
   }
 
+  console.log(session);
+
   return (
     session && (
       <>
@@ -127,13 +125,19 @@ export default function Account() {
           <Box
             sx={{
               backgroundColor: "#242424",
-              padding: "3rem",
+              padding: "1.5rem 3rem 1.5rem 3rem",
               marginLeft: "2rem",
               boxShadow: "0px 10px 10px rgba(0,0,0,0.2)",
               borderRadius: "4px",
             }}
           >
-            <Typography variant="h4" sx={{ color: "#E8E8E8" }}>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <AccountCircle sx={{ width: "10rem", height: "10rem" }} />
+            </Box>
+            <Typography
+              variant="h5"
+              sx={{ color: "#E8E8E8", textAlign: "center" }}
+            >
               {username}
             </Typography>
             <Box
