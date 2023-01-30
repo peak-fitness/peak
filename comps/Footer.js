@@ -11,8 +11,11 @@ import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import GitHubIcon from "@mui/icons-material/GitHub";
+import { useSession } from "@supabase/auth-helpers-react";
 
 const Footer = () => {
+  const session = useSession();
+
   return (
     <Box
       style={{
@@ -40,29 +43,55 @@ const Footer = () => {
           }}
         >
           <Box>
-            <Typography
-              variant="h4"
-              noWrap
-              component="a"
-              href="/"
-              sx={{
-                mr: 1,
-                display: {
-                  xs: "flex",
-                  md: "flex",
-                },
-                boxSizing: "border-box",
-                padding: "0px 25px 0px",
-                fontWeight: 700,
-                letterSpacing: ".1rem",
-                color: "#E8E8E8",
-                textDecoration: "none",
-                margin: "0 15px 0 0",
-                fontFamily: "Montserrat",
-              }}
-            >
-              {"Peak"}
-            </Typography>
+            {session ? (
+              <Typography
+                variant="h4"
+                noWrap
+                component="a"
+                href="/dashboard"
+                sx={{
+                  mr: 1,
+                  display: {
+                    xs: "flex",
+                    md: "flex",
+                  },
+                  boxSizing: "border-box",
+                  padding: "0px 25px 0px",
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  color: "#E8E8E8",
+                  textDecoration: "none",
+                  margin: "0 15px 0 0",
+                  fontFamily: "Montserrat",
+                }}
+              >
+                {"Peak"}
+              </Typography>
+            ) : (
+              <Typography
+                variant="h4"
+                noWrap
+                component="a"
+                href="/"
+                sx={{
+                  mr: 1,
+                  display: {
+                    xs: "flex",
+                    md: "flex",
+                  },
+                  boxSizing: "border-box",
+                  padding: "0px 25px 0px",
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  color: "#E8E8E8",
+                  textDecoration: "none",
+                  margin: "0 15px 0 0",
+                  fontFamily: "Montserrat",
+                }}
+              >
+                {"Peak"}
+              </Typography>
+            )}
           </Box>
           <Box
             sx={{

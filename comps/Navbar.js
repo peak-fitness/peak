@@ -27,24 +27,45 @@ const Navbar = () => {
       <Container maxWidth="xxl">
         <Toolbar disableGutters>
           {/* <img src="" width="200" /> */}
-          <Typography
-            variant="h4"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 1,
-              display: { xs: "flex", md: "flex" },
-              fontWeight: 700,
-              letterSpacing: ".1rem",
-              color: "#E8E8E8",
-              textDecoration: "none",
-              margin: "15px",
-              fontFamily: "Montserrat",
-            }}
-          >
-            {"Peak"}
-          </Typography>
+          {session ? (
+            <Typography
+              variant="h4"
+              noWrap
+              component="a"
+              href="/dashboard"
+              sx={{
+                mr: 1,
+                display: { xs: "flex", md: "flex" },
+                fontWeight: 700,
+                letterSpacing: ".1rem",
+                color: "#E8E8E8",
+                textDecoration: "none",
+                margin: "15px",
+                fontFamily: "Montserrat",
+              }}
+            >
+              {"Peak"}
+            </Typography>
+          ) : (
+            <Typography
+              variant="h4"
+              noWrap
+              component="a"
+              href="/"
+              sx={{
+                mr: 1,
+                display: { xs: "flex", md: "flex" },
+                fontWeight: 700,
+                letterSpacing: ".1rem",
+                color: "#E8E8E8",
+                textDecoration: "none",
+                margin: "15px",
+                fontFamily: "Montserrat",
+              }}
+            >
+              {"Peak"}
+            </Typography>
+          )}
 
           <Box sx={{ flexGrow: 2, display: { xs: "flex", md: "flex" } }}>
             <Link
