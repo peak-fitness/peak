@@ -37,10 +37,7 @@ export default function Login() {
         .from("user")
         .select()
         .eq("auth_id", data.user.id);
-      //this first if statement is unecessary since users who sign up for account has to have username
-      if (!res.data[0].username || res.data[0].username === null) {
-        router.push("/auth/username");
-      } else if (!res.data[0].first_name || res.data[0].first_name === null) {
+      if (!res.data[0].first_name || res.data[0].first_name === null) {
         router.push("/auth/signup/info");
       } else {
         router.push("/dashboard");
@@ -54,7 +51,6 @@ export default function Login() {
     }
   };
 
-  //need to figure out how to check if oauth user have username or not
   const handleOAuth = async (evt) => {
     evt.preventDefault();
     const { data, error } = await supabase.auth.signInWithOAuth({

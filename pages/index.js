@@ -22,160 +22,174 @@ export default function Home() {
   const session = useSession();
   const router = useRouter();
 
+  const checkUser = async () => {
+    const res = await supabase
+      .from("user")
+      .select()
+      .eq("auth_id", session.user.id);
+    if (!res.data[0]) {
+      router.push("/auth/username");
+    } else {
+      router.push("/dashboard");
+    }
+  };
+
   if (session) {
-    router.push("/dashboard");
-  }
-
-  return (
-    <div>
-      <Head>
-        <title>Peak | Home</title>
-      </Head>
-      <Navbar />
-      <Container
-        maxWidth="xl"
-        sx={{
-          display: "flex",
-          flexDirection: "row",
-          minHeight: "100vh",
-        }}
-      >
+    checkUser(session);
+  } else {
+    return (
+      <div>
+        <Head>
+          <title>Peak | Home</title>
+        </Head>
+        <Navbar />
         <Container
+          maxWidth="xl"
           sx={{
-            margin: "40px",
-
-            padding: "10%",
+            display: "flex",
+            flexDirection: "row",
+            minHeight: "100vh",
           }}
         >
-          <Grid container spacing={2}>
-            <Grid item>
-              <Typography variant="h3" fontWeight="550" margin="20px 0 0 0 ">
-                Accountability, Fitness, and Hitting PRs.
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Typography variant="h6" fontWeight="300">
-                MVP Statement here maybe. Lorem ipsum dolor sit amet,
-                consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-                labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-                nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-                commodo consequat.
-              </Typography>
-            </Grid>
-            <Grid item>
-              <Link href="/auth/signup">
-                <Button
-                  variant="contained"
-                  color="contrast"
-                  sx={{
-                    borderRadius: "20px",
-                    color: "#161616",
-                    textTransform: "unset",
-                  }}
-                >
-                  Try it out
-                </Button>
-              </Link>
-            </Grid>
-            <Grid item>
-              <Link href="/learn">
-                <Button
-                  color="contrast"
-                  sx={{
-                    borderRadius: "20px",
-                    color: "#E8E8E8",
-                    textTransform: "unset",
-                    textDecoration: "underline",
-                  }}
-                >
-                  Learn More
-                </Button>
-              </Link>
-            </Grid>
-          </Grid>
-        </Container>
+          <Container
+            sx={{
+              margin: "40px",
 
-        <Container sx={{ margin: "40px", padding: "10%" }}>
-          <Grid container spacing={3} direction="row" align="center">
-            <Grid item sm={12} md={6} lg={6}>
-              <Card
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  margin: "0 0 10px 150px",
-                  width: "11em",
-                  height: "11em",
-                  backgroundColor: "#242424",
-                  justifyContent: "center",
-                  borderRadius: "15px",
-                }}
-              >
-                <CardContent>
-                  <Typography color="#E8E8E8">Accountability Groups</Typography>
-                  <GroupIcon color="secondary" fontSize="large" />
-                </CardContent>
-              </Card>
+              padding: "10%",
+            }}
+          >
+            <Grid container spacing={2}>
+              <Grid item>
+                <Typography variant="h3" fontWeight="550" margin="20px 0 0 0 ">
+                  Accountability, Fitness, and Hitting PRs.
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Typography variant="h6" fontWeight="300">
+                  MVP Statement here maybe. Lorem ipsum dolor sit amet,
+                  consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                  ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                  quis nostrud exercitation ullamco laboris nisi ut aliquip ex
+                  ea commodo consequat.
+                </Typography>
+              </Grid>
+              <Grid item>
+                <Link href="/auth/signup">
+                  <Button
+                    variant="contained"
+                    color="contrast"
+                    sx={{
+                      borderRadius: "20px",
+                      color: "#161616",
+                      textTransform: "unset",
+                    }}
+                  >
+                    Try it out
+                  </Button>
+                </Link>
+              </Grid>
+              <Grid item>
+                <Link href="/learn">
+                  <Button
+                    color="contrast"
+                    sx={{
+                      borderRadius: "20px",
+                      color: "#E8E8E8",
+                      textTransform: "unset",
+                      textDecoration: "underline",
+                    }}
+                  >
+                    Learn More
+                  </Button>
+                </Link>
+              </Grid>
             </Grid>
-            <Grid item sm={12} md={6} lg={6}>
-              <Card
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  margin: "0 50px 0 0",
-                  width: "11em",
-                  height: "11em",
-                  backgroundColor: "#242424",
-                  justifyContent: "center",
-                  borderRadius: "15px",
-                }}
-              >
-                <CardContent>
-                  <Typography color="#E8E8E8">Calories Tracker</Typography>
-                  <CalculateIcon color="secondary" fontSize="large" />
-                </CardContent>
-              </Card>
+          </Container>
+
+          <Container sx={{ margin: "40px", padding: "10%" }}>
+            <Grid container spacing={3} direction="row" align="center">
+              <Grid item sm={12} md={6} lg={6}>
+                <Card
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    margin: "0 0 10px 150px",
+                    width: "11em",
+                    height: "11em",
+                    backgroundColor: "#242424",
+                    justifyContent: "center",
+                    borderRadius: "15px",
+                  }}
+                >
+                  <CardContent>
+                    <Typography color="#E8E8E8">
+                      Accountability Groups
+                    </Typography>
+                    <GroupIcon color="secondary" fontSize="large" />
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item sm={12} md={6} lg={6}>
+                <Card
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    margin: "0 50px 0 0",
+                    width: "11em",
+                    height: "11em",
+                    backgroundColor: "#242424",
+                    justifyContent: "center",
+                    borderRadius: "15px",
+                  }}
+                >
+                  <CardContent>
+                    <Typography color="#E8E8E8">Calories Tracker</Typography>
+                    <CalculateIcon color="secondary" fontSize="large" />
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item sm={12} md={6} lg={6}>
+                <Card
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    margin: "0 0 10px 150px",
+                    width: "11em",
+                    height: "11em",
+                    backgroundColor: "#242424",
+                    justifyContent: "center",
+                    borderRadius: "15px",
+                  }}
+                >
+                  <CardContent>
+                    <Typography color="#E8E8E8">Attendance Tracker</Typography>
+                    <CalendarMonthIcon color="secondary" fontSize="large" />
+                  </CardContent>
+                </Card>
+              </Grid>
+              <Grid item sm={12} md={6} lg={6}>
+                <Card
+                  sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    margin: "0 50px 0 0",
+                    width: "11em",
+                    height: "11em",
+                    backgroundColor: "#242424",
+                    justifyContent: "center",
+                    borderRadius: "15px",
+                  }}
+                >
+                  <CardContent>
+                    <Typography color="#E8E8E8">Achievements</Typography>
+                    <EmojiEventsIcon color="secondary" fontSize="large" />
+                  </CardContent>
+                </Card>
+              </Grid>
             </Grid>
-            <Grid item sm={12} md={6} lg={6}>
-              <Card
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  margin: "0 0 10px 150px",
-                  width: "11em",
-                  height: "11em",
-                  backgroundColor: "#242424",
-                  justifyContent: "center",
-                  borderRadius: "15px",
-                }}
-              >
-                <CardContent>
-                  <Typography color="#E8E8E8">Attendance Tracker</Typography>
-                  <CalendarMonthIcon color="secondary" fontSize="large" />
-                </CardContent>
-              </Card>
-            </Grid>
-            <Grid item sm={12} md={6} lg={6}>
-              <Card
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  margin: "0 50px 0 0",
-                  width: "11em",
-                  height: "11em",
-                  backgroundColor: "#242424",
-                  justifyContent: "center",
-                  borderRadius: "15px",
-                }}
-              >
-                <CardContent>
-                  <Typography color="#E8E8E8">Achievements</Typography>
-                  <EmojiEventsIcon color="secondary" fontSize="large" />
-                </CardContent>
-              </Card>
-            </Grid>
-          </Grid>
+          </Container>
         </Container>
-      </Container>
-    </div>
-  );
+      </div>
+    );
+  }
 }
