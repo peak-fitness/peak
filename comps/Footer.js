@@ -47,49 +47,61 @@ const Footer = () => {
               <Typography
                 variant="h4"
                 noWrap
-                component="a"
-                href="/dashboard"
                 sx={{
                   mr: 1,
                   display: {
                     xs: "flex",
+                    sm: "flex",
                     md: "flex",
+                    lg: "flex",
                   },
                   boxSizing: "border-box",
                   padding: "0px 25px 0px",
-                  fontWeight: 700,
                   letterSpacing: ".1rem",
-                  color: "#E8E8E8",
-                  textDecoration: "none",
                   margin: "0 15px 0 0",
                   fontFamily: "Montserrat",
                 }}
               >
-                {"Peak"}
+                <Link
+                  href="/dashboard"
+                  style={{
+                    color: "#E8E8E8",
+                    textDecoration: "none",
+                    fontWeight: 700,
+                  }}
+                >
+                  Peak
+                </Link>
               </Typography>
             ) : (
               <Typography
                 variant="h4"
                 noWrap
-                component="a"
-                href="/"
                 sx={{
                   mr: 1,
                   display: {
                     xs: "flex",
+                    sm: "flex",
                     md: "flex",
+                    lg: "flex",
                   },
                   boxSizing: "border-box",
                   padding: "0px 25px 0px",
-                  fontWeight: 700,
                   letterSpacing: ".1rem",
-                  color: "#E8E8E8",
-                  textDecoration: "none",
                   margin: "0 15px 0 0",
                   fontFamily: "Montserrat",
                 }}
               >
-                {"Peak"}
+                <Link
+                  href="/"
+                  style={{
+                    color: "#E8E8E8",
+                    textDecoration: "none",
+                    fontWeight: 700,
+                  }}
+                >
+                  Peak
+                </Link>
               </Typography>
             )}
           </Box>
@@ -97,7 +109,7 @@ const Footer = () => {
             sx={{
               justifyContent: "center",
               display: "flex",
-              margin: "0 0 0 48px",
+              margin: "0 0 0 4rem",
             }}
           >
             <Link

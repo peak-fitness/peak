@@ -32,7 +32,7 @@ const Navbar = () => {
               variant="h4"
               noWrap
               sx={{
-                display: { xs: "flex", md: "flex", lg: "flex" },
+                display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
               }}
             >
               <Link
@@ -53,7 +53,7 @@ const Navbar = () => {
               variant="h4"
               noWrap
               sx={{
-                display: { xs: "flex", md: "flex", lg: "flex" },
+                display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
               }}
             >
               <Link
@@ -71,7 +71,12 @@ const Navbar = () => {
             </Typography>
           )}
 
-          <Box sx={{ flexGrow: 2, display: { xs: "flex", md: "flex" } }}>
+          <Box
+            sx={{
+              flexGrow: 2,
+              display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
+            }}
+          >
             <Link
               href="/learn"
               style={{
