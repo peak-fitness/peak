@@ -11,6 +11,7 @@ import {
   Toolbar,
 } from "@mui/material";
 import Link from "next/link";
+import { useEffect } from "react";
 
 export default function CreateUsername() {
   const supabase = useSupabaseClient();
@@ -54,90 +55,100 @@ export default function CreateUsername() {
     }
   };
 
-  return (
-    <>
-      <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
-        <Container maxWidth="xxl">
-          <Toolbar
-            disableGutters
-            sx={{ display: "flex", justifyContent: "space-between" }}
-          >
-            <Typography
-              variant="h4"
-              noWrap
-              sx={{
-                display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
-                fontWeight: 700,
-                letterSpacing: ".1rem",
-                margin: "15px",
-                fontFamily: "Montserrat",
-              }}
+  function Redirect({ to }) {
+    useEffect(() => {
+      router.push(to);
+    }, [to]);
+  }
+
+  if (session) {
+    return (
+      <>
+        <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
+          <Container maxWidth="xxl">
+            <Toolbar
+              disableGutters
+              sx={{ display: "flex", justifyContent: "space-between" }}
             >
-              <Link
-                href="/"
-                style={{
-                  color: "#E8E8E8",
-                  textDecoration: "none",
+              <Typography
+                variant="h4"
+                noWrap
+                sx={{
+                  display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  margin: "15px",
+                  fontFamily: "Montserrat",
                 }}
               >
-                Peak
-              </Link>
-            </Typography>
-          </Toolbar>
-        </Container>
-      </AppBar>
-      <Container
-        sx={{
-          minHeight: "100vh",
-          marginTop: "10rem",
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-        maxWidth="md"
-      >
-        <Typography variant="h5">
-          Please enter a username to continue
-        </Typography>
-        <Box
+                <Link
+                  href="/"
+                  style={{
+                    color: "#E8E8E8",
+                    textDecoration: "none",
+                  }}
+                >
+                  Peak
+                </Link>
+              </Typography>
+            </Toolbar>
+          </Container>
+        </AppBar>
+        <Container
           sx={{
-            marginTop: "2.5rem",
+            minHeight: "100vh",
+            marginTop: "10rem",
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
           }}
-          component="form"
-          onSubmit={handleSubmit}
+          maxWidth="md"
         >
-          <TextField
-            label="Username"
+          <Typography variant="h5">
+            Please enter a username to continue
+          </Typography>
+          <Box
             sx={{
-              backgroundColor: "#242424",
-              input: { color: "#959595" },
-              label: { color: "#959595" },
+              marginTop: "2.5rem",
+              display: "flex",
+              alignItems: "center",
             }}
-            value={username}
-            onChange={(evt) => {
-              setUsername(evt.target.value);
-            }}
-          />
-          <Button
-            sx={{
-              marginLeft: "2rem",
-              padding: ".5rem 2rem .5rem 2rem",
-              marginRight: "1rem",
-            }}
-            variant="contained"
-            type="submit"
+            component="form"
+            onSubmit={handleSubmit}
           >
-            Save
-          </Button>
-          {failed && (
-            <Typography sx={{ textAlign: "center" }} variant="p">
-              Username is already in use
-            </Typography>
-          )}
-        </Box>
-      </Container>
-    </>
-  );
+            <TextField
+              label="Username"
+              sx={{
+                backgroundColor: "#242424",
+                input: { color: "#959595" },
+                label: { color: "#959595" },
+              }}
+              value={username}
+              onChange={(evt) => {
+                setUsername(evt.target.value);
+              }}
+            />
+            <Button
+              sx={{
+                marginLeft: "2rem",
+                padding: ".5rem 2rem .5rem 2rem",
+                marginRight: "1rem",
+              }}
+              variant="contained"
+              type="submit"
+            >
+              Save
+            </Button>
+            {failed && (
+              <Typography sx={{ textAlign: "center" }} variant="p">
+                Username is already in use
+              </Typography>
+            )}
+          </Box>
+        </Container>
+      </>
+    );
+  } else {
+    return <Redirect to="/" />;
+  }
 }
