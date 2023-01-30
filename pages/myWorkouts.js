@@ -9,7 +9,8 @@ import { useEffect } from "react";
 export default function MyWorkouts(){
     const [date, setDate] = useState(null);
     const [highlightedDays, setHighlightedDays] = useState([5, 18, 22]); // dummyo data for now
-    const [workouts, setWorkouts] = useState([]);
+    const [workout, setWorkout] = useState({});
+    const [exercises, setExercises] = useState([]);
     const supabase = useSupabaseClient();
 
     function generate(element) {
@@ -31,19 +32,23 @@ export default function MyWorkouts(){
     useEffect(()=>{
         fetchWorkouts();
     }, [date]);
-    console.log(workouts);
+    console.log(workout);
+    console.log(exercises);
 
     const fetchWorkouts = async () =>{
         // need to set default date
         const dateString = `${date.$y}-0${date.$M + 1}-${date.$D >= 10 ? '' : '0'}${date.$D}`
         const {data, error} = await supabase.from('workout').select(`
             routine, notes, duration, date, user_id,
-            exercise (
+            exercises (
                 *,
-                set (*)
+                sets (*)
             )`
         ).eq('date', dateString)
-        setWorkouts(data);
+        .single();
+        setWorkout(data);
+        if (data) setExercises(data.exercises);
+        else setExercises([]);
     }
 
     return(
@@ -88,35 +93,35 @@ export default function MyWorkouts(){
                     />
                     </Grid>
                     <Grid item lg={3} sx={{color: 'white'}}> 
-                            {workouts && workouts.map((workout)=>{
-                                return (
-                                    <>
-                                    <h2 key={workout.id}>Workout: {workout.routine}</h2>
-                                    {/* // eslint-disable-next-line react/jsx-key */}
-                                    <List>
-                                    {generate(
-                                      <ListItem
-                                        secondaryaction={
-                                          <IconButton edge="end" aria-label="delete">
-                                            {/* <DeleteIcon /> */}
-                                          </IconButton>
-                                        }
-                                      >
-                                        <ListItemAvatar>
-                                          <Avatar>
-                                            {/* <FolderIcon /> */}
-                                          </Avatar>
-                                        </ListItemAvatar>
-                                        <ListItemText
-                                          primary="Single-line item"
-                                          secondary={'secondaryText'}
-                                        />
-                                      </ListItem>,
-                                    )}
-                                  </List>
-                                  </>
-                                )
-                            })}
+                    {workout && <h2 key={workout.id}>Workout: {workout.routine}</h2>}
+                    {exercises && exercises.map((exercise)=>{
+                      return (
+                          <>
+                          {/* // eslint-disable-next-line react/jsx-key */}
+                          <List>
+                          {generate(
+                            <ListItem
+                              secondaryaction={
+                                <IconButton edge="end" aria-label="delete">
+                                  {/* <DeleteIcon /> */}
+                                </IconButton>
+                              }
+                            >
+                              <ListItemAvatar>
+                                <Avatar>
+                                  {/* <FolderIcon /> */}
+                                </Avatar>
+                              </ListItemAvatar>
+                              <ListItemText
+                                primary="Single-line item"
+                                secondary={'secondaryText'}
+                              />
+                            </ListItem>,
+                          )}
+                        </List>
+                        </>
+                      )
+                    })}
                     </Grid>
                 </Grid>
             </Container>
