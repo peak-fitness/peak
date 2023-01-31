@@ -5,7 +5,7 @@ import {
   useSession,
 } from "@supabase/auth-helpers-react";
 
-import Navbar from "../../comps/Navbar";
+import Navbar from "../comps/Navbar";
 
 import Link from "next/link";
 
@@ -28,7 +28,6 @@ export default function Account() {
   const session = useSession();
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState(null);
-  const [email, setEmail] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [weight, setWeight] = useState(null);
@@ -57,7 +56,6 @@ export default function Account() {
         )
         .eq("auth_id", user.id)
         .single();
-      console.log(data, "DATA");
 
       if (error && status !== 406) {
         throw error;
@@ -65,7 +63,6 @@ export default function Account() {
 
       if (data && session) {
         setUsername(data.username);
-        setEmail(data.email);
         setFirstName(data.first_name);
         setLastName(data.last_name);
         setWeight(data.current_weight);
@@ -79,36 +76,11 @@ export default function Account() {
         setYoutube(data.social_medias.youtube);
       }
     } catch (error) {
-      console.log(error);
+      return error;
     } finally {
       setLoading(false);
     }
   }
-
-  async function updateProfile({ username, first_name, last_name }) {
-    try {
-      setLoading(true);
-
-      const updates = {
-        id: user.id,
-        username,
-        first_name,
-        last_name,
-        updated_at: new Date().toISOString(),
-      };
-
-      let { error } = await supabase.from("user").upsert(updates);
-      if (error) throw error;
-      alert("Profile updated!");
-    } catch (error) {
-      alert("Error updating the data!");
-      console.log(error);
-    } finally {
-      setLoading(false);
-    }
-  }
-
-  console.log(session);
 
   return (
     session && (
@@ -190,7 +162,7 @@ export default function Account() {
                     sx={{
                       display: "flex",
                       justifyContent: "center",
-                      gap: ".2rem",
+                      gap: ".4rem",
                     }}
                   >
                     <FacebookIcon /> <p style={{ margin: "0" }}>Facebook</p>
@@ -210,8 +182,8 @@ export default function Account() {
                   <Box
                     sx={{
                       display: "flex",
-                      justifyContent: "center",
-                      gap: ".2rem",
+                      justifyContent: "space-between",
+                      gap: "1.8rem",
                     }}
                   >
                     <TwitterIcon /> <p style={{ margin: "0" }}>Twitter</p>
@@ -231,8 +203,8 @@ export default function Account() {
                   <Box
                     sx={{
                       display: "flex",
-                      justifyContent: "center",
-                      gap: ".2rem",
+                      justifyContent: "space-between",
+                      gap: "1rem",
                     }}
                   >
                     <YoutubeIcon /> <p style={{ margin: "0" }}>Youtube</p>
@@ -265,7 +237,7 @@ export default function Account() {
                   width: "2rem",
                   padding: "0rem 2rem 0rem 2rem",
                 }}
-                onClick={() => router.push("/auth/editAccount")}
+                onClick={() => router.push("/editProfile")}
               >
                 EDIT
               </Button>

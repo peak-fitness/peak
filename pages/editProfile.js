@@ -5,9 +5,7 @@ import {
   useSession,
 } from "@supabase/auth-helpers-react";
 
-import Navbar from "../../comps/Navbar";
-
-import Link from "next/link";
+import Navbar from "../comps/Navbar";
 
 import { useRouter } from "next/router";
 
@@ -18,16 +16,11 @@ import {
   Grid,
   Button,
   TextField,
-  InputBase,
 } from "@mui/material";
 
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import InstagramIcon from "@mui/icons-material/Instagram";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import YoutubeIcon from "@mui/icons-material/Youtube";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
 export default function Account() {
@@ -37,7 +30,6 @@ export default function Account() {
   const session = useSession();
   const [loading, setLoading] = useState(true);
   const [username, setUsername] = useState(null);
-  const [email, setEmail] = useState(null);
   const [firstName, setFirstName] = useState(null);
   const [lastName, setLastName] = useState(null);
   const [weight, setWeight] = useState(null);
@@ -45,7 +37,6 @@ export default function Account() {
   const [age, setAge] = useState(null);
   const [location, setLocation] = useState(null);
   const [bio, setBio] = useState(null);
-  const [streak, setStreak] = useState(null);
   const [instagram, setInstagram] = useState(null);
   const [facebook, setFacebook] = useState(null);
   const [twitter, setTwitter] = useState(null);
@@ -62,11 +53,10 @@ export default function Account() {
       let { data, error, status } = await supabase
         .from("user")
         .select(
-          `username, first_name, last_name, email, created_at, height, current_weight, age, location, bio, social_medias`
+          `username, first_name, last_name, created_at, height, current_weight, age, location, bio, social_medias`
         )
         .eq("auth_id", user.id)
         .single();
-      console.log(data, "DATA");
 
       if (error && status !== 406) {
         throw error;
@@ -74,7 +64,6 @@ export default function Account() {
 
       if (data && session) {
         setUsername(data.username);
-        setEmail(data.email);
         setFirstName(data.first_name);
         setLastName(data.last_name);
         setWeight(data.current_weight);
@@ -88,7 +77,7 @@ export default function Account() {
         setYoutube(data.social_medias.youtube);
       }
     } catch (error) {
-      console.log(error);
+      return error;
     } finally {
       setLoading(false);
     }
@@ -107,11 +96,9 @@ export default function Account() {
     facebook,
     instagram,
   }) {
-    console.log(instagram, "INSTA");
     try {
       setLoading(true);
 
-      console.log(user.id);
       let { data, error } = await supabase
         .from("user")
         .update({
@@ -131,13 +118,17 @@ export default function Account() {
         })
         .eq("auth_id", user.id)
         .select();
-      console.log(data, "UPDATE DATA");
-      console.log(error, "UPDATE ERROR");
+
       if (error) throw error;
-      // alert("Profile updated!");
     } catch (error) {
-      alert("Error updating the data!");
-      console.log(error);
+      toast.error("There was an issue saving your changes", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        theme: "dark",
+      });
     } finally {
       setLoading(false);
       toast.success("Changes saved!", {
@@ -148,7 +139,7 @@ export default function Account() {
         pauseOnHover: "false",
         theme: "dark",
       });
-      router.push("/auth/account");
+      router.push("/profile");
     }
   }
 
@@ -281,6 +272,8 @@ export default function Account() {
               sx={{
                 display: "flex",
                 justifyContent: "flex-end",
+                gap: "2rem",
+                marginBottom: "2rem",
               }}
             >
               <Button
@@ -309,6 +302,20 @@ export default function Account() {
                 }}
               >
                 SAVE
+              </Button>
+
+              <Button
+                variant="contained"
+                sx={{
+                  border: "solid 1px #DA3633",
+                  backgroundColor: "#242424",
+                  borderRadius: "1rem",
+                  width: "2rem",
+                  padding: "0rem 2.5rem 0rem 2.5rem",
+                }}
+                onClick={() => router.push("/profile")}
+              >
+                CANCEL
               </Button>
             </Box>
             <Grid container spacing={2} sx={{ marginBottom: "2rem" }}>
@@ -423,32 +430,6 @@ export default function Account() {
                 ></TextField>
               </Grid>
             </Grid>
-            {/* <Grid container spacing={0} sx={{ marginBottom: "2rem" }}> */}
-            {/* <Grid item xs={9}> */}
-            {/* <TextField
-                  onChange={(event) => setAge(event.target.value)}
-                  label="Age"
-                  variant="filled"
-                  InputLabelProps={{
-                    shrink: true,
-                    sx: { color: "#E8E8E8" },
-                  }}
-                  name="age"
-                  value={age}
-                  sx={{
-                    backgroundColor: "#242424",
-                    input: { color: "#E8E8E8" },
-                  }}
-                ></TextField> */}
-            {/* </Grid> */}
-            {/* </Grid> */}
-            {/* <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
-              <Grid item xs={9}>
-                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                  PRs or Achievements
-                </Typography>
-              </Grid>
-            </Grid> */}
             <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
               <Grid item xs={12}>
                 <TextField
@@ -468,7 +449,6 @@ export default function Account() {
                   sx={{
                     backgroundColor: "#242424",
                     input: { color: "#E8E8E8" },
-                    height: "40rem",
                     width: "40rem",
                   }}
                 ></TextField>
