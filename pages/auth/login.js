@@ -1,3 +1,4 @@
+import Head from "next/head";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import { useRouter } from "next/router";
@@ -9,12 +10,11 @@ import {
   TextField,
   Grid,
   Button,
+  AppBar,
+  Toolbar,
 } from "@mui/material";
 
 import { ArrowRightAlt, Google, Facebook, East } from "@mui/icons-material";
-
-import { AppBar } from "@mui/material";
-import { Toolbar } from "@mui/material";
 
 export default function Login() {
   const supabase = useSupabaseClient();
@@ -46,6 +46,8 @@ export default function Login() {
 
     if (error) {
       setFailedLogin(true);
+      setEmail("");
+      setPassword("");
     } else {
       checkUser(session);
     }
@@ -61,6 +63,9 @@ export default function Login() {
 
   return (
     <>
+      <Head>
+        <title>Sign In</title>
+      </Head>
       <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
         <Container maxWidth="xxl">
           <Toolbar
@@ -168,6 +173,7 @@ export default function Login() {
                     label="Email Address"
                     type="email"
                     name="email"
+                    value={email}
                     autoComplete="email"
                     onChange={(evt) => {
                       setEmail(evt.target.value);
@@ -187,6 +193,7 @@ export default function Login() {
                     label="Password"
                     type="password"
                     id="password"
+                    value={password}
                     autoComplete="password"
                     onChange={(evt) => {
                       setPassword(evt.target.value);
