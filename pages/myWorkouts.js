@@ -1,32 +1,25 @@
 import Navbar from "@/comps/Navbar";
 import { createTheme, Badge, Box, Button, Container, Grid, TextField, ThemeProvider, List, ListItem, IconButton, ListItemAvatar, Avatar, ListItemText, Typography, ListItemIcon } from "@material-ui/core";
 import { LocalizationProvider, PickersDay, StaticDatePicker } from "@mui/x-date-pickers";
-import FitnessCenterIcon from '@mui/icons-material/FitnessCenter';
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
 export default function MyWorkouts(){
     const [date, setDate] = useState(null);
-    const [highlightedDays, setHighlightedDays] = useState([5, 18, 22]); // dummyo data for now
+    const [highlightedDays, setHighlightedDays] = useState([]); // need to grab day of month and add to array
     const [workout, setWorkout] = useState(null);
     const [exercises, setExercises] = useState([]);
     const supabase = useSupabaseClient();
     const session = useSession();
-
-    console.log(session);
-
-    const theme = createTheme({
-        // palette: {
-        //   primary: { main: "#03DAC5" },
-        //   text: "white",
-        // },
-        // background: { default: "#161616" },
-      });  
+    const router = useRouter();
 
     useEffect(()=>{
+      // if (!session) router.push('/')
         fetchWorkouts();
+        fetchHighlightedDays();
     }, [date]);
 
     const fetchWorkouts = async () =>{
@@ -48,22 +41,36 @@ export default function MyWorkouts(){
         else setExercises([]);
       }
     }
-    
 
+    const fetchHighlightedDays = async () => {
+      let days = [];
+      const {data, error} = await supabase.from('workout').select('date')
+      // .eq('date'.slice(5,7), String(date.$M+1).padStart(2,0));
+      for (const elem of data){
+        days.push(Number(elem.date.slice(8)));
+      }
+      setHighlightedDays(days);
+    }
+
+    const handleMonthChange = async () => {
+      setHighlightedDays([]);
+    }
+  
     return(
-        <ThemeProvider theme={theme}>
+        // <ThemeProvider theme={theme}>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
             <Navbar />
             <Container>
                 <Grid container>
                     <Grid item lg={9} sx={{
                         display: 'flex',
-                        justifyContent:'flex-start', 
+                        justifyContent:'center', 
+                        maxHeight: '100vh',
                     }}>
                     <StaticDatePicker 
                         sx={{
                         backgroundColor: '#161616', 
-                        '.MuiTypography-root': {color: 'white'},
+                        '.MuiTypography-root': {color: 'white'}
                         }}
                         displayStaticWrapperAs="desktop"
                         value={date}
@@ -73,6 +80,7 @@ export default function MyWorkouts(){
                         renderInput={(params) => <TextField {...params} />}
                         dayOfWeekFormatter={(day) => `${day}.`}
                         showToolbar
+                        // onMonthChange={handleMonthChange}
                         renderDay={(day, _value, DayComponentProps) => {
                             const isSelected =
                             !DayComponentProps.outsideCurrentMonth &&
@@ -91,10 +99,10 @@ export default function MyWorkouts(){
                         }}
                     />
                     </Grid>
-                    <Grid item lg={3} sx={{color: 'white'}}> 
-                    {/* {workout ? <Typography variant='h2'>Workout: {workout.routine}</Typography>
-                     : 
-                     <Typography variant='h2'>No workouts for this day!</Typography>} */}
+                    <Grid item lg={3} sx={{
+                      justifyContent: 'center',
+                      '.MuiGrid-root': {justifyContent: 'center'}
+                      }}> 
                      <Typography variant='h6'>{workout ? `Workout: ${workout.routine}` : 'No workouts for this day!'}</Typography>
                     {exercises && exercises.map((exercise)=>{
                       return (
@@ -110,11 +118,7 @@ export default function MyWorkouts(){
                               {/* <ListItemIcon>
                                 <FitnessCenterIcon/>
                               </ListItemIcon> */}
-                              <ListItemText sx={{
-                                	'.MuiListItemText-secondary': {
-                                    color: '#959595'
-                                  }
-                              }}
+                              <ListItemText
                                 primary={exercise.name}
                                 secondary={<ul>{
                                   exercise.sets.map((set)=>{
@@ -136,8 +140,6 @@ export default function MyWorkouts(){
                 </Grid>
             </Container>
         </LocalizationProvider>
-        </ThemeProvider>
+        // </ThemeProvider>
     )
 }
-
-//secondary={renderSets(exercise.sets)}
