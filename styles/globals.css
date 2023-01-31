@@ -39,6 +39,16 @@ a:hover {
   }
 }
 
+.sets {
+  color: #959595
+}
+
+/* .calendar {
+  background-color: #161616 !important;
+} */
+
 .main-container {
   background-color: #161616;
+  font-family: "Montserrat", sans-serif;
+  color: #e8e8e8;
 }

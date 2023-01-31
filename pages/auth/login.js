@@ -23,7 +23,6 @@ export default function Login() {
   const [failedLogin, setFailedLogin] = useState(false);
   const router = useRouter();
   const session = useSession();
-  if (session) router.push("/");
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
@@ -32,10 +31,23 @@ export default function Login() {
       email,
       password,
     });
+
+    const checkUser = async () => {
+      const res = await supabase
+        .from("user")
+        .select()
+        .eq("auth_id", data.user.id);
+      if (!res.data[0].first_name || res.data[0].first_name === null) {
+        router.push("/auth/signup/info");
+      } else {
+        router.push("/dashboard");
+      }
+    };
+
     if (error) {
       setFailedLogin(true);
     } else {
-      router.push("/dashboard");
+      checkUser(session);
     }
   };
 
@@ -192,6 +204,9 @@ export default function Login() {
                   mt: 3,
                   mb: 2,
                   padding: "1rem 1rem 1rem 1rem",
+                  color: "#161616",
+                  background:
+                    "linear-gradient(90deg, #03dac5, #56ca82, #89b33e, #b59500, #da6b03)",
                 }}
               >
                 Sign into Your Account <East />
@@ -220,6 +235,9 @@ export default function Login() {
               variant="contained"
               sx={{
                 marginLeft: "7rem",
+                background:
+                  "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#03dac5, #56ca82, #89b33e, #b59500, #da6b03) border-box",
+                border: "2px solid transparent",
                 padding: "1rem 7rem 1rem 0rem",
               }}
             >
@@ -237,7 +255,9 @@ export default function Login() {
               variant="contained"
               sx={{
                 marginLeft: "7rem",
-
+                background:
+                  "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#da6b03, #b59500, #89b33e, #56ca82, #03dac5) border-box",
+                border: "2px solid transparent",
                 padding: "1rem 7rem 1rem 0rem",
               }}
             >

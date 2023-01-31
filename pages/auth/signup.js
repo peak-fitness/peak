@@ -63,7 +63,6 @@ export default function Signup() {
         email: email,
         password: password,
       });
-      console.log(data);
       if (error) {
         setError(true);
         setSubmitted(false);
@@ -81,12 +80,17 @@ export default function Signup() {
         setUsernameTaken(false);
         setEmailTaken(false);
         setError(false);
+        setUsername("");
+        setEmail("");
+        setPassword("");
       }
     } else {
       if (!usernameAvailable) {
         setUsernameTaken(true);
+        setUsername("");
       } else if (!emailAvailable) {
         setEmailTaken(true);
+        setEmail("");
       }
     }
   };
@@ -111,8 +115,6 @@ export default function Signup() {
             <Typography
               variant="h4"
               noWrap
-              component="a"
-              href="/"
               sx={{
                 mr: 1,
                 display: { xs: "flex", md: "flex" },
@@ -124,7 +126,15 @@ export default function Signup() {
                 fontFamily: "Montserrat",
               }}
             >
-              {"Peak"}
+              <Link
+                href="/"
+                style={{
+                  color: "#E8E8E8",
+                  textDecoration: "none",
+                }}
+              >
+                Peak
+              </Link>
             </Typography>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
               <Typography
@@ -216,6 +226,7 @@ export default function Signup() {
                     label="Username"
                     name="username"
                     autoComplete="username"
+                    value={username}
                     onChange={(evt) => {
                       setUsername(evt.target.value);
                     }}
@@ -235,6 +246,7 @@ export default function Signup() {
                     type="email"
                     name="email"
                     autoComplete="email"
+                    value={email}
                     onChange={(evt) => {
                       setEmail(evt.target.value);
                     }}
@@ -254,6 +266,7 @@ export default function Signup() {
                     type="password"
                     id="password"
                     autoComplete="new-password"
+                    value={password}
                     onChange={(evt) => {
                       setPassword(evt.target.value);
                     }}
@@ -270,6 +283,9 @@ export default function Signup() {
                   mt: 3,
                   mb: 2,
                   padding: "1rem 1rem 1rem 1rem",
+                  color: "#161616",
+                  background:
+                    "linear-gradient(90deg, #03dac5, #56ca82, #89b33e, #b59500, #da6b03)",
                 }}
               >
                 Create Your Account <East />
@@ -300,6 +316,9 @@ export default function Signup() {
               variant="contained"
               sx={{
                 marginLeft: "7rem",
+                background:
+                  "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#03dac5, #56ca82, #89b33e, #b59500, #da6b03) border-box",
+                border: "2px solid transparent",
                 padding: "1rem 7rem 1rem 0rem",
               }}
             >
@@ -317,7 +336,9 @@ export default function Signup() {
               variant="contained"
               sx={{
                 marginLeft: "7rem",
-
+                background:
+                  "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#da6b03, #b59500, #89b33e, #56ca82, #03dac5) border-box",
+                border: "2px solid transparent",
                 padding: "1rem 7rem 1rem 0rem",
               }}
             >

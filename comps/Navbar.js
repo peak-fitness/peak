@@ -10,13 +10,16 @@ import {
 import { borderRadius } from "@mui/system";
 import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const session = useSession();
   const supabase = useSupabaseClient();
+  const router = useRouter();
 
   const signout = async () => {
     const { error } = await supabase.auth.signOut();
+    router.push("/");
   };
 
   return (
@@ -24,26 +27,56 @@ const Navbar = () => {
       <Container maxWidth="xxl">
         <Toolbar disableGutters>
           {/* <img src="" width="200" /> */}
-          <Typography
-            variant="h4"
-            noWrap
-            component="a"
-            href="/"
+          {session ? (
+            <Typography
+              variant="h4"
+              noWrap
+              sx={{
+                display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
+              }}
+            >
+              <Link
+                href="/dashboard"
+                style={{
+                  color: "#E8E8E8",
+                  textDecoration: "none",
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  margin: "15px",
+                }}
+              >
+                Peak
+              </Link>
+            </Typography>
+          ) : (
+            <Typography
+              variant="h4"
+              noWrap
+              sx={{
+                display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
+              }}
+            >
+              <Link
+                href="/"
+                style={{
+                  color: "#E8E8E8",
+                  textDecoration: "none",
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  margin: "15px",
+                }}
+              >
+                Peak
+              </Link>
+            </Typography>
+          )}
+
+          <Box
             sx={{
-              mr: 1,
-              display: { xs: "flex", md: "flex" },
-              fontWeight: 700,
-              letterSpacing: ".1rem",
-              color: "#E8E8E8",
-              textDecoration: "none",
-              margin: "15px",
-              fontFamily: "Montserrat",
+              flexGrow: 2,
+              display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
             }}
           >
-            {"Peak"}
-          </Typography>
-
-          <Box sx={{ flexGrow: 2, display: { xs: "flex", md: "flex" } }}>
             <Link
               href="/learn"
               style={{
