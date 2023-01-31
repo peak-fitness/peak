@@ -21,6 +21,9 @@ import {
   InputBase,
 } from "@mui/material";
 
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
@@ -130,12 +133,20 @@ export default function Account() {
       console.log(data, "UPDATE DATA");
       console.log(error, "UPDATE ERROR");
       if (error) throw error;
-      alert("Profile updated!");
+      // alert("Profile updated!");
     } catch (error) {
       alert("Error updating the data!");
       console.log(error);
     } finally {
       setLoading(false);
+      toast.success("Changes saved!", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: "false",
+        theme: "dark",
+      });
       router.push("/auth/account");
     }
   }

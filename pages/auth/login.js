@@ -23,7 +23,6 @@ export default function Login() {
   const [failedLogin, setFailedLogin] = useState(false);
   const router = useRouter();
   const session = useSession();
-  if (session) router.push("/");
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
@@ -32,10 +31,23 @@ export default function Login() {
       email,
       password,
     });
+
+    const checkUser = async () => {
+      const res = await supabase
+        .from("user")
+        .select()
+        .eq("auth_id", data.user.id);
+      if (!res.data[0].first_name || res.data[0].first_name === null) {
+        router.push("/auth/signup/info");
+      } else {
+        router.push("/dashboard");
+      }
+    };
+
     if (error) {
       setFailedLogin(true);
     } else {
-      router.push("/dashboard");
+      checkUser(session);
     }
   };
 

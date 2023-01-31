@@ -11,6 +11,8 @@ import Link from "next/link";
 
 import { useRouter } from "next/router";
 
+import { ToastContainer } from "react-toastify";
+
 import { Container, Typography, Box, Grid, Button } from "@mui/material";
 
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -326,6 +328,7 @@ export default function Account() {
               </Grid>
             </Grid>
           </Box>
+          <ToastContainer />
         </Container>
       </>
     )
