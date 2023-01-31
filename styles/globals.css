@@ -1,4 +1,3 @@
-
 *,
 *::before,
 *::after {
@@ -11,6 +10,7 @@ html {
   text-size-adjust: none; /* for other mobile browsers */
 }
 
+html,
 body {
   margin: 0;
   /* Font of some sort */
@@ -26,8 +26,7 @@ img {
 }
 
 a {
-  text-underline-position: under;
-  text-decoration-thickness: 8;
+  text-decoration: none;
 }
 
 a:hover {
@@ -47,3 +46,9 @@ a:hover {
 /* .calendar {
   background-color: #161616 !important;
 } */
+
+.main-container {
+  background-color: #161616;
+  font-family: "Montserrat", sans-serif;
+  color: #e8e8e8;
+}
