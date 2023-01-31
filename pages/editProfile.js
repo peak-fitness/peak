@@ -47,6 +47,9 @@ export default function Account() {
   }, [session]);
 
   async function getProfile() {
+    if (!session) {
+      router.push("/auth/login");
+    }
     try {
       setLoading(true);
 
@@ -83,29 +86,17 @@ export default function Account() {
     }
   }
 
-  async function updateProfile({
-    first_name,
-    last_name,
-    height,
-    current_weight,
-    age,
-    location,
-    bio,
-    twitter,
-    youtube,
-    facebook,
-    instagram,
-  }) {
+  async function updateProfile() {
     try {
       setLoading(true);
 
       let { data, error } = await supabase
         .from("user")
         .update({
-          first_name: first_name,
-          last_name: last_name,
+          first_name: firstName,
+          last_name: lastName,
           height: height,
-          current_weight: current_weight,
+          current_weight: weight,
           age: age,
           location: location,
           bio: bio,
@@ -186,25 +177,23 @@ export default function Account() {
                 alignItems: "center",
               }}
             >
-              <>
-                <TextField
-                  onChange={(event) => setInstagram(event.target.value)}
-                  label="Instagram"
-                  type="url"
-                  variant="filled"
-                  InputLabelProps={{
-                    shrink: true,
-                    sx: { color: "#E8E8E8" },
-                  }}
-                  name="instagram"
-                  value={instagram}
-                  sx={{
-                    backgroundColor: "#242424",
-                    input: { color: "#E8E8E8" },
-                    label: { color: "#E8E8E8" },
-                  }}
-                ></TextField>
-              </>
+              <TextField
+                onChange={(event) => setInstagram(event.target.value)}
+                label="Instagram"
+                type="url"
+                variant="filled"
+                InputLabelProps={{
+                  shrink: true,
+                  sx: { color: "#E8E8E8" },
+                }}
+                name="instagram"
+                value={instagram}
+                sx={{
+                  backgroundColor: "#242424",
+                  input: { color: "#E8E8E8" },
+                  label: { color: "#E8E8E8" },
+                }}
+              ></TextField>
 
               <TextField
                 onChange={(event) => setFacebook(event.target.value)}

@@ -46,6 +46,9 @@ export default function Account() {
   }, [session]);
 
   async function getProfile() {
+    if (!session) {
+      router.push("/auth/login");
+    }
     try {
       setLoading(true);
 
