@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 
 import { ArrowRightAlt, Google, Facebook, East } from "@mui/icons-material";
+import Head from "next/head";
 
 export default function Signup() {
   const supabase = useSupabaseClient();
@@ -106,6 +107,9 @@ export default function Signup() {
 
   return (
     <>
+      <Head>
+        <title>Sign Up</title>
+      </Head>
       <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
         <Container maxWidth="xxl">
           <Toolbar
