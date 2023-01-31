@@ -102,20 +102,15 @@ export default function Account() {
     age,
     location,
     bio,
+    twitter,
+    youtube,
+    facebook,
+    instagram,
   }) {
-    console.log(first_name, "FIRST NAME");
+    console.log(instagram, "INSTA");
     try {
       setLoading(true);
 
-      const updates = {
-        first_name: first_name,
-        last_name: last_name,
-        height: height,
-        current_weight: weight,
-        age: age,
-        location: location,
-        bio: bio,
-      };
       console.log(user.id);
       let { data, error } = await supabase
         .from("user")
@@ -127,6 +122,12 @@ export default function Account() {
           age: age,
           location: location,
           bio: bio,
+          social_medias: {
+            twitter: twitter,
+            youtube: youtube,
+            facebook: facebook,
+            instagram: instagram,
+          },
         })
         .eq("auth_id", user.id)
         .select();
@@ -150,7 +151,6 @@ export default function Account() {
       router.push("/auth/account");
     }
   }
-  console.log(firstName);
 
   return (
     session && (
@@ -195,92 +195,77 @@ export default function Account() {
                 alignItems: "center",
               }}
             >
-              {instagram && (
-                <>
-                  <Link
-                    href={instagram}
-                    target="_blank"
-                    style={{
-                      padding: "10px",
-                      color: "#E8E8E8",
-                      textDecoration: "none",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        justifyContent: "center",
-                        gap: ".2rem",
-                      }}
-                    >
-                      <InstagramIcon /> <p style={{ margin: "0" }}>Instagram</p>
-                    </Box>
-                  </Link>
-                </>
-              )}
-              {facebook && (
-                <Link
-                  href={facebook}
-                  target="_blank"
-                  style={{
-                    padding: "10px",
-                    color: "#E8E8E8",
-                    textDecoration: "none",
+              <>
+                <TextField
+                  onChange={(event) => setInstagram(event.target.value)}
+                  label="Instagram"
+                  type="url"
+                  variant="filled"
+                  InputLabelProps={{
+                    shrink: true,
+                    sx: { color: "#E8E8E8" },
                   }}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      gap: ".2rem",
-                    }}
-                  >
-                    <FacebookIcon /> <p style={{ margin: "0" }}>Facebook</p>
-                  </Box>
-                </Link>
-              )}
-              {twitter && (
-                <Link
-                  href={twitter}
-                  target="_blank"
-                  style={{
-                    padding: "10px",
-                    color: "#E8E8E8",
-                    textDecoration: "none",
+                  name="instagram"
+                  value={instagram}
+                  sx={{
+                    backgroundColor: "#242424",
+                    input: { color: "#E8E8E8" },
+                    label: { color: "#E8E8E8" },
                   }}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      gap: ".2rem",
-                    }}
-                  >
-                    <TwitterIcon /> <p style={{ margin: "0" }}>Twitter</p>
-                  </Box>
-                </Link>
-              )}
-              {youtube && (
-                <Link
-                  href={youtube}
-                  target="_blank"
-                  style={{
-                    padding: "10px",
-                    color: "#E8E8E8",
-                    textDecoration: "none",
-                  }}
-                >
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      gap: ".2rem",
-                    }}
-                  >
-                    <YoutubeIcon /> <p style={{ margin: "0" }}>Youtube</p>
-                  </Box>
-                </Link>
-              )}
+                ></TextField>
+              </>
+
+              <TextField
+                onChange={(event) => setFacebook(event.target.value)}
+                label="Facebook"
+                variant="filled"
+                type="url"
+                InputLabelProps={{
+                  shrink: true,
+                  sx: { color: "#E8E8E8" },
+                }}
+                name="facebook"
+                value={facebook}
+                sx={{
+                  backgroundColor: "#242424",
+                  input: { color: "#E8E8E8" },
+                  label: { color: "#E8E8E8" },
+                }}
+              ></TextField>
+              <TextField
+                onChange={(event) => setTwitter(event.target.value)}
+                label="Twitter"
+                variant="filled"
+                type="url"
+                InputLabelProps={{
+                  shrink: true,
+                  sx: { color: "#E8E8E8" },
+                }}
+                name="twitter"
+                value={twitter}
+                sx={{
+                  backgroundColor: "#242424",
+                  input: { color: "#E8E8E8" },
+                  label: { color: "#E8E8E8" },
+                }}
+              ></TextField>
+              <TextField
+                onChange={(event) => setYoutube(event.target.value)}
+                label="Youtube"
+                variant="filled"
+                type="url"
+                InputLabelProps={{
+                  shrink: true,
+                  sx: { color: "#E8E8E8" },
+                }}
+                name="youtube"
+                value={youtube}
+                sx={{
+                  backgroundColor: "#242424",
+                  input: { color: "#E8E8E8" },
+                  label: { color: "#E8E8E8" },
+                }}
+              ></TextField>
             </Box>
           </Box>
           <Box
@@ -308,7 +293,6 @@ export default function Account() {
                   padding: "0rem 2rem 0rem 2rem",
                 }}
                 onClick={() => {
-                  console.log(firstName, "BTN CLICK");
                   updateProfile({
                     first_name: firstName,
                     last_name: lastName,
@@ -317,6 +301,10 @@ export default function Account() {
                     age,
                     location,
                     bio,
+                    twitter,
+                    youtube,
+                    facebook,
+                    instagram,
                   });
                 }}
               >
