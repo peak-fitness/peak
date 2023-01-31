@@ -9,7 +9,7 @@ export default function Learn() {
   return (
     <>
       <Head>
-        <title>Learn More</title>
+        <title>Peak | Learn</title>
       </Head>
       <div className={styles.container}>
         <Navbar />
