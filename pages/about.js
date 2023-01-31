@@ -10,7 +10,7 @@ export default function About() {
   return (
     <>
       <Head>
-        <title>About</title>
+        <title>About Us</title>
       </Head>
       <div className={styles.container}>
         <Navbar />
