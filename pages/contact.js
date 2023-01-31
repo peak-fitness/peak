@@ -19,7 +19,7 @@ export default function Contact() {
   return (
     <>
       <Head>
-        <title>Contact Us</title>
+        <title>Peak | Contact</title>
       </Head>
       <div className={styles.container}>
         <Navbar />
