@@ -47,12 +47,8 @@ export default function Account() {
   }, [session]);
 
   async function getProfile() {
-    if (!session) {
-      router.push("/auth/login");
-    }
     try {
       setLoading(true);
-
       let { data, error, status } = await supabase
         .from("user")
         .select(
