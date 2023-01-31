@@ -8,7 +8,8 @@ import {
 import Navbar from "../../comps/Navbar";
 
 import Link from "next/link";
-import Image from "next/image";
+
+import { useRouter } from "next/router";
 
 import { Container, Typography, Box, Grid, Button } from "@mui/material";
 
@@ -19,6 +20,7 @@ import YoutubeIcon from "@mui/icons-material/Youtube";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
 export default function Account() {
+  const router = useRouter();
   const supabase = useSupabaseClient();
   const user = useUser();
   const session = useSession();
@@ -261,6 +263,7 @@ export default function Account() {
                   width: "2rem",
                   padding: "0rem 2rem 0rem 2rem",
                 }}
+                onClick={() => router.push("/auth/editAccount")}
               >
                 EDIT
               </Button>
