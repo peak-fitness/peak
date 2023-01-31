@@ -11,20 +11,21 @@ export default function About() {
       <Navbar />
       <div className={styles.content}>
         <div className={styles.about}>
-          <p className={styles.sectionHeader}>Who we are</p>
-          <p>
-            We&apos;re a group of like-minded individuals who wanted an app that
-            would take care of all of our fitness needs. We found most apps to
-            only have one of the many features we wanted, or none at all. Our
-            goal with this app is to bring more people closer to their fitness
-            goals and make it a more seamless experience for our users to do
-            what they love to without fighting the design. Lorem ipsum dolor sit
-            amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-            ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis
-            nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-            consequat.
-          </p>
+          <div className={styles.sectionHeader}>
+            <p>
+              Meet our team of motivated <i>developers</i>, <i>designers</i>,
+              and first-class <i>problem solvers</i>
+            </p>
+            <p>
+              We&apos;re a group of like-minded individuals who wanted an app
+              that would take care of all of our fitness needs. Our goal with
+              this app is to bring more people closer to their fitness goals and
+              make it a more seamless experience for our users to do what they
+              love to without fighting the design.
+            </p>
+          </div>
         </div>
+        <p className={styles.meetTeam}>Meet the team at Peak</p>
         <div className={styles.profiles}>
           <div className={styles.profile}>
             <PersonIcon
