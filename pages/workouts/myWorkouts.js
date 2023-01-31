@@ -6,6 +6,7 @@ import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import React, { useState } from "react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 export default function MyWorkouts(){
     const [date, setDate] = useState(null);
@@ -103,7 +104,21 @@ export default function MyWorkouts(){
                       justifyContent: 'center',
                       '.MuiGrid-root': {justifyContent: 'center'}
                       }}> 
-                     <Typography variant='h6'>{workout ? `Workout: ${workout.routine}` : 'No workouts for this day!'}</Typography>
+                     {workout ? <Typography variant='h6'>Workout: {workout.routine}</Typography> : <><Typography variant='h6'>No workouts for this day! Would you like to add a workout?</Typography><Link
+                href="/workouts/addWorkout"
+                style={{
+                  margin: "10px",
+                  padding: "5px",
+                  border: "solid",
+                  borderRadius: "20px",
+                  borderColor: "#03DAC5",
+                  textAlign: "center",
+                  display: "block",
+                  color: "#E8E8E8",
+                  textDecoration: "none"
+                }}
+              > Add a Workout
+              </Link></>}
                     {exercises && exercises.map((exercise)=>{
                       return (
                           <>
