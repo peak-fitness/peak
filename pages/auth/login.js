@@ -46,6 +46,8 @@ export default function Login() {
 
     if (error) {
       setFailedLogin(true);
+      setEmail("");
+      setPassword("");
     } else {
       checkUser(session);
     }
@@ -168,6 +170,7 @@ export default function Login() {
                     label="Email Address"
                     type="email"
                     name="email"
+                    value={email}
                     autoComplete="email"
                     onChange={(evt) => {
                       setEmail(evt.target.value);
@@ -187,6 +190,7 @@ export default function Login() {
                     label="Password"
                     type="password"
                     id="password"
+                    value={password}
                     autoComplete="password"
                     onChange={(evt) => {
                       setPassword(evt.target.value);
