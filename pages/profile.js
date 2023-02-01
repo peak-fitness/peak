@@ -18,7 +18,7 @@ import { Container, Typography, Box, Grid, Button } from "@mui/material";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import YoutubeIcon from "@mui/icons-material/Youtube";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
 export default function Account() {
@@ -206,7 +206,8 @@ export default function Account() {
                     gap: "1rem",
                   }}
                 >
-                  <YoutubeIcon /> <p style={{ margin: "0" }}>Youtube</p>
+                  <YouTubeIcon />
+                  <p style={{ margin: "0" }}>Youtube</p>
                 </Box>
               </Link>
             )}
