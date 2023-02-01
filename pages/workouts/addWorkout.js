@@ -1,13 +1,15 @@
 import Navbar from "@/comps/Navbar";
-import { Box, Button, Checkbox, Container, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, FormGroup, Grid, IconButton, Input, InputLabel, MenuItem, Paper, Select, TextField, Typography } from "@material-ui/core";
+import { Box, Button, Checkbox, Container, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, FormGroup, Grid, IconButton, Input, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@material-ui/core";
 import React, { useReducer, useState } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
+// @/styles <-- always points to styles 
 
 
 export default function AddWorkout (){
 
     const [open, setOpen] = useState(false);
     const [setCount, setSetCount] = useState(1);
+    const [setsInfo, setSetsInfo] = useState([]);
     
     // need a reducer for each individual exercise? need to research more
     const [exercises, updateExercises] = useReducer(
@@ -24,14 +26,15 @@ export default function AddWorkout (){
         {id: 1, reps: 1, weight: 0}
     );
 
-    console.log(set);
 
     const handleSubmit = async() => {
-        console.log('temp');
+        console.log('temp')
     }
 
     const handleClose = () => {
       setOpen(false);
+      updateSet({id: 1, reps: 1, weight: 0})
+      setSetsInfo([]);
     };
 
     const handleChange = (e) => {
@@ -49,13 +52,16 @@ export default function AddWorkout (){
     const handleClick = (e) => {
         e.preventDefault();
         if (set.reps === 0) return;
+        setsInfo.push(set);
+        updateSet({id: set.id + 1, reps: 1, weight: 0});
     }
+
 
     return(
         <>
+        <Navbar/>
         <Container sx={{justifyContent: 'center', minHeight: '100vh'}}>
         <CssBaseline/>
-        <Navbar/>
             {/* <Paper elevation={3}
                 style={{ backgroundColor: "#202020" }}
                 > */}
@@ -97,7 +103,9 @@ export default function AddWorkout (){
                             >
                               +
                             </Button>
-                            <Dialog open={open} onClose={(handleClose)} fullWidth={true}>
+                            <Dialog open={open} 
+                            onClose={(handleClose)} 
+                            fullWidth={true}>
                               <DialogTitle style={{textDecoration: 'underline'}}>Exercise Information</DialogTitle>
                               <DialogContent>
                                 <DialogContentText>
@@ -175,6 +183,31 @@ export default function AddWorkout (){
                                 <IconButton onClick={handleClick} style={{marginLeft: '10px'}}>
                                     <AddCircleIcon style={{ fontSize: "30px", color: "green" }}/>
                                 </IconButton>
+                                {setsInfo.length >= 1 && 
+                                <TableContainer component={Paper}>
+                                <Table aria-label='simple table'>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Set #</TableCell>
+                                            <TableCell>Reps</TableCell>
+                                            <TableCell>Weight (lbs)</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                    {setsInfo.map((set, index)=>{
+                                    return (
+                                        <>
+                                        <TableRow key={index}>
+                                        <TableCell align='center'>{set.id}</TableCell>
+                                        <TableCell align='center'>{set.reps}</TableCell>
+                                        <TableCell align='center'>{set.weight}</TableCell>
+                                        </TableRow>
+                                        </>
+                                        )
+                                    })}
+                                    </TableBody>
+                                </Table>
+                                </TableContainer>}
                               </DialogContent>
                               <DialogActions>
                                 <Button onClick={handleClose}>Cancel</Button>
