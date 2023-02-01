@@ -1,38 +1,75 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+<div align="center">
 
-## Getting Started
+# Peak [![website - Peak](https://img.shields.io/badge/Website-Peak-03DAC5)](/CONTRIBUTING.md "Go to contributions doc")
 
-First, run the development server:
+[![Made with JavaScript](https://img.shields.io/badge/Made_with-JavaScript-yellow?logo=javascript&logoColor=white)](https://www.javascript.com/ "Go to JavaScript homepage")
+[![Made with Node.js](https://img.shields.io/badge/Node.js->=16-2ea44f?logo=node.js&logoColor=white)](https://nodejs.org "Go to Node.js homepage")
+[![Made with React](https://img.shields.io/badge/React-18-blue?logo=react&logoColor=white)](https://reactjs.org "Go to React homepage")
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-```
+[Features](#features) •
+[Screenshots](#screenshots) •
+[Technology](#technology) •
+[Packages](#packages) •
+[Contributors](#contributors)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+</div>
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+## Features
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+<hr/>
+Peak is a health tracking website that strives to bring users closer to their fitness goals with a long-term mindset.
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+- Keep track of when you've gone to the gym with the attendance tracker. Visually tracks when you've uploaded a workout to the app and keeps track of your streaks.
+- Workout journal to keep track of your workouts (exercise, sets, reps) for the entire year.
+- Calculate your calories through our tracker that lets you input custom meals for breakfast, lunch, and dinner.
+- Find motivation through accountability groups, where anyone can join up with friends and have their workouts automatically sent to the group.
+- Gain achievements through challenges to push motivation and show off by displaying them on your personal profile.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Screenshots
 
-## Learn More
+<hr />
+<h3 align="center">Landing Page<h3>
 
-To learn more about Next.js, take a look at the following resources:
+<p align="center">
+    <img src="./public/homepage.png" alt="peak landing page" width="738">
+</p>
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+<h3 align="center">Learn More Page<h3>
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+<p align="center">
+    <img src="./public/learn-more.PNG" alt="peak landing page" width="738">
+</p>
 
-## Deploy on Vercel
+<h3 align="center">Sign-in Page<h3>
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+<p align="center">
+    <img src="./public/sign-in.png" alt="peak landing page" width="738">
+</p>
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Technology
+
+| Tech Name  | Home Page               |
+| ---------- | ----------------------- |
+| Next       | <https://nextjs.org/>   |
+| React      | <https://reactjs.org/>  |
+| MaterialUI | <https://mui.com/>      |
+| Supabase   | <https://supabase.com/> |
+
+## Packages
+
+| Package Name      | Home Page                        |
+| ----------------- | -------------------------------- |
+| Recharts          | <https://recharts.org/en-US/>    |
+| react-toastify    | <https://reactjs.org/>           |
+| dayjs             | <https://day.js.org/>            |
+| styled-components | <https://styled-components.com/> |
+
+## Contributors
+
+| Name         | Github                                    | LinkedIn                              |
+| ------------ | ----------------------------------------- | ------------------------------------- |
+| Sean Brown   | [Github](https://github.com/sbrown5757)   | [LinkedIn](https://www.linkedin.com/) |
+| Warren Chan  | [Github](https://github.com/warrenchan13) | [LinkedIn](https://www.linkedin.com/) |
+| Bryan Olivo  | [Github](https://github.com/olivob)       | [LinkedIn](https://www.linkedin.com/) |
+| Jahed Prince | [Github](https://github.com/jahedprince)  | [LinkedIn](https://www.linkedin.com/) |
+| Justin Suh   | [Github](https://github.com/justindjsuh)  | [LinkedIn](https://www.linkedin.com/) |

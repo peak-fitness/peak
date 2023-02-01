@@ -1,15 +1,7 @@
 import Head from "next/head";
 import styles from "@/styles/Contact.module.css";
 import Navbar from "@/comps/Navbar";
-import {
-  CssBaseline,
-  Box,
-  Typography,
-  Container,
-  Link,
-  Toolbar,
-  IconButton,
-} from "@mui/material";
+import { Box, Link, IconButton } from "@mui/material";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
