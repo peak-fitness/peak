@@ -61,12 +61,22 @@ export default function Login() {
     if (error) setFailedLogin(true);
   };
 
+  const responsiveContainer = {
+    flex: { xs: "100%", sm: "100%", md: "80%", lg: "100%" },
+    width: "20rem",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginTop: { xs: "2rem", sm: "2rem", md: "5rem" },
+    maxHeight: { xs: "10rem", sm: "10rem" },
+  };
+
   const responsiveInputContainer = {
     flex: { xs: "100%", sm: "100%", md: "80%", lg: "100%" },
     display: "flex",
 
-    marginTop: "2rem",
-    // marginRight: { lg: "10rem", md: "9rem", sm: "0rem" },
+    marginTop: { xs: "0rem", sm: "0rem", md: "2rem" },
+
     flexDirection: { xs: "column", sm: "column", md: "row", lg: "row" },
     justifyContent: { md: "center", lg: "center" },
     alignItems: {
@@ -85,9 +95,10 @@ export default function Login() {
     alignItems: "center",
     width: "20rem",
     marginLeft: { lg: "6.5rem", md: "6.5rem", sm: "0rem" },
-    paddingTop: { xs: "0rem", sm: "0rem", md: "4rem" },
+    paddingTop: { xs: "0rem", sm: "0rem", md: "2rem" },
     paddingBottom: { xs: "4rem", sm: "4rem", md: "4rem" },
     gap: "1.5rem",
+    maxHeight: "13rem",
   };
 
   const responsiveOAuth1 = {
@@ -185,15 +196,7 @@ export default function Login() {
           minHeight: "100vh",
         }}
       >
-        <Box
-          sx={{
-            width: "20rem",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            marginTop: "5rem",
-          }}
-        >
+        <Box sx={responsiveContainer}>
           <Typography component="h1" variant="h5">
             Welcome back to Peak
           </Typography>
