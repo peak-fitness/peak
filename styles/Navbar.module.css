@@ -1,0 +1,4 @@
+.active {
+  transform: translate3d(0px, -1px, 0px);
+  text-shadow: rgb(3, 218, 197) 0px 0px 15px;
+}
