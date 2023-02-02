@@ -1,3 +1,7 @@
+.invalid-exercise {
+  color: red
+}
+
 .modal {
     display: none; /* Hidden by default */
     position: fixed; /* Stay in place */
@@ -66,3 +70,5 @@
     background-color: #5cb85c;
     color: white;
   }
+
+  

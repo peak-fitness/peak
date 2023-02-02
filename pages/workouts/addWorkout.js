@@ -2,22 +2,38 @@ import Navbar from "@/comps/Navbar";
 import { Box, Button, Checkbox, Container, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, FormGroup, Grid, IconButton, Input, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@material-ui/core";
 import React, { useReducer, useState } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
-// @/styles <-- always points to styles 
+import { useSession } from "@supabase/auth-helpers-react";
+import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from 'dayjs';
+// import styles from '@/styles/AddWorkout.module.css'
 
 
 export default function AddWorkout (){
 
     const [open, setOpen] = useState(false);
-    const [setCount, setSetCount] = useState(1);
     const [setsInfo, setSetsInfo] = useState([]);
-    
+    const session = useSession();
+    const [invalidExercise, setInvalidExercise] = useState(false);
+    const [date, setDate] = useState(dayjs());
+
     // need a reducer for each individual exercise? need to research more
-    const [exercises, updateExercises] = useReducer(
+
+    const [workout, updateWorkout] = useReducer(
         (prev, next) => {
           return { ...prev, ...next };
         },
-        { name: "", notes: "", is_pr: false }
+        { routine: "", exercises: [], date: "", notes: "", routine: "", duration: 0 }
     );
+
+    const [exercise, updateExercise] = useReducer(
+        (prev, next) => {
+          return { ...prev, ...next };
+        },
+        { name: "", notes: "", is_pr: false, sets: [] }
+    );
+    console.log(workout);
+    
 
     const [set, updateSet] = useReducer(
         (prev, next) => {
@@ -26,14 +42,17 @@ export default function AddWorkout (){
         {id: 1, reps: 1, weight: 0}
     );
 
-
     const handleSubmit = async() => {
-        console.log('temp')
+        if (!exercise.sets.length) return setInvalidExercise(true);
+        workout.exercises.push(exercise);
+        handleClose();
     }
 
     const handleClose = () => {
       setOpen(false);
+      setInvalidExercise(false);
       updateSet({id: 1, reps: 1, weight: 0})
+      updateExercise({ name: "", notes: "", is_pr: false, sets: [] });
       setSetsInfo([]);
     };
 
@@ -49,18 +68,25 @@ export default function AddWorkout (){
         }
     }
 
-    const handleClick = (e) => {
+    const addSet = (e) => {
         e.preventDefault();
         if (set.reps === 0) return;
+        setInvalidExercise(false);
         setsInfo.push(set);
+        exercise.sets.push(set);
         updateSet({id: set.id + 1, reps: 1, weight: 0});
+    }
+
+    const convertDate = () => {
+        return `${date.$y}-0${date.$M + 1}-${date.$D >= 10 ? '' : '0'}${date.$D}`;
+        
     }
 
 
     return(
         <>
         <Navbar/>
-        <Container sx={{justifyContent: 'center', minHeight: '100vh'}}>
+        <Container sx={{justifyContent: 'center'}}>
         <CssBaseline/>
             {/* <Paper elevation={3}
                 style={{ backgroundColor: "#202020" }}
@@ -79,7 +105,7 @@ export default function AddWorkout (){
                 mt: 3
             }}>
                 <Grid container spacing={6}>
-                    <Grid item lg={6}>
+                    <Grid item lg={2}>
                         <TextField 
                         sx={{
                             backgroundColor: "#242424",
@@ -87,21 +113,63 @@ export default function AddWorkout (){
                             label: { color: "#959595" },
                           }}
                           fullWidth
-                          id='name'
-                          label='name'
-                          InputProps={{endAdornment: 
-                            <>
-                            <Button 
+                          id='routine'
+                          label='Workout Title'
+                          onChange={(e)=> updateWorkout({routine: e.target.value})}
+                        />
+                    </Grid>
+                    <Grid item lg={2}>
+                        <LocalizationProvider dateAdapter={AdapterDayjs}>
+                            <DatePicker
+                            label='Date'
+                            inputFormat="MM/DD/YYYY"
+                            value={date}
+                            onChange={(newDate)=>{
+                                setDate(newDate)
+                                updateWorkout({date: convertDate()})
+                            }}
+                            renderInput={(params) => <TextField {...params} />}
+                            />
+                        </LocalizationProvider>
+                    </Grid>
+                    <Grid item lg={2}>
+                        <TextField 
+                        sx={{
+                            backgroundColor: "#242424",
+                            input: { color: "#959595" },
+                            label: { color: "#959595" },
+                          }}
+                          fullWidth
+                          id='notes'
+                          label='Notes'
+                          onChange={(e)=> updateWorkout({notes: e.target.value})}
+                        />
+                    </Grid>
+                    <Grid item lg={2}>
+                        <TextField 
+                        sx={{
+                            backgroundColor: "#242424",
+                            input: { color: "#959595" },
+                            label: { color: "#959595" },
+                          }}
+                          fullWidth
+                          id='duration'
+                          label='Duration (mins)'
+                          onChange={(e)=> updateWorkout({duration: Number(e.target.value)})}
+                        />
+                    </Grid>
+                    <Grid item lg={4}>
+                    <Button 
                             variant="outlined" 
                             onClick={()=>setOpen(true)}
                             sx={{
-                                borderRadius: "20px",
+                                borderRadius: "50px",
                                 color: "#03DAC5",
                                 // "&.MuiButton-text": { color: "#808080" },
                                 // border: "2px black solid"
                               }}
                             >
-                              +
+                            Add an Exercise
                             </Button>
                             <Dialog open={open} 
                             onClose={(handleClose)} 
@@ -118,7 +186,7 @@ export default function AddWorkout (){
                                   label="Exercise Name"
                                   fullWidth
                                   variant="standard"
-                                  onChange={(e)=> updateExercises({name: e.target.value})}
+                                  onChange={(e)=> updateExercise({name: e.target.value})}
                                 />
                                 <TextField
                                   autoFocus
@@ -127,13 +195,14 @@ export default function AddWorkout (){
                                   label="Notes"
                                   fullWidth
                                   variant="standard"
-                                  onChange={(e)=> updateExercises({notes: e.target.value})}
+                                  onChange={(e)=> updateExercise({notes: e.target.value})}
                                 />
                                 <FormGroup>
-                                    <FormControlLabel control={<Checkbox onChange={(e)=> updateExercises({is_pr: e.target.checked})}/>} 
+                                    <FormControlLabel control={<Checkbox onChange={(e)=> updateExercise({is_pr: e.target.checked})}/>} 
                                     label='Personal Best?'
                                     />
                                 </FormGroup>
+                                {invalidExercise && <p className="invalid-exercise">Please enter set information</p>}
                                 <FormControl>
                                         <InputLabel htmlFor="set-number">Set #</InputLabel>
                                         <Input 
@@ -142,7 +211,6 @@ export default function AddWorkout (){
                                         name='set'
                                         value={set.id}
                                         disabled={true}
-                                        // onChange={handleChange}
                                         />
                                 </FormControl>
                                 <FormControl>
@@ -180,7 +248,7 @@ export default function AddWorkout (){
                                         </Select> */}
                                         {/* redo this logic, use Jahed's calorie tracker to add a set bar to post and then keep going  */}
                                 {/* </FormControl> */}
-                                <IconButton onClick={handleClick} style={{marginLeft: '10px'}}>
+                                <IconButton onClick={addSet} style={{marginLeft: '10px'}}>
                                     <AddCircleIcon style={{ fontSize: "30px", color: "green" }}/>
                                 </IconButton>
                                 {setsInfo.length >= 1 && 
@@ -211,14 +279,61 @@ export default function AddWorkout (){
                               </DialogContent>
                               <DialogActions>
                                 <Button onClick={handleClose}>Cancel</Button>
-                                <Button onClick={handleClose}>Submit</Button>
+                                <Button onClick={handleSubmit}>Submit</Button>
                               </DialogActions>
                             </Dialog>
-                            </>}}
-                        />
                     </Grid>
                 </Grid>
             </Box>
+            <Box>
+                {workout.exercises.length && workout.exercises.map((exercise)=>{
+                    return (
+                        <>
+                        <TextField
+                        value={exercise.name}
+                        InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                        <TextField
+                        value={exercise.sets.length}
+                        InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                        <TextField
+                        value={exercise.notes}
+                        InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                        <TextField
+                        value={exercise.is_pr ? 'Yes' : 'No'}
+                        InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                        </>
+                    )
+                })}
+            </Box>
+            <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  mt: 3,
+                  mb: 2,
+                  padding: "1rem 1rem 1rem 1rem",
+                  color: "#161616",
+                  background:
+                    "linear-gradient(90deg, #03dac5, #56ca82, #89b33e, #b59500, #da6b03)",
+                }}
+              >
+                Submit
+            </Button>
             {/* </Paper> */}
         </Container>
         </>
