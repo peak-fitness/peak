@@ -142,7 +142,6 @@ const Footer = () => {
           <Box
             sx={{
               display: "flex",
-              margin: "0 30px 0 15px",
               justifyContent: "center",
             }}
           >
