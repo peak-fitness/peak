@@ -143,6 +143,20 @@ export default function AchievementsPage() {
                 justifyContent: "center",
                 overflowX: "hidden",
                 overflowY: "auto",
+                scrollbarWidth: "thin",
+                "&::-webkit-scrollbar": {
+                  width: "0.4em",
+                },
+                "&::-webkit-scrollbar-track": {
+                  background: "#f1f1f1",
+                },
+                "&::-webkit-scrollbar-thumb": {
+                  backgroundColor: "blue",
+                },
+                // "&::-webkit-scrollbar-thumb:hover": {
+                //   background: "pink",
+                // },
+                // scrollbarColor: "blue",
                 alignItems: "center",
                 backgroundColor: "#202020",
                 padding: "1rem",
