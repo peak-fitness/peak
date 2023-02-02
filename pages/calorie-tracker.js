@@ -13,7 +13,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import MenuIcon from "@mui/icons-material/Menu";
-import { mainListItems } from "../DashboardComponents/listItems";
+import mainListItems from "../DashboardComponents/listItems";
 import Navbar from "../comps/Navbar";
 import { createTheme } from "@material-ui/core/styles";
 import CaloriesBar from "../CalorieTrackerComponents/caloriesBar";
