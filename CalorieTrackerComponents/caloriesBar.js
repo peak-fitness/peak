@@ -2,10 +2,43 @@ import React, { useState, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Container from "@mui/material/Container";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
-const CaloriesBar = ({ calories, protein }) => {
+// async function GetServerSideProps() {
+//   const supabase = useSupabaseClient();
+//   const session = useSession();
+
+//   const res = await supabase
+//     .from("user")
+//     .select("target_calories")
+//     .eq("auth_id", session.user.id);
+//   // return res.data[0].target_calories;
+//   return {
+//     props: {
+//       target_calories: res.data[0].target_calories,
+//     },
+//   };
+// }
+
+export const revalidate = 0;
+
+const CaloriesBar = ({ calories, protein, target_calories }) => {
+  const supabase = useSupabaseClient();
+  const session = useSession();
+
+  const checkTargetCalories = async () => {
+    const { data, error } = await supabase
+      .from("user")
+      .select("target_calories")
+      .eq("auth_id", session.user.id);
+
+    return data[0].target_calories;
+    // console.log(res.data[0].target_calories);
+  };
+  // checkTargetCalories();
+  const targetCalories = checkTargetCalories();
+  console.log(targetCalories);
   const [goalCalories] = useState(2000);
-
   const caloriesLeft = goalCalories - calories;
 
   useEffect(() => {}, [calories, protein]);
