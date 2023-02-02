@@ -49,6 +49,35 @@ export default function AchievementsPage() {
       title: "Have to flex somewhere...",
       description: "Join 3 accountability groups",
     },
+    {
+      title: "100 Streak",
+      description: "Go to the gym 100 times",
+      completeDate: "1/31/2023",
+    },
+    { title: "PRs", description: "Hit a PR", completeDate: "1/31/2023" },
+    {
+      title: "50 Streak",
+      description: "Go to the gym 50 times",
+      completeDate: "11/30/2022",
+    },
+    {
+      title: "10 Streak",
+      description: "Go to the gym 10 times",
+      completeDate: "10/25/2022",
+    },
+    {
+      title: "Ready to roll",
+      description: "Fill out your personal information",
+    },
+    { title: "How do I look?", description: "Hit your target weight" },
+    {
+      title: "Are you going to eat that?",
+      description: "Hit your calorie target 30 times",
+    },
+    {
+      title: "Have to flex somewhere...",
+      description: "Join 3 accountability groups",
+    },
   ];
 
   const checkUser = async () => {
@@ -68,7 +97,7 @@ export default function AchievementsPage() {
   }
 
   if (session) {
-    console.log(session);
+    console.log("SESSION", session);
     checkUser(session);
     return (
       <>
@@ -77,117 +106,127 @@ export default function AchievementsPage() {
         </Head>
         <Navbar />
         <Container
-          maxWidth="xl"
           sx={{
             display: "flex",
             flexFlow: "column",
-            margin: "2rem",
-            padding: "2rem",
-            backgroundColor: "#262626",
-            minHeight: "100vh",
-            marginLeft: "auto",
-            marginRight: "auto",
-            marginTop: "2rem",
-            marginBottom: "2rem",
-            border: "solid",
-            borderRadius: "10px",
+            minWidth: "100%",
           }}
         >
-          <Typography
+          <Container
             sx={{
-              margin: 0,
-              fontSize: "38px",
-              color: "#fafafa",
-              fontWeight: 700,
-              marginBottom: "2rem",
+              minWidth: "100%",
+              display: "flex",
+              flexFlow: "column",
+              margin: "2rem 0",
+              padding: "2rem",
+              backgroundColor: "#262626",
+              borderRadius: "10px",
             }}
           >
-            Achievements
-          </Typography>
-          {/* <Container maxWidth="xl" sx={{ border: "solid" }}> */}
-          <Grid
-            container
-            spacing={4}
-            backgroundColor="#202020"
-            flexDirection="row"
-            borderRadius="10px"
-            alignSelf="center"
-            justifyContent="space-evenly"
-            alignItems="center"
-            border="solid blue"
-          >
-            {trophies.map((trophy, index) => (
-              <Grid item key={index} sm={12} md={8} lg={6} xl={6}>
-                <Card
-                  sx={{
-                    width: "95%",
-                    height: "100%",
-                    backgroundColor: "#242424",
-                  }}
-                >
-                  <CardContent
+            <Typography
+              sx={{
+                margin: 0,
+                fontSize: "38px",
+                color: "#fafafa",
+                fontWeight: 700,
+                marginBottom: "2rem",
+              }}
+            >
+              ACHIEVEMENTS
+            </Typography>
+            <Grid
+              container
+              rowSpacing={3}
+              flexDirection="row"
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                overflowX: "hidden",
+                overflowY: "auto",
+                alignItems: "center",
+                backgroundColor: "#202020",
+                padding: "1rem",
+                borderRadius: "10px",
+                height: "600px",
+              }}
+            >
+              {trophies.map((trophy, index) => (
+                <Grid item key={index} sm={12} md={12} lg={6} xl={6}>
+                  <Card
                     sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
+                      width: "95%",
+                      height: "10vh",
+                      ml: "1.2rem",
+                      mb: "1.2rem",
+                      backgroundColor: "#242424",
                     }}
                   >
-                    <Box
+                    <CardContent
                       sx={{
                         display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
+                        justifyContent: "space-between",
                       }}
                     >
-                      {trophy.completeDate ? (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                        }}
+                      >
+                        {trophy.completeDate ? (
+                          <Box>
+                            <EmojiEventsRoundedIcon
+                              sx={{
+                                color: "#F6C941",
+                                fontSize: "4rem",
+                                ml: "1rem",
+                                mr: "2rem",
+                              }}
+                            />
+                          </Box>
+                        ) : (
+                          <Box>
+                            <EmojiEventsRoundedIcon
+                              sx={{
+                                color: "silver",
+                                fontSize: "4rem",
+                                ml: "1rem",
+                                mr: "2rem",
+                              }}
+                            />
+                          </Box>
+                        )}
                         <Box>
-                          <EmojiEventsRoundedIcon
-                            sx={{
-                              color: "#F6C941",
-                              fontSize: "4rem",
-                              ml: "1rem",
-                              mr: "2rem",
-                            }}
-                          />
+                          <Typography
+                            variant="h5"
+                            sx={{ color: "#FFFFFF", fontWeight: 700 }}
+                          >
+                            {trophy.title}
+                          </Typography>
+                          <Typography
+                            variant="subtitle2"
+                            sx={{ color: "#FFFFFF" }}
+                          >
+                            {trophy.description}
+                          </Typography>
                         </Box>
-                      ) : (
-                        <Box>
-                          <EmojiEventsRoundedIcon
-                            sx={{
-                              color: "silver",
-                              fontSize: "4rem",
-                              ml: "1rem",
-                              mr: "2rem",
-                            }}
-                          />
-                        </Box>
-                      )}
+                      </Box>
                       <Box>
                         <Typography
-                          variant="h5"
-                          sx={{ color: "#FFFFFF", fontWeight: 700 }}
-                        >
-                          {trophy.title}
-                        </Typography>
-                        <Typography
                           variant="subtitle2"
-                          sx={{ color: "#FFFFFF" }}
+                          sx={{ color: "#A4A4A4" }}
                         >
-                          {trophy.description}
+                          {trophy.completeDate}
                         </Typography>
                       </Box>
-                    </Box>
-                    <Box>
-                      <Typography variant="subtitle2" sx={{ color: "#A4A4A4" }}>
-                        {trophy.completeDate}
-                      </Typography>
-                    </Box>
-                  </CardContent>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
+                    </CardContent>
+                  </Card>
+                </Grid>
+              ))}
+            </Grid>
+          </Container>
         </Container>
-        {/* </Container> */}
       </>
     );
   } else {
