@@ -16,7 +16,7 @@ import { useRouter } from "next/router";
 export const mainListItems = (
   <React.Fragment>
     <Grid container direction="row" justifyContent="center" alignItems="center">
-      <ListItemButton>
+      <ListItemButton onClick={() => (window.location.href = "/profile")}>
         <ListItemIcon>
           <Avatar src="/pfp.png" />
         </ListItemIcon>
@@ -40,14 +40,14 @@ export const mainListItems = (
         <ListItemText primary="Dashboard" />
       </ListItemButton>
 
-      <ListItemButton onClick={() => (window.location.href = "/workouts")}>
+      <ListItemButton onClick={() => (window.location.href = "/myWorkouts")}>
         <ListItemIcon>
           <FitnessCenterRoundedIcon />
         </ListItemIcon>
         <ListItemText primary="Workouts" />
       </ListItemButton>
 
-      <ListItemButton>
+      <ListItemButton onClick={() => (window.location.href = "/groups")}>
         <ListItemIcon>
           <Groups2RoundedIcon />
         </ListItemIcon>

@@ -82,7 +82,9 @@ const DashboardComponents = () => {
               justifyContent="center"
               alignItems="center"
             >
-              <ListItemButton>
+              <ListItemButton
+                onClick={() => (window.location.href = "/profile")}
+              >
                 <ListItemIcon>
                   <Avatar src="/pfp.png" />
                 </ListItemIcon>
@@ -115,7 +117,7 @@ const DashboardComponents = () => {
               </ListItemButton>
 
               <ListItemButton
-                onClick={() => (window.location.href = "/workouts")}
+                onClick={() => (window.location.href = "/myWorkouts")}
               >
                 <ListItemIcon>
                   <FitnessCenterRoundedIcon />
@@ -123,7 +125,9 @@ const DashboardComponents = () => {
                 <ListItemText primary="Workouts" />
               </ListItemButton>
 
-              <ListItemButton>
+              <ListItemButton
+                onClick={() => (window.location.href = "/groups")}
+              >
                 <ListItemIcon>
                   <Groups2RoundedIcon />
                 </ListItemIcon>
@@ -171,7 +175,9 @@ const DashboardComponents = () => {
               justifyContent="center"
               alignItems="center"
             >
-              <ListItemButton>
+              <ListItemButton
+                onClick={() => (window.location.href = "/profile")}
+              >
                 <ListItemIcon>
                   <Avatar src="/pfp.png" />
                 </ListItemIcon>
@@ -204,7 +210,7 @@ const DashboardComponents = () => {
               </ListItemButton>
 
               <ListItemButton
-                onClick={() => (window.location.href = "/workouts")}
+                onClick={() => (window.location.href = "/myWorkouts")}
               >
                 <ListItemIcon>
                   <FitnessCenterRoundedIcon />
@@ -212,7 +218,9 @@ const DashboardComponents = () => {
                 <ListItemText primary="Workouts" />
               </ListItemButton>
 
-              <ListItemButton>
+              <ListItemButton
+                onClick={() => (window.location.href = "/groups")}
+              >
                 <ListItemIcon>
                   <Groups2RoundedIcon />
                 </ListItemIcon>
