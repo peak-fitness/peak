@@ -109,7 +109,8 @@ export default function AchievementsPage() {
           sx={{
             display: "flex",
             flexFlow: "column",
-            minWidth: "100%",
+            minWidth: "97.5%",
+            height: "100vh",
           }}
         >
           <Container
@@ -117,6 +118,7 @@ export default function AchievementsPage() {
               minWidth: "100%",
               display: "flex",
               flexFlow: "column",
+              height: "80%",
               margin: "2rem 0",
               padding: "2rem",
               backgroundColor: "#262626",
@@ -143,20 +145,13 @@ export default function AchievementsPage() {
                 justifyContent: "center",
                 overflowX: "hidden",
                 overflowY: "auto",
-                scrollbarWidth: "thin",
                 "&::-webkit-scrollbar": {
-                  width: "0.4em",
-                },
-                "&::-webkit-scrollbar-track": {
-                  background: "#f1f1f1",
+                  width: "15px",
                 },
                 "&::-webkit-scrollbar-thumb": {
-                  backgroundColor: "blue",
+                  backgroundColor: "#161616",
+                  borderRadius: "10px",
                 },
-                // "&::-webkit-scrollbar-thumb:hover": {
-                //   background: "pink",
-                // },
-                // scrollbarColor: "blue",
                 alignItems: "center",
                 backgroundColor: "#202020",
                 padding: "1rem",
