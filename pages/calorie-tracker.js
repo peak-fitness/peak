@@ -3,7 +3,6 @@ import { styled, ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
-import MuiAppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import Typography from "@mui/material/Typography";
@@ -13,20 +12,14 @@ import Badge from "@mui/material/Badge";
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import AccountBoxRoundedIcon from "@mui/icons-material/AccountBoxRounded";
-import {
-  mainListItems,
-  secondaryListItems,
-} from "../DashboardComponents/listItems";
-import Chart from "../DashboardComponents/Chart";
-import CalendarView from "../DashboardComponents/CalendarView";
-import RecentWorkouts from "../DashboardComponents/WorkoutSessions";
-import Achievements from "../DashboardComponents/Achievements";
+import mainListItems from "../DashboardComponents/listItems";
 import Navbar from "../comps/Navbar";
 import { createTheme } from "@material-ui/core/styles";
+import CaloriesBar from "../CalorieTrackerComponents/caloriesBar";
+import CaloriesNav from "../CalorieTrackerComponents/caloriesNav";
+import MealContainer from "../CalorieTrackerComponents/meals";
+import DashboardComponents from "../CalorieTrackerComponents/dashboardComponents";
 
 const darkTheme = createTheme({
   palette: {
@@ -72,7 +65,7 @@ const Drawer = styled(MuiDrawer, {
 
 const mdTheme = createTheme();
 
-function DashboardContent() {
+function CaloriesContent() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -108,11 +101,8 @@ function DashboardContent() {
                   </IconButton>
                 </Toolbar>
                 <Divider />
-                <List component="nav">
-                  {mainListItems}
-                  {/* <Divider sx={{ my: 1 }} />
-            {secondaryListItems} */}
-                </List>
+                {/* <List component="nav">{mainListItems}</List> */}
+                <DashboardComponents />
               </Drawer>
 
               <Box
@@ -135,13 +125,24 @@ function DashboardContent() {
                 >
                   <Typography
                     variant="h5"
-                    style={{ color: "#03dac5", paddingTop: "10px" }}
+                    style={{ color: "#FFFFFF", paddingTop: "10px" }}
                   >
-                    Calorie Tracker
+                    CALORIES TRACKER
                   </Typography>
                 </div>
 
-                <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}></Container>
+                <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
+                  <Grid container spacing={0}>
+                    <Grid item xs={12}>
+                      <Paper
+                        sx={{ pb: 2, display: "flex", flexDirection: "column" }}
+                        style={{ backgroundColor: "#202020" }}
+                      >
+                        <MealContainer />
+                      </Paper>
+                    </Grid>
+                  </Grid>
+                </Container>
               </Box>
             </Box>
           </Grid>
@@ -151,6 +152,6 @@ function DashboardContent() {
   );
 }
 
-export default function Dashboard() {
-  return <DashboardContent />;
+export default function Calories() {
+  return <CaloriesContent />;
 }
