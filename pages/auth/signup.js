@@ -105,6 +105,78 @@ export default function Signup() {
     if (error) setFailedLogin(true);
   };
 
+  const responsiveContainer = {
+    flex: { xs: "100%", sm: "100%", md: "80%", lg: "100%" },
+    width: "20rem",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    marginTop: { xs: "2rem", sm: "2rem", md: "5rem" },
+    maxHeight: { xs: "10rem", sm: "10rem" },
+  };
+
+  const responsiveInputContainer = {
+    flex: { xs: "100%", sm: "100%", md: "80%", lg: "100%" },
+    display: "flex",
+
+    marginTop: { xs: "0rem", sm: "0rem", md: "2rem" },
+
+    flexDirection: { xs: "column", sm: "column", md: "row", lg: "row" },
+    justifyContent: { md: "center", lg: "center" },
+    alignItems: {
+      xs: "center",
+      sm: "center",
+      md: "flex-start",
+      lg: "flex-start",
+    },
+  };
+
+  const responsiveInputs = {
+    flex: { xs: "100%", sm: "100%", md: "80%", lg: "100%" },
+    borderLeft: { sm: "none", md: "1px solid #959595" },
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: "20rem",
+    marginLeft: { lg: "6.5rem", md: "6.5rem", sm: "0rem" },
+    paddingTop: { xs: "0rem", sm: "0rem", md: "2rem" },
+    paddingBottom: { xs: "4rem", sm: "4rem", md: "4rem" },
+    gap: "1.5rem",
+    maxHeight: "13rem",
+  };
+
+  const responsiveOAuth1 = {
+    flex: { xs: "100%", sm: "100%", md: "80%", lg: "100%" },
+    marginLeft: { lg: "7rem", md: "7rem", sm: "0rem" },
+    background:
+      "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#03dac5, #56ca82, #89b33e, #b59500, #da6b03) border-box",
+    border: "2px solid transparent",
+    padding: {
+      lg: "1rem 7rem 1rem 0rem",
+      sm: "1rem 1rem 1rem 0rem",
+      md: "1rem 7rem 1rem 0rem",
+      xs: ".4rem .4rem .4rem 0rem",
+    },
+  };
+
+  const responsiveOAuth2 = {
+    flex: { xs: "100%", sm: "100%", md: "80%", lg: "100%" },
+    marginLeft: {
+      lg: "7rem",
+      md: "7rem",
+      sm: "0rem",
+    },
+    background:
+      "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#da6b03, #b59500, #89b33e, #56ca82, #03dac5) border-box",
+    border: "2px solid transparent",
+    padding: {
+      lg: "1rem 7rem 1rem 0rem",
+      md: "1rem 7rem 1rem 0rem",
+      sm: "1rem 1rem 1rem 0rem",
+      xs: ".4rem .4rem .4rem 0rem",
+    },
+  };
+
   return (
     <>
       <Head>
@@ -172,19 +244,10 @@ export default function Signup() {
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          alignItems: "center",
           minHeight: "100vh",
         }}
       >
-        <Box
-          sx={{
-            width: "20rem",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            marginTop: "5rem",
-          }}
-        >
+        <Box sx={responsiveContainer}>
           <Typography component="h1" variant="h5">
             Create Your Account
           </Typography>
@@ -199,11 +262,7 @@ export default function Signup() {
           </Typography>
         </Box>
 
-        <Container
-          component="main"
-          maxWidth="md"
-          sx={{ display: "flex", marginTop: "2rem" }}
-        >
+        <Container component="main" maxWidth="md" sx={responsiveInputContainer}>
           <Box
             sx={{
               display: "flex",
@@ -302,29 +361,13 @@ export default function Signup() {
               {error && <p>Password must be at least 6 characters long</p>}
             </Box>
           </Box>
-          <Box
-            sx={{
-              marginLeft: "7rem",
-              borderLeft: "1px solid #959595",
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-              gap: "1.5rem",
-              paddingTop: "4rem",
-            }}
-          >
+          <Box sx={responsiveInputs}>
             <Button
               onClick={handleOAuth}
               fullWidth
               name="google"
               variant="contained"
-              sx={{
-                marginLeft: "7rem",
-                background:
-                  "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#03dac5, #56ca82, #89b33e, #b59500, #da6b03) border-box",
-                border: "2px solid transparent",
-                padding: "1rem 7rem 1rem 0rem",
-              }}
+              sx={responsiveOAuth1}
             >
               <Google
                 sx={{
@@ -338,13 +381,7 @@ export default function Signup() {
               fullWidth
               name="facebook"
               variant="contained"
-              sx={{
-                marginLeft: "7rem",
-                background:
-                  "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#da6b03, #b59500, #89b33e, #56ca82, #03dac5) border-box",
-                border: "2px solid transparent",
-                padding: "1rem 7rem 1rem 0rem",
-              }}
+              sx={responsiveOAuth2}
             >
               <Facebook sx={{ marginRight: "3rem" }} />
               Sign up with Facebook
