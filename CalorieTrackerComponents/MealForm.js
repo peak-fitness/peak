@@ -12,6 +12,7 @@ const MealForm = ({ addMeal }) => {
     calories: "",
     protein: "",
   });
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setMeal({
@@ -27,7 +28,14 @@ const MealForm = ({ addMeal }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!meal.name || !meal.calories || !meal.protein) {
+    if (!meal.name || !meal.calories) {
+      setError(
+        "Please make sure you fill in the 'Meal Name' and 'Calories' fields."
+      );
+      return;
+    }
+    if (meal.calories < 0 || meal.protein < 0) {
+      setError("Amount of calories and protein cannot be lower than 0.");
       return;
     }
 
@@ -37,11 +45,13 @@ const MealForm = ({ addMeal }) => {
       calories: "",
       protein: "",
     });
+    setError(null);
   };
 
   return (
     <Container>
       <div>
+        {error && <p style={{ color: "red" }}>{error}</p>}
         <form onSubmit={handleSubmit} style={{ backgroundColor: "#262626" }}>
           <FormControl>
             <InputLabel htmlFor="meal-name">Meal Name</InputLabel>

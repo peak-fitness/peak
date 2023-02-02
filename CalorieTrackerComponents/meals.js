@@ -80,6 +80,7 @@ export default function MealContainer() {
   return (
     <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
       <div>
+        {/* date bar & total calories bar  */}
         <CaloriesNav />
         <CaloriesBar calories={totalCalories} protein={totalProtein} />
         <div align="center" justifycontent="center">
@@ -100,6 +101,8 @@ export default function MealContainer() {
             <Tab label="Dinner" />
           </Tabs>
           <br />
+
+          {/* Breakfast */}
           {value === 0 && (
             <div>
               <MealForm addMeal={(meal) => addMeal(meal, "breakfast")} />
@@ -149,6 +152,8 @@ export default function MealContainer() {
               )}
             </div>
           )}
+
+          {/* Lunch */}
           {value === 1 && (
             <div>
               <MealForm addMeal={(meal) => addMeal(meal, "lunch")} />
@@ -197,6 +202,8 @@ export default function MealContainer() {
               )}
             </div>
           )}
+
+          {/* Dinner */}
           {value === 2 && (
             <div>
               <MealForm addMeal={(meal) => addMeal(meal, "dinner")} />

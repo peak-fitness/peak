@@ -19,6 +19,7 @@ import { createTheme } from "@material-ui/core/styles";
 import CaloriesBar from "../CalorieTrackerComponents/caloriesBar";
 import CaloriesNav from "../CalorieTrackerComponents/caloriesNav";
 import MealContainer from "../CalorieTrackerComponents/meals";
+import DashboardComponents from "../CalorieTrackerComponents/dashboardComponents";
 
 const darkTheme = createTheme({
   palette: {
@@ -64,7 +65,7 @@ const Drawer = styled(MuiDrawer, {
 
 const mdTheme = createTheme();
 
-function DashboardContent() {
+function CaloriesContent() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
     setOpen(!open);
@@ -100,7 +101,8 @@ function DashboardContent() {
                   </IconButton>
                 </Toolbar>
                 <Divider />
-                <List component="nav">{mainListItems}</List>
+                {/* <List component="nav">{mainListItems}</List> */}
+                <DashboardComponents />
               </Drawer>
 
               <Box
@@ -150,6 +152,6 @@ function DashboardContent() {
   );
 }
 
-export default function Dashboard() {
-  return <DashboardContent />;
+export default function Calories() {
+  return <CaloriesContent />;
 }

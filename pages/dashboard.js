@@ -16,13 +16,7 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Link from "@mui/material/Link";
 import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import AccountBoxRoundedIcon from "@mui/icons-material/AccountBoxRounded";
-
-import {
-  mainListItems,
-  secondaryListItems,
-} from "../DashboardComponents/listItems";
+import mainListItems from "../DashboardComponents/listItems";
 import Chart from "../DashboardComponents/Chart";
 import CalendarView from "../DashboardComponents/CalendarView";
 import RecentWorkouts from "../DashboardComponents/WorkoutSessions";
@@ -138,11 +132,10 @@ function DashboardContent() {
                       </IconButton>
                     </Toolbar>
                     <Divider />
-                    <List component="nav">
-                      {mainListItems}
-                      {/* <Divider sx={{ my: 1 }} />
+
+                    <mainListItems />
+                    {/* <Divider sx={{ my: 1 }} />
             {secondaryListItems} */}
-                    </List>
                   </Drawer>
 
                   <Box
