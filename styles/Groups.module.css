@@ -1,11 +1,19 @@
+.group:hover {
+  text-decoration: none;
+}
+
 .container {
   display: flex;
   flex-flow: column;
+  height: 100vh;
+  align-items: center;
 }
 
 .groupContainer {
   display: flex;
   flex-flow: column;
+  width: 95%;
+  height: 80%;
   margin: 2rem;
   padding: 2rem;
   background-color: #262626;
@@ -33,43 +41,54 @@
   background-color: #242424;
   border-radius: 10px;
   padding: 5rem;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px;
 }
 
 .groupsContainer {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: #242424;
   padding: 1rem;
   border-radius: 10px;
-  width: 1100px;
-  height: 600px;
+  /* width: 1100px;
+  height: 600px; */
+  /* width: 100%;
+  height: 100%; */
   overflow-x: hidden;
   overflow-y: auto;
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px;
 }
 
 .groups {
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: space-around; */
+  height: 600px;
   gap: 2rem;
-  /* margin: 1rem; */
+  padding: 1rem;
 }
 
 .group {
-  flex: 0 0 20%;
+  /* flex: 0 0 22%; */
   display: flex;
   flex-flow: column;
-  /* justify-content: center;
-  align-items: center; */
-  /* width: 210px;
-  height: 270px; */
-  height: 230px;
+  justify-content: center;
+  align-items: center;
+  width: 22%;
+  height: 55%;
   background-color: #202020;
   color: #a7a7a7;
   padding: 1rem;
   text-align: center;
   border-radius: 10px;
+  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px;
+  transition: all 0.3s ease-in-out;
+}
+
+.group:hover {
+  box-shadow: rgba(3, 218, 197, 0.22) 0px 13px 25px;
+  transform: translate3d(0px, -1px, 0px);
 }
 
 .groupContent {
@@ -80,8 +99,10 @@
 }
 
 .notification {
+  position: absolute;
   justify-self: flex-end;
   align-self: flex-end;
+  top: 10%;
   /* flex: 1 */
 }
 
@@ -97,4 +118,18 @@
 
 .active {
   color: #03dac5;
+}
+
+.groupsContainer::-webkit-scrollbar {
+  width: 15px;
+}
+
+/* .groupsContainer::-webkit-scrollbar-track {
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
+} */
+
+.groupsContainer::-webkit-scrollbar-thumb {
+  background: #161616;
+  border-radius: 10px;
 }
