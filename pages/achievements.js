@@ -97,7 +97,6 @@ export default function AchievementsPage() {
   }
 
   if (session) {
-    console.log("SESSION", session);
     checkUser(session);
     return (
       <>
