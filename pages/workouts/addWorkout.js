@@ -1,21 +1,28 @@
 import Navbar from "@/comps/Navbar";
 import { Box, Button, Checkbox, Container, CssBaseline, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, FormControl, FormControlLabel, FormGroup, Grid, IconButton, Input, InputLabel, MenuItem, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@material-ui/core";
-import React, { useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle"
-import { useSession } from "@supabase/auth-helpers-react";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
-// import styles from '@/styles/AddWorkout.module.css'
+import styles from '@/styles/AddWorkout.module.css'
 
 
 export default function AddWorkout (){
 
     const [open, setOpen] = useState(false);
     const [setsInfo, setSetsInfo] = useState([]);
-    const session = useSession();
     const [invalidExercise, setInvalidExercise] = useState(false);
     const [date, setDate] = useState(dayjs());
+    const [id, setId] = useState(0);
+    const session = useSession();
+    const supabase = useSupabaseClient();
+
+    useEffect(()=>{
+        convertDate();
+        if (session) user();
+    })
 
     // need a reducer for each individual exercise? need to research more
 
@@ -25,6 +32,8 @@ export default function AddWorkout (){
         },
         { routine: "", exercises: [], date: "", notes: "", routine: "", duration: 0 }
     );
+
+    // need to add muscle group 
 
     const [exercise, updateExercise] = useReducer(
         (prev, next) => {
@@ -42,10 +51,15 @@ export default function AddWorkout (){
         {id: 1, reps: 1, weight: 0}
     );
 
-    const handleSubmit = async() => {
+    const handleExerciseSubmit = async() => {
         if (!exercise.sets.length) return setInvalidExercise(true);
         workout.exercises.push(exercise);
         handleClose();
+    }
+
+    const user = async () => {
+        const {data, error} = await supabase.from('user').select('id').match({auth_id: session.user.id})
+        setId(data[0].id);
     }
 
     const handleClose = () => {
@@ -78,15 +92,53 @@ export default function AddWorkout (){
     }
 
     const convertDate = () => {
-        return `${date.$y}-0${date.$M + 1}-${date.$D >= 10 ? '' : '0'}${date.$D}`;
-        
+        const dateString = `${date.$y}-0${date.$M + 1}-${date.$D >= 10 ? '' : '0'}${date.$D}`
+    }
+
+    const handleSubmit = async () => {
+        const {data, error} = await supabase.from('workout')
+        .insert({
+            routine: workout.routine,
+            notes: workout.notes, 
+            duration: workout.duration,
+            date: workout.date,
+            user_id: id
+        });
+
+        if (workout.exercises.length){
+            for (const exercise of workout.exercises){
+                await supabase.from('exercises')
+            .insert({
+                //workout_id: data.id or something
+                name: exercise.name,
+                notes: exercise.notes,
+                is_pr: exercise.is_pr
+            })
+            .select()
+            // nested set for loop? 
+            }
+        }
+
+        // if (workout.exercises.sets.length){
+        //     for (const set of workout.exercises.sets) {
+        //         await supabase.from('sets')
+        //         .insert({
+        //             //exercise_id:
+        //             reps: set.reps,
+        //             weight: set.weight
+        //         })
+        //     }
+        // }
+        // need to set workout, exercises, sets back to default? 
     }
 
 
     return(
         <>
         <Navbar/>
-        <Container sx={{justifyContent: 'center'}}>
+        <Container 
+        sx={{justifyContent: 'center'}}
+        className={styles.outer}>
         <CssBaseline/>
             {/* <Paper elevation={3}
                 style={{ backgroundColor: "#202020" }}
@@ -279,14 +331,13 @@ export default function AddWorkout (){
                               </DialogContent>
                               <DialogActions>
                                 <Button onClick={handleClose}>Cancel</Button>
-                                <Button onClick={handleSubmit}>Submit</Button>
+                                <Button onClick={handleExerciseSubmit}>Submit</Button>
                               </DialogActions>
                             </Dialog>
                     </Grid>
                 </Grid>
-            </Box>
-            <Box>
-                {workout.exercises.length && workout.exercises.map((exercise)=>{
+                <Box>
+                {workout.exercises.length >= 1 && workout.exercises.map((exercise)=>{
                     return (
                         <>
                         <TextField
@@ -332,8 +383,9 @@ export default function AddWorkout (){
                     "linear-gradient(90deg, #03dac5, #56ca82, #89b33e, #b59500, #da6b03)",
                 }}
               >
-                Submit
+                Save
             </Button>
+            </Box>
             {/* </Paper> */}
         </Container>
         </>
