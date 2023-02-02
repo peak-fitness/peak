@@ -6,8 +6,9 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import CircleIcon from "@mui/icons-material/Circle";
 import Navbar from "@/comps/Navbar";
+import { supabase } from "@/lib/supabaseClient";
 
-export default function Groups() {
+export default function Groups({ data }) {
   const session = useSession();
   const supabase = useSupabaseClient();
 
@@ -18,6 +19,7 @@ export default function Groups() {
   return (
     <>
       <Navbar />
+      {console.log(data)}
       <div className={styles.container}>
         <div className={styles.groupContainer}>
           <p className={styles.header}>GROUPS</p>
@@ -29,7 +31,6 @@ export default function Groups() {
             </div>
             <div className={styles.groupsContainer}>
               <div className={styles.groups}>
-                {/* map over all groups */}
                 {/* CREATE GROUP */}
                 <a href="/groups/:id" className={styles.group}>
                   <IconButton aria-label="group-icon">
@@ -50,90 +51,28 @@ export default function Groups() {
                   <p className={styles.groupName}>The Boys</p>
                   <p className={styles.members}>8 members</p>
                 </a>
-                {/* GROUP 2 */}
-                <a href="/groups/:id" className={styles.group}>
-                  <div className={styles.notification}>
-                    <IconButton aria-label="group-icon">
-                      <CircleIcon
-                        sx={{ color: "#03DAC5", height: "15px", width: "15px" }}
-                      />
-                    </IconButton>
-                  </div>
-                  <div className={styles.groupContent}>
-                    <IconButton aria-label="group-icon">
-                      <AccountCircleIcon
-                        sx={{ color: "#348432", height: "80px", width: "80px" }}
-                      />
-                    </IconButton>
-                    <p className={styles.groupName}>Fitness Club</p>
-                    <p className={styles.members}>120 members</p>
-                  </div>
-                </a>
-                {/* GROUP 3 */}
-                <a href="/groups/:id" className={styles.group}>
-                  <IconButton aria-label="group-icon">
-                    <AccountCircleIcon
-                      sx={{ color: "#328466", height: "80px", width: "80px" }}
-                    />
-                  </IconButton>
-                  <p className={styles.groupName}>Work Group</p>
-                  <p className={styles.members}>56 members</p>
-                </a>
-                {/* GROUP 3 */}
-                <a href="/groups/:id" className={styles.group}>
-                  <IconButton aria-label="group-icon">
-                    <AccountCircleIcon
-                      sx={{ color: "#328466", height: "80px", width: "80px" }}
-                    />
-                  </IconButton>
-                  <p className={styles.groupName}>Work Group</p>
-                  <p className={styles.members}>56 members</p>
-                </a>
-                <a href="/groups/:id" className={styles.group}>
-                  <IconButton aria-label="group-icon">
-                    <AccountCircleIcon
-                      sx={{ color: "#328466", height: "80px", width: "80px" }}
-                    />
-                  </IconButton>
-                  <p className={styles.groupName}>Work Group</p>
-                  <p className={styles.members}>56 members</p>
-                </a>
-                <a href="/groups/:id" className={styles.group}>
-                  <IconButton aria-label="group-icon">
-                    <AccountCircleIcon
-                      sx={{ color: "#328466", height: "80px", width: "80px" }}
-                    />
-                  </IconButton>
-                  <p className={styles.groupName}>Work Group</p>
-                  <p className={styles.members}>56 members</p>
-                </a>
-                <a href="/groups/:id" className={styles.group}>
-                  <IconButton aria-label="group-icon">
-                    <AccountCircleIcon
-                      sx={{ color: "#328466", height: "80px", width: "80px" }}
-                    />
-                  </IconButton>
-                  <p className={styles.groupName}>Work Group</p>
-                  <p className={styles.members}>56 members</p>
-                </a>
-                <a href="/groups/:id" className={styles.group}>
-                  <IconButton aria-label="group-icon">
-                    <AccountCircleIcon
-                      sx={{ color: "#328466", height: "80px", width: "80px" }}
-                    />
-                  </IconButton>
-                  <p className={styles.groupName}>Work Group</p>
-                  <p className={styles.members}>56 members</p>
-                </a>
-                <a href="/groups/:id" className={styles.group}>
-                  <IconButton aria-label="group-icon">
-                    <AccountCircleIcon
-                      sx={{ color: "#328466", height: "80px", width: "80px" }}
-                    />
-                  </IconButton>
-                  <p className={styles.groupName}>Work Group</p>
-                  <p className={styles.members}>56 members</p>
-                </a>
+                {data &&
+                  data.map((group) => (
+                    <a
+                      key={group.id}
+                      href="/groups/:id"
+                      className={styles.group}
+                    >
+                      <IconButton aria-label="group-icon">
+                        <AccountCircleIcon
+                          sx={{
+                            color: "#843732",
+                            height: "80px",
+                            width: "80px",
+                          }}
+                        />
+                      </IconButton>
+                      <p className={styles.groupName}>{group.name}</p>
+                      <p className={styles.members}>
+                        {group.members.length} members
+                      </p>
+                    </a>
+                  ))}
               </div>
             </div>
           </div>
@@ -141,4 +80,23 @@ export default function Groups() {
       </div>
     </>
   );
+}
+
+export async function getServerSideProps() {
+  const { data, error } = await supabase
+    .from("groups")
+    .select("*, members (*) ");
+  console.log("ERROR", error);
+
+  // {
+  //   created_at: "2023-02-02T17:19:28.022418+00:00";
+  //   desc: "A test description";
+  //   id: 1;
+  //   name: "test group";
+  //   --include statement--
+  //   members: [{}, {}]
+  // }
+
+  // const {data, error} = await supabase.from("group members").
+  return { props: { data } };
 }
