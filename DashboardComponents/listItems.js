@@ -11,11 +11,12 @@ import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import { Grid, Avatar, Typography } from "@material-ui/core";
 import Divider from "@mui/material/Divider";
 import Link from "next/link";
+import { useRouter } from "next/router";
 
 export const mainListItems = (
   <React.Fragment>
     <Grid container direction="row" justifyContent="center" alignItems="center">
-      <ListItemButton>
+      <ListItemButton onClick={() => (window.location.href = "/profile")}>
         <ListItemIcon>
           <Avatar src="/pfp.png" />
         </ListItemIcon>
@@ -31,7 +32,7 @@ export const mainListItems = (
         </div>
       </ListItemButton>
 
-      <ListItemButton>
+      <ListItemButton onClick={() => (window.location.href = "/dashboard")}>
         <ListItemIcon>
           <DashboardIcon />
         </ListItemIcon>
@@ -39,31 +40,31 @@ export const mainListItems = (
         <ListItemText primary="Dashboard" />
       </ListItemButton>
 
-      <ListItemButton>
+      <ListItemButton onClick={() => (window.location.href = "/myWorkouts")}>
         <ListItemIcon>
           <FitnessCenterRoundedIcon />
         </ListItemIcon>
         <ListItemText primary="Workouts" />
       </ListItemButton>
 
-      <ListItemButton>
+      <ListItemButton onClick={() => (window.location.href = "/groups")}>
         <ListItemIcon>
           <Groups2RoundedIcon />
         </ListItemIcon>
         <ListItemText primary="Groups" />
       </ListItemButton>
 
-      <ListItemButton>
+      <ListItemButton
+        onClick={() => (window.location.href = "/calorie-tracker")}
+      >
         <ListItemIcon>
           <ShowChartRoundedIcon />
         </ListItemIcon>
 
-        <Link href="/calorie-tracker">
-          <ListItemText primary="Calorie Tracker" />
-        </Link>
+        <ListItemText primary="Calorie Tracker" />
       </ListItemButton>
 
-      <ListItemButton>
+      <ListItemButton onClick={() => (window.location.href = "/achievements")}>
         <ListItemIcon>
           <EmojiEventsRoundedIcon />
         </ListItemIcon>
