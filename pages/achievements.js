@@ -12,7 +12,19 @@ import {
   Box,
 } from "@mui/material";
 import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
-import { fontWeight } from "@mui/system";
+import { createTheme } from "@material-ui/core/styles";
+import { ThemeProvider } from "@mui/material/styles";
+
+const darkTheme = createTheme({
+  palette: {
+    type: "dark",
+  },
+  text: {
+    primary: "#ffffff",
+    secondary: "#aaa",
+  },
+  background: { default: "#161616" },
+});
 
 export default function AchievementsPage() {
   const supabase = useSupabaseClient();
@@ -20,35 +32,6 @@ export default function AchievementsPage() {
   const router = useRouter();
 
   const trophies = [
-    {
-      title: "100 Streak",
-      description: "Go to the gym 100 times",
-      completeDate: "1/31/2023",
-    },
-    { title: "PRs", description: "Hit a PR", completeDate: "1/31/2023" },
-    {
-      title: "50 Streak",
-      description: "Go to the gym 50 times",
-      completeDate: "11/30/2022",
-    },
-    {
-      title: "10 Streak",
-      description: "Go to the gym 10 times",
-      completeDate: "10/25/2022",
-    },
-    {
-      title: "Ready to roll",
-      description: "Fill out your personal information",
-    },
-    { title: "How do I look?", description: "Hit your target weight" },
-    {
-      title: "Are you going to eat that?",
-      description: "Hit your calorie target 30 times",
-    },
-    {
-      title: "Have to flex somewhere...",
-      description: "Join 3 accountability groups",
-    },
     {
       title: "100 Streak",
       description: "Go to the gym 100 times",
@@ -126,136 +109,149 @@ export default function AchievementsPage() {
   }
 
   if (session) {
-    console.log(session);
     checkUser(session);
     return (
       <>
         <Head>
           <title>Achievements</title>
         </Head>
-        <Navbar />
-        <Container
-          maxWidth="xl"
-          sx={{
-            display: "flex",
-            flexFlow: "column",
-            margin: "2rem",
-            padding: "2rem",
-            backgroundColor: "#262626",
-            minHeight: "100vh",
-            marginLeft: "auto",
-            marginRight: "auto",
-            marginTop: "2rem",
-            marginBottom: "2rem",
-            // border: "solid",
-            borderRadius: "10px",
-            overflowX: "hidden",
-            overflowy: "auto",
-            postion: "relative",
-          }}
-        >
-          <Typography
+        <ThemeProvider theme={darkTheme}>
+          <Navbar />
+          <Container
             sx={{
-              margin: 0,
-              fontSize: "38px",
-              color: "#fafafa",
-              fontWeight: 700,
-              marginBottom: "2rem",
+              display: "flex",
+              flexFlow: "column",
+              minWidth: "97.5%",
+              height: "100vh",
             }}
           >
-            Achievements
-          </Typography>
-          {/* <Container maxWidth="xl" sx={{ border: "solid" }}> */}
-          <Grid
-            container
-            rowSpacing={3}
-            backgroundColor="#202020"
-            flexDirection="row"
-            borderRadius="10px"
-            alignItems="center"
-            // border="solid blue"
-            overflow-x="hidden"
-            overflow-y="auto"
-            postion="relative"
-          >
-            {trophies.map((trophy, index) => (
-              <Grid item key={index} sm={12} md={12} lg={6} xl={6}>
-                <Card
-                  sx={{
-                    width: "95%",
-                    height: "10vh",
-                    ml: "1.2rem",
-                    mb: "1.2rem",
-                    backgroundColor: "#242424",
-                  }}
-                >
-                  <CardContent
-                    sx={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                    }}
-                  >
-                    <Box
+            <Container
+              sx={{
+                minWidth: "100%",
+                display: "flex",
+                flexFlow: "column",
+                height: "80%",
+                margin: "2rem 0",
+                padding: "2rem",
+                backgroundColor: "#262626",
+                borderRadius: "10px",
+              }}
+            >
+              <Typography
+                sx={{
+                  margin: 0,
+                  fontSize: "38px",
+                  color: "#fafafa",
+                  fontWeight: 700,
+                  marginBottom: "2rem",
+                }}
+              >
+                ACHIEVEMENTS
+              </Typography>
+              <Grid
+                container
+                rowSpacing={3}
+                flexDirection="row"
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  overflowX: "hidden",
+                  overflowY: "auto",
+                  "&::-webkit-scrollbar": {
+                    width: "15px",
+                  },
+                  "&::-webkit-scrollbar-thumb": {
+                    backgroundColor: "#161616",
+                    borderRadius: "10px",
+                  },
+                  alignItems: "center",
+                  backgroundColor: "#202020",
+                  padding: "1rem",
+                  borderRadius: "10px",
+                  height: "600px",
+                }}
+              >
+                {trophies.map((trophy, index) => (
+                  <Grid item key={index} sm={12} md={12} lg={6} xl={6}>
+                    <Card
                       sx={{
-                        display: "flex",
-                        flexDirection: "row",
-                        alignItems: "center",
+                        width: "95%",
+                        height: "10vh",
+                        ml: "1.2rem",
+                        mb: "1.2rem",
+                        backgroundColor: "#242424",
                       }}
                     >
-                      {trophy.completeDate ? (
-                        <Box>
-                          <EmojiEventsRoundedIcon
-                            sx={{
-                              color: "#F6C941",
-                              fontSize: "4rem",
-                              ml: "1rem",
-                              mr: "2rem",
-                            }}
-                          />
-                        </Box>
-                      ) : (
-                        <Box>
-                          <EmojiEventsRoundedIcon
-                            sx={{
-                              color: "silver",
-                              fontSize: "4rem",
-                              ml: "1rem",
-                              mr: "2rem",
-                            }}
-                          />
-                        </Box>
-                      )}
-                      <Box>
-                        <Typography
-                          variant="h5"
-                          sx={{ color: "#FFFFFF", fontWeight: 700 }}
+                      <CardContent
+                        sx={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            flexDirection: "row",
+                            alignItems: "center",
+                          }}
                         >
-                          {trophy.title}
-                        </Typography>
-                        <Typography
-                          variant="subtitle2"
-                          sx={{ color: "#FFFFFF" }}
-                        >
-                          {trophy.description}
-                        </Typography>
-                      </Box>
-                    </Box>
-                    <Box>
-                      <Typography variant="subtitle2" sx={{ color: "#A4A4A4" }}>
-                        {trophy.completeDate}
-                      </Typography>
-                    </Box>
-                  </CardContent>
-                </Card>
+                          {trophy.completeDate ? (
+                            <Box>
+                              <EmojiEventsRoundedIcon
+                                sx={{
+                                  color: "#F6C941",
+                                  fontSize: "4rem",
+                                  ml: "1rem",
+                                  mr: "2rem",
+                                }}
+                              />
+                            </Box>
+                          ) : (
+                            <Box>
+                              <EmojiEventsRoundedIcon
+                                sx={{
+                                  color: "silver",
+                                  fontSize: "4rem",
+                                  ml: "1rem",
+                                  mr: "2rem",
+                                }}
+                              />
+                            </Box>
+                          )}
+                          <Box>
+                            <Typography
+                              variant="h5"
+                              sx={{ color: "#FFFFFF", fontWeight: 700 }}
+                            >
+                              {trophy.title}
+                            </Typography>
+                            <Typography
+                              variant="subtitle2"
+                              sx={{ color: "#FFFFFF" }}
+                            >
+                              {trophy.description}
+                            </Typography>
+                          </Box>
+                        </Box>
+                        <Box>
+                          <Typography
+                            variant="subtitle2"
+                            sx={{ color: "#A4A4A4" }}
+                          >
+                            {trophy.completeDate}
+                          </Typography>
+                        </Box>
+                      </CardContent>
+                    </Card>
+                  </Grid>
+                ))}
               </Grid>
-            ))}
-          </Grid>
-        </Container>
-        {/* </Container> */}
+            </Container>
+          </Container>
+        </ThemeProvider>
       </>
     );
+  } else {
+    return <Redirect to="/" />;
   }
-  //   else {
-  //     return <Redirect to="/" />;
-  //   }
 }
