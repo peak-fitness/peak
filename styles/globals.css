@@ -52,3 +52,8 @@ a:hover {
   font-family: "Montserrat", sans-serif;
   color: #e8e8e8;
 }
+
+.invalid-exercise {
+  color: red;
+  font-weight: bold;
+}

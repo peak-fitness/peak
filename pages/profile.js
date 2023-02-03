@@ -82,52 +82,91 @@ export default function Account() {
     }
   }
 
+  const responsiveContainer = {
+    flex: { xs: "100%", sm: "100%", md: "100%", lg: "100%" },
+    marginTop: "5vh",
+    backgroundColor: "#262626",
+    display: "flex",
+    flexDirection: { xs: "column", sm: "column", md: "row" },
+    gap: "2rem",
+    padding: { xs: ".2rem", sm: "1rem", md: "5rem" },
+    borderRadius: "8px",
+  };
+
+  const responsiveSidePanel = {
+    flex: { xs: "100%", sm: "100%", md: "100%", lg: "100%" },
+    maxWidth: { xs: "100%", sm: "100%", md: "20rem" },
+    backgroundColor: "#242424",
+    padding: { xs: ".3rem", sm: "1rem", md: "3rem" },
+    boxShadow: "0px 10px 10px rgba(0,0,0,0.2)",
+    borderRadius: "4px",
+  };
+
+  const responsiveSidePanelSocials = {
+    flex: { xs: "100%", sm: "100%", md: "100%", lg: "100%" },
+    marginTop: "2rem",
+    flexDirection: { xs: "row", sm: "row", md: "column", lg: "column" },
+    gap: "1rem",
+    alignItems: "center",
+  };
+
+  const responsiveProfileInfoBox = {
+    flex: { xs: "100%", sm: "100%", md: "100%", lg: "100%" },
+    backgroundColor: "#242424",
+    padding: "1.5rem 3rem 3rem 3rem",
+    maxWidth: { xs: "100%", sm: "100%", md: "49rem" },
+    width: { md: "49rem" },
+    boxShadow: "0px 10px 10px rgba(0,0,0,0.2)",
+    borderRadius: "4px",
+  };
+
   return session ? (
     <>
       <Navbar />
       <Container
         maxWidth="lg"
         sx={{
-          marginTop: "5vh",
-          backgroundColor: "#262626",
-          display: "flex",
-          gap: "2rem",
-          padding: "5rem",
-          borderRadius: "8px",
           minHeight: "100vh",
         }}
       >
-        <Box
-          sx={{
-            backgroundColor: "#242424",
-            padding: "1.5rem 3rem 1.5rem 3rem",
-            marginLeft: "2rem",
-            boxShadow: "0px 10px 10px rgba(0,0,0,0.2)",
-            borderRadius: "4px",
-          }}
-        >
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <AccountCircle sx={{ width: "10rem", height: "10rem" }} />
-          </Box>
-          <Typography
-            variant="h5"
-            sx={{ color: "#E8E8E8", textAlign: "center" }}
-          >
-            {username}
-          </Typography>
-          <Box
-            sx={{
-              marginTop: "2rem",
-              display: "flex",
-              flexDirection: "column",
-              gap: "1rem",
-              alignItems: "center",
-            }}
-          >
-            {instagram && (
-              <>
+        <Box sx={responsiveContainer}>
+          <Box sx={responsiveSidePanel}>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <AccountCircle sx={{ width: "10rem", height: "10rem" }} />
+            </Box>
+            <Typography
+              variant="h5"
+              sx={{ color: "#E8E8E8", textAlign: "center" }}
+            >
+              {username}
+            </Typography>
+            <Box sx={responsiveSidePanelSocials}>
+              {instagram && (
+                <>
+                  <Link
+                    href={instagram}
+                    target="_blank"
+                    style={{
+                      padding: "10px",
+                      color: "#E8E8E8",
+                      textDecoration: "none",
+                    }}
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        gap: ".2rem",
+                      }}
+                    >
+                      <InstagramIcon /> <p style={{ margin: "0" }}>Instagram</p>
+                    </Box>
+                  </Link>
+                </>
+              )}
+              {facebook && (
                 <Link
-                  href={instagram}
+                  href={facebook}
                   target="_blank"
                   style={{
                     padding: "10px",
@@ -139,168 +178,179 @@ export default function Account() {
                     sx={{
                       display: "flex",
                       justifyContent: "center",
-                      gap: ".2rem",
+                      gap: ".4rem",
                     }}
                   >
-                    <InstagramIcon /> <p style={{ margin: "0" }}>Instagram</p>
+                    <FacebookIcon /> <p style={{ margin: "0" }}>Facebook</p>
                   </Box>
                 </Link>
-              </>
-            )}
-            {facebook && (
-              <Link
-                href={facebook}
-                target="_blank"
-                style={{
-                  padding: "10px",
-                  color: "#E8E8E8",
-                  textDecoration: "none",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    gap: ".4rem",
+              )}
+              {twitter && (
+                <Link
+                  href={twitter}
+                  target="_blank"
+                  style={{
+                    padding: "10px",
+                    color: "#E8E8E8",
+                    textDecoration: "none",
                   }}
                 >
-                  <FacebookIcon /> <p style={{ margin: "0" }}>Facebook</p>
-                </Box>
-              </Link>
-            )}
-            {twitter && (
-              <Link
-                href={twitter}
-                target="_blank"
-                style={{
-                  padding: "10px",
-                  color: "#E8E8E8",
-                  textDecoration: "none",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: "1.8rem",
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: "1.8rem",
+                    }}
+                  >
+                    <TwitterIcon /> <p style={{ margin: "0" }}>Twitter</p>
+                  </Box>
+                </Link>
+              )}
+              {youtube && (
+                <Link
+                  href={youtube}
+                  target="_blank"
+                  style={{
+                    padding: "10px",
+                    color: "#E8E8E8",
+                    textDecoration: "none",
                   }}
                 >
-                  <TwitterIcon /> <p style={{ margin: "0" }}>Twitter</p>
-                </Box>
-              </Link>
-            )}
-            {youtube && (
-              <Link
-                href={youtube}
-                target="_blank"
-                style={{
-                  padding: "10px",
-                  color: "#E8E8E8",
-                  textDecoration: "none",
-                }}
-              >
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: "1rem",
-                  }}
-                >
-                  <YouTubeIcon />
-                  <p style={{ margin: "0" }}>Youtube</p>
-                </Box>
-              </Link>
-            )}
+                  <Box
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      gap: "1rem",
+                    }}
+                  >
+                    <YouTubeIcon />
+                    <p style={{ margin: "0" }}>Youtube</p>
+                  </Box>
+                </Link>
+              )}
+            </Box>
           </Box>
-        </Box>
-        <Box
-          sx={{
-            backgroundColor: "#242424",
-            padding: "3rem 6rem 6rem 6rem",
-            width: "49rem",
-            boxShadow: "0px 10px 10px rgba(0,0,0,0.2)",
-            borderRadius: "4px",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-          >
-            <Button
-              variant="contained"
+          <Box sx={responsiveProfileInfoBox}>
+            <Box
               sx={{
-                border: "solid 1px #03DAC5",
-                backgroundColor: "#242424",
-                borderRadius: "1rem",
-                width: "2rem",
-                padding: "0rem 2rem 0rem 2rem",
+                display: "flex",
+                justifyContent: "flex-end",
               }}
-              onClick={() => router.push("/editProfile")}
             >
-              EDIT
-            </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  border: "solid 1px #03DAC5",
+                  backgroundColor: "#242424",
+                  borderRadius: "1rem",
+                  width: "2rem",
+                  padding: "0rem 2rem 0rem 2rem",
+                }}
+                onClick={() => router.push("/editProfile")}
+              >
+                EDIT
+              </Button>
+            </Box>
+            <Grid
+              container
+              spacing={2}
+              sx={{
+                marginBottom: "2rem",
+                textAlign: { xs: "center", sm: "center", md: "start" },
+              }}
+            >
+              <Grid item xs={12} sm={12} md={12} lg={6}>
+                <Typography variant="h5" sx={{ color: "#E8E8E8" }}>
+                  {firstName || `First Name`}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={6}>
+                <Typography variant="h5" sx={{ color: "#E8E8E8" }}>
+                  {lastName || `Last Name`}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              spacing={0}
+              sx={{ marginBottom: "2rem", textAlign: "center" }}
+            >
+              <Grid item xs={12} sm={12} md={4}>
+                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
+                  {height ? `H: ${height} in` : `H: `}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
+                  {weight ? `W: ${weight} lbs` : `W: `}
+                </Typography>
+              </Grid>
+              <Grid item xs={12} sm={12} md={4}>
+                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
+                  {age ? `A: ${age} yrs` : `A: `}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              spacing={0}
+              sx={{
+                marginBottom: "2rem",
+                textAlign: { xs: "center", sm: "center", md: "start" },
+              }}
+            >
+              <Grid item xs={12}>
+                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
+                  {location || `Location not specified`}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              spacing={0}
+              sx={{
+                marginBottom: "2rem",
+                textAlign: { xs: "center", sm: "center", md: "start" },
+              }}
+            >
+              <Grid item xs={12}>
+                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
+                  {`Current Streak: ${streak || `0`}`}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              spacing={0}
+              sx={{
+                marginBottom: "2rem",
+                textAlign: { xs: "center", sm: "center", md: "start" },
+              }}
+            >
+              <Grid item xs={12}>
+                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
+                  PRs or Achievements
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              spacing={0}
+              sx={{
+                marginBottom: "2rem",
+                textAlign: { xs: "center", sm: "center", md: "start" },
+                overflowWrap: "break-word",
+              }}
+            >
+              <Grid item xs={12}>
+                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
+                  {bio || ""}
+                </Typography>
+              </Grid>
+            </Grid>
           </Box>
-          <Grid container spacing={2} sx={{ marginBottom: "2rem" }}>
-            <Grid item xs={4}>
-              <Typography variant="h5" sx={{ color: "#E8E8E8" }}>
-                {firstName || `First Name`}
-              </Typography>
-            </Grid>
-            <Grid item xs={6}>
-              <Typography variant="h5" sx={{ color: "#E8E8E8" }}>
-                {lastName || `Last Name`}
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
-            <Grid item xs={3}>
-              <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                {height ? `H: ${height} in` : `H: `}
-              </Typography>
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                {weight ? `W: ${weight} lbs` : `W: `}
-              </Typography>
-            </Grid>
-            <Grid item xs={3}>
-              <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                {age ? `A: ${age} yrs` : `A: `}
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
-            <Grid item xs={9}>
-              <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                {location || `Location not specified`}
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
-            <Grid item xs={9}>
-              <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                {`Current Streak: ${streak || `0`}`}
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
-            <Grid item xs={9}>
-              <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                PRs or Achievements
-              </Typography>
-            </Grid>
-          </Grid>
-          <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
-            <Grid item xs={9}>
-              <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                {bio || ""}
-              </Typography>
-            </Grid>
-          </Grid>
+          <ToastContainer />
         </Box>
-        <ToastContainer />
       </Container>
     </>
   ) : (
