@@ -11,11 +11,13 @@ const CaloriesBar = ({ calories, protein, data }) => {
   const caloriesLeft = goalCalories - calories;
 
   const fetchTargetCalories = async () => {
-    const { data, error } = await supabase
-      .from("user")
-      .select("target_calories")
-      .eq("auth_id", session.user.id);
-    setGoalCalories(data[0].target_calories);
+    if (session) {
+      const { data, error } = await supabase
+        .from("user")
+        .select("target_calories")
+        .eq("auth_id", session.user.id);
+      setGoalCalories(data[0].target_calories);
+    }
   };
 
   useEffect(() => {

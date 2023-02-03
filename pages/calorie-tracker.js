@@ -85,7 +85,7 @@ function CaloriesContent() {
         >
           <Grid>
             <Box sx={{ display: "flex" }}>
-              <CssBaseline />
+              {/* <CssBaseline /> */}
 
               <Drawer variant="permanent" open={open}>
                 <Toolbar
