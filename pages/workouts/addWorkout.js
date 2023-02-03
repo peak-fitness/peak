@@ -17,9 +17,7 @@ import {
   IconButton,
   Input,
   InputLabel,
-  MenuItem,
   Paper,
-  Select,
   Table,
   TableBody,
   TableCell,
@@ -49,7 +47,7 @@ export default function AddWorkout() {
   const router = useRouter();
 
   useEffect(() => {
-    if (session) user();
+    if (session) getUser();
   });
 
   const [workout, updateWorkout] = useReducer(
@@ -81,7 +79,7 @@ export default function AddWorkout() {
     handleClose();
   };
 
-  const user = async () => {
+  const getUser = async () => {
     const { data, error } = await supabase
       .from("user")
       .select("id")
@@ -155,7 +153,7 @@ export default function AddWorkout() {
         }
       }
     }
-    router.push("/workouts/myWorkouts");
+    // router.push("/workouts/myWorkouts"); <-- this does not get read
   };
 
   return (
@@ -186,23 +184,20 @@ export default function AddWorkout() {
             mt: 3,
           }}
         >
-          <Grid container spacing={6}>
-            <Grid item lg={2}>
+          <Grid container spacing={6} className={styles.workoutContainer}>
+            <Grid item lg={3}>
               <TextField
-                sx={{
-                  backgroundColor: "#242424",
-                  input: { color: "#959595" },
-                  label: { color: "#959595" },
-                }}
+                className={styles.form}
                 fullWidth
                 id="routine"
                 label="Workout Title"
                 onChange={(e) => updateWorkout({ routine: e.target.value })}
               />
             </Grid>
-            <Grid item lg={2}>
+            <Grid item lg={3}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker
+                  className={styles.form}
                   label="Date"
                   inputFormat="MM/DD/YYYY"
                   value={date}
@@ -213,26 +208,20 @@ export default function AddWorkout() {
                 />
               </LocalizationProvider>
             </Grid>
-            <Grid item lg={2}>
+          </Grid>
+          <Grid container spacing={6} className={styles.workoutContainer}>
+            <Grid item lg={3}>
               <TextField
-                sx={{
-                  backgroundColor: "#242424",
-                  input: { color: "#959595" },
-                  label: { color: "#959595" },
-                }}
+                className={styles.form}
                 fullWidth
                 id="notes"
                 label="Notes"
                 onChange={(e) => updateWorkout({ notes: e.target.value })}
               />
             </Grid>
-            <Grid item lg={2}>
+            <Grid item lg={3}>
               <TextField
-                sx={{
-                  backgroundColor: "#242424",
-                  input: { color: "#959595" },
-                  label: { color: "#959595" },
-                }}
+                className={styles.form}
                 fullWidth
                 id="duration"
                 label="Duration (mins)"
@@ -241,24 +230,34 @@ export default function AddWorkout() {
                 }
               />
             </Grid>
-            <Grid item lg={4}>
-              <Button
-                variant="outlined"
-                onClick={() => setOpen(true)}
-                sx={{
-                  borderRadius: "50px",
-                  color: "#03DAC5",
-                  // "&.MuiButton-text": { color: "#808080" },
-                  // border: "2px black solid"
-                }}
+            <Grid container spacing={6} className={styles.workoutContainer}>
+              <Typography
+                variant="h5"
+                align="center"
+                className={styles.exercisesText}
               >
+                Exercises
+              </Typography>
+            </Grid>
+          </Grid>
+          <Grid container spacing={6} className={styles.workoutContainer}>
+            <Grid item lg={4} className={styles.add}>
+              <Button variant="outlined" onClick={() => setOpen(true)}>
                 Add an Exercise
               </Button>
-              <Dialog open={open} onClose={handleClose} fullWidth={true}>
-                <DialogTitle style={{ textDecoration: "underline" }}>
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                fullWidth={true}
+                className={styles.dialog}
+              >
+                <DialogTitle
+                  style={{ textDecoration: "underline" }}
+                  className={styles.dialog}
+                >
                   Exercise Information
                 </DialogTitle>
-                <DialogContent>
+                <DialogContent className={styles.dialog}>
                   <DialogContentText>
                     Please enter information about your exercise below
                   </DialogContentText>
@@ -363,7 +362,7 @@ export default function AddWorkout() {
                     </TableContainer>
                   )}
                 </DialogContent>
-                <DialogActions>
+                <DialogActions className={styles.dialog}>
                   <Button onClick={handleClose}>Cancel</Button>
                   <Button onClick={handleExerciseSubmit}>Submit</Button>
                 </DialogActions>
@@ -375,48 +374,53 @@ export default function AddWorkout() {
               workout.exercises.map((exercise) => {
                 return (
                   <>
-                    <TextField
-                      value={exercise.name}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                    <TextField
-                      value={exercise.sets.length}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                    <TextField
-                      value={exercise.notes}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
-                    <TextField
-                      value={exercise.is_pr ? "Yes" : "No"}
-                      InputProps={{
-                        readOnly: true,
-                      }}
-                    />
+                    <Grid container spacing={4}>
+                      <Grid item lg={3}>
+                        <TextField
+                          className={styles.sets}
+                          value={exercise.name}
+                          InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                      </Grid>
+                      <Grid item lg={3}>
+                        <TextField
+                          className={styles.sets}
+                          value={exercise.sets.length}
+                          InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                      </Grid>
+                      <Grid item lg={3}>
+                        <TextField
+                          className={styles.sets}
+                          value={exercise.notes}
+                          InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                      </Grid>
+                      <Grid item lg={3}>
+                        <TextField
+                          className={styles.sets}
+                          value={exercise.is_pr ? "Yes" : "No"}
+                          InputProps={{
+                            readOnly: true,
+                          }}
+                        />
+                      </Grid>
+                    </Grid>
                   </>
                 );
               })}
           </Box>
           <Button
+            className={styles.saveButton}
             type="submit"
             fullWidth
             variant="contained"
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              mt: 3,
-              mb: 2,
-              padding: "1rem 1rem 1rem 1rem",
-              color: "#161616",
-              background:
-                "linear-gradient(90deg, #03dac5, #56ca82, #89b33e, #b59500, #da6b03)",
-            }}
           >
             Save
           </Button>
