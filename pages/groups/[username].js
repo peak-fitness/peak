@@ -2,7 +2,7 @@ import { useRouter } from "next/router";
 
 export default function Group() {
   const router = useRouter();
-  const { name } = router.query;
+  const { username } = router.query;
 
-  return <h1>Hello {name}</h1>;
+  return <h1>Hello {username}</h1>;
 }
