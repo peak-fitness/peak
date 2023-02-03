@@ -11,16 +11,71 @@ import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import CaloriesNav from "./caloriesNav";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import Button from "@mui/material/Button";
 
 export default function MealContainer() {
+  const supabase = useSupabaseClient();
+  const session = useSession();
+  const [saved, setSaved] = useState(false);
   const [value, setValue] = useState(0);
   const [totalCalories, setTotalCalories] = useState(0);
   const [totalProtein, setTotalProtein] = useState(0);
+  const [userId, setUserId] = useState(null);
+  const [mealId, setMealId] = useState(null);
+  const [currentDate, setCurrentDate] = useState(null);
   const [meals, setMeals] = useState({
     breakfast: [],
     lunch: [],
     dinner: [],
   });
+
+  useEffect(() => {
+    fetchCurrentUserId();
+    // fetchCurrentUserMeals();
+    calculateDate();
+  }, [totalCalories, totalProtein]);
+
+  const calculateDate = () => {
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, "0");
+    let mm = String(today.getMonth() + 1).padStart(2, "0");
+    let yyyy = today.getFullYear();
+    today = yyyy + "/" + mm + "/" + dd;
+    setCurrentDate(today);
+  };
+
+  const fetchCurrentUserId = async () => {
+    if (session) {
+      const { data, error } = await supabase
+        .from("user")
+        .select("id")
+        .eq("auth_id", session.user.id);
+      setUserId(data[0].id);
+    }
+  };
+
+  // const fetchCurrentUserMeals = async () => {
+  //   if (mealId) {
+  //     const { data, error } = await supabase
+  //       .from("user")
+  //       .select("meal")
+  //       .eq("user_id", userId)
+  //       .eq("date", currentDate);
+  //     setMeals(data[0].meal);
+  //   }
+  //   console.log(meals);
+  // };
+
+  const fetchMealId = async () => {
+    if (!mealId) {
+      const { data, error } = await supabase
+        .from("meals")
+        .select("id")
+        .eq("user_id", userId);
+      setMealId(data[0].id);
+    }
+  };
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
@@ -39,7 +94,32 @@ export default function MealContainer() {
     updateTotals(meal.calories, meal.protein);
   };
 
-  const removeMeal = (mealIndex, mealType) => {
+  const handleSave = async () => {
+    if (mealId) {
+      const { data, error } = await supabase
+        .from("meals")
+        .update({
+          meal: meals,
+        })
+        .eq("id", mealId);
+    } else {
+      const { data, error } = await supabase
+        .from("meals")
+        .insert({
+          user_id: userId,
+          date: currentDate,
+          meal: meals,
+        })
+        .select("*");
+    }
+    fetchMealId();
+    setSaved(true);
+    setTimeout(() => {
+      setSaved(false);
+    }, 2000);
+  };
+
+  const removeMeal = async (mealIndex, mealType) => {
     const removedMeal = meals[mealType][mealIndex];
     setMeals({
       ...meals,
@@ -85,7 +165,7 @@ export default function MealContainer() {
         <CaloriesBar calories={totalCalories} protein={totalProtein} />
         <div align="center" justifycontent="center">
           <Tabs
-            variant="fullWidth"
+            letiant="fullWidth"
             textColor="#03dac5"
             value={value}
             onChange={handleTabChange}
@@ -253,6 +333,20 @@ export default function MealContainer() {
               )}
             </div>
           )}
+          <Button
+            variant="contained"
+            sx={{
+              border: "solid 1px #03DAC5",
+              backgroundColor: "#242424",
+              borderRadius: "1rem",
+              width: "2rem",
+              padding: "0rem 2rem 0rem 2rem",
+            }}
+            onClick={handleSave}
+          >
+            SAVE
+          </Button>
+          {saved && <p>Save Success!</p>}
         </div>
       </div>
     </Container>

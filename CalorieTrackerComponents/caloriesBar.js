@@ -2,13 +2,27 @@ import React, { useState, useEffect } from "react";
 import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Container from "@mui/material/Container";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
-const CaloriesBar = ({ calories, protein }) => {
-  const [goalCalories] = useState(2000);
-
+const CaloriesBar = ({ calories, protein, data }) => {
+  const supabase = useSupabaseClient();
+  const session = useSession();
+  const [goalCalories, setGoalCalories] = useState(null);
   const caloriesLeft = goalCalories - calories;
 
-  useEffect(() => {}, [calories, protein]);
+  const fetchTargetCalories = async () => {
+    if (session) {
+      const { data, error } = await supabase
+        .from("user")
+        .select("target_calories")
+        .eq("auth_id", session.user.id);
+      setGoalCalories(data[0].target_calories);
+    }
+  };
+
+  useEffect(() => {
+    fetchTargetCalories();
+  }, [calories, protein]);
 
   return (
     <Container
@@ -58,6 +72,17 @@ const CaloriesBar = ({ calories, protein }) => {
       </div>
     </Container>
   );
+};
+
+export const getServerSideProps = async () => {
+  // const supabase = useSupabaseClient();
+  // const session = useSession();
+  const { data, error } = await supabase.from("user").select("target_calories");
+  console.log("ERROR", data);
+  // .eq("auth_id", session.user.id);
+  return {
+    props: { data },
+  };
 };
 
 export default CaloriesBar;
