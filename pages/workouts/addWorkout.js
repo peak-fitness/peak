@@ -7,6 +7,7 @@ import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import dayjs from 'dayjs';
 import styles from '@/styles/AddWorkout.module.css'
+import { useRouter } from "next/router";
 
 
 export default function AddWorkout (){
@@ -18,19 +19,20 @@ export default function AddWorkout (){
     const [id, setId] = useState(0);
     const session = useSession();
     const supabase = useSupabaseClient();
+    const router = useRouter();
 
     useEffect(()=>{
         convertDate();
         if (session) user();
     })
 
-    // need a reducer for each individual exercise? need to research more
+    // need TO FIGURE OUT DATE CONVERSION
 
     const [workout, updateWorkout] = useReducer(
         (prev, next) => {
           return { ...prev, ...next };
         },
-        { routine: "", exercises: [], date: "", notes: "", routine: "", duration: 0 }
+        { routine: "", exercises: [], date: "2023-02-08", notes: "", routine: "", duration: 0 }
     );
 
     // need to add muscle group 
@@ -103,33 +105,34 @@ export default function AddWorkout (){
             duration: workout.duration,
             date: workout.date,
             user_id: id
-        });
+        })
+        .select();
 
         if (workout.exercises.length){
             for (const exercise of workout.exercises){
-                await supabase.from('exercises')
-            .insert({
-                //workout_id: data.id or something
-                name: exercise.name,
-                notes: exercise.notes,
-                is_pr: exercise.is_pr
-            })
-            .select()
-            // nested set for loop? 
+                let response = await supabase.from('exercises')
+                .insert({
+                    workout_id: data[0].id,
+                    name: exercise.name,
+                    notes: exercise.notes,
+                    is_pr: exercise.is_pr
+                })
+                .select();
+
+                 if (exercise.sets.length){
+                    for (const set of exercise.sets) {
+                        let setResponse = await supabase.from('sets')
+                        .insert({
+                            exercises_id: response.data[0].id,
+                            reps: set.reps,
+                            weight: set.weight
+                        })
+                    }
+                 }
             }
         }
 
-        // if (workout.exercises.sets.length){
-        //     for (const set of workout.exercises.sets) {
-        //         await supabase.from('sets')
-        //         .insert({
-        //             //exercise_id:
-        //             reps: set.reps,
-        //             weight: set.weight
-        //         })
-        //     }
-        // }
-        // need to set workout, exercises, sets back to default? 
+        router.push('/workouts/myWorkouts');
     }
 
 
