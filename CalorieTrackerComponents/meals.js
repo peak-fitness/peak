@@ -11,16 +11,44 @@ import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import CaloriesNav from "./caloriesNav";
+import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
 export default function MealContainer() {
+  const supabase = useSupabaseClient();
+  const session = useSession();
   const [value, setValue] = useState(0);
   const [totalCalories, setTotalCalories] = useState(0);
   const [totalProtein, setTotalProtein] = useState(0);
+  const [userId, setUserId] = useState(null);
+  const [mealId, setMealId] = useState(null);
   const [meals, setMeals] = useState({
     breakfast: [],
     lunch: [],
     dinner: [],
   });
+
+  useEffect(() => {
+    fetchCurrentUserId();
+    fetchMealId();
+  }, [totalCalories, totalProtein, meals]);
+
+  const fetchCurrentUserId = async () => {
+    const { data, error } = await supabase
+      .from("user")
+      .select("id")
+      .eq("auth_id", session.user.id);
+    setUserId(data[0].id);
+    // console.log(data[0].id);
+  };
+
+  const fetchMealId = async () => {
+    const { data, error } = await supabase
+      .from("meals")
+      .select("id")
+      .eq("user_id", userId);
+    setMealId(data[0].id);
+    // console.log(data[0].id);
+  };
 
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
@@ -31,7 +59,14 @@ export default function MealContainer() {
     setTotalProtein(totalProtein + protein);
   };
 
-  const addMeal = (meal, mealType) => {
+  const addMeal = async (meal, mealType) => {
+    const { data, error } = await supabase
+      .from("meals")
+      .insert({
+        user_id: userId,
+        meal: meals,
+      })
+      .select("*");
     setMeals({
       ...meals,
       [mealType]: [...meals[mealType], meal],
@@ -39,7 +74,11 @@ export default function MealContainer() {
     updateTotals(meal.calories, meal.protein);
   };
 
-  const removeMeal = (mealIndex, mealType) => {
+  const removeMeal = async (mealIndex, mealType) => {
+    const { data, error } = await supabase
+      .from("meals")
+      .delete()
+      .eq("id", mealId);
     const removedMeal = meals[mealType][mealIndex];
     setMeals({
       ...meals,
