@@ -59,7 +59,7 @@ const Navbar = () => {
       setOpen(false);
     }
   }
-  console.log("HERE", router.pathname);
+
   return session ? (
     <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
       <Container maxWidth="xxl">
