@@ -1,4 +1,5 @@
 import { Block } from "@mui/icons-material";
+import styles from "@/styles/Navbar.module.css";
 import {
   AppBar,
   Box,
@@ -19,6 +20,23 @@ import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import { useState, useRef } from "react";
+import MenuIcon from "@material-ui/icons/Menu";
+import Menu from "@mui/material/Menu";
+import IconButton from "@mui/material/IconButton";
+import * as React from "react";
+import { createTheme } from "@material-ui/core/styles";
+import { styled, ThemeProvider } from "@mui/material/styles";
+
+const darkTheme = createTheme({
+  palette: {
+    type: "dark",
+  },
+  text: {
+    primary: "#ffffff",
+    secondary: "#aaa",
+  },
+  background: { default: "#161616" },
+});
 
 const Navbar = () => {
   const session = useSession();
@@ -58,231 +76,423 @@ const Navbar = () => {
     }
   }
 
+  const [anchorElNav, setAnchorElNav] = React.useState(null);
+
+  const handleOpenNavMenu = (event) => {
+    setAnchorElNav(event.currentTarget);
+  };
+
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
+  const [activeLink, setActiveLink] = useState("");
+  const handleLinkClick = (link) => {
+    setActiveLink(link);
+  };
+
   return session ? (
-    <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
-      <Container maxWidth="xxl">
-        {/* <img src="" width="200" /> */}
-        <Toolbar disableGutters>
-          <Typography
-            variant="h4"
-            noWrap
-            sx={{
-              display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
-            }}
-          >
-            <Link
+    <ThemeProvider theme={darkTheme}>
+      <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
+        <Container
+          maxWidth="xl"
+          sx={{
+            mt: 1,
+            mb: 1,
+          }}
+        >
+          <Toolbar disableGutters>
+            <Typography
+              variant="h4"
+              noWrap
+              component="a"
               href="/dashboard"
-              style={{
-                color: "#E8E8E8",
+              sx={{
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+
                 textDecoration: "none",
+              }}
+              style={{
+                color: activeLink === "/dashboard" ? "#03dac5" : "white",
+              }}
+              onClick={() => handleLinkClick("/dashboard")}
+            >
+              Peak
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                onClick={handleOpenNavMenu}
+                sx={{ color: "white" }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                <MenuItem href="/dashboard">DASHBOARD</MenuItem>
+                <MenuItem href="/workouts/myWorkouts">WORKOUTS</MenuItem>
+                <MenuItem href="/groups">GROUPS</MenuItem>
+                <MenuItem href="/calorie-tracker">CALORIE TRACKER</MenuItem>
+                <MenuItem href="/achievements">ACHIEVEMENTS</MenuItem>
+              </Menu>
+            </Box>
+
+            <Typography
+              href="/dashboard"
+              variant="h4"
+              noWrap
+              component="a"
+              sx={{
+                display: { xs: "flex", md: "none" },
+                flexGrow: 1,
                 fontWeight: 700,
                 letterSpacing: ".1rem",
-                margin: "15px",
+                color: "white",
+                textDecoration: "none",
               }}
             >
               Peak
-            </Link>
-          </Typography>
-          <Box
-            sx={{
-              flexGrow: 2,
-              display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
-            }}
-          >
-            <Link
-              href="/dashboard"
-              style={{
-                margin: "20px",
-                color: "#E8E8E8",
-                textDecoration: "none",
-              }}
+            </Typography>
+            <Box
+              sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, ml: 4 }}
+              justifyContent="flex-start"
             >
-              DASHBOARD
-            </Link>
-            <Link
-              href="/workouts/myWorkouts"
-              style={{
-                margin: "20px",
-                color: "#E8E8E8",
-                textDecoration: "none",
-              }}
+              <Link
+                href="/dashboard"
+                onClick={() => handleLinkClick("/dashboard")}
+                style={{
+                  textDecoration: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: "20px",
+                  color: activeLink === "/dashboard" ? "#03dac5" : "#E8E8E8",
+                }}
+                className={
+                  router.pathname === "/dashboard" ? styles.active : ""
+                }
+              >
+                DASHBOARD
+              </Link>
+              <Link
+                href="/workouts/myWorkouts"
+                style={{
+                  textDecoration: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: "20px",
+                  color:
+                    activeLink === "/workouts/myWorkouts"
+                      ? "#03dac5"
+                      : "#E8E8E8",
+                }}
+                onClick={() => handleLinkClick("/workouts/myWorkouts")}
+                className={
+                  router.pathname === "/workouts/myWorkouts"
+                    ? styles.active
+                    : ""
+                }
+              >
+                WORKOUTS
+              </Link>
+              <Link
+                href="/groups"
+                style={{
+                  textDecoration: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: "20px",
+                  color: activeLink === "/groups" ? "#03dac5" : "#E8E8E8",
+                }}
+                onClick={() => handleLinkClick("/groups")}
+                className={router.pathname === "/groups" ? styles.active : ""}
+              >
+                GROUPS
+              </Link>
+              <Link
+                href="/calorie-tracker"
+                style={{
+                  textDecoration: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: "20px",
+                  color:
+                    activeLink === "/calorie-tracker" ? "#03dac5" : "#E8E8E8",
+                }}
+                onClick={() => handleLinkClick("/calorie-tracker")}
+                className={
+                  router.pathname === "/calorie-tracker" ? styles.active : ""
+                }
+              >
+                CALORIE TRACKER
+              </Link>
+              <Link
+                href="/achievements"
+                style={{
+                  color: "#E8E8E8",
+                  textDecoration: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: "20px",
+                  color: activeLink === "/achievements" ? "#03dac5" : "#E8E8E8",
+                }}
+                onClick={() => handleLinkClick("/achievements")}
+                className={
+                  router.pathname === "/achievements" ? styles.active : ""
+                }
+              >
+                ACHIEVEMENTS
+              </Link>
+            </Box>
+            <Box
+              justifyContent="flex-end"
+              sx={{ display: { xs: "flex", md: "flex" } }}
             >
-              MY WORKOUTS
-            </Link>
-            <Link
-              href="/groups"
-              style={{
-                margin: "20px",
-                color: "#E8E8E8",
-                textDecoration: "none",
-              }}
-            >
-              MY GROUPS
-            </Link>
-            <Link
-              href="/calorie-tracker"
-              style={{
-                margin: "20px",
-                color: "#E8E8E8",
-                textDecoration: "none",
-              }}
-            >
-              CALORIE TRACKER
-            </Link>
-            <Link
-              href="/achievements"
-              style={{
-                margin: "20px",
-                color: "#E8E8E8",
-                textDecoration: "none",
-              }}
-            >
-              ACHIEVEMENTS
-            </Link>
-          </Box>
-          <Box
-            justifyContent="flex-end"
-            sx={{ display: { xs: "flex", md: "flex" } }}
-          >
-            <Button
-              ref={anchorRef}
-              id="composition-button"
-              aria-controls={open ? "composition-menu" : undefined}
-              aria-expanded={open ? "true" : undefined}
-              aria-haspopup="true"
-              onClick={handleToggle}
-            >
-              <Avatar src="/pfp.png" />
-            </Button>
-            <Popper
-              open={open}
-              anchorEl={anchorRef.current}
-              role={undefined}
-              placement="bottom-start"
-              transition
-              disablePortal
-            >
-              {({ TransitionProps, placement }) => (
-                <Grow
-                  {...TransitionProps}
-                  style={{
-                    transformOrigin:
-                      placement === "bottom-start" ? "left top" : "left bottom",
-                  }}
-                >
-                  <Paper>
-                    <ClickAwayListener onClickAway={handleClose}>
-                      <MenuList
-                        autoFocusItem={open}
-                        id="composition-menu"
-                        aria-labelledby="composition-button"
-                        onKeyDown={handleListKeyDown}
-                      >
-                        <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                        <MenuItem onClick={handleClose}>Settings</MenuItem>
-                        <MenuItem onClick={signout}>Logout</MenuItem>
-                      </MenuList>
-                    </ClickAwayListener>
-                  </Paper>
-                </Grow>
-              )}
-            </Popper>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+              <Button
+                ref={anchorRef}
+                id="composition-button"
+                aria-controls={open ? "composition-menu" : undefined}
+                aria-expanded={open ? "true" : undefined}
+                aria-haspopup="true"
+                onClick={handleToggle}
+              >
+                <Avatar src="/pfp.png" />
+              </Button>
+              <Popper
+                open={open}
+                anchorEl={anchorRef.current}
+                role={undefined}
+                placement="bottom-start"
+                transition
+                disablePortal
+              >
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    style={{
+                      transformOrigin:
+                        placement === "bottom-start"
+                          ? "left top"
+                          : "left bottom",
+                    }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={handleClose}>
+                        <MenuList
+                          autoFocusItem={open}
+                          id="composition-menu"
+                          aria-labelledby="composition-button"
+                          onKeyDown={handleListKeyDown}
+                        >
+                          <MenuItem onClick={handleProfile}>Profile</MenuItem>
+                          <MenuItem onClick={handleClose}>Settings</MenuItem>
+                          <MenuItem onClick={signout}>Logout</MenuItem>
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    </ThemeProvider>
   ) : (
     <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
-      <Container maxWidth="xxl">
-        {/* <img src="" width="200" /> */}
+      <Container
+        maxWidth="xl"
+        sx={{
+          mt: 1,
+          mb: 1,
+        }}
+      >
         <Toolbar disableGutters>
           <Typography
             variant="h4"
             noWrap
+            component="a"
+            href="/"
             sx={{
-              display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
+              mr: 2,
+              display: { xs: "none", md: "flex" },
+              fontWeight: 700,
+              letterSpacing: ".3rem",
+              textDecoration: "none",
             }}
+            style={{
+              color: activeLink === "/" ? "#03dac5" : "white",
+            }}
+            onClick={() => handleLinkClick("/")}
           >
-            <Link
-              href="/"
-              style={{
-                color: "#E8E8E8",
-                textDecoration: "none",
-                fontWeight: 700,
-                letterSpacing: ".1rem",
-                margin: "15px",
+            Peak
+          </Typography>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+            <IconButton
+              size="large"
+              onClick={handleOpenNavMenu}
+              sx={{ color: "white" }}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: "bottom",
+                horizontal: "left",
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: "top",
+                horizontal: "left",
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: "block", md: "none" },
               }}
             >
-              Peak
-            </Link>
+              <MenuItem href="/learn">LEARN MORE</MenuItem>
+              <MenuItem href="/about">ABOUT US</MenuItem>
+              <MenuItem href="/contact">CONTACT US</MenuItem>
+            </Menu>
+          </Box>
+
+          <Typography
+            href="/"
+            variant="h4"
+            noWrap
+            component="a"
+            sx={{
+              display: { xs: "flex", md: "none" },
+              flexGrow: 1,
+              fontWeight: 700,
+              letterSpacing: ".1rem",
+              textDecoration: "none",
+              marginLeft: "100px",
+            }}
+            style={{
+              color: activeLink === "/" ? "#03dac5" : "white",
+            }}
+            onClick={() => handleLinkClick("/")}
+            className={router.pathname === "/" ? styles.active : ""}
+          >
+            Peak
           </Typography>
           <Box
-            sx={{
-              flexGrow: 2,
-              display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
-            }}
+            sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, ml: 4 }}
+            justifyContent="flex-start"
           >
             <Link
               href="/learn"
               style={{
-                margin: "20px",
-                color: "#E8E8E8",
                 textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginRight: "20px",
+                color: activeLink === "/learn" ? "#03dac5" : "#E8E8E8",
               }}
+              onClick={() => handleLinkClick("/learn")}
+              className={router.pathname === "/learn" ? styles.active : ""}
             >
               LEARN MORE
             </Link>
             <Link
               href="/about"
               style={{
-                margin: "20px",
-                color: "#E8E8E8",
                 textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginRight: "20px",
+                color: activeLink === "/about" ? "#03dac5" : "#E8E8E8",
               }}
+              onClick={() => handleLinkClick("/about")}
+              className={router.pathname === "/about" ? styles.active : ""}
             >
-              ABOUT
+              ABOUT US
             </Link>
             <Link
               href="/contact"
               style={{
-                margin: "20px",
                 color: "#E8E8E8",
                 textDecoration: "none",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginRight: "20px",
+
+                color: activeLink === "/contact" ? "#03dac5" : "#E8E8E8",
               }}
+              onClick={() => handleLinkClick("/contact")}
+              className={router.pathname === "/contact" ? styles.active : ""}
             >
-              CONTACT
+              CONTACT US
             </Link>
           </Box>
-
           <Box
-            justifyContent="flex"
+            justifyContent="flex-end"
             sx={{ display: { xs: "flex", md: "flex" } }}
           >
-            {" "}
             <Link
               href="/auth/signup"
               style={{
-                margin: "20px",
-                padding: "10px",
-                color: "#E8E8E8",
                 textDecoration: "none",
+                fontWeight: 500,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginRight: "10px",
+                color: activeLink === "/auth/signup" ? "#03dac5" : "#E8E8E8",
               }}
+              onClick={() => handleLinkClick("/auth/signup")}
+              className={
+                router.pathname === "/auth/signup" ? styles.active : ""
+              }
             >
               SIGN UP
             </Link>
             <Link
               href="/auth/login"
               style={{
-                margin: "20px",
                 padding: "10px",
                 border: "solid",
                 borderRadius: "20px",
                 borderColor: "#03DAC5",
-                textAlign: "center",
-                display: "block",
-                color: "#E8E8E8",
                 textDecoration: "none",
+                fontWeight: 500,
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                marginRight: "10px",
+                color: activeLink === "/auth/login" ? "#03dac5" : "#E8E8E8",
               }}
+              onClick={() => handleLinkClick("/auth/login")}
+              className={router.pathname === "/auth/login" ? styles.active : ""}
             >
               SIGN IN
             </Link>

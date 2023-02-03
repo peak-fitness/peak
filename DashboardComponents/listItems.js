@@ -40,7 +40,9 @@ export const mainListItems = (
         <ListItemText primary="Dashboard" />
       </ListItemButton>
 
-      <ListItemButton onClick={() => (window.location.href = "/myWorkouts")}>
+      <ListItemButton
+        onClick={() => (window.location.href = "/workouts/myWorkouts")}
+      >
         <ListItemIcon>
           <FitnessCenterRoundedIcon />
         </ListItemIcon>

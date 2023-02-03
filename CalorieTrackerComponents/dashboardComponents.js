@@ -117,7 +117,7 @@ const DashboardComponents = () => {
               </ListItemButton>
 
               <ListItemButton
-                onClick={() => (window.location.href = "/myWorkouts")}
+                onClick={() => (window.location.href = "/workouts/myWorkouts")}
               >
                 <ListItemIcon>
                   <FitnessCenterRoundedIcon />
@@ -210,7 +210,7 @@ const DashboardComponents = () => {
               </ListItemButton>
 
               <ListItemButton
-                onClick={() => (window.location.href = "/myWorkouts")}
+                onClick={() => (window.location.href = "/workouts/myWorkouts")}
               >
                 <ListItemIcon>
                   <FitnessCenterRoundedIcon />
