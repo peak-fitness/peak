@@ -44,7 +44,7 @@ export default function AddWorkout() {
   const [id, setId] = useState(0);
   const session = useSession();
   const supabase = useSupabaseClient();
-  const router = useRouter();
+  //   const router = useRouter();
 
   useEffect(() => {
     if (session) getUser();
@@ -370,6 +370,22 @@ export default function AddWorkout() {
             </Grid>
           </Grid>
           <Box>
+            {workout.exercises.length >= 1 && (
+              <Grid container spacing={4}>
+                <Grid item lg={3}>
+                  <Typography className={styles.setsText}>Title</Typography>
+                </Grid>
+                <Grid item lg={3}>
+                  <Typography className={styles.setsText}>Sets</Typography>
+                </Grid>
+                <Grid item lg={3}>
+                  <Typography className={styles.setsText}>Notes</Typography>
+                </Grid>
+                <Grid item lg={3}>
+                  <Typography className={styles.setsText}>PR?</Typography>
+                </Grid>
+              </Grid>
+            )}
             {workout.exercises.length >= 1 &&
               workout.exercises.map((exercise) => {
                 return (
@@ -396,7 +412,7 @@ export default function AddWorkout() {
                       <Grid item lg={3}>
                         <TextField
                           className={styles.sets}
-                          value={exercise.notes}
+                          value={exercise.notes ? exercise.notes : "No notes"}
                           InputProps={{
                             readOnly: true,
                           }}
