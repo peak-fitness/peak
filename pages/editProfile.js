@@ -132,314 +132,334 @@ export default function Account() {
     }
   }
 
+  const responsiveContainer = {
+    flex: { xs: "100%", sm: "100%", md: "100%", lg: "100%" },
+    marginTop: "5vh",
+    backgroundColor: "#262626",
+    display: "flex",
+    flexDirection: { xs: "column", sm: "column", md: "row" },
+    gap: "2rem",
+    padding: { xs: ".2rem", sm: "1rem", md: "5rem" },
+    borderRadius: "8px",
+  };
+
+  const responsiveSidePanel = {
+    flex: { xs: "100%", sm: "100%", md: "100%", lg: "100%" },
+    maxWidth: { xs: "100%", sm: "100%", md: "20rem" },
+    backgroundColor: "#242424",
+    padding: { xs: ".3rem", sm: "1rem", md: "3rem" },
+    boxShadow: "0px 10px 10px rgba(0,0,0,0.2)",
+    borderRadius: "4px",
+  };
+
+  const responsiveSidePanelSocials = {
+    flex: { xs: "100%", sm: "100%", md: "100%", lg: "100%" },
+    display: "flex",
+    marginTop: "2rem",
+    flexDirection: { xs: "column", sm: "column", md: "column", lg: "column" },
+    gap: "1rem",
+    alignItems: "center",
+    marginBottom: "1rem",
+  };
+
+  const responsiveProfileInfoBox = {
+    flex: { xs: "100%", sm: "100%", md: "100%", lg: "100%" },
+    backgroundColor: "#242424",
+    padding: "1.5rem 3rem 3rem 3rem",
+    maxWidth: { xs: "100%", sm: "100%", md: "49rem" },
+    width: { md: "49rem" },
+    boxShadow: "0px 10px 10px rgba(0,0,0,0.2)",
+    borderRadius: "4px",
+  };
+
   return session ? (
     <>
       <Navbar />
       <Container
         maxWidth="lg"
         sx={{
-          marginTop: "5vh",
-          backgroundColor: "#262626",
-          display: "flex",
-          gap: "2rem",
-          padding: "5rem",
-          borderRadius: "8px",
+          // marginTop: "5vh",
+          // backgroundColor: "#262626",
+          // display: "flex",
+          // gap: "2rem",
+          // padding: "5rem",
+          // borderRadius: "8px",
           minHeight: "100vh",
         }}
       >
-        <Box
-          sx={{
-            backgroundColor: "#242424",
-            padding: "1.5rem 3rem 1.5rem 3rem",
-            marginLeft: "2rem",
-            boxShadow: "0px 10px 10px rgba(0,0,0,0.2)",
-            borderRadius: "4px",
-          }}
-        >
-          <Box sx={{ display: "flex", justifyContent: "center" }}>
-            <AccountCircle sx={{ width: "10rem", height: "10rem" }} />
-          </Box>
-          <Typography
-            variant="h5"
-            sx={{ color: "#E8E8E8", textAlign: "center" }}
-          >
-            {username}
-          </Typography>
-          <Box
-            sx={{
-              marginTop: "2rem",
-              display: "flex",
-              flexDirection: "column",
-              gap: "1rem",
-              alignItems: "center",
-            }}
-          >
-            <TextField
-              onChange={(event) => setInstagram(event.target.value)}
-              label="Instagram"
-              type="url"
-              variant="filled"
-              InputLabelProps={{
-                shrink: true,
-                sx: { color: "#E8E8E8" },
-              }}
-              name="instagram"
-              value={instagram}
-              sx={{
-                backgroundColor: "#242424",
-                input: { color: "#E8E8E8" },
-                label: { color: "#E8E8E8" },
-              }}
-            ></TextField>
+        <Box sx={responsiveContainer}>
+          <Box sx={responsiveSidePanel}>
+            <Box sx={{ display: "flex", justifyContent: "center" }}>
+              <AccountCircle sx={{ width: "10rem", height: "10rem" }} />
+            </Box>
+            <Typography
+              variant="h5"
+              sx={{ color: "#E8E8E8", textAlign: "center" }}
+            >
+              {username}
+            </Typography>
+            <Box sx={responsiveSidePanelSocials}>
+              <TextField
+                onChange={(event) => setInstagram(event.target.value)}
+                label="Instagram"
+                type="url"
+                variant="filled"
+                InputLabelProps={{
+                  shrink: true,
+                  sx: { color: "#E8E8E8" },
+                }}
+                name="instagram"
+                value={instagram}
+                sx={{
+                  backgroundColor: "#242424",
+                  input: { color: "#E8E8E8" },
+                  label: { color: "#E8E8E8" },
+                }}
+              ></TextField>
 
-            <TextField
-              onChange={(event) => setFacebook(event.target.value)}
-              label="Facebook"
-              variant="filled"
-              type="url"
-              InputLabelProps={{
-                shrink: true,
-                sx: { color: "#E8E8E8" },
-              }}
-              name="facebook"
-              value={facebook}
-              sx={{
-                backgroundColor: "#242424",
-                input: { color: "#E8E8E8" },
-                label: { color: "#E8E8E8" },
-              }}
-            ></TextField>
-            <TextField
-              onChange={(event) => setTwitter(event.target.value)}
-              label="Twitter"
-              variant="filled"
-              type="url"
-              InputLabelProps={{
-                shrink: true,
-                sx: { color: "#E8E8E8" },
-              }}
-              name="twitter"
-              value={twitter}
-              sx={{
-                backgroundColor: "#242424",
-                input: { color: "#E8E8E8" },
-                label: { color: "#E8E8E8" },
-              }}
-            ></TextField>
-            <TextField
-              onChange={(event) => setYoutube(event.target.value)}
-              label="Youtube"
-              variant="filled"
-              type="url"
-              InputLabelProps={{
-                shrink: true,
-                sx: { color: "#E8E8E8" },
-              }}
-              name="youtube"
-              value={youtube}
-              sx={{
-                backgroundColor: "#242424",
-                input: { color: "#E8E8E8" },
-                label: { color: "#E8E8E8" },
-              }}
-            ></TextField>
+              <TextField
+                onChange={(event) => setFacebook(event.target.value)}
+                label="Facebook"
+                variant="filled"
+                type="url"
+                InputLabelProps={{
+                  shrink: true,
+                  sx: { color: "#E8E8E8" },
+                }}
+                name="facebook"
+                value={facebook}
+                sx={{
+                  backgroundColor: "#242424",
+                  input: { color: "#E8E8E8" },
+                  label: { color: "#E8E8E8" },
+                }}
+              ></TextField>
+              <TextField
+                onChange={(event) => setTwitter(event.target.value)}
+                label="Twitter"
+                variant="filled"
+                type="url"
+                InputLabelProps={{
+                  shrink: true,
+                  sx: { color: "#E8E8E8" },
+                }}
+                name="twitter"
+                value={twitter}
+                sx={{
+                  backgroundColor: "#242424",
+                  input: { color: "#E8E8E8" },
+                  label: { color: "#E8E8E8" },
+                }}
+              ></TextField>
+              <TextField
+                onChange={(event) => setYoutube(event.target.value)}
+                label="Youtube"
+                variant="filled"
+                type="url"
+                InputLabelProps={{
+                  shrink: true,
+                  sx: { color: "#E8E8E8" },
+                }}
+                name="youtube"
+                value={youtube}
+                sx={{
+                  backgroundColor: "#242424",
+                  input: { color: "#E8E8E8" },
+                  label: { color: "#E8E8E8" },
+                }}
+              ></TextField>
+            </Box>
           </Box>
-        </Box>
-        <Box
-          sx={{
-            backgroundColor: "#242424",
-            padding: "3rem 6rem 6rem 6rem",
-            width: "49rem",
-            boxShadow: "0px 10px 10px rgba(0,0,0,0.2)",
-            borderRadius: "4px",
-          }}
-        >
-          <Box
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-              gap: "2rem",
-              marginBottom: "2rem",
-            }}
-          >
-            <Button
-              variant="contained"
+          <Box sx={responsiveProfileInfoBox}>
+            <Box
               sx={{
-                border: "solid 1px #03DAC5",
-                backgroundColor: "#242424",
-                borderRadius: "1rem",
-                width: "2rem",
-                padding: "0rem 2rem 0rem 2rem",
-              }}
-              onClick={() => {
-                updateProfile({
-                  first_name: firstName,
-                  last_name: lastName,
-                  height,
-                  current_weight: weight,
-                  age,
-                  location,
-                  bio,
-                  twitter,
-                  youtube,
-                  facebook,
-                  instagram,
-                });
+                display: "flex",
+                justifyContent: "flex-end",
+                gap: "2rem",
+                marginBottom: "2rem",
               }}
             >
-              SAVE
-            </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  border: "solid 1px #03DAC5",
+                  backgroundColor: "#242424",
+                  borderRadius: "1rem",
+                  width: "2rem",
+                  padding: "0rem 2rem 0rem 2rem",
+                }}
+                onClick={() => {
+                  updateProfile({
+                    first_name: firstName,
+                    last_name: lastName,
+                    height,
+                    current_weight: weight,
+                    age,
+                    location,
+                    bio,
+                    twitter,
+                    youtube,
+                    facebook,
+                    instagram,
+                  });
+                }}
+              >
+                SAVE
+              </Button>
 
-            <Button
-              variant="contained"
-              sx={{
-                border: "solid 1px #DA3633",
-                backgroundColor: "#242424",
-                borderRadius: "1rem",
-                width: "2rem",
-                padding: "0rem 2.5rem 0rem 2.5rem",
-              }}
-              onClick={() => router.push("/profile")}
-            >
-              CANCEL
-            </Button>
+              <Button
+                variant="contained"
+                sx={{
+                  border: "solid 1px #DA3633",
+                  backgroundColor: "#242424",
+                  borderRadius: "1rem",
+                  width: "2rem",
+                  padding: "0rem 2.5rem 0rem 2.5rem",
+                }}
+                onClick={() => router.push("/profile")}
+              >
+                CANCEL
+              </Button>
+            </Box>
+            <Grid container spacing={2} sx={{ marginBottom: "2rem" }}>
+              <Grid item xs={12} sm={12} md={12} lg={6}>
+                <TextField
+                  onChange={(event) => setFirstName(event.target.value)}
+                  label="First Name"
+                  variant="filled"
+                  InputLabelProps={{
+                    shrink: true,
+                    sx: { color: "#E8E8E8" },
+                  }}
+                  name="first_name"
+                  value={firstName}
+                  sx={{
+                    backgroundColor: "#242424",
+                    input: { color: "#E8E8E8" },
+                    label: { color: "#E8E8E8" },
+                  }}
+                ></TextField>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={6}>
+                <TextField
+                  onChange={(event) => setLastName(event.target.value)}
+                  label="Last Name"
+                  variant="filled"
+                  InputLabelProps={{
+                    shrink: true,
+                    sx: { color: "#E8E8E8" },
+                  }}
+                  name="last_name"
+                  value={lastName}
+                  sx={{
+                    backgroundColor: "#242424",
+                    input: { color: "#E8E8E8" },
+                    label: { color: "#E8E8E8" },
+                  }}
+                ></TextField>
+              </Grid>
+            </Grid>
+            <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
+              <Grid item xs={12} sm={12} md={12} lg={4}>
+                <TextField
+                  onChange={(event) => setHeight(event.target.value)}
+                  label="Height"
+                  variant="filled"
+                  InputLabelProps={{
+                    shrink: true,
+                    sx: { color: "#E8E8E8" },
+                  }}
+                  name="height"
+                  value={height}
+                  sx={{
+                    backgroundColor: "#242424",
+                    input: { color: "#E8E8E8" },
+                    label: { color: "#E8E8E8" },
+                    marginBottom: "2rem",
+                  }}
+                ></TextField>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={4}>
+                <TextField
+                  onChange={(event) => setWeight(event.target.value)}
+                  label="Weight"
+                  variant="filled"
+                  InputLabelProps={{
+                    shrink: true,
+                    sx: { color: "#E8E8E8" },
+                  }}
+                  name="weight"
+                  value={weight}
+                  sx={{
+                    backgroundColor: "#242424",
+                    input: { color: "#E8E8E8" },
+                    label: { color: "#E8E8E8" },
+                    marginBottom: "2rem",
+                  }}
+                ></TextField>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={4}>
+                <TextField
+                  onChange={(event) => setAge(event.target.value)}
+                  label="Age"
+                  variant="filled"
+                  InputLabelProps={{
+                    shrink: true,
+                    sx: { color: "#E8E8E8" },
+                  }}
+                  name="age"
+                  value={age}
+                  sx={{
+                    backgroundColor: "#242424",
+                    input: { color: "#E8E8E8" },
+                  }}
+                ></TextField>
+              </Grid>
+            </Grid>
+            <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
+              <Grid item xs={9}>
+                <TextField
+                  onChange={(event) => setLocation(event.target.value)}
+                  label="Location"
+                  variant="filled"
+                  InputLabelProps={{
+                    shrink: true,
+                    sx: { color: "#E8E8E8" },
+                  }}
+                  name="age"
+                  value={location}
+                  sx={{
+                    backgroundColor: "#242424",
+                    input: { color: "#E8E8E8" },
+                  }}
+                ></TextField>
+              </Grid>
+            </Grid>
+            <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
+              <Grid item xs={12}>
+                <TextField
+                  onChange={(event) => setBio(event.target.value)}
+                  label="Bio"
+                  multiline
+                  minRows={2}
+                  maxRows={4}
+                  variant="filled"
+                  InputLabelProps={{
+                    shrink: true,
+                    sx: { color: "#E8E8E8" },
+                  }}
+                  InputProps={{ style: { color: "#E8E8E8" } }}
+                  name="age"
+                  value={bio}
+                  sx={{
+                    backgroundColor: "#242424",
+                    input: { color: "#E8E8E8" },
+                    width: { md: "25rem", lg: "40rem" },
+                  }}
+                ></TextField>
+              </Grid>
+            </Grid>
           </Box>
-          <Grid container spacing={2} sx={{ marginBottom: "2rem" }}>
-            <Grid item xs={4}>
-              <TextField
-                onChange={(event) => setFirstName(event.target.value)}
-                label="First Name"
-                variant="filled"
-                InputLabelProps={{
-                  shrink: true,
-                  sx: { color: "#E8E8E8" },
-                }}
-                name="first_name"
-                value={firstName}
-                sx={{
-                  backgroundColor: "#242424",
-                  input: { color: "#E8E8E8" },
-                  label: { color: "#E8E8E8" },
-                }}
-              ></TextField>
-            </Grid>
-            <Grid item xs={6}>
-              <TextField
-                onChange={(event) => setLastName(event.target.value)}
-                label="Last Name"
-                variant="filled"
-                InputLabelProps={{
-                  shrink: true,
-                  sx: { color: "#E8E8E8" },
-                }}
-                name="last_name"
-                value={lastName}
-                sx={{
-                  backgroundColor: "#242424",
-                  input: { color: "#E8E8E8" },
-                  label: { color: "#E8E8E8" },
-                }}
-              ></TextField>
-            </Grid>
-          </Grid>
-          <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
-            <Grid item xs={3}>
-              <TextField
-                onChange={(event) => setHeight(event.target.value)}
-                label="Height"
-                variant="filled"
-                InputLabelProps={{
-                  shrink: true,
-                  sx: { color: "#E8E8E8" },
-                }}
-                name="height"
-                value={height}
-                sx={{
-                  backgroundColor: "#242424",
-                  input: { color: "#E8E8E8" },
-                  label: { color: "#E8E8E8" },
-                }}
-              ></TextField>
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                onChange={(event) => setWeight(event.target.value)}
-                label="Weight"
-                variant="filled"
-                InputLabelProps={{
-                  shrink: true,
-                  sx: { color: "#E8E8E8" },
-                }}
-                name="weight"
-                value={weight}
-                sx={{
-                  backgroundColor: "#242424",
-                  input: { color: "#E8E8E8" },
-                  label: { color: "#E8E8E8" },
-                }}
-              ></TextField>
-            </Grid>
-            <Grid item xs={3}>
-              <TextField
-                onChange={(event) => setAge(event.target.value)}
-                label="Age"
-                variant="filled"
-                InputLabelProps={{
-                  shrink: true,
-                  sx: { color: "#E8E8E8" },
-                }}
-                name="age"
-                value={age}
-                sx={{
-                  backgroundColor: "#242424",
-                  input: { color: "#E8E8E8" },
-                }}
-              ></TextField>
-            </Grid>
-          </Grid>
-          <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
-            <Grid item xs={9}>
-              <TextField
-                onChange={(event) => setLocation(event.target.value)}
-                label="Location"
-                variant="filled"
-                InputLabelProps={{
-                  shrink: true,
-                  sx: { color: "#E8E8E8" },
-                }}
-                name="age"
-                value={location}
-                sx={{
-                  backgroundColor: "#242424",
-                  input: { color: "#E8E8E8" },
-                }}
-              ></TextField>
-            </Grid>
-          </Grid>
-          <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
-            <Grid item xs={12}>
-              <TextField
-                onChange={(event) => setBio(event.target.value)}
-                label="Bio"
-                multiline
-                minRows={2}
-                maxRows={4}
-                variant="filled"
-                InputLabelProps={{
-                  shrink: true,
-                  sx: { color: "#E8E8E8" },
-                }}
-                InputProps={{ style: { color: "#E8E8E8" } }}
-                name="age"
-                value={bio}
-                sx={{
-                  backgroundColor: "#242424",
-                  input: { color: "#E8E8E8" },
-                  width: "40rem",
-                }}
-              ></TextField>
-            </Grid>
-          </Grid>
         </Box>
       </Container>
     </>

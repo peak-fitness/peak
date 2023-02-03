@@ -16,6 +16,25 @@ import { useSession } from "@supabase/auth-helpers-react";
 const Footer = () => {
   const session = useSession();
 
+  const responsive = {
+    flex: {
+      xs: "100%",
+      sm: "100%",
+      md: "80%",
+      lg: "100%",
+    },
+    display: "flex",
+
+    flexDirection: { xs: "column", sm: "column", md: "row", lg: "row" },
+    alignItems: "center",
+    justifyContent: "center",
+    boxSizing: "border-box",
+    padding: "0px 25px 0px",
+    letterSpacing: ".1rem",
+    fontFamily: "Montserrat",
+    fontSize: { xs: "12px", sm: "16px" },
+  };
+
   return (
     <Box
       style={{
@@ -33,6 +52,7 @@ const Footer = () => {
       }}
     >
       <CssBaseline />
+
       <Container display="flex" align="center" maxWidth={false}>
         <Toolbar
           disableGutters
@@ -41,26 +61,11 @@ const Footer = () => {
             justifyContent: "space-between",
             width: "80%",
           }}
+          sx={responsive}
         >
           <Box>
             {session ? (
-              <Typography
-                variant="h4"
-                noWrap
-                sx={{
-                  display: {
-                    xs: "flex",
-                    sm: "flex",
-                    md: "flex",
-                    lg: "flex",
-                  },
-                  boxSizing: "border-box",
-                  padding: "0px 25px 0px",
-                  letterSpacing: ".1rem",
-                  margin: "0 15px 0 0",
-                  fontFamily: "Montserrat",
-                }}
-              >
+              <Typography variant="h4" noWrap>
                 <Link
                   href="/dashboard"
                   style={{
@@ -86,7 +91,6 @@ const Footer = () => {
                   boxSizing: "border-box",
                   padding: "0px 25px 0px",
                   letterSpacing: ".1rem",
-                  margin: "0 15px 0 0",
                   fontFamily: "Montserrat",
                 }}
               >
@@ -103,13 +107,7 @@ const Footer = () => {
               </Typography>
             )}
           </Box>
-          <Box
-            sx={{
-              justifyContent: "center",
-              display: "flex",
-              margin: "0 0 0 4rem",
-            }}
-          >
+          <Box sx={responsive}>
             <Link
               href="/learn"
               style={{
@@ -144,7 +142,6 @@ const Footer = () => {
           <Box
             sx={{
               display: "flex",
-              margin: "0 30px 0 15px",
               justifyContent: "center",
             }}
           >

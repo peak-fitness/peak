@@ -1,4 +1,5 @@
 import { Block } from "@mui/icons-material";
+import styles from "@/styles/Navbar.module.css";
 import {
   AppBar,
   Box,
@@ -24,6 +25,7 @@ const Navbar = () => {
   const session = useSession();
   const supabase = useSupabaseClient();
   const router = useRouter();
+  const currentRoute = router.pathname;
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
 
@@ -57,7 +59,7 @@ const Navbar = () => {
       setOpen(false);
     }
   }
-
+  console.log("HERE", router.pathname);
   return session ? (
     <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
       <Container maxWidth="xxl">
@@ -91,50 +93,66 @@ const Navbar = () => {
           >
             <Link
               href="/dashboard"
+              className={router.pathname === "/dashboard" ? styles.active : ""}
               style={{
                 margin: "20px",
                 color: "#E8E8E8",
                 textDecoration: "none",
+                fontWeight: 500,
               }}
             >
               DASHBOARD
             </Link>
             <Link
               href="/workouts/myWorkouts"
+              className={
+                router.pathname === "/workouts/myWorkouts" ? styles.active : ""
+              }
               style={{
                 margin: "20px",
                 color: "#E8E8E8",
                 textDecoration: "none",
+                fontWeight: 500,
               }}
             >
               MY WORKOUTS
             </Link>
             <Link
               href="/groups"
+              className={router.pathname === "/groups" ? styles.active : ""}
               style={{
                 margin: "20px",
                 color: "#E8E8E8",
                 textDecoration: "none",
+                fontWeight: 500,
               }}
             >
               MY GROUPS
             </Link>
             <Link
               href="/calorie-tracker"
+              className={
+                router.pathname === "/calorie-tracker" ? styles.active : ""
+              }
               style={{
                 margin: "20px",
                 color: "#E8E8E8",
                 textDecoration: "none",
+                fontWeight: 500,
               }}
             >
               CALORIE TRACKER
             </Link>
             <Link
               href="/achievements"
+              className={
+                router.pathname === "/achievements" ? styles.active : ""
+              }
               style={{
                 margin: "20px",
                 color: "#E8E8E8",
                 textDecoration: "none",
+                fontWeight: 500,
               }}
             >
               ACHIEVEMENTS
@@ -151,6 +169,9 @@ const Navbar = () => {
               aria-expanded={open ? "true" : undefined}
               aria-haspopup="true"
               onClick={handleToggle}
+              style={{
+                margin: "20px",
+              }}
             >
               <Avatar src="/pfp.png" />
             </Button>
@@ -224,30 +245,37 @@ const Navbar = () => {
           >
             <Link
               href="/learn"
+              className={router.pathname === "/learn" ? styles.active : ""}
               style={{
                 margin: "20px",
                 color: "#E8E8E8",
+                backgroundColor: "transparent",
                 textDecoration: "none",
+                fontWeight: 500,
               }}
             >
               LEARN MORE
             </Link>
             <Link
               href="/about"
+              className={router.pathname === "/about" ? styles.active : ""}
               style={{
                 margin: "20px",
                 color: "#E8E8E8",
                 textDecoration: "none",
+                fontWeight: 500,
               }}
             >
               ABOUT
             </Link>
             <Link
               href="/contact"
+              className={router.pathname === "/contact" ? styles.active : ""}
               style={{
                 margin: "20px",
                 color: "#E8E8E8",
                 textDecoration: "none",
+                fontWeight: 500,
               }}
             >
               CONTACT
@@ -266,6 +294,7 @@ const Navbar = () => {
                 padding: "10px",
                 color: "#E8E8E8",
                 textDecoration: "none",
+                fontWeight: 500,
               }}
             >
               SIGN UP
@@ -282,6 +311,7 @@ const Navbar = () => {
                 display: "block",
                 color: "#E8E8E8",
                 textDecoration: "none",
+                fontWeight: 500,
               }}
             >
               SIGN IN
