@@ -42,6 +42,7 @@ const Navbar = () => {
   const session = useSession();
   const supabase = useSupabaseClient();
   const router = useRouter();
+  const currentRoute = router.pathname;
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
 
@@ -113,6 +114,7 @@ const Navbar = () => {
                 letterSpacing: ".3rem",
 
                 textDecoration: "none",
+                fontWeight: 500,
               }}
               style={{
                 color: activeLink === "/dashboard" ? "#03dac5" : "white",
@@ -167,6 +169,7 @@ const Navbar = () => {
                 letterSpacing: ".1rem",
                 color: "white",
                 textDecoration: "none",
+                fontWeight: 500,
               }}
             >
               Peak

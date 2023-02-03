@@ -150,22 +150,31 @@ export default function Login() {
             <Typography
               variant="h4"
               noWrap
-              component="a"
-              href="/"
               sx={{
-                mr: 1,
-                display: { xs: "flex", md: "flex" },
-                fontWeight: 700,
-                letterSpacing: ".1rem",
-                color: "#E8E8E8",
-                textDecoration: "none",
-                margin: "15px",
-                fontFamily: "Montserrat",
+                display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
               }}
             >
-              {"Peak"}
+              <Link
+                href="/"
+                style={{
+                  color: "#E8E8E8",
+                  textDecoration: "none",
+                  fontWeight: 700,
+                  letterSpacing: ".1rem",
+                  margin: "15px",
+                }}
+              >
+                Peak
+              </Link>
             </Typography>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                margin: "20px 0 20px 20px",
+                padding: "10px 0 10px 10px",
+              }}
+            >
               <Typography
                 component="p"
                 variant="p"
