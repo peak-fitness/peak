@@ -7,6 +7,7 @@ import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import CircleIcon from "@mui/icons-material/Circle";
 import Navbar from "@/comps/Navbar";
 import { supabase } from "@/lib/supabaseClient";
+import Link from "next/link";
 
 export default function Groups({ data }) {
   const session = useSession();
@@ -32,7 +33,7 @@ export default function Groups({ data }) {
             <div className={styles.groupsContainer}>
               <div className={styles.groups}>
                 {/* CREATE GROUP */}
-                <a href="/groups/:id" className={styles.group}>
+                <Link href="/groups/:id" className={styles.group}>
                   <IconButton aria-label="group-icon">
                     <AddCircleOutlinedIcon
                       sx={{ color: "#262626", height: "80px", width: "80px" }}
@@ -40,9 +41,9 @@ export default function Groups({ data }) {
                   </IconButton>
                   <p className={styles.groupName}>Create Group</p>
                   <p className={styles.members}></p>
-                </a>
+                </Link>
                 {/* GROUP 1 */}
-                <a href="/groups/:id" className={styles.group}>
+                <Link href="/groups/:id" className={styles.group}>
                   <IconButton aria-label="group-icon">
                     <AccountCircleIcon
                       sx={{ color: "#843732", height: "80px", width: "80px" }}
@@ -50,10 +51,10 @@ export default function Groups({ data }) {
                   </IconButton>
                   <p className={styles.groupName}>The Boys</p>
                   <p className={styles.members}>8 members</p>
-                </a>
+                </Link>
                 {data &&
                   data.map((group) => (
-                    <a
+                    <Link
                       key={group.id}
                       href="/groups/:id"
                       className={styles.group}
@@ -71,7 +72,7 @@ export default function Groups({ data }) {
                       <p className={styles.members}>
                         {group.members.length} members
                       </p>
-                    </a>
+                    </Link>
                   ))}
               </div>
             </div>
@@ -96,6 +97,16 @@ export async function getServerSideProps() {
   //   --include statement--
   //   members: [{}, {}]
   // }
+
+  // search functionality
+  // create group button functionality
+  // single group view page
+  // content??
+  // admins
+  // edit settings (name, description)
+  // edit users
+  // add other admins?
+  // creator???
 
   // const {data, error} = await supabase.from("group members").
   return { props: { data } };
