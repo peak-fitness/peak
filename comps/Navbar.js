@@ -118,8 +118,8 @@ const Navbar = () => {
               MY WORKOUTS
             </Link>
             <Link
-              href="/groups"
-              className={router.pathname === "/groups" ? styles.active : ""}
+              href="/social"
+              className={router.pathname === "/social" ? styles.active : ""}
               style={{
                 margin: "20px",
                 color: "#E8E8E8",
@@ -127,7 +127,7 @@ const Navbar = () => {
                 fontWeight: 500,
               }}
             >
-              MY GROUPS
+              SOCIAL
             </Link>
             <Link
               href="/calorie-tracker"
