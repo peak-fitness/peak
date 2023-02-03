@@ -5,6 +5,7 @@ import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import IconButton from "@mui/material/IconButton";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 const MealForm = ({ addMeal }) => {
   const [meal, setMeal] = useState({
@@ -84,7 +85,11 @@ const MealForm = ({ addMeal }) => {
             />
           </FormControl>
 
-          <IconButton onClick={handleSubmit} style={{ marginLeft: "10px" }}>
+          <IconButton
+            type="submit"
+            onSubmit={handleSubmit}
+            style={{ marginLeft: "10px" }}
+          >
             <AddCircleIcon style={{ fontSize: "30px", color: "green" }} />
           </IconButton>
         </form>
