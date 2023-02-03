@@ -13,7 +13,7 @@
   display: flex;
   flex-flow: column;
   width: 95%;
-  height: 80%;
+  min-height: 85%;
   margin: 2rem;
   padding: 2rem;
   background-color: #262626;
@@ -47,15 +47,12 @@
 .groupsContainer {
   position: relative;
   display: flex;
-  justify-content: center;
+  /* justify-content: center; */
+  width: 80%;
   align-items: center;
   background-color: #242424;
   padding: 1rem;
   border-radius: 10px;
-  /* width: 1100px;
-  height: 600px; */
-  /* width: 100%;
-  height: 100%; */
   overflow-x: hidden;
   overflow-y: auto;
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px;
@@ -70,12 +67,12 @@
 }
 
 .group {
-  /* flex: 0 0 22%; */
+  flex: 0 0 22%;
   display: flex;
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  width: 22%;
+  width: 500px;
   height: 55%;
   background-color: #202020;
   color: #a7a7a7;
