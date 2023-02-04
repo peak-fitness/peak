@@ -1,4 +1,4 @@
-import supabase from "../../lib/supabaseClient.js";
+import { supabase } from "../../lib/supabaseClient.js";
 import Navbar from "../../comps/Navbar";
 import { useRouter } from "next/router";
 
