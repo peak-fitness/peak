@@ -35,5 +35,8 @@
     "react-toastify": "^9.1.1",
     "recharts": "^2.3.2",
     "styled-components": "^5.3.6"
+  },
+  "devDependencies": {
+    "@netlify/plugin-nextjs": "^4.30.3"
   }
 }
