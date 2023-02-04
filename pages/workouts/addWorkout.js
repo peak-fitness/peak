@@ -44,7 +44,7 @@ export default function AddWorkout() {
   const [id, setId] = useState(0);
   const session = useSession();
   const supabase = useSupabaseClient();
-  //   const router = useRouter();
+  const router = useRouter();
 
   useEffect(() => {
     if (session) getUser();
@@ -153,7 +153,7 @@ export default function AddWorkout() {
         }
       }
     }
-    // router.push("/workouts/myWorkouts"); <-- this does not get read
+    router.push("/workouts/myWorkouts");
   };
 
   return (
@@ -178,8 +178,7 @@ export default function AddWorkout() {
           </Typography>
         </Box>
         <Box
-          component="form"
-          onSubmit={handleSubmit}
+          //   onSubmit={handleSubmit}
           sx={{
             mt: 3,
           }}
@@ -435,6 +434,7 @@ export default function AddWorkout() {
           <Button
             className={styles.saveButton}
             type="submit"
+            onClick={handleSubmit}
             fullWidth
             variant="contained"
           >
