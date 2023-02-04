@@ -40,17 +40,20 @@ export default function MealContainer() {
   useEffect(() => {
     fetchCurrentUserId();
     fetchUserMeals();
-    // calculateTodaysDate();
   }, [totalCalories, totalProtein, date]);
 
-  // const calculateTodaysDate = () => {
-  //   let today = new Date();
-  //   let dd = String(today.getDate()).padStart(2, "0");
-  //   let mm = String(today.getMonth() + 1).padStart(2, "0");
-  //   let yyyy = today.getFullYear();
-  //   today = yyyy + "/" + mm + "/" + dd;
-  //   setTodaysDate(today);
-  // };
+  useEffect(() => {
+    calculateTodaysDate();
+  }, []);
+
+  const calculateTodaysDate = () => {
+    let today = new Date();
+    let dd = String(today.getDate()).padStart(2, "0");
+    let mm = String(today.getMonth() + 1).padStart(2, "0");
+    let yyyy = today.getFullYear();
+    today = yyyy + "/" + mm + "/" + dd;
+    setDate(today);
+  };
 
   const fetchCurrentUserId = async () => {
     if (session) {
@@ -76,17 +79,6 @@ export default function MealContainer() {
     }
   };
 
-  const fetchMealId = async () => {
-    if (!mealId) {
-      const { data, error } = await supabase
-        .from("meals")
-        .select("id")
-        .eq("user_id", userId)
-        .eq("date", date);
-      setMealId(data[0].id);
-    }
-  };
-
   const handleTabChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -105,13 +97,18 @@ export default function MealContainer() {
   };
 
   const handleSave = async () => {
-    if (mealId) {
+    const { data, error } = await supabase
+      .from("meals")
+      .select("meal")
+      .eq("user_id", userId)
+      .eq("date", date);
+    if (data[0]) {
       const { data, error } = await supabase
         .from("meals")
         .update({
           meal: meals,
         })
-        .eq("id", mealId);
+        .eq("date", date);
     } else {
       const { data, error } = await supabase
         .from("meals")
@@ -122,7 +119,6 @@ export default function MealContainer() {
         })
         .select("*");
     }
-    fetchMealId();
     setSaved(true);
     setTimeout(() => {
       setSaved(false);
