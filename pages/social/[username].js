@@ -3,15 +3,18 @@ import Navbar from "../../comps/Navbar";
 import { useRouter } from "next/router";
 
 // import { Container, Box, Button } from "@mui/material";
-import Container from "@mui/material/Container";
-import Box from "@mui/material/Container";
-import Button from "@mui/material/Container";
+// import Container from "@mui/material/Container";
+// import Box from "@mui/material/Container";
+// import Button from "@mui/material/Container";
 
 export default function Public_Profile(props) {
   const { profile } = props;
   return (
     <>
-      <Navbar />
+      <div>
+        <h1>{profile}</h1>
+      </div>
+      {/* <Navbar />
       <Container
         maxWidth="lg"
         sx={{
@@ -44,8 +47,8 @@ export default function Public_Profile(props) {
             <h4>Age: {profile.age}</h4>
             <h4>Bio: {profile.bio}</h4>
           </Box> */}
-        </Container>
-      </Container>
+      {/* </Container> */}
+      {/* </Container> } */}
     </>
   );
 }
