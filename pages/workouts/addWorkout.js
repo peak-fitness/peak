@@ -29,6 +29,7 @@ import {
 } from "@material-ui/core";
 import React, { useEffect, useReducer, useState } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
+import EditIcon from "@mui/icons-material/Edit";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -40,8 +41,10 @@ export default function AddWorkout() {
   const [open, setOpen] = useState(false);
   const [setsInfo, setSetsInfo] = useState([]);
   const [invalidExercise, setInvalidExercise] = useState(false);
+  const [invalidName, setInvalidName] = useState(false);
   const [date, setDate] = useState(dayjs());
   const [id, setId] = useState(0);
+  const [edit, setEdit] = useState(false);
   const session = useSession();
   const supabase = useSupabaseClient();
   const router = useRouter();
@@ -74,6 +77,8 @@ export default function AddWorkout() {
   );
 
   const handleExerciseSubmit = async () => {
+    if (!exercise.name) return setInvalidName(true);
+    else setInvalidName(false);
     if (!exercise.sets.length) return setInvalidExercise(true);
     workout.exercises.push(exercise);
     handleClose();
@@ -89,7 +94,9 @@ export default function AddWorkout() {
 
   const handleClose = () => {
     setOpen(false);
+    setEdit(false);
     setInvalidExercise(false);
+    setInvalidName(false);
     updateSet({ id: 1, reps: 1, weight: 0 });
     updateExercise({ name: "", notes: "", is_pr: false, sets: [] });
     setSetsInfo([]);
@@ -260,6 +267,11 @@ export default function AddWorkout() {
                   <DialogContentText>
                     Please enter information about your exercise below
                   </DialogContentText>
+                  {invalidName && (
+                    <p className="invalid-exercise">
+                      Please enter a name for your exercise
+                    </p>
+                  )}
                   <TextField
                     autoFocus
                     margin="dense"
@@ -267,6 +279,7 @@ export default function AddWorkout() {
                     label="Exercise Name"
                     fullWidth
                     variant="standard"
+                    value={edit ? workout.exercises[0].name : null}
                     onChange={(e) => updateExercise({ name: e.target.value })}
                   />
                   <TextField
@@ -295,41 +308,45 @@ export default function AddWorkout() {
                       Please enter set information
                     </p>
                   )}
-                  <FormControl>
-                    <InputLabel htmlFor="set-number">Set #</InputLabel>
-                    <Input
-                      id="set-number"
-                      type="number"
-                      name="set"
-                      value={set.id}
-                      disabled={true}
-                    />
-                  </FormControl>
-                  <FormControl>
-                    <InputLabel htmlFor="rep-count"># of Reps</InputLabel>
-                    <Input
-                      id="rep-count"
-                      type="number"
-                      name="reps"
-                      value={set.reps}
-                      onChange={handleChange}
-                    />
-                  </FormControl>
-                  <FormControl>
-                    <InputLabel htmlFor="weight">Weight (lbs)</InputLabel>
-                    <Input
-                      id="weight"
-                      type="number"
-                      name="weight"
-                      value={set.weight}
-                      onChange={handleChange}
-                    />
-                  </FormControl>
-                  <IconButton onClick={addSet} style={{ marginLeft: "10px" }}>
-                    <AddCircleIcon
-                      style={{ fontSize: "30px", color: "green" }}
-                    />
-                  </IconButton>
+                  <Container className={styles.setsContainer}>
+                    <FormControl>
+                      <InputLabel htmlFor="set-number">Set #</InputLabel>
+                      <Input
+                        id="set-number"
+                        type="number"
+                        name="set"
+                        value={set.id}
+                        disabled={true}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <InputLabel htmlFor="rep-count"># of Reps</InputLabel>
+                      <Input
+                        id="rep-count"
+                        type="number"
+                        name="reps"
+                        value={set.reps}
+                        onChange={handleChange}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <InputLabel htmlFor="weight">Weight (lbs)</InputLabel>
+                      <Input
+                        id="weight"
+                        type="number"
+                        name="weight"
+                        value={set.weight}
+                        onChange={handleChange}
+                      />
+                    </FormControl>
+                    <FormControl>
+                      <IconButton onClick={addSet} className={styles.setsItems}>
+                        <AddCircleIcon
+                          style={{ fontSize: "30px", color: "green" }}
+                        />
+                      </IconButton>
+                    </FormControl>
+                  </Container>
                   {setsInfo.length >= 1 && (
                     <TableContainer component={Paper}>
                       <Table aria-label="simple table">
@@ -398,6 +415,17 @@ export default function AddWorkout() {
                             readOnly: true,
                           }}
                         />
+                        <IconButton
+                          onClick={() => {
+                            setEdit(true);
+                            setOpen(true);
+                          }}
+                          className={styles.setsItems}
+                        >
+                          <EditIcon
+                            style={{ fontSize: "30px", color: "#03dac5" }}
+                          />
+                        </IconButton>
                       </Grid>
                       <Grid item lg={3}>
                         <TextField

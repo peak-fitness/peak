@@ -143,6 +143,9 @@
   padding: 5px;
 }
 
+.setsContainer {
+  white-space: nowrap;
+}
 /* sx={
   {
     // "&.MuiButton-text": { color: "#808080" },
