@@ -5,7 +5,6 @@ import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import IconButton from "@mui/material/IconButton";
-import { ConstructionOutlined } from "@mui/icons-material";
 
 const MealForm = ({ addMeal }) => {
   const [meal, setMeal] = useState({
