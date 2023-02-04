@@ -20,7 +20,10 @@ export default function Public_Profile(props) {
         }}
       >
         <Container sx={{ backgroundColor: "#262626", marginTop: "3rem" }}>
-          <Box
+          <Box>
+            <h1>{profile}</h1>
+          </Box>
+          {/* <Box
             sx={{
               backgroundColor: "#202020",
               padding: "1rem",
@@ -40,7 +43,7 @@ export default function Public_Profile(props) {
             <h4>Height: {profile.height}</h4>
             <h4>Age: {profile.age}</h4>
             <h4>Bio: {profile.bio}</h4>
-          </Box>
+          </Box> */}
         </Container>
       </Container>
     </>
@@ -49,12 +52,13 @@ export default function Public_Profile(props) {
 
 export async function getServerSideProps(context) {
   const { username } = context.query;
-  const { data } = await supabase
-    .from("user")
-    .select(
-      "username, first_name, last_name, height, current_weight, age, gender, location, bio, social_medias"
-    )
-    .eq("username", username)
-    .single();
-  return { props: { profile: data } };
+  console.log(username);
+  // const { data } = await supabase
+  //   .from("user")
+  //   .select(
+  //     "username, first_name, last_name, height, current_weight, age, gender, location, bio, social_medias"
+  //   )
+  //   .eq("username", username)
+  //   .single();
+  return { props: { profile: username } };
 }
