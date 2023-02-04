@@ -1,9 +1,7 @@
 import * as React from "react";
 import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import Container from "@mui/material/Container";
-import Tab from "@mui/material/Tab";
-import Tabs from "@mui/material/Tabs";
+import { Container, Tab, Tabs, Button } from "@mui/material";
 import MealForm from "./MealForm";
 import EditMealForm from "./EditMealForm";
 import CaloriesBar from "./caloriesBar";
@@ -12,7 +10,13 @@ import IconButton from "@mui/material/IconButton";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import CaloriesNav from "./caloriesNav";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import Button from "@mui/material/Button";
+import { Badge, TextField } from "@material-ui/core";
+import {
+  LocalizationProvider,
+  PickersDay,
+  StaticDatePicker,
+} from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 export default function MealContainer() {
   const supabase = useSupabaseClient();
@@ -23,7 +27,10 @@ export default function MealContainer() {
   const [totalProtein, setTotalProtein] = useState(0);
   const [userId, setUserId] = useState(null);
   const [mealId, setMealId] = useState(null);
-  const [currentDate, setCurrentDate] = useState(null);
+  const [todaysDate, setTodaysDate] = useState(null);
+  const [date, setDate] = useState(null);
+  const [highlightedDays, setHighlightedDays] = useState([]);
+  const [fetchMeals, setFetchMeals] = useState(null);
   const [meals, setMeals] = useState({
     breakfast: [],
     lunch: [],
@@ -32,18 +39,18 @@ export default function MealContainer() {
 
   useEffect(() => {
     fetchCurrentUserId();
-    // fetchCurrentUserMeals();
-    calculateDate();
-  }, [totalCalories, totalProtein]);
+    fetchUserMeals();
+    // calculateTodaysDate();
+  }, [totalCalories, totalProtein, date]);
 
-  const calculateDate = () => {
-    let today = new Date();
-    let dd = String(today.getDate()).padStart(2, "0");
-    let mm = String(today.getMonth() + 1).padStart(2, "0");
-    let yyyy = today.getFullYear();
-    today = yyyy + "/" + mm + "/" + dd;
-    setCurrentDate(today);
-  };
+  // const calculateTodaysDate = () => {
+  //   let today = new Date();
+  //   let dd = String(today.getDate()).padStart(2, "0");
+  //   let mm = String(today.getMonth() + 1).padStart(2, "0");
+  //   let yyyy = today.getFullYear();
+  //   today = yyyy + "/" + mm + "/" + dd;
+  //   setTodaysDate(today);
+  // };
 
   const fetchCurrentUserId = async () => {
     if (session) {
@@ -55,24 +62,27 @@ export default function MealContainer() {
     }
   };
 
-  // const fetchCurrentUserMeals = async () => {
-  //   if (mealId) {
-  //     const { data, error } = await supabase
-  //       .from("user")
-  //       .select("meal")
-  //       .eq("user_id", userId)
-  //       .eq("date", currentDate);
-  //     setMeals(data[0].meal);
-  //   }
-  //   console.log(meals);
-  // };
+  const fetchUserMeals = async () => {
+    if (date) {
+      const dateString = `${date.$y}-0${date.$M + 1}-${
+        date.$D >= 10 ? "" : "0"
+      }${date.$D}`;
+      const { data, error } = await supabase
+        .from("meals")
+        .select("meal")
+        .eq("user_id", userId)
+        .eq("date", dateString);
+      setFetchMeals(data[0].meal);
+    }
+  };
 
   const fetchMealId = async () => {
     if (!mealId) {
       const { data, error } = await supabase
         .from("meals")
         .select("id")
-        .eq("user_id", userId);
+        .eq("user_id", userId)
+        .eq("date", date);
       setMealId(data[0].id);
     }
   };
@@ -107,7 +117,7 @@ export default function MealContainer() {
         .from("meals")
         .insert({
           user_id: userId,
-          date: currentDate,
+          date: date,
           meal: meals,
         })
         .select("*");
@@ -157,198 +167,233 @@ export default function MealContainer() {
     setEditMealType("");
   };
 
+  // console.log("FETCH", fetchMeals);
+  // console.log("MEALS", meals);
   return (
-    <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
-      <div>
-        {/* date bar & total calories bar  */}
-        <CaloriesNav />
-        <CaloriesBar calories={totalCalories} protein={totalProtein} />
-        <div align="center" justifycontent="center">
-          <Tabs
-            letiant="fullWidth"
-            textColor="#03dac5"
-            value={value}
-            onChange={handleTabChange}
-            centered
-            TabIndicatorProps={{
-              style: {
-                backgroundColor: "green",
-              },
-            }}
-          >
-            <Tab label="Breakfast" />
-            <Tab label="Lunch" />
-            <Tab label="Dinner" />
-          </Tabs>
-          <br />
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
+        <div>
+          {/* date bar & total calories bar  */}
+          {/* <CaloriesNav date={date} /> */}
 
-          {/* Breakfast */}
-          {value === 0 && (
-            <div>
-              <MealForm addMeal={(meal) => addMeal(meal, "breakfast")} />
-              <br />
-
-              {meals.breakfast.map((meal, index) => (
-                <div
-                  key={index}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginBottom: "0px",
-                    paddingLeft: 40,
-                    paddingRight: 40,
-                  }}
-                >
-                  <IconButton
-                    onClick={() => removeMeal(index, "breakfast")}
-                    style={{ marginLeft: "10px" }}
-                  >
-                    <RemoveCircleIcon
-                      style={{ fontSize: "30px", color: "#a83c32" }}
-                    />
-                  </IconButton>
-                  <p style={{ fontSize: "16px" }}>{meal.name}</p>
-                  <p style={{ fontSize: "16px" }}>{meal.calories} calories</p>
-                  <p style={{ fontSize: "16px" }}>{meal.protein}g protein</p>
-
-                  <div>
-                    <IconButton
-                      onClick={() => handleEditClick(index, "breakfast")}
-                      style={{}}
-                    >
-                      <EditIcon
-                        style={{ fontSize: "30px", color: "#326da8" }}
-                      />
-                    </IconButton>
-                  </div>
-                </div>
-              ))}
-              {editMealIndex !== -1 && editMealType === "breakfast" && (
-                <EditMealForm
-                  meal={meals.breakfast[editMealIndex]}
-                  onEdit={handleEditSubmit}
-                />
-              )}
-            </div>
-          )}
-
-          {/* Lunch */}
-          {value === 1 && (
-            <div>
-              <MealForm addMeal={(meal) => addMeal(meal, "lunch")} />
-              <br />
-              {meals.lunch.map((meal, index) => (
-                <div
-                  key={index}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginBottom: "0px",
-                    paddingLeft: 40,
-                    paddingRight: 40,
-                  }}
-                >
-                  <IconButton
-                    onClick={() => removeMeal(index, "lunch")}
-                    style={{ marginLeft: "10px" }}
-                  >
-                    <RemoveCircleIcon
-                      style={{ fontSize: "30px", color: "#a83c32" }}
-                    />
-                  </IconButton>
-                  <p style={{ fontSize: "16px" }}>{meal.name}</p>
-                  <p style={{ fontSize: "16px" }}>{meal.calories} calories</p>
-                  <p style={{ fontSize: "16px" }}>{meal.protein}g protein</p>
-
-                  <div>
-                    <IconButton
-                      onClick={() => handleEditClick(index, "lunch")}
-                      style={{}}
-                    >
-                      <EditIcon
-                        style={{ fontSize: "30px", color: "#326da8" }}
-                      />
-                    </IconButton>
-                  </div>
-                </div>
-              ))}
-              {editMealIndex !== -1 && editMealType === "lunch" && (
-                <EditMealForm
-                  meal={meals.lunch[editMealIndex]}
-                  onEdit={handleEditSubmit}
-                />
-              )}
-            </div>
-          )}
-
-          {/* Dinner */}
-          {value === 2 && (
-            <div>
-              <MealForm addMeal={(meal) => addMeal(meal, "dinner")} />
-              <br />
-
-              {meals.dinner.map((meal, index) => (
-                <div
-                  key={index}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    marginBottom: "0px",
-                    paddingLeft: 40,
-                    paddingRight: 40,
-                  }}
-                >
-                  <IconButton
-                    onClick={() => removeMeal(index, "dinner")}
-                    style={{ marginLeft: "10px" }}
-                  >
-                    <RemoveCircleIcon
-                      style={{ fontSize: "30px", color: "#a83c32" }}
-                    />
-                  </IconButton>
-                  <p style={{ fontSize: "16px" }}>{meal.name}</p>
-                  <p style={{ fontSize: "16px" }}>{meal.calories} calories</p>
-                  <p style={{ fontSize: "16px" }}>{meal.protein}g protein</p>
-
-                  <div>
-                    <IconButton
-                      onClick={() => handleEditClick(index, "dinner")}
-                      style={{}}
-                    >
-                      <EditIcon
-                        style={{ fontSize: "30px", color: "#326da8" }}
-                      />
-                    </IconButton>
-                  </div>
-                </div>
-              ))}
-              {editMealIndex !== -1 && editMealType === "dinner" && (
-                <EditMealForm
-                  meal={meals.dinner[editMealIndex]}
-                  onEdit={handleEditSubmit}
-                />
-              )}
-            </div>
-          )}
-          <Button
-            variant="contained"
+          <StaticDatePicker
             sx={{
-              border: "solid 1px #03DAC5",
-              backgroundColor: "#242424",
-              borderRadius: "1rem",
-              width: "2rem",
-              padding: "0rem 2rem 0rem 2rem",
+              backgroundColor: "#161616",
+              ".MuiTypography-root": { color: "white" },
             }}
-            onClick={handleSave}
-          >
-            SAVE
-          </Button>
-          {saved && <p>Save Success!</p>}
+            displayStaticWrapperAs="desktop"
+            value={date}
+            onChange={(newDate) => {
+              setDate(newDate);
+            }}
+            renderInput={(params) => <TextField {...params} />}
+            dayOfWeekFormatter={(day) => `${day}.`}
+            showToolbar
+            renderDay={(day, _value, DayComponentProps) => {
+              const isSelected =
+                !DayComponentProps.outsideCurrentMonth &&
+                highlightedDays.indexOf(day.date()) >= 0;
+
+              return (
+                <Badge
+                  key={day.toString()}
+                  overlap="circular"
+                  color="primary"
+                  variant={isSelected ? "dot" : null}
+                >
+                  <PickersDay {...DayComponentProps} />
+                </Badge>
+              );
+            }}
+          />
+          <CaloriesBar calories={totalCalories} protein={totalProtein} />
+          <div align="center" justifycontent="center">
+            <Tabs
+              letiant="fullWidth"
+              textColor="#03dac5"
+              value={value}
+              onChange={handleTabChange}
+              centered
+              TabIndicatorProps={{
+                style: {
+                  backgroundColor: "green",
+                },
+              }}
+            >
+              <Tab label="Breakfast" />
+              <Tab label="Lunch" />
+              <Tab label="Dinner" />
+            </Tabs>
+            <br />
+
+            {/* Breakfast */}
+            {value === 0 && (
+              <div>
+                <MealForm addMeal={(meal) => addMeal(meal, "breakfast")} />
+                <br />
+
+                {meals.breakfast.map((meal, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: "0px",
+                      paddingLeft: 40,
+                      paddingRight: 40,
+                    }}
+                  >
+                    <IconButton
+                      onClick={() => removeMeal(index, "breakfast")}
+                      style={{ marginLeft: "10px" }}
+                    >
+                      <RemoveCircleIcon
+                        style={{ fontSize: "30px", color: "#a83c32" }}
+                      />
+                    </IconButton>
+                    <p style={{ fontSize: "16px" }}>{meal.name}</p>
+                    <p style={{ fontSize: "16px" }}>{meal.calories} calories</p>
+                    <p style={{ fontSize: "16px" }}>{meal.protein}g protein</p>
+
+                    <div>
+                      <IconButton
+                        onClick={() => handleEditClick(index, "breakfast")}
+                        style={{}}
+                      >
+                        <EditIcon
+                          style={{ fontSize: "30px", color: "#326da8" }}
+                        />
+                      </IconButton>
+                    </div>
+                  </div>
+                ))}
+                {editMealIndex !== -1 && editMealType === "breakfast" && (
+                  <EditMealForm
+                    meal={meals.breakfast[editMealIndex]}
+                    onEdit={handleEditSubmit}
+                  />
+                )}
+              </div>
+            )}
+
+            {/* Lunch */}
+            {value === 1 && (
+              <div>
+                <MealForm addMeal={(meal) => addMeal(meal, "lunch")} />
+                <br />
+                {meals.lunch.map((meal, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: "0px",
+                      paddingLeft: 40,
+                      paddingRight: 40,
+                    }}
+                  >
+                    <IconButton
+                      onClick={() => removeMeal(index, "lunch")}
+                      style={{ marginLeft: "10px" }}
+                    >
+                      <RemoveCircleIcon
+                        style={{ fontSize: "30px", color: "#a83c32" }}
+                      />
+                    </IconButton>
+                    <p style={{ fontSize: "16px" }}>{meal.name}</p>
+                    <p style={{ fontSize: "16px" }}>{meal.calories} calories</p>
+                    <p style={{ fontSize: "16px" }}>{meal.protein}g protein</p>
+
+                    <div>
+                      <IconButton
+                        onClick={() => handleEditClick(index, "lunch")}
+                        style={{}}
+                      >
+                        <EditIcon
+                          style={{ fontSize: "30px", color: "#326da8" }}
+                        />
+                      </IconButton>
+                    </div>
+                  </div>
+                ))}
+                {editMealIndex !== -1 && editMealType === "lunch" && (
+                  <EditMealForm
+                    meal={meals.lunch[editMealIndex]}
+                    onEdit={handleEditSubmit}
+                  />
+                )}
+              </div>
+            )}
+
+            {/* Dinner */}
+            {value === 2 && (
+              <div>
+                <MealForm addMeal={(meal) => addMeal(meal, "dinner")} />
+                <br />
+
+                {meals.dinner.map((meal, index) => (
+                  <div
+                    key={index}
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      marginBottom: "0px",
+                      paddingLeft: 40,
+                      paddingRight: 40,
+                    }}
+                  >
+                    <IconButton
+                      onClick={() => removeMeal(index, "dinner")}
+                      style={{ marginLeft: "10px" }}
+                    >
+                      <RemoveCircleIcon
+                        style={{ fontSize: "30px", color: "#a83c32" }}
+                      />
+                    </IconButton>
+                    <p style={{ fontSize: "16px" }}>{meal.name}</p>
+                    <p style={{ fontSize: "16px" }}>{meal.calories} calories</p>
+                    <p style={{ fontSize: "16px" }}>{meal.protein}g protein</p>
+
+                    <div>
+                      <IconButton
+                        onClick={() => handleEditClick(index, "dinner")}
+                        style={{}}
+                      >
+                        <EditIcon
+                          style={{ fontSize: "30px", color: "#326da8" }}
+                        />
+                      </IconButton>
+                    </div>
+                  </div>
+                ))}
+                {editMealIndex !== -1 && editMealType === "dinner" && (
+                  <EditMealForm
+                    meal={meals.dinner[editMealIndex]}
+                    onEdit={handleEditSubmit}
+                  />
+                )}
+              </div>
+            )}
+            <Button
+              variant="contained"
+              sx={{
+                border: "solid 1px #03DAC5",
+                backgroundColor: "#242424",
+                borderRadius: "1rem",
+                width: "2rem",
+                padding: "0rem 2rem 0rem 2rem",
+              }}
+              onClick={handleSave}
+            >
+              SAVE
+            </Button>
+            {saved && <p>Save Success!</p>}
+          </div>
         </div>
-      </div>
-    </Container>
+      </Container>
+    </LocalizationProvider>
   );
 }
