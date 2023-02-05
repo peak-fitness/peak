@@ -149,11 +149,38 @@ const Navbar = () => {
                   display: { xs: "block", md: "none" },
                 }}
               >
-                <MenuItem href="/dashboard">DASHBOARD</MenuItem>
-                <MenuItem href="/workouts/myWorkouts">WORKOUTS</MenuItem>
-                <MenuItem href="/groups">GROUPS</MenuItem>
-                <MenuItem href="/calorie-tracker">CALORIE TRACKER</MenuItem>
-                <MenuItem href="/achievements">ACHIEVEMENTS</MenuItem>
+                <MenuItem
+                  href="/dashboard"
+                  onClick={() => (window.location.href = "/dashboard")}
+                >
+                  DASHBOARD
+                </MenuItem>
+                <MenuItem
+                  href="/workouts/myWorkouts"
+                  onClick={() =>
+                    (window.location.href = "/workouts/myWorkouts")
+                  }
+                >
+                  WORKOUTS
+                </MenuItem>
+                <MenuItem
+                  href="/groups"
+                  onClick={() => (window.location.href = "/groups")}
+                >
+                  GROUPS
+                </MenuItem>
+                <MenuItem
+                  href="/calorie-tracker"
+                  onClick={() => (window.location.href = "/calorie-tracker")}
+                >
+                  CALORIE TRACKER
+                </MenuItem>
+                <MenuItem
+                  href="/achievements"
+                  onClick={() => (window.location.href = "/achievements")}
+                >
+                  ACHIEVEMENTS
+                </MenuItem>
               </Menu>
             </Box>
 
@@ -324,185 +351,203 @@ const Navbar = () => {
       </AppBar>
     </ThemeProvider>
   ) : (
-    <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
-      <Container
-        maxWidth="xl"
-        sx={{
-          mt: 1,
-          mb: 1,
-        }}
-      >
-        <Toolbar disableGutters>
-          <Typography
-            variant="h4"
-            noWrap
-            component="a"
-            href="/"
-            sx={{
-              mr: 2,
-              display: { xs: "none", md: "flex" },
-              fontWeight: 700,
-              letterSpacing: ".3rem",
-              textDecoration: "none",
-            }}
-            style={{
-              color: activeLink === "/" ? "#03dac5" : "white",
-            }}
-            onClick={() => handleLinkClick("/")}
-          >
-            Peak
-          </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
-            <IconButton
-              size="large"
-              onClick={handleOpenNavMenu}
-              sx={{ color: "white" }}
-            >
-              <MenuIcon />
-            </IconButton>
-            <Menu
-              id="menu-appbar"
-              anchorEl={anchorElNav}
-              anchorOrigin={{
-                vertical: "bottom",
-                horizontal: "left",
-              }}
-              keepMounted
-              transformOrigin={{
-                vertical: "top",
-                horizontal: "left",
-              }}
-              open={Boolean(anchorElNav)}
-              onClose={handleCloseNavMenu}
+    <ThemeProvider theme={darkTheme}>
+      <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
+        <Container
+          maxWidth="xl"
+          sx={{
+            mt: 1,
+            mb: 1,
+          }}
+        >
+          <Toolbar disableGutters>
+            <Typography
+              variant="h4"
+              noWrap
+              component="a"
+              href="/"
               sx={{
-                display: { xs: "block", md: "none" },
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontWeight: 700,
+                letterSpacing: ".3rem",
+                textDecoration: "none",
               }}
+              style={{
+                color: activeLink === "/" ? "#03dac5" : "white",
+              }}
+              onClick={() => handleLinkClick("/")}
             >
-              <MenuItem href="/learn">LEARN MORE</MenuItem>
-              <MenuItem href="/about">ABOUT US</MenuItem>
-              <MenuItem href="/contact">CONTACT US</MenuItem>
-            </Menu>
-          </Box>
+              Peak
+            </Typography>
+            <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
+              <IconButton
+                size="large"
+                onClick={handleOpenNavMenu}
+                sx={{ color: "white" }}
+              >
+                <MenuIcon />
+              </IconButton>
+              <Menu
+                id="menu-appbar"
+                anchorEl={anchorElNav}
+                anchorOrigin={{
+                  vertical: "bottom",
+                  horizontal: "left",
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: "top",
+                  horizontal: "left",
+                }}
+                open={Boolean(anchorElNav)}
+                onClose={handleCloseNavMenu}
+                sx={{
+                  display: { xs: "block", md: "none" },
+                }}
+              >
+                <MenuItem
+                  href="/learn"
+                  onClick={() => (window.location.href = "/learn")}
+                >
+                  LEARN MORE
+                </MenuItem>
+                <MenuItem
+                  href="/about"
+                  onClick={() => (window.location.href = "/about")}
+                >
+                  ABOUT US
+                </MenuItem>
+                <MenuItem
+                  href="/contact"
+                  onClick={() => (window.location.href = "/contact")}
+                >
+                  CONTACT US
+                </MenuItem>
+              </Menu>
+            </Box>
 
-          <Typography
-            href="/"
-            variant="h4"
-            noWrap
-            component="a"
-            sx={{
-              display: { xs: "flex", md: "none" },
-              flexGrow: 1,
-              fontWeight: 700,
-              letterSpacing: ".1rem",
-              textDecoration: "none",
-              marginLeft: "100px",
-            }}
-            style={{
-              color: activeLink === "/" ? "#03dac5" : "white",
-            }}
-            onClick={() => handleLinkClick("/")}
-            className={router.pathname === "/" ? styles.active : ""}
-          >
-            Peak
-          </Typography>
-          <Box
-            sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, ml: 4 }}
-            justifyContent="flex-start"
-          >
-            <Link
-              href="/learn"
-              style={{
+            <Typography
+              href="/"
+              variant="h4"
+              noWrap
+              component="a"
+              sx={{
+                display: { xs: "flex", md: "none" },
+                flexGrow: 1,
+                fontWeight: 700,
+                letterSpacing: ".1rem",
                 textDecoration: "none",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginRight: "20px",
-                color: activeLink === "/learn" ? "#03dac5" : "#E8E8E8",
+                marginLeft: "100px",
               }}
-              onClick={() => handleLinkClick("/learn")}
-              className={router.pathname === "/learn" ? styles.active : ""}
-            >
-              LEARN MORE
-            </Link>
-            <Link
-              href="/about"
               style={{
-                textDecoration: "none",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginRight: "20px",
-                color: activeLink === "/about" ? "#03dac5" : "#E8E8E8",
+                color: activeLink === "/" ? "#03dac5" : "white",
               }}
-              onClick={() => handleLinkClick("/about")}
-              className={router.pathname === "/about" ? styles.active : ""}
+              onClick={() => handleLinkClick("/")}
             >
-              ABOUT US
-            </Link>
-            <Link
-              href="/contact"
-              style={{
-                color: "#E8E8E8",
-                textDecoration: "none",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginRight: "20px",
+              Peak
+            </Typography>
+            <Box
+              sx={{ flexGrow: 1, display: { xs: "none", md: "flex" }, ml: 4 }}
+              justifyContent="flex-start"
+            >
+              <Link
+                href="/learn"
+                style={{
+                  textDecoration: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: "20px",
+                  color: activeLink === "/learn" ? "#03dac5" : "#E8E8E8",
+                }}
+                onClick={() => handleLinkClick("/learn")}
+                className={router.pathname === "/learn" ? styles.active : ""}
+              >
+                LEARN MORE
+              </Link>
+              <Link
+                href="/about"
+                style={{
+                  textDecoration: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: "20px",
+                  color: activeLink === "/about" ? "#03dac5" : "#E8E8E8",
+                }}
+                onClick={() => handleLinkClick("/about")}
+                className={router.pathname === "/about" ? styles.active : ""}
+              >
+                ABOUT US
+              </Link>
+              <Link
+                href="/contact"
+                style={{
+                  color: "#E8E8E8",
+                  textDecoration: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: "20px",
 
-                color: activeLink === "/contact" ? "#03dac5" : "#E8E8E8",
-              }}
-              onClick={() => handleLinkClick("/contact")}
-              className={router.pathname === "/contact" ? styles.active : ""}
+                  color: activeLink === "/contact" ? "#03dac5" : "#E8E8E8",
+                }}
+                onClick={() => handleLinkClick("/contact")}
+                className={router.pathname === "/contact" ? styles.active : ""}
+              >
+                CONTACT US
+              </Link>
+            </Box>
+            <Box
+              justifyContent="flex-end"
+              sx={{ display: { xs: "flex", md: "flex" } }}
             >
-              CONTACT US
-            </Link>
-          </Box>
-          <Box
-            justifyContent="flex-end"
-            sx={{ display: { xs: "flex", md: "flex" } }}
-          >
-            <Link
-              href="/auth/signup"
-              style={{
-                textDecoration: "none",
-                fontWeight: 500,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginRight: "10px",
-                color: activeLink === "/auth/signup" ? "#03dac5" : "#E8E8E8",
-              }}
-              onClick={() => handleLinkClick("/auth/signup")}
-              className={
-                router.pathname === "/auth/signup" ? styles.active : ""
-              }
-            >
-              SIGN UP
-            </Link>
-            <Link
-              href="/auth/login"
-              style={{
-                padding: "10px",
-                border: "solid",
-                borderRadius: "20px",
-                borderColor: "#03DAC5",
-                textDecoration: "none",
-                fontWeight: 500,
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                marginRight: "10px",
-                color: activeLink === "/auth/login" ? "#03dac5" : "#E8E8E8",
-              }}
-              onClick={() => handleLinkClick("/auth/login")}
-              className={router.pathname === "/auth/login" ? styles.active : ""}
-            >
-              SIGN IN
-            </Link>
-          </Box>
-        </Toolbar>
-      </Container>
-    </AppBar>
+              <Link
+                href="/auth/signup"
+                style={{
+                  textDecoration: "none",
+                  fontWeight: 500,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: "10px",
+                  color: activeLink === "/auth/signup" ? "#03dac5" : "#E8E8E8",
+                }}
+                onClick={() => handleLinkClick("/auth/signup")}
+                className={
+                  router.pathname === "/auth/signup" ? styles.active : ""
+                }
+              >
+                SIGN UP
+              </Link>
+              <Link
+                href="/auth/login"
+                style={{
+                  padding: "10px",
+                  border: "solid",
+                  borderRadius: "20px",
+                  borderColor: "#03DAC5",
+                  textDecoration: "none",
+                  fontWeight: 500,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: "10px",
+                  color: activeLink === "/auth/login" ? "#03dac5" : "#E8E8E8",
+                }}
+                onClick={() => handleLinkClick("/auth/login")}
+                className={
+                  router.pathname === "/auth/login" ? styles.active : ""
+                }
+              >
+                SIGN IN
+              </Link>
+            </Box>
+          </Toolbar>
+        </Container>
+      </AppBar>
+    </ThemeProvider>
   );
 };
 
