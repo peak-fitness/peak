@@ -50,6 +50,7 @@ export default function AddWorkout() {
   const router = useRouter();
   const [current, setCurrent] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [render, setRender] = useState(false);
 
   useEffect(() => {
     if (session) getUser();
@@ -70,8 +71,6 @@ export default function AddWorkout() {
     },
     { name: "", notes: "", is_pr: false, sets: [] }
   );
-
-  console.log(exercise);
 
   const [set, updateSet] = useReducer(
     (prev, next) => {
@@ -132,6 +131,13 @@ export default function AddWorkout() {
     updateSet({ id: set.id + 1, reps: 1, weight: 0 });
   };
 
+  const addSetInEdit = (e) => {
+    e.preventDefault();
+    current.sets.push(set);
+    // const currId = current.sets[current.sets.length - 1].id;
+    // updateSet({ id: currId + 1, reps: 1, weight: 0 });
+  };
+
   const handleSubmit = async () => {
     const dateString = `${date.$y}-0${date.$M + 1}-${date.$D >= 10 ? "" : "0"}${
       date.$D
@@ -181,6 +187,7 @@ export default function AddWorkout() {
   //   if (current && workout.exercises.length >= 1)
   //     console.log(workout.exercises.indexOf(current));
 
+  console.log(current);
   console.log(workout);
 
   return (
@@ -357,7 +364,11 @@ export default function AddWorkout() {
                         id="set-number"
                         type="number"
                         name="set"
-                        value={set.id}
+                        value={
+                          edit
+                            ? current.sets[current.sets.length - 1].id + 1
+                            : set.id
+                        }
                         disabled={true}
                       />
                     </FormControl>
@@ -382,43 +393,81 @@ export default function AddWorkout() {
                       />
                     </FormControl>
                     <FormControl>
-                      <IconButton onClick={addSet} className={styles.setsItems}>
+                      <IconButton
+                        onClick={edit ? addSetInEdit : addSet}
+                        className={styles.setsItems}
+                      >
                         <AddCircleIcon
                           style={{ fontSize: "30px", color: "green" }}
                         />
                       </IconButton>
                     </FormControl>
                   </Container>
-                  {setsInfo.length >= 1 && (
-                    <TableContainer component={Paper}>
-                      <Table aria-label="simple table">
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>Set #</TableCell>
-                            <TableCell>Reps</TableCell>
-                            <TableCell>Weight (lbs)</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {setsInfo.map((set, index) => {
-                            return (
-                              <>
-                                <TableRow key={index}>
-                                  <TableCell align="center">{set.id}</TableCell>
-                                  <TableCell align="center">
-                                    {set.reps}
-                                  </TableCell>
-                                  <TableCell align="center">
-                                    {set.weight}
-                                  </TableCell>
-                                </TableRow>
-                              </>
-                            );
-                          })}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  )}
+                  {edit
+                    ? current.sets && (
+                        <TableContainer component={Paper}>
+                          <Table aria-label="simple table">
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Set #</TableCell>
+                                <TableCell>Reps</TableCell>
+                                <TableCell>Weight (lbs)</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {current.sets.map((set, index) => {
+                                return (
+                                  <>
+                                    <TableRow key={index}>
+                                      <TableCell align="center">
+                                        {set.id}
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        {set.reps}
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        {set.weight}
+                                      </TableCell>
+                                    </TableRow>
+                                  </>
+                                );
+                              })}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      )
+                    : setsInfo.length >= 1 && (
+                        <TableContainer component={Paper}>
+                          <Table aria-label="simple table">
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Set #</TableCell>
+                                <TableCell>Reps</TableCell>
+                                <TableCell>Weight (lbs)</TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {setsInfo.map((set, index) => {
+                                return (
+                                  <>
+                                    <TableRow key={index}>
+                                      <TableCell align="center">
+                                        {set.id}
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        {set.reps}
+                                      </TableCell>
+                                      <TableCell align="center">
+                                        {set.weight}
+                                      </TableCell>
+                                    </TableRow>
+                                  </>
+                                );
+                              })}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      )}
                 </DialogContent>
                 <DialogActions className={styles.dialog}>
                   <Button onClick={handleClose}>Cancel</Button>
