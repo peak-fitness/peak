@@ -3,6 +3,9 @@ import Navbar from "../../comps/Navbar";
 import { useRouter } from "next/router";
 
 // import { Container, Box, Button } from "@mui/material";
+import Container from "@mui/material/Container";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 
 export default function Public_Profile(props) {
   const { profile } = props;
@@ -45,7 +48,7 @@ export default function Public_Profile(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   const { username } = context.query;
   const { data } = await supabase
     .from("user")
