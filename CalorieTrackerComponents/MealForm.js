@@ -13,6 +13,7 @@ const MealForm = ({ addMeal }) => {
     protein: "",
   });
   const [error, setError] = useState(null);
+  const [added, setAdded] = useState(false);
 
   const handleChange = (e) => {
     setMeal({
@@ -46,6 +47,10 @@ const MealForm = ({ addMeal }) => {
       protein: "",
     });
     setError(null);
+    setAdded(true);
+    setTimeout(() => {
+      setAdded(false);
+    }, 1500);
   };
 
   return (
@@ -91,6 +96,7 @@ const MealForm = ({ addMeal }) => {
           >
             <AddCircleIcon style={{ fontSize: "30px", color: "green" }} />
           </IconButton>
+          {added && <span>Added!</span>}
         </form>
       </div>
     </Container>

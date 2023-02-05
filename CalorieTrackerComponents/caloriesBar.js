@@ -4,11 +4,19 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@mui/material/Container";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
-const CaloriesBar = ({ calories, protein, data }) => {
+const CaloriesBar = ({ userId, date, saved }) => {
   const supabase = useSupabaseClient();
   const session = useSession();
   const [goalCalories, setGoalCalories] = useState(null);
-  const caloriesLeft = goalCalories - calories;
+  const [totalCaloriesConsumed, setTotalCaloriesConsumed] = useState(0);
+  const [totalProteinConsumed, setTotalProteinConsumed] = useState(0);
+  const caloriesLeft = goalCalories - totalCaloriesConsumed;
+
+  useEffect(() => {
+    fetchTargetCalories();
+    fetchTotalCaloriesConsumed();
+    fetchTotalProteinConsumed();
+  }, [date, saved]);
 
   const fetchTargetCalories = async () => {
     if (session) {
@@ -20,9 +28,61 @@ const CaloriesBar = ({ calories, protein, data }) => {
     }
   };
 
-  useEffect(() => {
-    fetchTargetCalories();
-  }, [calories, protein]);
+  const fetchTotalCaloriesConsumed = async () => {
+    if (date) {
+      const dateString = `${date.$y}-0${date.$M + 1}-${
+        date.$D >= 10 ? "" : "0"
+      }${date.$D}`;
+      const { data, error } = await supabase
+        .from("meals")
+        .select("meal")
+        .eq("user_id", userId)
+        .eq("date", dateString);
+      if (data[0]) {
+        let calorieCalc = 0;
+        data[0].meal.breakfast.map((food) => {
+          calorieCalc += food.calories;
+        });
+        data[0].meal.lunch.map((food) => {
+          calorieCalc += food.calories;
+        });
+        data[0].meal.dinner.map((food) => {
+          calorieCalc += food.calories;
+        });
+        setTotalCaloriesConsumed(Number(calorieCalc));
+      } else {
+        setTotalCaloriesConsumed(0);
+      }
+    }
+  };
+
+  const fetchTotalProteinConsumed = async () => {
+    if (date) {
+      const dateString = `${date.$y}-0${date.$M + 1}-${
+        date.$D >= 10 ? "" : "0"
+      }${date.$D}`;
+      const { data, error } = await supabase
+        .from("meals")
+        .select("meal")
+        .eq("user_id", userId)
+        .eq("date", dateString);
+      if (data[0]) {
+        let proteinCalc = 0;
+        data[0].meal.breakfast.map((food) => {
+          proteinCalc += food.protein;
+        });
+        data[0].meal.lunch.map((food) => {
+          proteinCalc += food.protein;
+        });
+        data[0].meal.dinner.map((food) => {
+          proteinCalc += food.protein;
+        });
+        setTotalProteinConsumed(Number(proteinCalc));
+      } else {
+        setTotalProteinConsumed(0);
+      }
+    }
+  };
 
   return (
     <Container
@@ -38,10 +98,10 @@ const CaloriesBar = ({ calories, protein, data }) => {
         <Grid container spacing={3} alignItems="center" justifyContent="center">
           <Grid item xs={10}>
             <Typography variant="h6">
-              {calories} Calories Consumed Today
+              {totalCaloriesConsumed} Calories Consumed Today
             </Typography>
             <Typography variant="body1">
-              Total Protein Consumed: {protein}
+              Total Protein Consumed: {totalProteinConsumed}
             </Typography>
 
             <Typography variant="body1">
