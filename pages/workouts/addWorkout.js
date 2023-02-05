@@ -27,7 +27,7 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useRef, useState } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
@@ -48,6 +48,8 @@ export default function AddWorkout() {
   const session = useSession();
   const supabase = useSupabaseClient();
   const router = useRouter();
+  const [current, setCurrent] = useState({});
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
     if (session) getUser();
@@ -69,6 +71,8 @@ export default function AddWorkout() {
     { name: "", notes: "", is_pr: false, sets: [] }
   );
 
+  console.log(exercise);
+
   const [set, updateSet] = useReducer(
     (prev, next) => {
       return { ...prev, ...next };
@@ -76,11 +80,16 @@ export default function AddWorkout() {
     { id: 1, reps: 1, weight: 0 }
   );
 
-  const handleExerciseSubmit = async () => {
+  const handleExerciseSubmit = () => {
     if (!exercise.name) return setInvalidName(true);
     else setInvalidName(false);
     if (!exercise.sets.length) return setInvalidExercise(true);
     workout.exercises.push(exercise);
+    handleClose();
+  };
+
+  const handleEditSubmit = () => {
+    workout.exercises[currentIndex] = current;
     handleClose();
   };
 
@@ -97,6 +106,7 @@ export default function AddWorkout() {
     setEdit(false);
     setInvalidExercise(false);
     setInvalidName(false);
+    setCurrent({});
     updateSet({ id: 1, reps: 1, weight: 0 });
     updateExercise({ name: "", notes: "", is_pr: false, sets: [] });
     setSetsInfo([]);
@@ -162,6 +172,16 @@ export default function AddWorkout() {
     }
     router.push("/workouts/myWorkouts");
   };
+
+  const getExercise = (index) => {
+    setCurrent(workout.exercises[index]);
+    setCurrentIndex(index);
+  };
+
+  //   if (current && workout.exercises.length >= 1)
+  //     console.log(workout.exercises.indexOf(current));
+
+  console.log(workout);
 
   return (
     <>
@@ -279,8 +299,14 @@ export default function AddWorkout() {
                     label="Exercise Name"
                     fullWidth
                     variant="standard"
-                    value={edit ? workout.exercises[0].name : null}
-                    onChange={(e) => updateExercise({ name: e.target.value })}
+                    value={edit ? current.name : null}
+                    onChange={(e) => {
+                      updateExercise({ name: e.target.value });
+                      setCurrent({
+                        ...current,
+                        [e.target.id]: e.target.value,
+                      });
+                    }}
                   />
                   <TextField
                     autoFocus
@@ -289,15 +315,31 @@ export default function AddWorkout() {
                     label="Notes"
                     fullWidth
                     variant="standard"
-                    onChange={(e) => updateExercise({ notes: e.target.value })}
+                    value={edit ? current.notes : null}
+                    onChange={(e) => {
+                      updateExercise({ notes: e.target.value });
+                      setCurrent({
+                        ...current,
+                        [e.target.id]: e.target.value,
+                      });
+                    }}
                   />
                   <FormGroup>
                     <FormControlLabel
                       control={
                         <Checkbox
-                          onChange={(e) =>
-                            updateExercise({ is_pr: e.target.checked })
-                          }
+                          id="is_pr"
+                          onChange={(e) => {
+                            updateExercise({ is_pr: e.target.checked });
+                            setCurrent({
+                              ...current,
+                              [e.target.id]: e.target.checked,
+                            });
+                          }}
+                          checked={edit ? current.is_pr : null}
+                          //   defaultChecked={
+                          //     edit ? (current.is_pr ? true : false) : false
+                          //   } gives controlled element error/warning
                         />
                       }
                       label="Personal Best?"
@@ -380,7 +422,11 @@ export default function AddWorkout() {
                 </DialogContent>
                 <DialogActions className={styles.dialog}>
                   <Button onClick={handleClose}>Cancel</Button>
-                  <Button onClick={handleExerciseSubmit}>Submit</Button>
+                  <Button
+                    onClick={edit ? handleEditSubmit : handleExerciseSubmit}
+                  >
+                    Submit
+                  </Button>
                 </DialogActions>
               </Dialog>
             </Grid>
@@ -403,7 +449,7 @@ export default function AddWorkout() {
               </Grid>
             )}
             {workout.exercises.length >= 1 &&
-              workout.exercises.map((exercise) => {
+              workout.exercises.map((exercise, index) => {
                 return (
                   <>
                     <Grid container spacing={4}>
@@ -419,6 +465,7 @@ export default function AddWorkout() {
                           onClick={() => {
                             setEdit(true);
                             setOpen(true);
+                            getExercise(index);
                           }}
                           className={styles.setsItems}
                         >
@@ -469,8 +516,17 @@ export default function AddWorkout() {
             Save
           </Button>
         </Box>
+        <TestRender />
         {/* </Paper> */}
       </Container>
+    </>
+  );
+}
+
+function TestRender() {
+  return (
+    <>
+      <p>This is a test render</p>
     </>
   );
 }
