@@ -45,7 +45,7 @@ export default function Public_Profile(props) {
   );
 }
 
-export async function getStaticProps(context) {
+export async function getServerSideProps(context) {
   const { username } = context.query;
   const { data } = await supabase
     .from("user")
