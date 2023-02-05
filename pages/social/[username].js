@@ -2,13 +2,14 @@ import supabase from "../../lib/supabaseClient.js";
 import Navbar from "../../comps/Navbar";
 import { useRouter } from "next/router";
 
-import { Container, Box, Button } from "@mui/material";
+// import { Container, Box, Button } from "@mui/material";
 
 export default function Public_Profile(props) {
   const { profile } = props;
   return (
     <>
-      <Navbar />
+      <h1>HELLOOOOOOOOOOO</h1>
+      {/* <Navbar />
       <Container
         maxWidth="lg"
         sx={{
@@ -39,7 +40,7 @@ export default function Public_Profile(props) {
             <h4>Bio: {profile.bio}</h4>
           </Box>
         </Container>
-      </Container>
+      </Container> */}
     </>
   );
 }
