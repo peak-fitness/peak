@@ -59,7 +59,7 @@ const EditMealForm = ({ meal, onEdit }) => {
         }}
         onClick={handleSubmit}
       >
-        Save
+        Edit
       </Button>
     </Container>
   );
