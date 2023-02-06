@@ -23,8 +23,9 @@ const CaloriesBar = ({ userId, date, saved }) => {
       const { data, error } = await supabase
         .from("user")
         .select("target_calories")
-        .eq("auth_id", session.user.id);
-      setGoalCalories(data[0].target_calories);
+        .eq("auth_id", session.user.id)
+        .single();
+      setGoalCalories(data.target_calories);
     }
   };
 
@@ -37,21 +38,22 @@ const CaloriesBar = ({ userId, date, saved }) => {
         .from("meals")
         .select("meal")
         .eq("user_id", userId)
-        .eq("date", dateString);
-      if (data[0]) {
+        .eq("date", dateString)
+        .single();
+      if (data) {
         let calorieCalc = 0;
-        if (data[0].meal.breakfast) {
-          data[0].meal.breakfast.map((food) => {
+        if (data.meal.breakfast) {
+          data.meal.breakfast.map((food) => {
             calorieCalc += food.calories;
           });
         }
-        if (data[0].meal.lunch) {
-          data[0].meal.lunch.map((food) => {
+        if (data.meal.lunch) {
+          data.meal.lunch.map((food) => {
             calorieCalc += food.calories;
           });
         }
-        if (data[0].meal.dinner) {
-          data[0].meal.dinner.map((food) => {
+        if (data.meal.dinner) {
+          data.meal.dinner.map((food) => {
             calorieCalc += food.calories;
           });
         }
@@ -71,21 +73,22 @@ const CaloriesBar = ({ userId, date, saved }) => {
         .from("meals")
         .select("meal")
         .eq("user_id", userId)
-        .eq("date", dateString);
-      if (data[0]) {
+        .eq("date", dateString)
+        .single();
+      if (data) {
         let proteinCalc = 0;
-        if (data[0].meal.breakfast) {
-          data[0].meal.breakfast.map((food) => {
+        if (data.meal.breakfast) {
+          data.meal.breakfast.map((food) => {
             proteinCalc += food.protein;
           });
         }
-        if (data[0].meal.lunch) {
-          data[0].meal.lunch.map((food) => {
+        if (data.meal.lunch) {
+          data.meal.lunch.map((food) => {
             proteinCalc += food.protein;
           });
         }
-        if (data[0].meal.dinner) {
-          data[0].meal.dinner.map((food) => {
+        if (data.meal.dinner) {
+          data.meal.dinner.map((food) => {
             proteinCalc += food.protein;
           });
         }

@@ -49,8 +49,9 @@ export default function MealContainer() {
       const { data, error } = await supabase
         .from("user")
         .select("id")
-        .eq("auth_id", session.user.id);
-      setUserId(data[0].id);
+        .eq("auth_id", session.user.id)
+        .single();
+      setUserId(data.id);
     }
   };
 
@@ -63,9 +64,10 @@ export default function MealContainer() {
         .from("meals")
         .select("meal")
         .eq("user_id", userId)
-        .eq("date", dateString);
-      if (data[0]) {
-        setFetchMeals(data[0].meal);
+        .eq("date", dateString)
+        .single();
+      if (data) {
+        setFetchMeals(data.meal);
       } else {
         setFetchMeals(null);
       }
@@ -96,8 +98,9 @@ export default function MealContainer() {
         .from("meals")
         .select("meal")
         .eq("user_id", userId)
-        .eq("date", date);
-      if (data[0]) {
+        .eq("date", date)
+        .single();
+      if (data) {
         const { data, error } = await supabase
           .from("meals")
           .update({
