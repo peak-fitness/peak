@@ -30,6 +30,7 @@ import {
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { DatePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -50,6 +51,7 @@ export default function AddWorkout() {
   const router = useRouter();
   const [current, setCurrent] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [refresh, setRefresh] = useState(false);
 
   useEffect(() => {
     if (session) getUser();
@@ -184,9 +186,6 @@ export default function AddWorkout() {
     setCurrent(workout.exercises[index]);
     setCurrentIndex(index);
   };
-
-  //   if (current && workout.exercises.length >= 1)
-  //     console.log(workout.exercises.indexOf(current));
 
   console.log(current);
   //   console.log(current.sets);
@@ -407,12 +406,16 @@ export default function AddWorkout() {
                   {edit
                     ? current.sets && (
                         <TableContainer component={Paper}>
-                          <Table aria-label="simple table">
+                          <Table
+                            aria-label="simple table"
+                            style={{ backgroundColor: "#161616" }}
+                          >
                             <TableHead>
                               <TableRow>
                                 <TableCell>Set #</TableCell>
                                 <TableCell>Reps</TableCell>
                                 <TableCell>Weight (lbs)</TableCell>
+                                <TableCell></TableCell>
                               </TableRow>
                             </TableHead>
                             <TableBody>
@@ -481,6 +484,23 @@ export default function AddWorkout() {
                                           />
                                         )}
                                       </TableCell>
+                                      {edit && (
+                                        <TableCell>
+                                          <IconButton
+                                            onClick={() => {
+                                              current.sets.splice(index, 1);
+                                              setRefresh(!refresh);
+                                            }}
+                                          >
+                                            <DeleteIcon
+                                              style={{
+                                                fontSize: "22px",
+                                                color: "#03dac5",
+                                              }}
+                                            />
+                                          </IconButton>
+                                        </TableCell>
+                                      )}
                                     </TableRow>
                                   </>
                                 );
@@ -553,6 +573,7 @@ export default function AddWorkout() {
             {workout.exercises.length >= 1 &&
               workout.exercises.map((exercise, index) => {
                 return (
+                  // need to change size of grid width
                   <>
                     <Grid container spacing={4}>
                       <Grid item lg={3}>
@@ -572,7 +593,17 @@ export default function AddWorkout() {
                           className={styles.setsItems}
                         >
                           <EditIcon
-                            style={{ fontSize: "30px", color: "#03dac5" }}
+                            style={{ fontSize: "22px", color: "#03dac5" }}
+                          />
+                        </IconButton>
+                        <IconButton
+                          onClick={() => {
+                            workout.exercises.splice(index, 1);
+                            setCurrent({});
+                          }}
+                        >
+                          <DeleteIcon
+                            style={{ fontSize: "22px", color: "#03dac5" }}
                           />
                         </IconButton>
                       </Grid>
