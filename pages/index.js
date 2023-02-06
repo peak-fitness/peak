@@ -70,8 +70,8 @@ export default function Home() {
                 </Grid>
                 <Grid item xs={12} sm={12} md={12} lg={12}>
                   <Typography variant="h6" fontWeight="300">
-                    Welcome to Peak, where we're passionate about helping you
-                    reach your fitness goals and lead a healthy lifestyle.
+                    Welcome to Peak, where we&apos;re passionate about helping
+                    you reach your fitness goals and lead a healthy lifestyle.
                     <br />
                     <br />
                     Our platform offers an attendance tracker, workout journal,
