@@ -17,6 +17,8 @@ import {
   Typography,
   ListItemIcon,
 } from "@material-ui/core";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 import {
   LocalizationProvider,
   PickersDay,
@@ -34,6 +36,7 @@ export default function MyWorkouts() {
   const [highlightedDays, setHighlightedDays] = useState([]); // need to grab day of month and add to array
   const [workout, setWorkout] = useState(null);
   const [exercises, setExercises] = useState([]);
+  const [refresh, setRefresh] = useState(false);
   const supabase = useSupabaseClient();
   const session = useSession();
   const router = useRouter();
@@ -54,7 +57,7 @@ export default function MyWorkouts() {
         .select(
           `
           auth_id, workout (
-            routine, notes, duration, date, user_id,
+            routine, notes, duration, date, user_id, id,
               exercises (
                 *,
                 sets (*)
@@ -82,6 +85,17 @@ export default function MyWorkouts() {
 
   const handleMonthChange = async () => {
     setHighlightedDays([]);
+  };
+
+  const handleDelete = async () => {
+    if (workout) {
+      for (const exercise of exercises) {
+        await supabase.from("sets").delete().eq("exercises_id", exercise.id);
+      }
+      await supabase.from("exercises").delete().eq("workout_id", workout.id);
+      await supabase.from("workout").delete().match({ id: workout.id });
+    }
+    setRefresh(!refresh);
   };
 
   return (
@@ -140,7 +154,22 @@ export default function MyWorkouts() {
             }}
           >
             {workout ? (
-              <Typography variant="h6">Workout: {workout.routine}</Typography>
+              <>
+                <Typography variant="h6">
+                  Workout: {workout.routine}
+                  <IconButton>
+                    <EditIcon style={{ fontSize: "22px", color: "#03dac5" }} />
+                  </IconButton>
+                  <IconButton onClick={handleDelete}>
+                    <DeleteIcon
+                      style={{
+                        fontSize: "22px",
+                        color: "#03dac5",
+                      }}
+                    />
+                  </IconButton>
+                </Typography>
+              </>
             ) : (
               <>
                 <Typography variant="h6">
