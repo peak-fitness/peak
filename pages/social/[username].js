@@ -60,3 +60,13 @@ export async function getStaticProps(context) {
     return { props: { error } };
   }
 }
+
+export async function getStaticPaths() {
+  const { data } = await supabase.from("user").select("username");
+
+  const paths = data.map((user) => ({
+    params: { username: user.username },
+  }));
+
+  return { paths, fallback: "blocking" };
+}
