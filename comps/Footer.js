@@ -151,7 +151,7 @@ const Footer = () => {
                 //   href="https://github.com/capstone-peak"
                 target="_blank"
               >
-                <InstagramIcon sx={{ color: "#E8E8E8" }} />
+                <InstagramIcon sx={{ color: "#E4405F" }} />
               </Link>
             </IconButton>
             <IconButton aria-label="facebook">
@@ -160,7 +160,7 @@ const Footer = () => {
                 //   href="https://github.com/capstone-peak"
                 target="_blank"
               >
-                <FacebookIcon sx={{ color: "#E8E8E8" }} />
+                <FacebookIcon sx={{ color: "#1877F2" }} />
               </Link>
             </IconButton>
             <IconButton aria-label="twitter">
@@ -169,7 +169,7 @@ const Footer = () => {
                 //   href="https://github.com/capstone-peak"
                 target="_blank"
               >
-                <TwitterIcon sx={{ color: "#E8E8E8" }} />
+                <TwitterIcon sx={{ color: "#1DA1F2" }} />
               </Link>
             </IconButton>
             <IconButton aria-label="github">
