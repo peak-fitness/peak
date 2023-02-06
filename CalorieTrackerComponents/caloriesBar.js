@@ -78,11 +78,13 @@ const CaloriesBar = ({ userId, date, saved }) => {
           data[0].meal.breakfast.map((food) => {
             proteinCalc += food.protein;
           });
-        } else if (data[0].meal.lunch) {
+        }
+        if (data[0].meal.lunch) {
           data[0].meal.lunch.map((food) => {
             proteinCalc += food.protein;
           });
-        } else if (data[0].meal.dinner) {
+        }
+        if (data[0].meal.dinner) {
           data[0].meal.dinner.map((food) => {
             proteinCalc += food.protein;
           });
