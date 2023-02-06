@@ -283,7 +283,12 @@ export default function Groups({ data }) {
               )}
             </div>
             <div className={styles.groupsContainer}>
-              <div className={styles.groups}></div>
+              <div className={styles.groups}>
+                {console.log("PROPS DATA", props.data)}
+                {props.data.map((user) => {
+                  <p key={user.id}>{user.username}</p>;
+                })}
+              </div>
             </div>
           </div>
         </div>
@@ -292,31 +297,9 @@ export default function Groups({ data }) {
   );
 }
 
-// export async function getServerSideProps() {
-//   const { data, error } = await supabase
-//     .from("groups")
-//     .select("*, members (*) ");
-//   console.log("ERROR", error);
+export async function getServerSideProps() {
+  const { data, error } = await supabase.from("user").select("*");
 
-// {
-//   created_at: "2023-02-02T17:19:28.022418+00:00";
-//   desc: "A test description";
-//   id: 1;
-//   name: "test group";
-//   --include statement--
-//   members: [{}, {}]
-// }
-
-// search functionality
-// create group button functionality
-// single group view page
-// content??
-// admins
-// edit settings (name, description)
-// edit users
-// add other admins?
-// creator???
-
-// const {data, error} = await supabase.from("group members").
-// return { props: { data } };
-// }
+  // const {data, error} = await supabase.from("group members").
+  return { props: { data } };
+}
