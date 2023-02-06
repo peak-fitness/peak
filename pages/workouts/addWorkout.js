@@ -685,7 +685,7 @@ export default function AddWorkout() {
                       <Grid item lg={3}>
                         <TextField
                           className={styles.sets}
-                          value={exercise.notes ? exercise.notes : "No notes"}
+                          value={exercise.notes ? exercise.notes : "N/A"}
                           InputProps={{
                             readOnly: true,
                           }}
