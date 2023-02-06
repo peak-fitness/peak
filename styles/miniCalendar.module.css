@@ -1,0 +1,28 @@
+.App {
+  font-family: sans-serif;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.myCustomCalendar {
+  width: 20em !important; /* previously was 33em */
+  max-height: 10em !important;
+}
+
+.myCustomCalendar .Calendar__section.-hiddenNext {
+  transform: translateX(100%); /* previously was 90% */
+}
+
+.myCustomCalendar .Calendar__section.-hiddenPrevious {
+  transform: translateX(-100%); /* previously was -90% */
+}
+
+.myCustomCalendar .Calendar__section {
+  padding: 0 1em; /* previously was 0 3.2em */
+}
+
+.myCustomCalendar .Calendar__weekDays {
+  padding: 0 0.8em; /* previously was 0 2.6em */
+}

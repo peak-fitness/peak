@@ -143,6 +143,14 @@
   padding: 5px;
 }
 
+.setsContainer {
+  white-space: nowrap;
+}
+
+.editSets {
+  background-color: #161616;
+  color: #161616;
+}
 /* sx={
   {
     // "&.MuiButton-text": { color: "#808080" },
