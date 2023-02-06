@@ -417,7 +417,7 @@ export default function AddWorkout() {
                         className={styles.setsItems}
                       >
                         <AddCircleIcon
-                          style={{ fontSize: "30px", color: "green" }}
+                          style={{ fontSize: "30px", color: "#03dac5" }}
                         />
                       </IconButton>
                     </FormControl>
