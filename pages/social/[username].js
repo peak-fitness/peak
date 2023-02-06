@@ -2,6 +2,7 @@ import { supabase } from "../../lib/supabaseClient.js";
 import { useEffect, useState } from "react";
 import Navbar from "../../comps/Navbar";
 import { useRouter } from "next/router";
+import { useSessionContext } from "@supabase/auth-helpers-react";
 
 // import { Container, Box, Button } from "@mui/material";
 import Container from "@mui/material/Container";
@@ -13,32 +14,72 @@ import Grid from "@mui/material/Grid";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
 export default function Public_Profile() {
+  const { isLoading, session, error } = useSessionContext();
   const router = useRouter();
+  const [loggedInUser, setLoggedInUser] = useState(null);
   const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
+  const [requested, setRequested] = useState(false);
+  const [Error, setError] = useState(null);
+  const { query, isReady } = router;
 
   const getProfile = async () => {
-    const { username } = router.query;
+    try {
+      if (!isReady) {
+        return;
+      }
+      const username = query.username;
+      const loggedInUserId = await supabase
+        .from("user")
+        .select("id, username")
+        .eq("auth_id", session.user.id)
+        .single();
+      setLoggedInUser(loggedInUserId.data);
+      const { data, error } = await supabase
+        .from("user")
+        .select(
+          "id, username, first_name, last_name, height, current_weight, age, gender, location, bio, social_medias"
+        )
+        .eq("username", username)
+        .single();
 
-    const { data, error } = await supabase
-      .from("user")
-      .select(
-        "username, first_name, last_name, height, current_weight, age, gender, location, bio, social_medias"
-      )
-      .eq("username", username)
-      .single();
+      if (error) {
+        setError(error);
+      } else {
+        setUser(data);
+      }
 
-    if (error) {
-      setError(error);
-    } else {
-      console.log(data);
-      setUser(data);
+      const isAdded = await supabase
+        .from("friends")
+        .select("id, status_code")
+        .match({ requester_id: loggedInUserId.data.id, addressee_id: data.id })
+        .single();
+      console.log(isAdded);
+      if (!isAdded.data) {
+        return;
+      } else if (isAdded.data.status_code === "Requested") {
+        setRequested(true);
+      }
+    } catch (error) {
+      console.log(error, "ERROR");
     }
+  };
+
+  const handleAdd = async () => {
+    const { data, error } = await supabase.from("friends").insert([
+      {
+        requester_id: loggedInUser.id,
+        requester_username: loggedInUser.username,
+        addressee_username: user.username,
+        addressee_id: user.id,
+        status_code: "Requested",
+      },
+    ]);
+    setRequested(true);
   };
 
   useEffect(() => {
     getProfile();
-  }, [error]);
+  }, [isReady]);
 
   return (
     <>
@@ -90,18 +131,37 @@ export default function Public_Profile() {
                     gap: "1rem",
                   }}
                 >
-                  <Button
-                    variant="contained"
-                    sx={{
-                      border: "solid 1px #03DAC5",
-                      backgroundColor: "#242424",
-                      borderRadius: "1rem",
-                      width: "2rem",
-                      padding: ".2rem 2.5rem .2rem 2.5rem",
-                    }}
-                  >
-                    ADD
-                  </Button>
+                  {requested ? (
+                    <Button
+                      variant="contained"
+                      disabled
+                      sx={{
+                        border: "solid 1px #03DAC5",
+                        backgroundColor: "#242424",
+                        borderRadius: "1rem",
+                        width: "2rem",
+                        padding: ".2rem 2.5rem .2rem 2.5rem",
+                      }}
+                      onClick={handleAdd}
+                    >
+                      Requested
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="contained"
+                      sx={{
+                        border: "solid 1px #03DAC5",
+                        backgroundColor: "#242424",
+                        borderRadius: "1rem",
+                        width: "2rem",
+                        padding: ".2rem 2.5rem .2rem 2.5rem",
+                      }}
+                      onClick={handleAdd}
+                    >
+                      ADD
+                    </Button>
+                  )}
+
                   <Button
                     variant="contained"
                     sx={{
@@ -153,9 +213,13 @@ export default function Public_Profile() {
                 </Grid>
               </Box>
             </>
-          ) : (
+          ) : Error ? (
             <Box>
               <h2>User does not exist</h2>
+            </Box>
+          ) : (
+            <Box>
+              <h2>Loading...</h2>
             </Box>
           )}
         </Container>
