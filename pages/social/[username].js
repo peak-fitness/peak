@@ -45,14 +45,14 @@ export default function Public_Profile(props) {
   );
 }
 
-export async function getStaticProps(context) {
-  const { username } = context.query;
+export async function getStaticProps({ params }) {
+  // const { username } = context.query;
   const { data } = await supabase
     .from("user")
     .select(
       "username, first_name, last_name, height, current_weight, age, gender, location, bio, social_medias"
     )
-    .eq("username", username)
+    .eq("username", params.username)
     .single();
   return { props: { profile: data }, revalidate: 10 };
 }
