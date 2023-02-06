@@ -50,7 +50,6 @@ export default function AddWorkout() {
   const router = useRouter();
   const [current, setCurrent] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [render, setRender] = useState(false);
 
   useEffect(() => {
     if (session) getUser();
@@ -133,9 +132,11 @@ export default function AddWorkout() {
 
   const addSetInEdit = (e) => {
     e.preventDefault();
+    setInvalidExercise(false);
+    const idx = current.sets[current.sets.length - 1].id + 1;
+    set.id = idx;
     current.sets.push(set);
-    // const currId = current.sets[current.sets.length - 1].id;
-    // updateSet({ id: currId + 1, reps: 1, weight: 0 });
+    updateSet({ id: set.id + 1, reps: 1, weight: 0 });
   };
 
   const handleSubmit = async () => {
@@ -188,7 +189,8 @@ export default function AddWorkout() {
   //     console.log(workout.exercises.indexOf(current));
 
   console.log(current);
-  console.log(workout);
+  //   console.log(current.sets);
+  //   console.log(workout);
 
   return (
     <>
@@ -343,10 +345,9 @@ export default function AddWorkout() {
                               [e.target.id]: e.target.checked,
                             });
                           }}
-                          checked={edit ? current.is_pr : null}
-                          //   defaultChecked={
-                          //     edit ? (current.is_pr ? true : false) : false
-                          //   } gives controlled element error/warning
+                          defaultChecked={edit ? current.is_pr : false}
+                          //   checked={edit ? current.is_pr : null} does not give error but on add exercises doesnt render checked box on
+                          // front end
                         />
                       }
                       label="Personal Best?"
@@ -423,10 +424,62 @@ export default function AddWorkout() {
                                         {set.id}
                                       </TableCell>
                                       <TableCell align="center">
-                                        {set.reps}
+                                        {edit && (
+                                          <TextField
+                                            className={styles.editSets}
+                                            type="number"
+                                            value={set.reps}
+                                            onChange={(e) => {
+                                              setCurrent((prevState) => ({
+                                                ...prevState,
+                                                sets: prevState.sets.map(
+                                                  (elem) => {
+                                                    if (elem.id === set.id) {
+                                                      return {
+                                                        ...elem,
+                                                        ...{
+                                                          reps: Number(
+                                                            e.target.value
+                                                          ),
+                                                        },
+                                                      };
+                                                    }
+                                                    return elem;
+                                                  }
+                                                ),
+                                              }));
+                                            }}
+                                          />
+                                        )}
                                       </TableCell>
                                       <TableCell align="center">
-                                        {set.weight}
+                                        {edit && (
+                                          <TextField
+                                            className={styles.editSets}
+                                            type="number"
+                                            value={set.weight}
+                                            onChange={(e) => {
+                                              setCurrent((prevState) => ({
+                                                ...prevState,
+                                                sets: prevState.sets.map(
+                                                  (elem) => {
+                                                    if (elem.id === set.id) {
+                                                      return {
+                                                        ...elem,
+                                                        ...{
+                                                          weight: Number(
+                                                            e.target.value
+                                                          ),
+                                                        },
+                                                      };
+                                                    }
+                                                    return elem;
+                                                  }
+                                                ),
+                                              }));
+                                            }}
+                                          />
+                                        )}
                                       </TableCell>
                                     </TableRow>
                                   </>
@@ -565,17 +618,8 @@ export default function AddWorkout() {
             Save
           </Button>
         </Box>
-        <TestRender />
         {/* </Paper> */}
       </Container>
-    </>
-  );
-}
-
-function TestRender() {
-  return (
-    <>
-      <p>This is a test render</p>
     </>
   );
 }
