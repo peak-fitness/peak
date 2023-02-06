@@ -45,7 +45,7 @@ export default function Public_Profile(props) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getStaticProps(context) {
   try {
     const { username } = context.query;
     const { data } = await supabase
@@ -55,7 +55,7 @@ export async function getServerSideProps(context) {
       )
       .eq("username", username)
       .single();
-    return { props: { profile: data } };
+    return { props: { profile: data }, revalidate: 10 };
   } catch (error) {
     return { props: { error } };
   }
