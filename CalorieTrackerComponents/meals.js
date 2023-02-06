@@ -138,7 +138,7 @@ export default function MealContainer() {
     setRemoved(true);
     setTimeout(() => {
       setRemoved(false);
-    }, 1000);
+    }, 1500);
   };
 
   const editMeal = (index, mealType, updatedMeal) => {
