@@ -17,13 +17,15 @@ import {
   StaticDatePicker,
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { CollectionsBookmarkOutlined } from "@mui/icons-material";
+import { ConstructionOutlined } from "@mui/icons-material";
 
 export default function MealContainer() {
   const supabase = useSupabaseClient();
   const session = useSession();
   const [saved, setSaved] = useState(false);
-  const [removed, setRemoved] = useState(false);
+  const [added, setAdded] = useState(false);
+  const [deleted, setDeleted] = useState(false);
+  // const [removed, setRemoved] = useState(false);
   const [edited, setEdited] = useState(false);
   const [checkDate, setCheckDate] = useState(false);
   const [value, setValue] = useState(0);
@@ -39,10 +41,12 @@ export default function MealContainer() {
     dinner: [],
   });
 
+  console.log(meals);
+
   useEffect(() => {
     fetchCurrentUserId();
     fetchUserMeals();
-  }, [totalCalories, totalProtein, date, saved]);
+  }, [totalCalories, totalProtein, date, saved, meals, added, deleted]);
 
   const fetchCurrentUserId = async () => {
     if (session) {
@@ -83,12 +87,13 @@ export default function MealContainer() {
     setTotalProtein(totalProtein + protein);
   };
 
-  const addMeal = (meal, mealType) => {
+  const addMeal = async (meal, mealType) => {
     setMeals({
       ...meals,
       [mealType]: [...meals[mealType], meal],
     });
     updateTotals(meal.calories, meal.protein);
+    setAdded(true);
   };
 
   const handleSave = async () => {
@@ -118,28 +123,36 @@ export default function MealContainer() {
           .select("*");
       }
       setSaved(true);
+      setAdded(false);
+      setDeleted(false);
     } else {
       setCheckDate(false);
     }
-    setTimeout(() => {
-      setSaved(false);
-    }, 1500);
   };
+
+  // console.log("deleted:", deleted);
+  // console.log("added:", added);
+  console.log("meals:", meals);
+  console.log("fetchedMeals:", fetchMeals);
 
   const removeMeal = async (mealIndex, mealType) => {
     const removedMeal = fetchMeals[mealType][mealIndex];
+    console.log("REMOVEDMEAL:", removedMeal);
     setMeals({
-      ...fetchMeals,
-      [mealType]: fetchMeals[mealType].filter(
-        (meal, index) => index !== mealIndex
-      ),
+      ...meals,
+      [mealType]: meals[mealType].filter((meal, index) => index !== mealIndex),
     });
-    updateTotals(-removedMeal.calories, -removedMeal.protein);
-    setRemoved(true);
-    setTimeout(() => {
-      setRemoved(false);
-    }, 1500);
+    if (removedMeal) {
+      updateTotals(-removedMeal.calories, -removedMeal.protein);
+    }
+    setDeleted(true);
+    // setRemoved(true);
+    // setTimeout(() => {
+    //   setRemoved(false);
+    // }, 1500);
   };
+
+  // console.log("HERE", meals);
 
   const editMeal = (index, mealType, updatedMeal) => {
     const oldMeal = fetchMeals[mealType][index];
@@ -191,6 +204,9 @@ export default function MealContainer() {
             onChange={(newDate) => {
               setDate(newDate);
               setCheckDate(true);
+              setSaved(false);
+              setAdded(false);
+              setDeleted(false);
             }}
             renderInput={(params) => <TextField {...params} />}
             dayOfWeekFormatter={(day) => `${day}.`}
@@ -237,47 +253,89 @@ export default function MealContainer() {
               <div>
                 <MealForm addMeal={(meal) => addMeal(meal, "breakfast")} />
                 <br />
-                {fetchMeals &&
-                  fetchMeals.breakfast.map((meal, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginBottom: "0px",
-                        paddingLeft: 40,
-                        paddingRight: 40,
-                      }}
-                    >
-                      <IconButton
-                        onClick={() => removeMeal(index, "breakfast")}
-                        style={{ marginLeft: "10px" }}
+                {!added && !deleted
+                  ? fetchMeals &&
+                    fetchMeals.breakfast.map((meal, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginBottom: "0px",
+                          paddingLeft: 40,
+                          paddingRight: 40,
+                        }}
                       >
-                        <RemoveCircleIcon
-                          style={{ fontSize: "30px", color: "#a83c32" }}
-                        />
-                      </IconButton>
-                      <p style={{ fontSize: "16px" }}>{meal.name}</p>
-                      <p style={{ fontSize: "16px" }}>
-                        {meal.calories} calories
-                      </p>
-                      <p style={{ fontSize: "16px" }}>
-                        {meal.protein}g protein
-                      </p>
-
-                      <div>
                         <IconButton
-                          onClick={() => handleEditClick(index, "breakfast")}
-                          style={{}}
+                          onClick={() => removeMeal(index, "breakfast")}
+                          style={{ marginLeft: "10px" }}
                         >
-                          <EditIcon
-                            style={{ fontSize: "30px", color: "#326da8" }}
+                          <RemoveCircleIcon
+                            style={{ fontSize: "30px", color: "#a83c32" }}
                           />
                         </IconButton>
+                        <p style={{ fontSize: "16px" }}>{meal.name}</p>
+                        <p style={{ fontSize: "16px" }}>
+                          {meal.calories} calories
+                        </p>
+                        <p style={{ fontSize: "16px" }}>
+                          {meal.protein}g protein
+                        </p>
+
+                        <div>
+                          <IconButton
+                            onClick={() => handleEditClick(index, "breakfast")}
+                            style={{}}
+                          >
+                            <EditIcon
+                              style={{ fontSize: "30px", color: "#326da8" }}
+                            />
+                          </IconButton>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  : meals &&
+                    meals.breakfast.map((meal, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginBottom: "0px",
+                          paddingLeft: 40,
+                          paddingRight: 40,
+                        }}
+                      >
+                        <IconButton
+                          onClick={() => removeMeal(index, "breakfast")}
+                          style={{ marginLeft: "10px" }}
+                        >
+                          <RemoveCircleIcon
+                            style={{ fontSize: "30px", color: "#a83c32" }}
+                          />
+                        </IconButton>
+                        <p style={{ fontSize: "16px" }}>{meal.name}</p>
+                        <p style={{ fontSize: "16px" }}>
+                          {meal.calories} calories
+                        </p>
+                        <p style={{ fontSize: "16px" }}>
+                          {meal.protein}g protein
+                        </p>
+
+                        <div>
+                          <IconButton
+                            onClick={() => handleEditClick(index, "breakfast")}
+                            style={{}}
+                          >
+                            <EditIcon
+                              style={{ fontSize: "30px", color: "#326da8" }}
+                            />
+                          </IconButton>
+                        </div>
+                      </div>
+                    ))}
                 {editMealIndex !== -1 && editMealType === "breakfast" && (
                   <EditMealForm
                     meal={fetchMeals.breakfast[editMealIndex]}
@@ -292,47 +350,89 @@ export default function MealContainer() {
               <div>
                 <MealForm addMeal={(meal) => addMeal(meal, "lunch")} />
                 <br />
-                {fetchMeals &&
-                  fetchMeals.lunch.map((meal, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginBottom: "0px",
-                        paddingLeft: 40,
-                        paddingRight: 40,
-                      }}
-                    >
-                      <IconButton
-                        onClick={() => removeMeal(index, "lunch")}
-                        style={{ marginLeft: "10px" }}
+                {!added && !deleted
+                  ? fetchMeals &&
+                    fetchMeals.lunch.map((meal, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginBottom: "0px",
+                          paddingLeft: 40,
+                          paddingRight: 40,
+                        }}
                       >
-                        <RemoveCircleIcon
-                          style={{ fontSize: "30px", color: "#a83c32" }}
-                        />
-                      </IconButton>
-                      <p style={{ fontSize: "16px" }}>{meal.name}</p>
-                      <p style={{ fontSize: "16px" }}>
-                        {meal.calories} calories
-                      </p>
-                      <p style={{ fontSize: "16px" }}>
-                        {meal.protein}g protein
-                      </p>
-
-                      <div>
                         <IconButton
-                          onClick={() => handleEditClick(index, "lunch")}
-                          style={{}}
+                          onClick={() => removeMeal(index, "lunch")}
+                          style={{ marginLeft: "10px" }}
                         >
-                          <EditIcon
-                            style={{ fontSize: "30px", color: "#326da8" }}
+                          <RemoveCircleIcon
+                            style={{ fontSize: "30px", color: "#a83c32" }}
                           />
                         </IconButton>
+                        <p style={{ fontSize: "16px" }}>{meal.name}</p>
+                        <p style={{ fontSize: "16px" }}>
+                          {meal.calories} calories
+                        </p>
+                        <p style={{ fontSize: "16px" }}>
+                          {meal.protein}g protein
+                        </p>
+
+                        <div>
+                          <IconButton
+                            onClick={() => handleEditClick(index, "lunch")}
+                            style={{}}
+                          >
+                            <EditIcon
+                              style={{ fontSize: "30px", color: "#326da8" }}
+                            />
+                          </IconButton>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  : meals &&
+                    meals.lunch.map((meal, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginBottom: "0px",
+                          paddingLeft: 40,
+                          paddingRight: 40,
+                        }}
+                      >
+                        <IconButton
+                          onClick={() => removeMeal(index, "lunch")}
+                          style={{ marginLeft: "10px" }}
+                        >
+                          <RemoveCircleIcon
+                            style={{ fontSize: "30px", color: "#a83c32" }}
+                          />
+                        </IconButton>
+                        <p style={{ fontSize: "16px" }}>{meal.name}</p>
+                        <p style={{ fontSize: "16px" }}>
+                          {meal.calories} calories
+                        </p>
+                        <p style={{ fontSize: "16px" }}>
+                          {meal.protein}g protein
+                        </p>
+
+                        <div>
+                          <IconButton
+                            onClick={() => handleEditClick(index, "lunch")}
+                            style={{}}
+                          >
+                            <EditIcon
+                              style={{ fontSize: "30px", color: "#326da8" }}
+                            />
+                          </IconButton>
+                        </div>
+                      </div>
+                    ))}
                 {editMealIndex !== -1 && editMealType === "lunch" && (
                   <EditMealForm
                     meal={meals.lunch[editMealIndex]}
@@ -347,47 +447,89 @@ export default function MealContainer() {
               <div>
                 <MealForm addMeal={(meal) => addMeal(meal, "dinner")} />
                 <br />
-                {fetchMeals &&
-                  fetchMeals.dinner.map((meal, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                        marginBottom: "0px",
-                        paddingLeft: 40,
-                        paddingRight: 40,
-                      }}
-                    >
-                      <IconButton
-                        onClick={() => removeMeal(index, "dinner")}
-                        style={{ marginLeft: "10px" }}
+                {!added && !deleted
+                  ? fetchMeals &&
+                    fetchMeals.dinner.map((meal, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginBottom: "0px",
+                          paddingLeft: 40,
+                          paddingRight: 40,
+                        }}
                       >
-                        <RemoveCircleIcon
-                          style={{ fontSize: "30px", color: "#a83c32" }}
-                        />
-                      </IconButton>
-                      <p style={{ fontSize: "16px" }}>{meal.name}</p>
-                      <p style={{ fontSize: "16px" }}>
-                        {meal.calories} calories
-                      </p>
-                      <p style={{ fontSize: "16px" }}>
-                        {meal.protein}g protein
-                      </p>
-
-                      <div>
                         <IconButton
-                          onClick={() => handleEditClick(index, "dinner")}
-                          style={{}}
+                          onClick={() => removeMeal(index, "dinner")}
+                          style={{ marginLeft: "10px" }}
                         >
-                          <EditIcon
-                            style={{ fontSize: "30px", color: "#326da8" }}
+                          <RemoveCircleIcon
+                            style={{ fontSize: "30px", color: "#a83c32" }}
                           />
                         </IconButton>
+                        <p style={{ fontSize: "16px" }}>{meal.name}</p>
+                        <p style={{ fontSize: "16px" }}>
+                          {meal.calories} calories
+                        </p>
+                        <p style={{ fontSize: "16px" }}>
+                          {meal.protein}g protein
+                        </p>
+
+                        <div>
+                          <IconButton
+                            onClick={() => handleEditClick(index, "dinner")}
+                            style={{}}
+                          >
+                            <EditIcon
+                              style={{ fontSize: "30px", color: "#326da8" }}
+                            />
+                          </IconButton>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))
+                  : meals &&
+                    meals.dinner.map((meal, index) => (
+                      <div
+                        key={index}
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "space-between",
+                          marginBottom: "0px",
+                          paddingLeft: 40,
+                          paddingRight: 40,
+                        }}
+                      >
+                        <IconButton
+                          onClick={() => removeMeal(index, "dinner")}
+                          style={{ marginLeft: "10px" }}
+                        >
+                          <RemoveCircleIcon
+                            style={{ fontSize: "30px", color: "#a83c32" }}
+                          />
+                        </IconButton>
+                        <p style={{ fontSize: "16px" }}>{meal.name}</p>
+                        <p style={{ fontSize: "16px" }}>
+                          {meal.calories} calories
+                        </p>
+                        <p style={{ fontSize: "16px" }}>
+                          {meal.protein}g protein
+                        </p>
+
+                        <div>
+                          <IconButton
+                            onClick={() => handleEditClick(index, "dinner")}
+                            style={{}}
+                          >
+                            <EditIcon
+                              style={{ fontSize: "30px", color: "#326da8" }}
+                            />
+                          </IconButton>
+                        </div>
+                      </div>
+                    ))}
                 {editMealIndex !== -1 && editMealType === "dinner" && (
                   <EditMealForm
                     meal={meals.dinner[editMealIndex]}
@@ -415,7 +557,7 @@ export default function MealContainer() {
               SAVE
             </Button>
             {!checkDate && <p>Please Select Date!</p>}
-            {removed && <p>Removed!</p>}
+            {/* {removed && <p>Removed!</p>} */}
             {edited && <p>Edited!</p>}
           </div>
         </div>
