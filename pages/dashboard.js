@@ -13,7 +13,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 
-import MenuIcon from "@mui/icons-material/Menu";
+import WidgetsIcon from "@mui/icons-material/Widgets";
 import mainListItems from "../DashboardComponents/listItems";
 import Chart from "../DashboardComponents/Chart";
 import CalendarView from "../DashboardComponents/CalendarView";
@@ -29,12 +29,16 @@ import DashboardItems from "../DashboardComponents/dashboardItems";
 const darkTheme = createTheme({
   palette: {
     type: "dark",
+    primary: {
+      main: "#03dac5",
+    },
+    secondary: {
+      main: "#E8E8E8",
+    },
+    contrast: {
+      main: "#03DAC5",
+    },
   },
-  text: {
-    primary: "#ffffff",
-    secondary: "#aaa",
-  },
-  background: { default: "#161616" },
 });
 
 const drawerWidth = 240;
@@ -127,7 +131,7 @@ function DashboardContent() {
                       }}
                     >
                       <IconButton onClick={toggleDrawer}>
-                        <MenuIcon />
+                        <WidgetsIcon />
                       </IconButton>
                     </Toolbar>
                     <Divider />
@@ -167,7 +171,7 @@ function DashboardContent() {
                     <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
                       <Grid container spacing={3}>
                         {/* Chart */}
-                        <Grid item xs={12} md={7} lg={9}>
+                        <Grid item xs={12} md={8} lg={9} sm={12}>
                           <Paper
                             sx={{
                               p: 2,
@@ -181,11 +185,11 @@ function DashboardContent() {
                           </Paper>
                         </Grid>
                         {/* Calendar*/}
-                        <Grid item xs={9} md={5} lg={3}>
+                        <Grid item xs={12} md={4} lg={3} sm={7}>
                           <Paper
                             sx={{
-                              pt: 2,
-                              pb: 2,
+                              pt: 0,
+                              pb: 0,
                               pl: 0,
                               pr: 0,
                               display: "flex",
@@ -197,8 +201,8 @@ function DashboardContent() {
                             <CalendarView />
                           </Paper>
                         </Grid>
-                        {/* Recent Orders */}
-                        <Grid item xs={12} md={9} lg={9}>
+                        {/* Recent Workouts */}
+                        <Grid item xs={20} md={9} lg={9}>
                           <Paper
                             sx={{
                               p: 2,
@@ -211,7 +215,7 @@ function DashboardContent() {
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={7} md={3} lg={3}>
+                        <Grid item xs={12} md={3} lg={3}>
                           <Paper
                             sx={{ p: 1, display: "flex", flexDirection: "row" }}
                             style={{ backgroundColor: "#202020" }}
