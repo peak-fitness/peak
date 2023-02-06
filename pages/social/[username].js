@@ -9,6 +9,7 @@ export default function Public_Profile(props) {
   return (
     <>
       <Navbar />
+      {console.log(props.error)}
       <Container
         maxWidth="lg"
         sx={{
@@ -45,13 +46,17 @@ export default function Public_Profile(props) {
 }
 
 export async function getServerSideProps(context) {
-  const { username } = context.query;
-  const { data } = await supabase
-    .from("user")
-    .select(
-      "username, first_name, last_name, height, current_weight, age, gender, location, bio, social_medias"
-    )
-    .eq("username", username)
-    .single();
-  return { props: { profile: data } };
+  try {
+    const { username } = context.query;
+    const { data } = await supabase
+      .from("user")
+      .select(
+        "username, first_name, last_name, height, current_weight, age, gender, location, bio, social_medias"
+      )
+      .eq("username", username)
+      .single();
+    return { props: { profile: data } };
+  } catch (error) {
+    return { props: { error } };
+  }
 }
