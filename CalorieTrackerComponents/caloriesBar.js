@@ -40,15 +40,21 @@ const CaloriesBar = ({ userId, date, saved }) => {
         .eq("date", dateString);
       if (data[0]) {
         let calorieCalc = 0;
-        data[0].meal.breakfast.map((food) => {
-          calorieCalc += food.calories;
-        });
-        data[0].meal.lunch.map((food) => {
-          calorieCalc += food.calories;
-        });
-        data[0].meal.dinner.map((food) => {
-          calorieCalc += food.calories;
-        });
+        if (data[0].meal.breakfast) {
+          data[0].meal.breakfast.map((food) => {
+            calorieCalc += food.calories;
+          });
+        }
+        if (data[0].meal.lunch) {
+          data[0].meal.lunch.map((food) => {
+            calorieCalc += food.calories;
+          });
+        }
+        if (data[0].meal.dinner) {
+          data[0].meal.dinner.map((food) => {
+            calorieCalc += food.calories;
+          });
+        }
         setTotalCaloriesConsumed(Number(calorieCalc));
       } else {
         setTotalCaloriesConsumed(0);
@@ -68,15 +74,19 @@ const CaloriesBar = ({ userId, date, saved }) => {
         .eq("date", dateString);
       if (data[0]) {
         let proteinCalc = 0;
-        data[0].meal.breakfast.map((food) => {
-          proteinCalc += food.protein;
-        });
-        data[0].meal.lunch.map((food) => {
-          proteinCalc += food.protein;
-        });
-        data[0].meal.dinner.map((food) => {
-          proteinCalc += food.protein;
-        });
+        if (data[0].meal.breakfast) {
+          data[0].meal.breakfast.map((food) => {
+            proteinCalc += food.protein;
+          });
+        } else if (data[0].meal.lunch) {
+          data[0].meal.lunch.map((food) => {
+            proteinCalc += food.protein;
+          });
+        } else if (data[0].meal.dinner) {
+          data[0].meal.dinner.map((food) => {
+            proteinCalc += food.protein;
+          });
+        }
         setTotalProteinConsumed(Number(proteinCalc));
       } else {
         setTotalProteinConsumed(0);
