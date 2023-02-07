@@ -17,7 +17,7 @@ import {
   StaticDatePicker,
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { ConstructionOutlined } from "@mui/icons-material";
+import { ConstructionOutlined, EightK } from "@mui/icons-material";
 
 export default function MealContainer() {
   const supabase = useSupabaseClient();
@@ -25,12 +25,9 @@ export default function MealContainer() {
   const [saved, setSaved] = useState(false);
   const [added, setAdded] = useState(false);
   const [deleted, setDeleted] = useState(false);
-  // const [removed, setRemoved] = useState(false);
   const [edited, setEdited] = useState(false);
   const [checkDate, setCheckDate] = useState(false);
   const [value, setValue] = useState(0);
-  const [totalCalories, setTotalCalories] = useState(0);
-  const [totalProtein, setTotalProtein] = useState(0);
   const [userId, setUserId] = useState(null);
   const [date, setDate] = useState(null);
   const [highlightedDays, setHighlightedDays] = useState([]);
@@ -41,12 +38,10 @@ export default function MealContainer() {
     dinner: [],
   });
 
-  console.log(meals);
-
   useEffect(() => {
     fetchCurrentUserId();
     fetchUserMeals();
-  }, [totalCalories, totalProtein, date, saved, meals, added, deleted]);
+  }, [date, saved, meals, added, deleted, edited]);
 
   const fetchCurrentUserId = async () => {
     if (session) {
@@ -82,17 +77,11 @@ export default function MealContainer() {
     setValue(newValue);
   };
 
-  const updateTotals = (calories, protein) => {
-    setTotalCalories(totalCalories + calories);
-    setTotalProtein(totalProtein + protein);
-  };
-
   const addMeal = async (meal, mealType) => {
     setMeals({
       ...meals,
       [mealType]: [...meals[mealType], meal],
     });
-    updateTotals(meal.calories, meal.protein);
     setAdded(true);
   };
 
@@ -125,48 +114,34 @@ export default function MealContainer() {
       setSaved(true);
       setAdded(false);
       setDeleted(false);
+      setEdited(false);
     } else {
       setCheckDate(false);
     }
   };
 
-  // console.log("deleted:", deleted);
-  // console.log("added:", added);
   console.log("meals:", meals);
   console.log("fetchedMeals:", fetchMeals);
 
   const removeMeal = async (mealIndex, mealType) => {
     const removedMeal = fetchMeals[mealType][mealIndex];
-    console.log("REMOVEDMEAL:", removedMeal);
     setMeals({
       ...meals,
       [mealType]: meals[mealType].filter((meal, index) => index !== mealIndex),
     });
-    if (removedMeal) {
-      updateTotals(-removedMeal.calories, -removedMeal.protein);
-    }
     setDeleted(true);
-    // setRemoved(true);
-    // setTimeout(() => {
-    //   setRemoved(false);
-    // }, 1500);
   };
-
-  // console.log("HERE", meals);
 
   const editMeal = (index, mealType, updatedMeal) => {
     const oldMeal = fetchMeals[mealType][index];
-    const caloriesDiff = updatedMeal.calories - oldMeal.calories;
-    const proteinDiff = updatedMeal.protein - oldMeal.protein;
     setMeals({
-      ...fetchMeals,
+      ...meals,
       [mealType]: [
-        ...fetchMeals[mealType].slice(0, index),
+        ...meals[mealType].slice(0, index),
         updatedMeal,
-        ...fetchMeals[mealType].slice(index + 1),
+        ...meals[mealType].slice(index + 1),
       ],
     });
-    updateTotals(caloriesDiff, proteinDiff);
   };
 
   const [editMealIndex, setEditMealIndex] = useState(-1);
@@ -182,9 +157,6 @@ export default function MealContainer() {
     setEditMealIndex(-1);
     setEditMealType("");
     setEdited(true);
-    setTimeout(() => {
-      setEdited(false);
-    }, 1500);
   };
 
   return (
@@ -193,7 +165,6 @@ export default function MealContainer() {
         <div>
           {/* date bar & total calories bar  */}
           {/* <CaloriesNav date={date} /> */}
-
           <StaticDatePicker
             sx={{
               backgroundColor: "#161616",
@@ -207,6 +178,7 @@ export default function MealContainer() {
               setSaved(false);
               setAdded(false);
               setDeleted(false);
+              setEdited(false);
             }}
             renderInput={(params) => <TextField {...params} />}
             dayOfWeekFormatter={(day) => `${day}.`}
@@ -228,7 +200,15 @@ export default function MealContainer() {
               );
             }}
           />
-          <CaloriesBar userId={userId} date={date} saved={saved} />
+          <CaloriesBar
+            userId={userId}
+            date={date}
+            saved={saved}
+            meals={meals}
+            added={added}
+            deleted={deleted}
+            edited={edited}
+          />
           <div align="center" justifycontent="center">
             <Tabs
               letiant="fullWidth"
@@ -253,7 +233,7 @@ export default function MealContainer() {
               <div>
                 <MealForm addMeal={(meal) => addMeal(meal, "breakfast")} />
                 <br />
-                {!added && !deleted
+                {!added && !deleted && !edited
                   ? fetchMeals &&
                     fetchMeals.breakfast.map((meal, index) => (
                       <div
@@ -338,7 +318,7 @@ export default function MealContainer() {
                     ))}
                 {editMealIndex !== -1 && editMealType === "breakfast" && (
                   <EditMealForm
-                    meal={fetchMeals.breakfast[editMealIndex]}
+                    meal={meals.breakfast[editMealIndex]}
                     onEdit={handleEditSubmit}
                   />
                 )}
@@ -350,7 +330,7 @@ export default function MealContainer() {
               <div>
                 <MealForm addMeal={(meal) => addMeal(meal, "lunch")} />
                 <br />
-                {!added && !deleted
+                {!added && !deleted && !edited
                   ? fetchMeals &&
                     fetchMeals.lunch.map((meal, index) => (
                       <div
@@ -447,7 +427,7 @@ export default function MealContainer() {
               <div>
                 <MealForm addMeal={(meal) => addMeal(meal, "dinner")} />
                 <br />
-                {!added && !deleted
+                {!added && !deleted && !edited
                   ? fetchMeals &&
                     fetchMeals.dinner.map((meal, index) => (
                       <div
@@ -557,8 +537,6 @@ export default function MealContainer() {
               SAVE
             </Button>
             {!checkDate && <p>Please Select Date!</p>}
-            {/* {removed && <p>Removed!</p>} */}
-            {edited && <p>Edited!</p>}
           </div>
         </div>
       </Container>

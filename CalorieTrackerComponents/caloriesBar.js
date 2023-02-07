@@ -4,7 +4,15 @@ import Grid from "@material-ui/core/Grid";
 import Container from "@mui/material/Container";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 
-const CaloriesBar = ({ userId, date, saved }) => {
+const CaloriesBar = ({
+  userId,
+  date,
+  saved,
+  meals,
+  added,
+  deleted,
+  edited,
+}) => {
   const supabase = useSupabaseClient();
   const session = useSession();
   const [goalCalories, setGoalCalories] = useState(null);
@@ -16,7 +24,7 @@ const CaloriesBar = ({ userId, date, saved }) => {
     fetchTargetCalories();
     fetchTotalCaloriesConsumed();
     fetchTotalProteinConsumed();
-  }, [date, saved]);
+  }, [date, saved, meals, added, deleted, edited]);
 
   const fetchTargetCalories = async () => {
     if (session) {
