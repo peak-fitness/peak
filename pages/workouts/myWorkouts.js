@@ -30,6 +30,7 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import dayjs from "dayjs";
 
 export default function MyWorkouts() {
   const [date, setDate] = useState(null);
@@ -78,7 +79,9 @@ export default function MyWorkouts() {
     const { data, error } = await supabase.from("workout").select("date");
     // .eq('date'.slice(5,7), String(date.$M+1).padStart(2,0));
     for (const elem of data) {
-      days.push(Number(elem.date.slice(8)));
+      const workoutDate = dayjs(elem.date);
+      const formattedDate = workoutDate.format("YYYY-MM-DD");
+      days.push(formattedDate);
     }
     setHighlightedDays(days);
   };
@@ -130,7 +133,7 @@ export default function MyWorkouts() {
               renderDay={(day, _value, DayComponentProps) => {
                 const isSelected =
                   !DayComponentProps.outsideCurrentMonth &&
-                  highlightedDays.indexOf(day.date()) >= 0;
+                  highlightedDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
 
                 return (
                   <Badge
