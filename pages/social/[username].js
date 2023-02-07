@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../../comps/Navbar";
 import { useRouter } from "next/router";
 import { useSessionContext } from "@supabase/auth-helpers-react";
+import styles from "@/styles/Profiles.module.css";
 
 // import { Container, Box, Button } from "@mui/material";
 import Container from "@mui/material/Container";
@@ -18,7 +19,7 @@ export default function Public_Profile() {
   const router = useRouter();
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [user, setUser] = useState(null);
-  const [requested, setRequested] = useState(false);
+  const [friendStatus, setFriendStatus] = useState("N");
   const [Error, setError] = useState(null);
   const { query, isReady } = router;
 
@@ -57,24 +58,40 @@ export default function Public_Profile() {
       if (!isAdded.data) {
         return;
       } else if (isAdded.data.status_code === "Requested") {
-        setRequested(true);
+        setFriendStatus("R");
+      } else if (isAdded.data.status_code === "Accepted") {
+        setFriendStatus("A");
       }
     } catch (error) {
       console.log(error, "ERROR");
     }
   };
 
-  const handleAdd = async () => {
-    const { data, error } = await supabase.from("friends").insert([
-      {
-        requester_id: loggedInUser.id,
-        requester_username: loggedInUser.username,
-        addressee_username: user.username,
-        addressee_id: user.id,
-        status_code: "Requested",
-      },
-    ]);
-    setRequested(true);
+  const handleAdd = async (evt) => {
+    const status = evt.target.value;
+
+    if (status === "add") {
+      const { data, error } = await supabase.from("friends").insert([
+        {
+          requester_id: loggedInUser.id,
+          requester_username: loggedInUser.username,
+          addressee_username: user.username,
+          addressee_id: user.id,
+          status_code: "Requested",
+        },
+      ]);
+      setFriendStatus("R");
+    } else if (status === "requested" || status === "friend") {
+      const { data, error } = await supabase
+        .from("friends")
+        .delete()
+        .match({ requester_id: loggedInUser.id, addressee_id: user.id });
+      if (error) {
+        setError(error);
+      } else {
+        setFriendStatus("N");
+      }
+    }
   };
 
   useEffect(() => {
@@ -115,7 +132,7 @@ export default function Public_Profile() {
                 }}
               >
                 <Box>
-                  <AccountCircle sx={{ width: "8rem", height: "8rem" }} />
+                  <AccountCircle id={styles.defaultProfileIcon} />
                   <Typography variant="h5" sx={{ marginBottom: "0" }}>
                     {user.first_name + " " + user.last_name}
                   </Typography>
@@ -131,24 +148,31 @@ export default function Public_Profile() {
                     gap: "1rem",
                   }}
                 >
-                  {requested ? (
+                  {friendStatus === "R" || friendStatus === "A" ? (
                     <Button
                       variant="contained"
-                      disabled
+                      value={
+                        friendStatus === "R"
+                          ? "requested"
+                          : friendStatus === "A"
+                          ? "friend"
+                          : "add"
+                      }
                       sx={{
                         border: "solid 1px #03DAC5",
                         backgroundColor: "#242424",
                         borderRadius: "1rem",
                         width: "2rem",
-                        padding: ".2rem 2.5rem .2rem 2.5rem",
+                        padding: ".2rem 5rem .2rem 5rem",
                       }}
                       onClick={handleAdd}
                     >
-                      Requested
+                      {friendStatus === "R" ? "Requested" : "Unfriend"}
                     </Button>
                   ) : (
                     <Button
                       variant="contained"
+                      value="add"
                       sx={{
                         border: "solid 1px #03DAC5",
                         backgroundColor: "#242424",
