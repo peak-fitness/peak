@@ -126,12 +126,12 @@ const DashboardItems = () => {
               </ListItemButton>
 
               <ListItemButton
-                onClick={() => (window.location.href = "/groups")}
+                onClick={() => (window.location.href = "/social")}
               >
                 <ListItemIcon>
                   <Groups2RoundedIcon />
                 </ListItemIcon>
-                <ListItemText primary="Groups" />
+                <ListItemText primary="Social" />
               </ListItemButton>
 
               <ListItemButton
