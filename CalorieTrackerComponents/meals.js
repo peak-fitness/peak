@@ -22,6 +22,7 @@ import {
   StaticDatePicker,
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs from "dayjs";
 
 export default function MealContainer() {
   const supabase = useSupabaseClient();
@@ -45,6 +46,7 @@ export default function MealContainer() {
   useEffect(() => {
     fetchCurrentUserId();
     fetchUserMeals();
+    fetchHighlightedDays();
   }, [date, saved]);
 
   const fetchCurrentUserId = async () => {
@@ -56,6 +58,17 @@ export default function MealContainer() {
         .single();
       setUserId(data.id);
     }
+  };
+
+  const fetchHighlightedDays = async () => {
+    let days = [];
+    const { data, error } = await supabase.from("meals").select("date");
+    for (const elem of data) {
+      const mealDate = dayjs(elem.date);
+      const formattedDate = mealDate.format("YYYY-MM-DD");
+      days.push(formattedDate);
+    }
+    setHighlightedDays(days);
   };
 
   const fetchUserMeals = async () => {
@@ -198,7 +211,7 @@ export default function MealContainer() {
             renderDay={(day, _value, DayComponentProps) => {
               const isSelected =
                 !DayComponentProps.outsideCurrentMonth &&
-                highlightedDays.indexOf(day.date()) >= 0;
+                highlightedDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
 
               return (
                 <Badge
