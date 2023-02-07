@@ -49,6 +49,7 @@ export default function AddWorkout() {
   const [current, setCurrent] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
   const [refresh, setRefresh] = useState(false);
+  const [update, setUpdate] = useState(false);
 
   const session = useSession();
   const supabase = useSupabaseClient();
@@ -91,7 +92,6 @@ export default function AddWorkout() {
   );
 
   const importData = () => {
-    // console.log(router.query);
     const encodedWorkout = router.query.data;
     if (encodedWorkout) {
       const decodedWorkout = JSON.parse(decodeURIComponent(encodedWorkout));
@@ -99,11 +99,11 @@ export default function AddWorkout() {
         routine: decodedWorkout.routine,
         notes: decodedWorkout.notes,
         duration: decodedWorkout.duration,
+        exercises: decodedWorkout.exercises,
       });
     }
+    setUpdate(true);
   };
-
-  console.log(workout);
 
   // if (router.query.routine) {
   //   console.log(router.query);
