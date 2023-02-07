@@ -249,10 +249,6 @@ export default function Groups() {
                   ) : (
                     <div className={styles.requestContainer}>
                       {/* map over all the requests */}
-                      {/* WHEN I GET BACK
-                      REQUESTS WHEN EMPTY SHOULD SAY
-                      "No requests yet!"
-                      */}
                       {user.friends.length === 0 ? (
                         <div className={styles.noRequests}>
                           <p>No requests yet!</p>
