@@ -87,14 +87,6 @@ export default function MealContainer() {
     setValue(newValue);
   };
 
-  const addMeal = async (meal, mealType) => {
-    setMeals({
-      ...meals,
-      [mealType]: [...meals[mealType], meal],
-    });
-    setAdded(true);
-  };
-
   const handleSave = async () => {
     if (date) {
       setCheckDate(true);
@@ -128,6 +120,14 @@ export default function MealContainer() {
     } else {
       setCheckDate(false);
     }
+  };
+
+  const addMeal = async (meal, mealType) => {
+    setMeals({
+      ...meals,
+      [mealType]: [...meals[mealType], meal],
+    });
+    setAdded(true);
   };
 
   const removeMeal = async (mealIndex, mealType) => {
@@ -165,6 +165,11 @@ export default function MealContainer() {
     setEditMealType("");
     setEdited(true);
   };
+  console.log("SAVED", saved);
+  console.log("added ", added);
+  console.log("edited", edited);
+  console.log("deleted", deleted);
+  console.log("meals", meals);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -240,7 +245,7 @@ export default function MealContainer() {
               <div>
                 <MealForm addMeal={(meal) => addMeal(meal, "breakfast")} />
                 <br />
-                {!added && !deleted && !edited
+                {!added && !deleted && !edited && !saved
                   ? fetchMeals &&
                     fetchMeals.breakfast.map((meal, index) => (
                       <div
@@ -337,7 +342,7 @@ export default function MealContainer() {
               <div>
                 <MealForm addMeal={(meal) => addMeal(meal, "lunch")} />
                 <br />
-                {!added && !deleted && !edited
+                {!added && !deleted && !edited && !saved
                   ? fetchMeals &&
                     fetchMeals.lunch.map((meal, index) => (
                       <div
@@ -434,7 +439,7 @@ export default function MealContainer() {
               <div>
                 <MealForm addMeal={(meal) => addMeal(meal, "dinner")} />
                 <br />
-                {!added && !deleted && !edited
+                {!added && !deleted && !edited && !saved
                   ? fetchMeals &&
                     fetchMeals.dinner.map((meal, index) => (
                       <div
