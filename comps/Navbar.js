@@ -164,10 +164,10 @@ const Navbar = () => {
                   WORKOUTS
                 </MenuItem>
                 <MenuItem
-                  href="/groups"
-                  onClick={() => (window.location.href = "/groups")}
+                  href="/social"
+                  onClick={() => (window.location.href = "/social")}
                 >
-                  GROUPS
+                  SOCIAL
                 </MenuItem>
                 <MenuItem
                   href="/calorie-tracker"
@@ -245,19 +245,19 @@ const Navbar = () => {
                 WORKOUTS
               </Link>
               <Link
-                href="/groups"
+                href="/social"
                 style={{
                   textDecoration: "none",
                   display: "flex",
                   justifyContent: "center",
                   alignItems: "center",
                   marginRight: "20px",
-                  color: activeLink === "/groups" ? "#03dac5" : "#E8E8E8",
+                  color: activeLink === "/social" ? "#03dac5" : "#E8E8E8",
                 }}
-                onClick={() => handleLinkClick("/groups")}
-                className={router.pathname === "/groups" ? styles.active : ""}
+                onClick={() => handleLinkClick("/social")}
+                className={router.pathname === "/social" ? styles.active : ""}
               >
-                GROUPS
+                SOCIAL
               </Link>
               <Link
                 href="/calorie-tracker"
