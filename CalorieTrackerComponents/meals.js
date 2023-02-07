@@ -178,11 +178,6 @@ export default function MealContainer() {
     setEditMealType("");
     setEdited(true);
   };
-  console.log("SAVED", saved);
-  console.log("added ", added);
-  console.log("edited", edited);
-  console.log("deleted", deleted);
-  console.log("meals", meals);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
