@@ -13,7 +13,6 @@ import EditMealForm from "./EditMealForm";
 import CaloriesBar from "./caloriesBar";
 import EditIcon from "@mui/icons-material/Edit";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
-// import CaloriesNav from "./caloriesNav";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { Badge, TextField } from "@material-ui/core";
 import {
@@ -46,8 +45,11 @@ export default function MealContainer() {
   useEffect(() => {
     fetchCurrentUserId();
     fetchUserMeals();
-    fetchHighlightedDays();
   }, [date, saved]);
+
+  useEffect(() => {
+    fetchHighlightedDays();
+  }, [saved, deleted]);
 
   const fetchCurrentUserId = async () => {
     if (session) {
@@ -62,11 +64,17 @@ export default function MealContainer() {
 
   const fetchHighlightedDays = async () => {
     let days = [];
-    const { data, error } = await supabase.from("meals").select("date");
+    const { data, error } = await supabase.from("meals").select("date, meal");
     for (const elem of data) {
-      const mealDate = dayjs(elem.date);
-      const formattedDate = mealDate.format("YYYY-MM-DD");
-      days.push(formattedDate);
+      if (
+        elem.meal.breakfast.length !== 0 ||
+        elem.meal.lunch.length !== 0 ||
+        elem.meal.dinner.length !== 0
+      ) {
+        const mealDate = dayjs(elem.date);
+        const formattedDate = mealDate.format("YYYY-MM-DD");
+        days.push(formattedDate);
+      }
     }
     setHighlightedDays(days);
   };
@@ -183,8 +191,6 @@ export default function MealContainer() {
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
         <div>
-          {/* date bar & total calories bar  */}
-          {/* <CaloriesNav date={date} /> */}
           <StaticDatePicker
             sx={{
               backgroundColor: "#161616",

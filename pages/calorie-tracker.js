@@ -17,7 +17,6 @@ import mainListItems from "../DashboardComponents/listItems";
 import Navbar from "../comps/Navbar";
 import { createTheme } from "@material-ui/core/styles";
 import CaloriesBar from "../CalorieTrackerComponents/caloriesBar";
-import CaloriesNav from "../CalorieTrackerComponents/caloriesNav";
 import MealContainer from "../CalorieTrackerComponents/meals";
 import DashboardComponents from "../CalorieTrackerComponents/dashboardComponents";
 
