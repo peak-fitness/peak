@@ -19,6 +19,7 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import Feed from "@/SocialComponents/Feed";
 
 export default function Groups() {
   const [tab, setTab] = useState(true);
@@ -313,9 +314,7 @@ export default function Groups() {
                     </div>
                   )}
                 </div>
-                <div className={styles.groupsContainer}>
-                  <div className={styles.groups}></div>
-                </div>
+                <Feed />
               </div>
             </div>
           </div>
