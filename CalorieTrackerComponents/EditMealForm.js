@@ -32,7 +32,7 @@ const EditMealForm = ({ meal, onEdit }) => {
           id="calories"
           type="number"
           value={calories}
-          onChange={(event) => setCalories(event.target.value)}
+          onChange={(event) => setCalories(Number(event.target.value))}
         />
       </FormControl>
       <FormControl>
@@ -41,7 +41,7 @@ const EditMealForm = ({ meal, onEdit }) => {
           id="protein"
           type="number"
           value={protein}
-          onChange={(event) => setProtein(event.target.value)}
+          onChange={(event) => setProtein(Number(event.target.value))}
         />
       </FormControl>
 

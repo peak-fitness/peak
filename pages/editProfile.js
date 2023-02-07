@@ -24,6 +24,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
+import styles from "@/styles/Profiles.module.css";
 
 export default function Account() {
   const router = useRouter();
@@ -190,7 +191,10 @@ export default function Account() {
         <Box sx={responsiveContainer}>
           <Box sx={responsiveSidePanel}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <AccountCircle sx={{ width: "10rem", height: "10rem" }} />
+              <AccountCircle
+                id={styles.defaultProfileIcon}
+                sx={{ width: "10rem", height: "10rem" }}
+              />
             </Box>
             <Typography
               variant="h5"
