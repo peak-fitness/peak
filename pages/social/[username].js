@@ -2,6 +2,7 @@ import { supabase } from "../../lib/supabaseClient.js";
 import { useEffect, useState } from "react";
 import Navbar from "../../comps/Navbar";
 import { useRouter } from "next/router";
+import Link from "next/link";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import styles from "@/styles/Profiles.module.css";
 
@@ -11,6 +12,11 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
+
+import InstagramIcon from "@mui/icons-material/Instagram";
+import FacebookIcon from "@mui/icons-material/Facebook";
+import TwitterIcon from "@mui/icons-material/Twitter";
+import YouTubeIcon from "@mui/icons-material/YouTube";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
@@ -122,23 +128,132 @@ export default function Public_Profile() {
           {user ? (
             <>
               <Box
+                width="100%"
+                height="6rem"
                 sx={{
-                  borderRadius: "8px",
+                  background: "linear-gradient(90deg, #FC5C7D, #03DAC5)",
+                  position: "relative",
+                  borderRadius: "8px 8px 0px 0px",
+                }}
+              ></Box>
+              <Box
+                sx={{
+                  borderRadius: "0px 0px 8px 8px",
                   backgroundColor: "#202020",
-                  padding: "1rem 3rem 1rem 5rem",
+                  // background: "linear-gradient(-90deg, #FC5C7D, #03DAC5)",
+                  padding: "1rem 3rem 2rem 5rem",
                   display: "flex",
                   justifyContent: "space-between",
                   marginBottom: "1rem",
                 }}
               >
                 <Box>
-                  <AccountCircle id={styles.defaultProfileIcon} />
-                  <Typography variant="h5" sx={{ marginBottom: "0" }}>
+                  <AccountCircle
+                    id={styles.defaultProfileIcon}
+                    sx={{ position: "absolute", top: "11.6rem" }}
+                  />
+                  <Typography
+                    variant="h5"
+                    sx={{ marginBottom: "0", marginTop: "3rem" }}
+                  >
                     {user.first_name + " " + user.last_name}
                   </Typography>
                   <Typography variant="h5" sx={{ marginTop: "0" }} />
                   {"@" + user.username}
                   <Typography />
+                  <Box
+                    sx={{
+                      display: "flex",
+                      padding: "1rem 0rem 0rem 0rem",
+                      gap: "1rem",
+                    }}
+                  >
+                    {user.social_medias.instagram && (
+                      <>
+                        <Link
+                          href={user.social_medias.instagram}
+                          target="_blank"
+                          style={{
+                            color: "#E8E8E8",
+                            textDecoration: "none",
+                          }}
+                        >
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "center",
+                              gap: ".2rem",
+                            }}
+                          >
+                            <InstagramIcon />{" "}
+                            <p style={{ margin: "0" }}>Instagram</p>
+                          </Box>
+                        </Link>
+                      </>
+                    )}
+                    {user.social_medias.facebook && (
+                      <Link
+                        href={user.social_medias.facebook}
+                        target="_blank"
+                        style={{
+                          color: "#E8E8E8",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: ".4rem",
+                          }}
+                        >
+                          <FacebookIcon />{" "}
+                          <p style={{ margin: "0" }}>Facebook</p>
+                        </Box>
+                      </Link>
+                    )}
+                    {user.social_medias.twitter && (
+                      <Link
+                        href={user.social_medias.twitter}
+                        target="_blank"
+                        style={{
+                          color: "#E8E8E8",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: ".4rem",
+                          }}
+                        >
+                          <TwitterIcon /> <p style={{ margin: "0" }}>Twitter</p>
+                        </Box>
+                      </Link>
+                    )}
+                    {user.social_medias.youtube && (
+                      <Link
+                        href={user.social_medias.youtube}
+                        target="_blank"
+                        style={{
+                          color: "#E8E8E8",
+                          textDecoration: "none",
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            display: "flex",
+                            justifyContent: "center",
+                            gap: ".4rem",
+                          }}
+                        >
+                          <YouTubeIcon />
+                          <p style={{ margin: "0" }}>Youtube</p>
+                        </Box>
+                      </Link>
+                    )}
+                  </Box>
                 </Box>
                 <Box
                   sx={{
@@ -146,6 +261,7 @@ export default function Public_Profile() {
                     flexDirection: "column",
                     justifyContent: "flex-end",
                     gap: "1rem",
+                    marginBottom: "1.5rem",
                   }}
                 >
                   {friendStatus === "R" || friendStatus === "A" ? (
@@ -193,7 +309,10 @@ export default function Public_Profile() {
                       backgroundColor: "#03DAC5",
                       borderRadius: "1rem",
                       width: "2rem",
-                      padding: ".2rem 2.5rem .2rem 2.5rem",
+                      padding:
+                        friendStatus === "R" || friendStatus === "A"
+                          ? ".2rem 5rem .2rem 5rem"
+                          : ".2rem 2.5rem .2rem 2.5rem",
                     }}
                   >
                     SHARE
@@ -227,7 +346,7 @@ export default function Public_Profile() {
                     </Typography>
                   </Grid>
                 </Grid>
-                <Grid container>
+                <Grid container sx={{ marginTop: "1rem" }}>
                   <Grid item xs={6}>
                     <Typography>
                       Bio<br></br>
