@@ -19,6 +19,7 @@ import React from "react";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { useRouter } from "next/router";
 import sampleData from "@/comps/sampleData";
+import Feed from "@/SocialComponents/Feed";
 
 export default function Groups({ data }) {
   const [tab, setTab] = useState(true);
@@ -254,9 +255,7 @@ export default function Groups({ data }) {
                     </div>
                   )}
                 </div>
-                <div className={styles.groupsContainer}>
-                  <div className={styles.groups}></div>
-                </div>
+                <Feed />
               </div>
             </div>
           </div>
