@@ -1,12 +1,17 @@
 import * as React from "react";
-import Typography from "@mui/material/Typography";
 import { useEffect, useState } from "react";
-import { Container, Tab, Tabs, Button } from "@mui/material";
+import {
+  Container,
+  Tab,
+  Tabs,
+  Button,
+  IconButton,
+  Typography,
+} from "@mui/material";
 import MealForm from "./MealForm";
 import EditMealForm from "./EditMealForm";
 import CaloriesBar from "./caloriesBar";
 import EditIcon from "@mui/icons-material/Edit";
-import IconButton from "@mui/material/IconButton";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 // import CaloriesNav from "./caloriesNav";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
@@ -17,7 +22,6 @@ import {
   StaticDatePicker,
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { ConstructionOutlined, EightK } from "@mui/icons-material";
 
 export default function MealContainer() {
   const supabase = useSupabaseClient();
@@ -41,7 +45,7 @@ export default function MealContainer() {
   useEffect(() => {
     fetchCurrentUserId();
     fetchUserMeals();
-  }, [date, saved, meals, added, deleted, edited]);
+  }, [date, saved]);
 
   const fetchCurrentUserId = async () => {
     if (session) {
@@ -67,8 +71,14 @@ export default function MealContainer() {
         .single();
       if (data) {
         setFetchMeals(data.meal);
+        setMeals(data.meal);
       } else {
         setFetchMeals(null);
+        setMeals({
+          breakfast: [],
+          lunch: [],
+          dinner: [],
+        });
       }
     }
   };
@@ -119,9 +129,6 @@ export default function MealContainer() {
       setCheckDate(false);
     }
   };
-
-  console.log("meals:", meals);
-  console.log("fetchedMeals:", fetchMeals);
 
   const removeMeal = async (mealIndex, mealType) => {
     const removedMeal = fetchMeals[mealType][mealIndex];
