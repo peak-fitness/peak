@@ -55,6 +55,9 @@ export default function AddWorkout() {
   const supabase = useSupabaseClient();
   const router = useRouter();
 
+  // for tomorrow, updating works if data exists, need to consider adding new sets and deleting old ones
+  // also rendering sets by number on count instead of by ID
+
   // const { data } = router.query;
 
   // room for improvement:
@@ -72,7 +75,7 @@ export default function AddWorkout() {
     (prev, next) => {
       return { ...prev, ...next };
     },
-    { routine: "", exercises: [], notes: "", duration: 0 }
+    { routine: "", exercises: [], notes: "", duration: 0, id: 0 }
   );
 
   // need to add muscle group
@@ -100,9 +103,10 @@ export default function AddWorkout() {
         notes: decodedWorkout.notes,
         duration: decodedWorkout.duration,
         exercises: decodedWorkout.exercises,
+        id: decodedWorkout.id,
       });
+      setUpdate(true);
     }
-    setUpdate(true);
   };
 
   // if (router.query.routine) {
@@ -115,6 +119,8 @@ export default function AddWorkout() {
   //   // workout = router.query;
   //   router.query.routine = null;
   // }
+
+  console.log(workout);
 
   const handleExerciseSubmit = () => {
     if (!exercise.name) return setInvalidName(true);
@@ -155,8 +161,10 @@ export default function AddWorkout() {
   };
 
   const handleChange = (e) => {
-    if (e.target.name === "set") updateSet({ id: Number(e.target.value) });
-    else if (e.target.name === "reps") {
+    if (e.target.name === "set") {
+      e.target.value < 1 ? (e.target.value = 1) : e.target.value;
+      updateSet({ id: Number(e.target.value) });
+    } else if (e.target.name === "reps") {
       e.target.value < 1 ? (e.target.value = 1) : e.target.value;
       updateSet({ reps: Number(e.target.value) });
     } else if (e.target.name === "weight") {
@@ -183,40 +191,76 @@ export default function AddWorkout() {
   };
 
   const handleSubmit = async () => {
-    const dateString = `${date.$y}-0${date.$M + 1}-${date.$D >= 10 ? "" : "0"}${
-      date.$D
-    }`;
-    const { data, error } = await supabase
-      .from("workout")
-      .insert({
-        routine: workout.routine,
-        notes: workout.notes,
-        duration: workout.duration,
-        date: dateString,
-        user_id: id,
-      })
-      .select();
-
-    if (workout.exercises.length) {
+    if (update) {
+      const dateString = `${date.$y}-0${date.$M + 1}-${
+        date.$D >= 10 ? "" : "0"
+      }${date.$D}`;
       for (const exercise of workout.exercises) {
-        let response = await supabase
-          .from("exercises")
-          .insert({
-            workout_id: data[0].id,
-            name: exercise.name,
-            notes: exercise.notes,
-            is_pr: exercise.is_pr,
-            muscle_group: exercise.muscle_group,
-          })
-          .select();
-
-        if (exercise.sets.length) {
-          for (const set of exercise.sets) {
-            let setResponse = await supabase.from("sets").insert({
-              exercises_id: response.data[0].id,
+        for (const set of exercise.sets) {
+          await supabase
+            .from("sets")
+            .update({
               reps: set.reps,
               weight: set.weight,
-            });
+            })
+            .match({ id: set.id });
+        }
+
+        await supabase
+          .from("exercises")
+          .update({
+            name: exercise.name,
+            notes: exercise.notes,
+            muscle_group: exercise.muscle_group,
+            is_pr: exercise.is_pr,
+          })
+          .match({ id: exercise.id });
+      }
+
+      const { data, error } = await supabase
+        .from("workout")
+        .update({
+          routine: workout.routine,
+          notes: workout.notes,
+          duration: workout.duration,
+        })
+        .match({ id: workout.id });
+    } else {
+      const dateString = `${date.$y}-0${date.$M + 1}-${
+        date.$D >= 10 ? "" : "0"
+      }${date.$D}`;
+      const { data, error } = await supabase
+        .from("workout")
+        .insert({
+          routine: workout.routine,
+          notes: workout.notes,
+          duration: workout.duration,
+          date: dateString,
+          user_id: id,
+        })
+        .select();
+
+      if (workout.exercises.length) {
+        for (const exercise of workout.exercises) {
+          let response = await supabase
+            .from("exercises")
+            .insert({
+              workout_id: data[0].id,
+              name: exercise.name,
+              notes: exercise.notes,
+              is_pr: exercise.is_pr,
+              muscle_group: exercise.muscle_group,
+            })
+            .select();
+
+          if (exercise.sets.length) {
+            for (const set of exercise.sets) {
+              let setResponse = await supabase.from("sets").insert({
+                exercises_id: response.data[0].id,
+                reps: set.reps,
+                weight: set.weight,
+              });
+            }
           }
         }
       }
