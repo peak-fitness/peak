@@ -54,19 +54,24 @@ export default function AddWorkout() {
   const supabase = useSupabaseClient();
   const router = useRouter();
 
+  // const { data } = router.query;
+
   // room for improvement:
   // editing sets upon initial add of exercise
   // adding a set that has set# 1 and set# 3 will add in DB as set 1, and 2 which is good, but can update in real time to have set #'s auto update and sort
 
   useEffect(() => {
     if (session) getUser();
-  });
+    importData();
+  }, [router.query]);
+
+  //  if (router.isReady) console.log(router.query);
 
   const [workout, updateWorkout] = useReducer(
     (prev, next) => {
       return { ...prev, ...next };
     },
-    { routine: "", exercises: [], notes: "", routine: "", duration: 0 }
+    { routine: "", exercises: [], notes: "", duration: 0 }
   );
 
   // need to add muscle group
@@ -84,6 +89,32 @@ export default function AddWorkout() {
     },
     { id: 1, reps: 1, weight: 0 }
   );
+
+  const importData = () => {
+    // console.log(router.query);
+    const encodedWorkout = router.query.data;
+    if (encodedWorkout) {
+      const decodedWorkout = JSON.parse(decodeURIComponent(encodedWorkout));
+      updateWorkout({
+        routine: decodedWorkout.routine,
+        notes: decodedWorkout.notes,
+        duration: decodedWorkout.duration,
+      });
+    }
+  };
+
+  console.log(workout);
+
+  // if (router.query.routine) {
+  //   console.log(router.query);
+  //   updateWorkout({
+  //     routine: router.query.routine,
+  //     notes: router.query.notes,
+  //     duration: router.query.duration,
+  //   });
+  //   // workout = router.query;
+  //   router.query.routine = null;
+  // }
 
   const handleExerciseSubmit = () => {
     if (!exercise.name) return setInvalidName(true);
@@ -232,6 +263,7 @@ export default function AddWorkout() {
                 fullWidth
                 id="routine"
                 label="Workout Title"
+                value={workout.routine}
                 onChange={(e) => updateWorkout({ routine: e.target.value })}
               />
             </Grid>
@@ -257,6 +289,7 @@ export default function AddWorkout() {
                 fullWidth
                 id="notes"
                 label="Notes"
+                value={workout.notes}
                 onChange={(e) => updateWorkout({ notes: e.target.value })}
               />
             </Grid>
@@ -266,6 +299,7 @@ export default function AddWorkout() {
                 fullWidth
                 id="duration"
                 label="Duration (mins)"
+                value={workout.duration}
                 onChange={(e) =>
                   updateWorkout({ duration: Number(e.target.value) })
                 }

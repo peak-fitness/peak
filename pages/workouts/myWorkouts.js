@@ -101,6 +101,14 @@ export default function MyWorkouts() {
     setRefresh(!refresh);
   };
 
+  const handleRedirect = () => {
+    const encodedWorkout = encodeURIComponent(JSON.stringify(workout));
+    router.push({
+      pathname: "/workouts/addWorkout",
+      query: { data: encodedWorkout },
+    });
+  };
+
   return (
     // <ThemeProvider theme={theme}>
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -161,7 +169,10 @@ export default function MyWorkouts() {
                 <Typography variant="h6">
                   Workout: {workout.routine}
                   <IconButton>
-                    <EditIcon style={{ fontSize: "22px", color: "#03dac5" }} />
+                    <EditIcon
+                      style={{ fontSize: "22px", color: "#03dac5" }}
+                      onClick={handleRedirect}
+                    />
                   </IconButton>
                   <IconButton onClick={handleDelete}>
                     <DeleteIcon
