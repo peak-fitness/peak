@@ -6,6 +6,7 @@ import WorkoutModal from "./WorkoutModal";
 export default function Feed({ user, friends }) {
   const [friendWorkouts, setFriendWorkouts] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [selectedWorkout, setSelectedWorkout] = useState(null);
   //   console.log("USER", user);
   //   console.log("FRIENDS", friends);
   const fetchFriendWorkouts = async () => {
@@ -37,7 +38,8 @@ export default function Feed({ user, friends }) {
     setFriendWorkouts(friendWorkOutArr);
   };
 
-  const handleModalClick = () => {
+  const handleModalClick = (evt) => {
+    setSelectedWorkout(evt.target.value);
     setShowModal(true);
   };
 
@@ -53,6 +55,7 @@ export default function Feed({ user, friends }) {
           user={user}
           friends={friends}
           friendWorkouts={friendWorkouts}
+          selectedWorkout={selectedWorkout}
         />
       ) : null}
       {/* component stuff */}
@@ -64,7 +67,9 @@ export default function Feed({ user, friends }) {
             <p>{workout.duration}</p>
             <p>{workout.date}</p>
             <p>{workout.username}</p>
-            <button onClick={handleModalClick}>View Workout</button>
+            <button value={workout.id} onClick={handleModalClick}>
+              View Workout
+            </button>
           </div>
         ))}
         {/* props */}
