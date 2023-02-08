@@ -69,6 +69,8 @@ export default function AddWorkout() {
     importData();
   }, [router.query]);
 
+  const importedDate = router.query.date;
+
   //  if (router.isReady) console.log(router.query);
 
   const [workout, updateWorkout] = useReducer(
@@ -108,19 +110,6 @@ export default function AddWorkout() {
       setUpdate(true);
     }
   };
-
-  // if (router.query.routine) {
-  //   console.log(router.query);
-  //   updateWorkout({
-  //     routine: router.query.routine,
-  //     notes: router.query.notes,
-  //     duration: router.query.duration,
-  //   });
-  //   // workout = router.query;
-  //   router.query.routine = null;
-  // }
-
-  console.log(workout);
 
   const handleExerciseSubmit = () => {
     if (!exercise.name) return setInvalidName(true);
@@ -291,7 +280,7 @@ export default function AddWorkout() {
               justifyContent: "center",
             }}
           >
-            Add a Workout
+            {update ? "Edit Workout" : "Add a Workout"}
           </Typography>
         </Box>
         <Box
@@ -317,7 +306,8 @@ export default function AddWorkout() {
                   className={styles.form}
                   label="Date"
                   inputFormat="MM/DD/YYYY"
-                  value={date}
+                  value={update ? importedDate : date}
+                  disabled={update ? true : false}
                   onChange={(newDate) => {
                     setDate(newDate);
                   }}
@@ -527,7 +517,9 @@ export default function AddWorkout() {
                                             <TextField
                                               className={styles.editSets}
                                               type="number"
-                                              value={set.id}
+                                              value={
+                                                update ? index + 1 : set.id
+                                              }
                                               onChange={(e) => {
                                                 setCurrent((prevState) => ({
                                                   ...prevState,

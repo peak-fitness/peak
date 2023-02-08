@@ -103,11 +103,14 @@ export default function MyWorkouts() {
 
   const handleRedirect = () => {
     const encodedWorkout = encodeURIComponent(JSON.stringify(workout));
+    const encodedDate = encodeURIComponent(JSON.stringify(date));
     router.push({
       pathname: "/workouts/addWorkout",
-      query: { data: encodedWorkout },
+      query: { data: encodedWorkout, date: workout.date },
     });
   };
+
+  console.log(workout);
 
   return (
     // <ThemeProvider theme={theme}>
