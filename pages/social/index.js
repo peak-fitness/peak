@@ -9,21 +9,23 @@ import {
   useSupabaseClient,
 } from "@supabase/auth-helpers-react";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import AddCircleOutlinedIcon from "@mui/icons-material/AddCircleOutlined";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import CancelIcon from "@mui/icons-material/Cancel";
 import Navbar from "@/comps/Navbar";
-import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
 import React from "react";
 import { ReactSearchAutocomplete } from "react-search-autocomplete";
 import { useRouter } from "next/router";
-import sampleData from "@/comps/sampleData";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
+import Feed from "@/SocialComponents/Feed";
 
-export default function Groups({ data }) {
+export default function Groups() {
   const [tab, setTab] = useState(true);
   const [user, setUser] = useState({});
   const [friends, setFriends] = useState([]);
+  const [allUsers, setAllUsers] = useState([]);
   const supabase = useSupabaseClient();
   const router = useRouter();
   const { isLoading, session, error } = useSessionContext();
@@ -36,14 +38,62 @@ export default function Groups({ data }) {
     setTab(false);
   };
 
-  const handleOnSearch = (string, results) => {
-    // onSearch will have as the first callback parameter
-    // the string searched and for the second the results.
-    console.log(string, results);
+  const getAllUsers = async () => {
+    const { data, error } = await supabase.from("user").select("id, username");
+    setAllUsers(data);
   };
 
-  const handleOnSelect = (item) => {
-    router.push(`/social/${item.username}`);
+  const handleRequestAccept = async (requestId) => {
+    try {
+      await supabase
+        .from("friends")
+        .update({ status_code: "Accepted" })
+        .match({ status_code: "Requested" })
+        .eq("id", requestId)
+        .single();
+      getProfile();
+      toast.success("Request Accepted!", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: "false",
+        theme: "dark",
+      });
+    } catch (error) {
+      toast.error("Something went wrong :(", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        theme: "dark",
+      });
+    }
+  };
+
+  const handleRequestDecline = async (requestId) => {
+    try {
+      await supabase.from("friends").delete().eq("id", requestId).single();
+      getProfile();
+      toast.success("Request Declined", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: "false",
+        theme: "dark",
+      });
+    } catch (error) {
+      toast.error("Something went wrong :(", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        theme: "dark",
+      });
+    }
   };
 
   const getProfile = async () => {
@@ -52,27 +102,30 @@ export default function Groups({ data }) {
         .from("user")
         .select("*, friends!friends_addressee_id_fkey(*)")
         .eq("auth_id", session.user.id)
+        .eq("friends.status_code", "Requested")
         .single();
       setUser(user.data);
 
+      // Getting friends where the user.id is the requester
       const friendspt1 = await supabase
         .from("friends")
-        .select("id, addressee_username")
-        .eq("requester_id", user.data.id);
-      setFriends(friendspt1.data);
+        .select("id, addressee_id, addressee_username")
+        .eq("requester_id", user.data.id)
+        .eq("status_code", "Accepted");
 
+      // Getting friends where the user.id is the addressee
       const friendspt2 = await supabase
         .from("friends")
-        .select("id, requester_username")
-        .eq("addressee_id", user.data.id);
-      // console.log("FRIENDS PT 2", friendspt2);
-      friendspt2.data.forEach((friend) => friends.push(friend));
+        .select("id, requester_id, requester_username")
+        .eq("addressee_id", user.data.id)
+        .eq("status_code", "Accepted");
+      setFriends([...friendspt1.data, ...friendspt2.data]);
     } else return;
   };
 
-  useEffect(() => {
-    getProfile();
-  }, [session]);
+  const handleOnSelect = (item) => {
+    router.push(`/social/${item.username}`);
+  };
 
   const formatResult = (item) => {
     return (
@@ -100,6 +153,11 @@ export default function Groups({ data }) {
     const { error } = await supabase.auth.signOut();
   };
 
+  useEffect(() => {
+    getProfile();
+    getAllUsers();
+  }, [session]);
+
   return (
     <>
       <Navbar />
@@ -109,7 +167,7 @@ export default function Groups({ data }) {
         <>
           <div className={styles.container}>
             <div className={styles.groupContainer}>
-              <p className={styles.header}>GROUPS</p>
+              <p className={styles.header}>SOCIAL</p>
               <div className={styles.content}>
                 <div className={styles.friends}>
                   <div className={styles.friendsTabs}>
@@ -118,6 +176,7 @@ export default function Groups({ data }) {
                       onClick={handleFriendTab}
                     >
                       <GroupIcon
+                        id={styles.icon}
                         className={tab ? `${styles.active}` : ""}
                         sx={{ color: "#fafafa", height: "40px", width: "40px" }}
                       />
@@ -126,102 +185,100 @@ export default function Groups({ data }) {
                       className={tab ? "" : `${styles.active}`}
                       onClick={handleInvitationTab}
                     >
-                      <EmailIcon
-                        className={tab ? "" : `${styles.active}`}
-                        sx={{ color: "#fafafa", height: "40px", width: "40px" }}
-                      />
+                      <div className={styles.emailIcon}>
+                        <EmailIcon
+                          id={styles.icon}
+                          className={tab ? "" : `${styles.active}`}
+                          sx={{
+                            color: "#fafafa",
+                            height: "40px",
+                            width: "40px",
+                          }}
+                        />
+                        <p>{user.friends ? user.friends.length : ""}</p>
+                      </div>
                     </button>
                   </div>
                   {tab ? (
                     <div className={styles.friendsContainer}>
-                      <ReactSearchAutocomplete
-                        items={sampleData}
-                        fuseOptions={{ keys: ["username"] }}
-                        resultStringKeyName="username"
-                        onSearch={handleOnSearch}
-                        onSelect={handleOnSelect}
-                        autoFocus
-                        formatResult={formatResult}
-                        styling={{
-                          backgroundColor: "#262626",
-                          border: "1px solid #161616",
-                          color: "#fafafa",
-                          hoverBackgroundColor: "#202020",
-                          fontFamily: "Montserrat",
-                        }}
-                      />
+                      <div className={styles.searchUsers}>
+                        {" "}
+                        <ReactSearchAutocomplete
+                          items={allUsers}
+                          fuseOptions={{ keys: ["username"] }}
+                          resultStringKeyName="username"
+                          onSelect={handleOnSelect}
+                          autoFocus
+                          formatResult={formatResult}
+                          placeholder="Search user"
+                          styling={{
+                            backgroundColor: "#262626",
+                            border: "1px solid #161616",
+                            color: "#fafafa",
+                            hoverBackgroundColor: "#202020",
+                            fontFamily: "Montserrat",
+                          }}
+                        />{" "}
+                      </div>
                       {/* Map over all the friends */}
                       {friends.map((friend) => (
-                        <p key={friend.id}>
-                          {friend.addressee_username
-                            ? friend.addressee_username
-                            : friend.requester_username}
-                        </p>
+                        <div key={friend.id} className={styles.friend}>
+                          <AccountCircleIcon
+                            id={styles.icon}
+                            sx={{
+                              color: "#fafafa",
+                              height: "40px",
+                              width: "40px",
+                            }}
+                          />
+                          <Link
+                            href={`/social/${
+                              friend.addressee_username
+                                ? friend.addressee_username
+                                : friend.requester_username
+                            }`}
+                          >
+                            <p>
+                              {friend.addressee_username
+                                ? friend.addressee_username
+                                : friend.requester_username}
+                            </p>
+                          </Link>
+                        </div>
                       ))}
-                      <Link href="/social/justindjsuh135">
-                        <div className={styles.friend}>
-                          <AccountCircleIcon
-                            className={tab ? "" : `${styles.active}`}
-                            sx={{
-                              color: "#fafafa",
-                              height: "40px",
-                              width: "40px",
-                            }}
-                          />
-                          <p>justinsuh135</p>
-                        </div>
-                      </Link>
-                      <Link href="/social/seanbrown139">
-                        <div className={styles.friend}>
-                          <AccountCircleIcon
-                            className={tab ? "" : `${styles.active}`}
-                            sx={{
-                              color: "#fafafa",
-                              height: "40px",
-                              width: "40px",
-                            }}
-                          />
-                          <p>seanbrown139</p>
-                        </div>
-                      </Link>
-                      <Link href="/social/bryanolivo274">
-                        <div className={styles.friend}>
-                          <AccountCircleIcon
-                            className={tab ? "" : `${styles.active}`}
-                            sx={{
-                              color: "#fafafa",
-                              height: "40px",
-                              width: "40px",
-                            }}
-                          />
-                          <p>bryanolivo274</p>
-                        </div>
-                      </Link>
                     </div>
                   ) : (
                     <div className={styles.requestContainer}>
                       {/* map over all the requests */}
-                      {user.friends.map((request) => (
-                        <Link
-                          key={request.id}
-                          href={`/social/${request.requester_username}`}
-                        >
-                          <div className={styles.request}>
+                      {user.friends.length === 0 ? (
+                        <div className={styles.noRequests}>
+                          <p>No requests yet!</p>
+                        </div>
+                      ) : (
+                        user.friends.map((request) => (
+                          <div key={request.id} className={styles.request}>
                             <AccountCircleIcon
-                              className={tab ? "" : `${styles.active}`}
+                              id={styles.icon}
                               sx={{
                                 color: "#fafafa",
                                 height: "45px",
                                 width: "45px",
                               }}
                             />
-                            <p>{request.requester_username}</p>
+                            <Link
+                              href={`/social/${request.requester_username}`}
+                            >
+                              <p>{request.requester_username}</p>
+                            </Link>
                             <div className={styles.requestBtns}>
                               <Grid container spacing={2}>
                                 <Grid item xs={4}>
                                   <IconButton
                                     className={styles.requestBtn}
                                     aria-label="group-icon"
+                                    onClick={() =>
+                                      handleRequestAccept(request.id)
+                                    }
                                   >
                                     <CheckCircleIcon
                                       sx={{
@@ -236,6 +293,9 @@ export default function Groups({ data }) {
                                   <IconButton
                                     className={styles.requestBtn}
                                     aria-label="group-icon"
+                                    onClick={() =>
+                                      handleRequestDecline(request.id)
+                                    }
                                   >
                                     <CancelIcon
                                       sx={{
@@ -249,19 +309,18 @@ export default function Groups({ data }) {
                               </Grid>
                             </div>
                           </div>
-                        </Link>
-                      ))}
+                        ))
+                      )}
                     </div>
                   )}
                 </div>
-                <div className={styles.groupsContainer}>
-                  <div className={styles.groups}></div>
-                </div>
+                <Feed user={user} friends={friends} />
               </div>
             </div>
           </div>
         </>
       )}
+      <ToastContainer />
     </>
   );
 }

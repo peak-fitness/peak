@@ -30,21 +30,26 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import dayjs from "dayjs";
 
 export default function MyWorkouts() {
   const [date, setDate] = useState(null);
-  const [highlightedDays, setHighlightedDays] = useState([]); // need to grab day of month and add to array
+  const [highlightedDays, setHighlightedDays] = useState([]);
   const [workout, setWorkout] = useState(null);
   const [exercises, setExercises] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [prDays, setPrDays] = useState([]);
   const supabase = useSupabaseClient();
   const session = useSession();
   const router = useRouter();
 
   useEffect(() => {
     // if (!session) router.push('/')
-    fetchWorkouts();
-    fetchHighlightedDays();
+    if (session) {
+      fetchWorkouts();
+      fetchHighlightedDays();
+      fetchPrDays();
+    }
   }, [date]);
 
   const fetchWorkouts = async () => {
@@ -75,16 +80,51 @@ export default function MyWorkouts() {
 
   const fetchHighlightedDays = async () => {
     let days = [];
-    const { data, error } = await supabase.from("workout").select("date");
-    // .eq('date'.slice(5,7), String(date.$M+1).padStart(2,0));
-    for (const elem of data) {
-      days.push(Number(elem.date.slice(8)));
+    const { data, error } = await supabase
+      .from("user")
+      .select(
+        `
+    auth_id, workout (
+      date
+    )`
+      )
+      .eq("auth_id", session.user.id)
+      .single();
+    for (const elem of data.workout) {
+      const workoutDate = dayjs(elem.date);
+      const formattedDate = workoutDate.format("YYYY-MM-DD");
+      days.push(formattedDate);
     }
     setHighlightedDays(days);
   };
 
-  const handleMonthChange = async () => {
-    setHighlightedDays([]);
+  const fetchPrDays = async () => {
+    let prs = [];
+    const { data, error } = await supabase
+      .from("user")
+      .select(
+        `
+      auth_id, workout (
+        id, date,
+          exercises (
+            workout_id, is_pr
+        )
+      )`
+      )
+      .eq("auth_id", session.user.id)
+      .single();
+    for (const currentWorkout of data.workout) {
+      if (currentWorkout.exercises) {
+        for (const exercise of currentWorkout.exercises) {
+          if (exercise.is_pr === true) {
+            const prDate = dayjs(currentWorkout.date);
+            const formattedPrDate = prDate.format("YYYY-MM-DD");
+            prs.push(formattedPrDate);
+          }
+        }
+      }
+    }
+    setPrDays(prs);
   };
 
   const handleDelete = async () => {
@@ -96,6 +136,15 @@ export default function MyWorkouts() {
       await supabase.from("workout").delete().match({ id: workout.id });
     }
     setRefresh(!refresh);
+  };
+
+  const handleRedirect = () => {
+    const encodedWorkout = encodeURIComponent(JSON.stringify(workout));
+    const encodedDate = encodeURIComponent(JSON.stringify(date));
+    router.push({
+      pathname: "/workouts/addWorkout",
+      query: { data: encodedWorkout, date: workout.date },
+    });
   };
 
   return (
@@ -126,18 +175,22 @@ export default function MyWorkouts() {
               renderInput={(params) => <TextField {...params} />}
               dayOfWeekFormatter={(day) => `${day}.`}
               showToolbar
-              // onMonthChange={handleMonthChange}
               renderDay={(day, _value, DayComponentProps) => {
                 const isSelected =
                   !DayComponentProps.outsideCurrentMonth &&
-                  highlightedDays.indexOf(day.date()) >= 0;
+                  highlightedDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
+
+                const isPr =
+                  !DayComponentProps.outsideCurrentMonth &&
+                  prDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
 
                 return (
                   <Badge
                     key={day.toString()}
                     overlap="circular"
-                    color="primary"
-                    variant={isSelected ? "dot" : null}
+                    color={isPr ? "" : "primary"}
+                    badgeContent={isPr ? "🏅" : null}
+                    variant={isPr ? null : isSelected ? "dot" : null}
                   >
                     <PickersDay {...DayComponentProps} />
                   </Badge>
@@ -158,7 +211,10 @@ export default function MyWorkouts() {
                 <Typography variant="h6">
                   Workout: {workout.routine}
                   <IconButton>
-                    <EditIcon style={{ fontSize: "22px", color: "#03dac5" }} />
+                    <EditIcon
+                      style={{ fontSize: "22px", color: "#03dac5" }}
+                      onClick={handleRedirect}
+                    />
                   </IconButton>
                   <IconButton onClick={handleDelete}>
                     <DeleteIcon
@@ -199,13 +255,7 @@ export default function MyWorkouts() {
                 return (
                   <>
                     <List key={exercise.id}>
-                      <ListItem
-                        secondaryaction={
-                          <IconButton edge="end" aria-label="delete">
-                            {/* <DeleteIcon /> */}
-                          </IconButton>
-                        }
-                      >
+                      <ListItem>
                         {/* <ListItemIcon>
                                 <FitnessCenterIcon/>
                               </ListItemIcon> */}
