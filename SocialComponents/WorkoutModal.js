@@ -63,11 +63,9 @@ export default function WorkoutModal({
         <h1>Loading...</h1>
       ) : workoutDetails ? (
         workoutDetails.map((exercise) => (
-          <>
+          <div key={exercise.id}>
             <div className={styles.exerciseBox}>
-              <h3 className={styles.header} key={exercise.id}>
-                {exercise.name}
-              </h3>
+              <h3 className={styles.header}>{exercise.name}</h3>
               {exercise.muscle_group && (
                 <p className={styles.header}>{exercise.muscle_group}</p>
               )}
@@ -93,7 +91,7 @@ export default function WorkoutModal({
                 // {/* </div> */}
               );
             })}
-          </>
+          </div>
         ))
       ) : (
         <h3>{Error ? Error.message : ""}</h3>
