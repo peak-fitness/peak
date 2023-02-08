@@ -18,6 +18,10 @@ import {
   Grid,
   Button,
   TextField,
+  MenuItem,
+  FormControl,
+  InputLabel,
+  Select,
 } from "@mui/material";
 
 import { toast } from "react-toastify";
@@ -44,6 +48,9 @@ export default function Account() {
   const [facebook, setFacebook] = useState(null);
   const [twitter, setTwitter] = useState(null);
   const [youtube, setYoutube] = useState(null);
+  const [targetWeight, setTargetWeight] = useState(null);
+  const [gender, setGender] = useState(null);
+  const [targetCalories, setTargetCalories] = useState(null);
 
   useEffect(() => {
     getProfile();
@@ -55,7 +62,7 @@ export default function Account() {
       let { data, error, status } = await supabase
         .from("user")
         .select(
-          `username, first_name, last_name, created_at, height, current_weight, age, location, bio, social_medias`
+          `username, first_name, last_name, created_at, height, current_weight, age, location, bio, social_medias, target_weight, gender, target_calories`
         )
         .eq("auth_id", user.id)
         .single();
@@ -77,6 +84,9 @@ export default function Account() {
         setFacebook(data.social_medias.facebook);
         setTwitter(data.social_medias.twitter);
         setYoutube(data.social_medias.youtube);
+        setGender(data.gender);
+        setTargetWeight(data.target_weight);
+        setTargetCalories(data.target_calories);
       }
     } catch (error) {
       return error;
@@ -99,6 +109,9 @@ export default function Account() {
           age: age,
           location: location,
           bio: bio,
+          target_weight: targetWeight,
+          target_calories: targetCalories,
+          gender: gender,
           social_medias: {
             twitter: twitter,
             youtube: youtube,
@@ -132,6 +145,9 @@ export default function Account() {
       router.push("/profile");
     }
   }
+  const handleChangeGender = (event) => {
+    setGender(event.target.value);
+  };
 
   const responsiveContainer = {
     flex: { xs: "100%", sm: "100%", md: "100%", lg: "100%" },
@@ -418,6 +434,68 @@ export default function Account() {
                     input: { color: "#E8E8E8" },
                   }}
                 ></TextField>
+              </Grid>
+            </Grid>
+            <Grid container spacing={4} sx={{ marginBottom: "2rem" }}>
+              <Grid item xs={12} sm={12} md={12} lg={6}>
+                <TextField
+                  onChange={(event) => setTargetCalories(event.target.value)}
+                  label="Calorie Goal"
+                  variant="filled"
+                  InputLabelProps={{
+                    shrink: true,
+                    sx: { color: "#E8E8E8" },
+                  }}
+                  name="target calories"
+                  value={targetCalories}
+                  sx={{
+                    backgroundColor: "#242424",
+                    input: { color: "#E8E8E8" },
+                  }}
+                ></TextField>
+              </Grid>
+              <Grid item xs={12} sm={12} md={12} lg={6}>
+                <TextField
+                  onChange={(event) => setTargetWeight(event.target.value)}
+                  label="Weight Goal"
+                  variant="filled"
+                  InputLabelProps={{
+                    shrink: true,
+                    sx: { color: "#E8E8E8" },
+                  }}
+                  name="target weight"
+                  value={targetWeight}
+                  sx={{
+                    backgroundColor: "#242424",
+                    input: { color: "#E8E8E8" },
+                  }}
+                ></TextField>
+              </Grid>
+            </Grid>
+            <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
+              <Grid item xs={12} lg={6}>
+                <FormControl fullWidth required>
+                  <InputLabel id="gender" sx={{ color: "#959595" }}>
+                    Gender
+                  </InputLabel>
+                  <Select
+                    labelId="gender"
+                    value={gender ? gender : "PreferNotToSay"}
+                    label="Gender"
+                    onChange={handleChangeGender}
+                    sx={{
+                      backgroundColor: "#242424",
+                      color: "#E8E8E8",
+                    }}
+                  >
+                    <MenuItem value={"Male"}>Male</MenuItem>
+                    <MenuItem value={"Female"}>Female</MenuItem>
+                    <MenuItem value={"Other"}>Other</MenuItem>
+                    <MenuItem value={"PreferNotToSay"}>
+                      Prefer Not to Say
+                    </MenuItem>
+                  </Select>
+                </FormControl>
               </Grid>
             </Grid>
             <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
