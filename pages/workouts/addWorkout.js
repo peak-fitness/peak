@@ -49,27 +49,25 @@ export default function AddWorkout() {
   const [current, setCurrent] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
   const [refresh, setRefresh] = useState(false);
+  const [update, setUpdate] = useState(false);
 
   const session = useSession();
   const supabase = useSupabaseClient();
   const router = useRouter();
 
-  // room for improvement:
-  // editing sets upon initial add of exercise
-  // adding a set that has set# 1 and set# 3 will add in DB as set 1, and 2 which is good, but can update in real time to have set #'s auto update and sort
-
   useEffect(() => {
     if (session) getUser();
-  });
+    importData();
+  }, [router.query]);
+
+  const importedDate = router.query.date;
 
   const [workout, updateWorkout] = useReducer(
     (prev, next) => {
       return { ...prev, ...next };
     },
-    { routine: "", exercises: [], notes: "", routine: "", duration: 0 }
+    { routine: "", exercises: [], notes: "", duration: 0, id: 0 }
   );
-
-  // need to add muscle group
 
   const [exercise, updateExercise] = useReducer(
     (prev, next) => {
@@ -84,6 +82,21 @@ export default function AddWorkout() {
     },
     { id: 1, reps: 1, weight: 0 }
   );
+
+  const importData = () => {
+    const encodedWorkout = router.query.data;
+    if (encodedWorkout) {
+      const decodedWorkout = JSON.parse(decodeURIComponent(encodedWorkout));
+      updateWorkout({
+        routine: decodedWorkout.routine,
+        notes: decodedWorkout.notes,
+        duration: decodedWorkout.duration,
+        exercises: decodedWorkout.exercises,
+        id: decodedWorkout.id,
+      });
+      setUpdate(true);
+    }
+  };
 
   const handleExerciseSubmit = () => {
     if (!exercise.name) return setInvalidName(true);
@@ -124,8 +137,10 @@ export default function AddWorkout() {
   };
 
   const handleChange = (e) => {
-    if (e.target.name === "set") updateSet({ id: Number(e.target.value) });
-    else if (e.target.name === "reps") {
+    if (e.target.name === "set") {
+      e.target.value < 1 ? (e.target.value = 1) : e.target.value;
+      updateSet({ id: Number(e.target.value) });
+    } else if (e.target.name === "reps") {
       e.target.value < 1 ? (e.target.value = 1) : e.target.value;
       updateSet({ reps: Number(e.target.value) });
     } else if (e.target.name === "weight") {
@@ -152,40 +167,76 @@ export default function AddWorkout() {
   };
 
   const handleSubmit = async () => {
-    const dateString = `${date.$y}-0${date.$M + 1}-${date.$D >= 10 ? "" : "0"}${
-      date.$D
-    }`;
-    const { data, error } = await supabase
-      .from("workout")
-      .insert({
-        routine: workout.routine,
-        notes: workout.notes,
-        duration: workout.duration,
-        date: dateString,
-        user_id: id,
-      })
-      .select();
-
-    if (workout.exercises.length) {
+    if (update) {
+      const dateString = `${date.$y}-0${date.$M + 1}-${
+        date.$D >= 10 ? "" : "0"
+      }${date.$D}`;
       for (const exercise of workout.exercises) {
-        let response = await supabase
-          .from("exercises")
-          .insert({
-            workout_id: data[0].id,
-            name: exercise.name,
-            notes: exercise.notes,
-            is_pr: exercise.is_pr,
-            muscle_group: exercise.muscle_group,
-          })
-          .select();
-
-        if (exercise.sets.length) {
-          for (const set of exercise.sets) {
-            let setResponse = await supabase.from("sets").insert({
-              exercises_id: response.data[0].id,
+        for (const set of exercise.sets) {
+          await supabase
+            .from("sets")
+            .update({
               reps: set.reps,
               weight: set.weight,
-            });
+            })
+            .match({ id: set.id });
+        }
+
+        await supabase
+          .from("exercises")
+          .update({
+            name: exercise.name,
+            notes: exercise.notes,
+            muscle_group: exercise.muscle_group,
+            is_pr: exercise.is_pr,
+          })
+          .match({ id: exercise.id });
+      }
+
+      const { data, error } = await supabase
+        .from("workout")
+        .update({
+          routine: workout.routine,
+          notes: workout.notes,
+          duration: workout.duration,
+        })
+        .match({ id: workout.id });
+    } else {
+      const dateString = `${date.$y}-0${date.$M + 1}-${
+        date.$D >= 10 ? "" : "0"
+      }${date.$D}`;
+      const { data, error } = await supabase
+        .from("workout")
+        .insert({
+          routine: workout.routine,
+          notes: workout.notes,
+          duration: workout.duration,
+          date: dateString,
+          user_id: id,
+        })
+        .select();
+
+      if (workout.exercises.length) {
+        for (const exercise of workout.exercises) {
+          let response = await supabase
+            .from("exercises")
+            .insert({
+              workout_id: data[0].id,
+              name: exercise.name,
+              notes: exercise.notes,
+              is_pr: exercise.is_pr,
+              muscle_group: exercise.muscle_group,
+            })
+            .select();
+
+          if (exercise.sets.length) {
+            for (const set of exercise.sets) {
+              let setResponse = await supabase.from("sets").insert({
+                exercises_id: response.data[0].id,
+                reps: set.reps,
+                weight: set.weight,
+              });
+            }
           }
         }
       }
@@ -203,9 +254,6 @@ export default function AddWorkout() {
       <Navbar />
       <Container sx={{ justifyContent: "center" }} className={styles.outer}>
         <CssBaseline />
-        {/* <Paper elevation={3}
-                style={{ backgroundColor: "#202020" }}
-                > */}
         <Box>
           <Typography
             variant="h3"
@@ -216,11 +264,10 @@ export default function AddWorkout() {
               justifyContent: "center",
             }}
           >
-            Add a Workout
+            {update ? "Edit Workout" : "Add a Workout"}
           </Typography>
         </Box>
         <Box
-          //   onSubmit={handleSubmit}
           sx={{
             mt: 3,
           }}
@@ -232,6 +279,7 @@ export default function AddWorkout() {
                 fullWidth
                 id="routine"
                 label="Workout Title"
+                value={workout.routine}
                 onChange={(e) => updateWorkout({ routine: e.target.value })}
               />
             </Grid>
@@ -241,7 +289,8 @@ export default function AddWorkout() {
                   className={styles.form}
                   label="Date"
                   inputFormat="MM/DD/YYYY"
-                  value={date}
+                  value={update ? importedDate : date}
+                  disabled={update ? true : false}
                   onChange={(newDate) => {
                     setDate(newDate);
                   }}
@@ -257,6 +306,7 @@ export default function AddWorkout() {
                 fullWidth
                 id="notes"
                 label="Notes"
+                value={workout.notes}
                 onChange={(e) => updateWorkout({ notes: e.target.value })}
               />
             </Grid>
@@ -266,6 +316,7 @@ export default function AddWorkout() {
                 fullWidth
                 id="duration"
                 label="Duration (mins)"
+                value={workout.duration}
                 onChange={(e) =>
                   updateWorkout({ duration: Number(e.target.value) })
                 }
@@ -380,48 +431,50 @@ export default function AddWorkout() {
                       Please enter set information
                     </p>
                   )}
-                  <Container className={styles.setsContainer}>
-                    <FormControl>
-                      <InputLabel htmlFor="set-number">Set #</InputLabel>
-                      <Input
-                        id="set-number"
-                        type="number"
-                        name="set"
-                        value={set.id}
-                        onChange={handleChange}
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <InputLabel htmlFor="rep-count"># of Reps</InputLabel>
-                      <Input
-                        id="rep-count"
-                        type="number"
-                        name="reps"
-                        value={set.reps}
-                        onChange={handleChange}
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <InputLabel htmlFor="weight">Weight (lbs)</InputLabel>
-                      <Input
-                        id="weight"
-                        type="number"
-                        name="weight"
-                        value={set.weight}
-                        onChange={handleChange}
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <IconButton
-                        onClick={edit ? addSetInEdit : addSet}
-                        className={styles.setsItems}
-                      >
-                        <AddCircleIcon
-                          style={{ fontSize: "30px", color: "#03dac5" }}
+                  {!update && (
+                    <Container className={styles.setsContainer}>
+                      <FormControl>
+                        <InputLabel htmlFor="set-number">Set #</InputLabel>
+                        <Input
+                          id="set-number"
+                          type="number"
+                          name="set"
+                          value={set.id}
+                          onChange={handleChange}
                         />
-                      </IconButton>
-                    </FormControl>
-                  </Container>
+                      </FormControl>
+                      <FormControl>
+                        <InputLabel htmlFor="rep-count"># of Reps</InputLabel>
+                        <Input
+                          id="rep-count"
+                          type="number"
+                          name="reps"
+                          value={set.reps}
+                          onChange={handleChange}
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <InputLabel htmlFor="weight">Weight (lbs)</InputLabel>
+                        <Input
+                          id="weight"
+                          type="number"
+                          name="weight"
+                          value={set.weight}
+                          onChange={handleChange}
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <IconButton
+                          onClick={edit ? addSetInEdit : addSet}
+                          className={styles.setsItems}
+                        >
+                          <AddCircleIcon
+                            style={{ fontSize: "30px", color: "#03dac5" }}
+                          />
+                        </IconButton>
+                      </FormControl>
+                    </Container>
+                  )}
                   {edit
                     ? current.sets && (
                         <TableContainer component={Paper}>
@@ -449,7 +502,10 @@ export default function AddWorkout() {
                                             <TextField
                                               className={styles.editSets}
                                               type="number"
-                                              value={set.id}
+                                              value={
+                                                update ? index + 1 : set.id
+                                              }
+                                              disabled={update ? true : false}
                                               onChange={(e) => {
                                                 setCurrent((prevState) => ({
                                                   ...prevState,
@@ -531,7 +587,7 @@ export default function AddWorkout() {
                                             />
                                           )}
                                         </TableCell>
-                                        {edit && (
+                                        {edit && !update && (
                                           <TableCell>
                                             <IconButton
                                               onClick={() => {
@@ -639,7 +695,6 @@ export default function AddWorkout() {
             {workout.exercises.length >= 1 &&
               workout.exercises.map((exercise, index) => {
                 return (
-                  // need to change size of grid width
                   <>
                     <Grid container spacing={4}>
                       <Grid item lg={3}>
@@ -662,16 +717,18 @@ export default function AddWorkout() {
                             style={{ fontSize: "22px", color: "#03dac5" }}
                           />
                         </IconButton>
-                        <IconButton
-                          onClick={() => {
-                            workout.exercises.splice(index, 1);
-                            setCurrent({});
-                          }}
-                        >
-                          <DeleteIcon
-                            style={{ fontSize: "22px", color: "#03dac5" }}
-                          />
-                        </IconButton>
+                        {!update && (
+                          <IconButton
+                            onClick={() => {
+                              workout.exercises.splice(index, 1);
+                              setCurrent({});
+                            }}
+                          >
+                            <DeleteIcon
+                              style={{ fontSize: "22px", color: "#03dac5" }}
+                            />
+                          </IconButton>
+                        )}
                       </Grid>
                       <Grid item lg={3}>
                         <TextField
@@ -715,7 +772,6 @@ export default function AddWorkout() {
             Save
           </Button>
         </Box>
-        {/* </Paper> */}
       </Container>
     </>
   );

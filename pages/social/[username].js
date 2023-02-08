@@ -20,8 +20,11 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function Public_Profile() {
-  const { isLoading, session, error } = useSessionContext();
+  let { isLoading, session, error } = useSessionContext();
   const router = useRouter();
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [user, setUser] = useState(null);
@@ -35,12 +38,19 @@ export default function Public_Profile() {
         return;
       }
       const username = query.username;
-      const loggedInUserId = await supabase
-        .from("user")
-        .select("id, username")
-        .eq("auth_id", session.user.id)
-        .single();
-      setLoggedInUser(loggedInUserId.data);
+      if (session) {
+        const loggedInUserId = await supabase
+          .from("user")
+          .select("id, username")
+          .eq("auth_id", session.user.id)
+          .single();
+        setLoggedInUser(loggedInUserId.data);
+        if (loggedInUserId.data.username === username) {
+          isLoading = true;
+          router.push("/profile");
+        }
+      }
+
       const { data, error } = await supabase
         .from("user")
         .select(
@@ -60,7 +70,6 @@ export default function Public_Profile() {
         .select("id, status_code")
         .match({ requester_id: loggedInUserId.data.id, addressee_id: data.id })
         .single();
-      console.log(isAdded);
       if (!isAdded.data) {
         return;
       } else if (isAdded.data.status_code === "Requested") {
@@ -69,11 +78,22 @@ export default function Public_Profile() {
         setFriendStatus("A");
       }
     } catch (error) {
-      console.log(error, "ERROR");
+      return;
     }
   };
 
   const handleAdd = async (evt) => {
+    if (!session) {
+      toast.error("You must be logged in to add friends", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        theme: "dark",
+      });
+      return;
+    }
     const status = evt.target.value;
 
     if (status === "add") {
@@ -100,15 +120,31 @@ export default function Public_Profile() {
     }
   };
 
+  const handleShare = async () => {
+    let temp = document.createElement("input"),
+      text = document.URL;
+    document.body.appendChild(temp);
+    temp.value = text;
+    temp.select();
+    document.execCommand("copy");
+    document.body.removeChild(temp);
+    toast.success("Profile url copied to clipboard!", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: "false",
+      theme: "dark",
+    });
+  };
+
   useEffect(() => {
     getProfile();
   }, [isReady]);
 
   return (
     <>
-      {/* <div>
-        <h1>{profile}</h1>
-      </div> */}
+      <ToastContainer />
       <Navbar />
       <Container
         maxWidth="lg"
@@ -314,6 +350,7 @@ export default function Public_Profile() {
                           ? ".2rem 5rem .2rem 5rem"
                           : ".2rem 2.5rem .2rem 2.5rem",
                     }}
+                    onClick={handleShare}
                   >
                     SHARE
                   </Button>
@@ -344,6 +381,11 @@ export default function Public_Profile() {
                       Age<br></br>
                       {user.age}
                     </Typography>
+                  </Grid>
+                </Grid>
+                <Grid container sx={{ marginTop: "1rem" }}>
+                  <Grid item xs={6}>
+                    <Typography>{user.location}</Typography>
                   </Grid>
                 </Grid>
                 <Grid container sx={{ marginTop: "1rem" }}>
