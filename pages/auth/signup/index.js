@@ -30,6 +30,12 @@ export default function Signup() {
   const session = useSession();
   if (session) router.push("/");
 
+  const insertAchievements = async () => {
+    const achievements = await supabase.from("achievements").select();
+    console.log(achievements.data);
+  };
+  insertAchievements();
+
   const handleSubmit = async (evt) => {
     evt.preventDefault();
 
@@ -76,7 +82,17 @@ export default function Signup() {
             username: username,
           })
           .select("*");
-
+        const achievements = await supabase.from("achievements").select();
+        achievements.data.map((achievement) => {
+          const res = supabase
+            .from("user_achievements")
+            .insert({
+              user_id: data.user.id,
+              a_id: achievement.id,
+              achieved: false,
+            })
+            .select("*");
+        });
         setSubmitted(true);
         setUsernameTaken(false);
         setEmailTaken(false);
