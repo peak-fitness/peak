@@ -7,6 +7,10 @@
  */
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabaseClient";
+import Grid from "@mui/material/Grid";
+import Button from "@mui/material/Button";
+
+import styles from "@/styles/socialModal.module.css";
 
 export default function WorkoutModal({
   setShowModal,
@@ -24,7 +28,7 @@ export default function WorkoutModal({
     try {
       const { data, error } = await supabase
         .from("exercises")
-        .select()
+        .select(`*, sets (*)`)
         .eq("workout_id", selectedWorkout);
 
       console.log(data);
@@ -36,6 +40,10 @@ export default function WorkoutModal({
     }
   };
 
+  const handleToggle = () => {
+    setShowModal(false);
+  };
+
   useEffect(() => {
     getDetails();
   }, [selectedWorkout]);
@@ -45,13 +53,50 @@ export default function WorkoutModal({
   // console.log(friendWorkouts, "Friends Workouts");
 
   return (
-    <div>
+    <div className={styles.modalContainer}>
+      <div className={styles.btnBox}>
+        <Button className={styles.closeBtn} onClick={handleToggle}>
+          Close
+        </Button>
+      </div>
       {isLoading ? (
         <h1>Loading...</h1>
-      ) : <div>{console.log(workoutDetails)}</div> ? (
-        <h1>{selectedWorkout}</h1>
+      ) : workoutDetails ? (
+        workoutDetails.map((exercise) => (
+          <>
+            <div className={styles.exerciseBox}>
+              <h3 className={styles.header} key={exercise.id}>
+                {exercise.name}
+              </h3>
+              {exercise.muscle_group && (
+                <p className={styles.header}>{exercise.muscle_group}</p>
+              )}
+              {exercise.is_pr && (
+                <p className={styles.header}>Personal Record</p>
+              )}
+              {exercise.notes && <p>{exercise.notes}</p>}
+            </div>
+            {exercise.sets.map((set, idx) => {
+              return (
+                // <div className="setsBox" key={set.id}>
+                <Grid className="setsBox" container key={set.id}>
+                  <Grid className={styles.setsItem} item xs={4}>
+                    <h4>{`Set: ${idx + 1}`}</h4>
+                  </Grid>
+                  <Grid className={styles.setsItem} item xs={4}>
+                    <p>{`Reps: ${set.reps}`}</p>
+                  </Grid>
+                  <Grid className={styles.setsItem} item xs={4}>
+                    <p>{`Weight: ${set.weight}`}</p>
+                  </Grid>
+                </Grid>
+                // {/* </div> */}
+              );
+            })}
+          </>
+        ))
       ) : (
-        <h1>{}</h1>
+        <h3>{Error ? Error.message : ""}</h3>
       )}
     </div>
   );

@@ -1,0 +1,39 @@
+.header {
+  margin-bottom: 0;
+}
+
+.modalContainer {
+  width: 100%;
+  background-color: #202020;
+  padding: 2rem;
+  border-radius: 8px;
+}
+
+.exerciseBox {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.setsBox {
+  text-align: center;
+}
+
+.setsItem {
+  text-align: center;
+}
+
+.closeBtn {
+  border: solid 1px #03dac5;
+  background-color: #242424;
+  border-radius: 1rem;
+  width: 2rem;
+  padding: 0rem 2rem 0rem 2rem;
+  color: #e8e8e8;
+}
+
+.btnBox {
+  display: flex;
+  justify-content: flex-end;
+}
