@@ -168,7 +168,6 @@ export default function Login() {
                 textDecoration: "none",
                 letterSpacing: ".3rem",
               }}
-              onClick={() => handleLinkClick("/")}
             >
               Peak
             </Typography>
@@ -176,7 +175,7 @@ export default function Login() {
               sx={{
                 display: "flex",
                 justifyContent: "center",
-                margin: "20px 0 20px 20px",
+                margin: "0px 0 0px 0px",
                 padding: "10px 0 10px 10px",
               }}
             >
