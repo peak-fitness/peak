@@ -1,5 +1,4 @@
 import * as React from "react";
-import { useTheme } from "@mui/material/styles";
 import {
   LineChart,
   Line,
@@ -9,28 +8,17 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import Title from "./Title";
-
 import { styled, ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "@material-ui/core/styles";
-
-// Generate Sales Data
-function createData(time, amount) {
-  return { time, amount };
-}
-
-const data = [
-  createData("Jan", 0),
-  createData("Feb", 15),
-  createData("Mar", 20),
-  createData("Apr", 21),
-  createData("May", 21),
-  createData("Jul", 18),
-  createData("Aug", 20),
-  createData("Sep", 19),
-  createData("Oct", 23),
-  createData("Nov", 25),
-  createData("Dec", 15),
-];
+import {
+  useSession,
+  useSupabaseClient,
+  useUser,
+} from "@supabase/auth-helpers-react";
+import { useState, useEffect } from "react";
+import FormControl from "@mui/material/FormControl";
+import Select from "@mui/material/Select";
+import MenuItem from "@mui/material/MenuItem";
 
 const theme = createTheme({
   palette: {
@@ -41,14 +29,90 @@ const theme = createTheme({
   background: { default: "#161616" },
 });
 
+function createData(month, amount) {
+  return { month, amount };
+}
+
+const rows = [];
+
 export default function Chart() {
+  const supabaseClient = useSupabaseClient();
+  const [rows, setRows] = useState([]);
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
+  const [uniqueYears, setUniqueYears] = useState([]);
+
+  const handleYearChange = (event) => {
+    setSelectedYear(event.target.value);
+  };
+
+  useEffect(() => {
+    supabaseClient
+      .from("workout")
+      .select("*")
+      .then((res) => {
+        setUniqueYears(
+          Array.from(
+            new Set(
+              res.data.map((row) => {
+                const date = new Date(row.date);
+                return date.getFullYear();
+              })
+            )
+          )
+        );
+      })
+      .catch((err) => console.error(err));
+  }, [supabaseClient]);
+
+  useEffect(() => {
+    supabaseClient
+      .from("workout")
+      .select("*")
+      .then((res) => {
+        let data = {};
+        res.data
+          .filter((row) => {
+            if (!selectedYear) {
+              return true;
+            }
+            const date = new Date(row.date);
+            return date.getFullYear() === selectedYear;
+          })
+          .forEach((row) => {
+            const date = new Date(row.date);
+            const month = date.toLocaleString("default", { month: "long" });
+            const year = date.getFullYear();
+            if (!data[month]) {
+              data[month] = 0;
+            }
+            data[month] += row.duration;
+          });
+        const dataArray = Object.entries(data).map(([month, totalDuration]) =>
+          createData(month, totalDuration / 60)
+        );
+        setRows(dataArray);
+      })
+      .catch((err) => console.error(err));
+  }, [supabaseClient, selectedYear]);
+
   return (
     <ThemeProvider theme={theme}>
       <React.Fragment>
-        <Title>Workout Progress</Title>
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <Title>Workout Progress</Title>
+          <FormControl>
+            <Select value={selectedYear} onChange={handleYearChange}>
+              {uniqueYears.map((year) => (
+                <MenuItem key={year} value={year}>
+                  {year}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
         <ResponsiveContainer>
           <LineChart
-            data={data}
+            data={rows}
             margin={{
               top: 16,
               right: 16,
@@ -57,12 +121,11 @@ export default function Chart() {
             }}
           >
             <XAxis
-              dataKey="time"
+              dataKey="month"
               stroke={theme.palette.text}
               style={theme.typography.body2}
               strokeWidth={2}
             />
-
             <YAxis
               stroke={theme.palette.text}
               style={theme.typography.body2}
@@ -77,7 +140,7 @@ export default function Chart() {
                   ...theme.typography.body1,
                 }}
               >
-                # of Workouts
+                Time Spent (Hours)
               </Label>
             </YAxis>
             <Line

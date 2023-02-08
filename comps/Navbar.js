@@ -117,7 +117,7 @@ const Navbar = () => {
                 fontWeight: 500,
               }}
               style={{
-                color: activeLink === "/dashboard" ? "#03dac5" : "white",
+                color: "white",
               }}
               onClick={() => handleLinkClick("/dashboard")}
             >
@@ -127,7 +127,7 @@ const Navbar = () => {
               <IconButton
                 size="large"
                 onClick={handleOpenNavMenu}
-                sx={{ color: "white" }}
+                sx={{ color: "white", ml: -1 }}
               >
                 <MenuIcon />
               </IconButton>
