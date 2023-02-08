@@ -51,10 +51,23 @@ export default function Account() {
   const [targetWeight, setTargetWeight] = useState(null);
   const [gender, setGender] = useState(null);
   const [targetCalories, setTargetCalories] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState(null);
 
   useEffect(() => {
     getProfile();
+    fetchCurrentUserId();
   }, [session]);
+
+  const fetchCurrentUserId = async () => {
+    if (session) {
+      const { data, error } = await supabase
+        .from("user")
+        .select("id")
+        .eq("auth_id", session.user.id)
+        .single();
+      setCurrentUserId(data.id);
+    }
+  };
 
   async function getProfile() {
     try {
@@ -121,6 +134,7 @@ export default function Account() {
         })
         .eq("auth_id", user.id)
         .select();
+      checkAchievements();
 
       if (error) throw error;
     } catch (error) {
@@ -147,6 +161,22 @@ export default function Account() {
   }
   const handleChangeGender = (event) => {
     setGender(event.target.value);
+  };
+
+  const checkAchievements = async () => {
+    if (weight === targetWeight) {
+      const { error } = await supabase
+        .from("userAchievements")
+        .update({ achieved: true })
+        .eq("user_id", currentUserId)
+        .eq("a_id", 2);
+    } else {
+      const { error } = await supabase
+        .from("userAchievements")
+        .update({ achieved: false })
+        .eq("user_id", currentUserId)
+        .eq("a_id", 2);
+    }
   };
 
   const responsiveContainer = {
@@ -382,7 +412,7 @@ export default function Account() {
             <Grid container spacing={0} sx={{ marginBottom: "2rem" }}>
               <Grid item xs={12} sm={12} md={12} lg={4}>
                 <TextField
-                  onChange={(event) => setHeight(event.target.value)}
+                  onChange={(event) => setHeight(Number(event.target.value))}
                   label="Height"
                   variant="filled"
                   InputLabelProps={{
@@ -401,7 +431,7 @@ export default function Account() {
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={4}>
                 <TextField
-                  onChange={(event) => setWeight(event.target.value)}
+                  onChange={(event) => setWeight(Number(event.target.value))}
                   label="Weight"
                   variant="filled"
                   InputLabelProps={{
@@ -420,7 +450,7 @@ export default function Account() {
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={4}>
                 <TextField
-                  onChange={(event) => setAge(event.target.value)}
+                  onChange={(event) => setAge(Number(event.target.value))}
                   label="Age"
                   variant="filled"
                   InputLabelProps={{
@@ -439,7 +469,9 @@ export default function Account() {
             <Grid container spacing={4} sx={{ marginBottom: "2rem" }}>
               <Grid item xs={12} sm={12} md={12} lg={6}>
                 <TextField
-                  onChange={(event) => setTargetCalories(event.target.value)}
+                  onChange={(event) =>
+                    setTargetCalories(Number(event.target.value))
+                  }
                   label="Calorie Goal"
                   variant="filled"
                   InputLabelProps={{
@@ -456,7 +488,9 @@ export default function Account() {
               </Grid>
               <Grid item xs={12} sm={12} md={12} lg={6}>
                 <TextField
-                  onChange={(event) => setTargetWeight(event.target.value)}
+                  onChange={(event) =>
+                    setTargetWeight(Number(event.target.value))
+                  }
                   label="Weight Goal"
                   variant="filled"
                   InputLabelProps={{
