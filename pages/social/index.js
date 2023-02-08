@@ -109,14 +109,14 @@ export default function Groups() {
       // Getting friends where the user.id is the requester
       const friendspt1 = await supabase
         .from("friends")
-        .select("id, addressee_username")
+        .select("id, addressee_id, addressee_username")
         .eq("requester_id", user.data.id)
         .eq("status_code", "Accepted");
 
       // Getting friends where the user.id is the addressee
       const friendspt2 = await supabase
         .from("friends")
-        .select("id, requester_username")
+        .select("id, requester_id, requester_username")
         .eq("addressee_id", user.data.id)
         .eq("status_code", "Accepted");
       setFriends([...friendspt1.data, ...friendspt2.data]);
@@ -314,7 +314,7 @@ export default function Groups() {
                     </div>
                   )}
                 </div>
-                <Feed />
+                <Feed user={user} friends={friends} />
               </div>
             </div>
           </div>
