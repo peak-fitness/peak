@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Navbar from "../comps/Navbar";
 import {
@@ -30,67 +30,35 @@ export default function AchievementsPage() {
   const supabase = useSupabaseClient();
   const session = useSession();
   const router = useRouter();
+  const [achievements, setAchievements] = useState(null);
+  const [currentUserId, setCurrentUserId] = useState(null);
 
-  const trophies = [
-    {
-      title: "100 Streak",
-      description: "Go to the gym 100 times",
-      completeDate: "1/31/2023",
-    },
-    { title: "PRs", description: "Hit a PR", completeDate: "1/31/2023" },
-    {
-      title: "50 Streak",
-      description: "Go to the gym 50 times",
-      completeDate: "11/30/2022",
-    },
-    {
-      title: "10 Streak",
-      description: "Go to the gym 10 times",
-      completeDate: "10/25/2022",
-    },
-    {
-      title: "Ready to roll",
-      description: "Fill out your personal information",
-    },
-    { title: "How do I look?", description: "Hit your target weight" },
-    {
-      title: "Are you going to eat that?",
-      description: "Hit your calorie target 30 times",
-    },
-    {
-      title: "Have to flex somewhere...",
-      description: "Join 3 accountability groups",
-    },
-    {
-      title: "100 Streak",
-      description: "Go to the gym 100 times",
-      completeDate: "1/31/2023",
-    },
-    { title: "PRs", description: "Hit a PR", completeDate: "1/31/2023" },
-    {
-      title: "50 Streak",
-      description: "Go to the gym 50 times",
-      completeDate: "11/30/2022",
-    },
-    {
-      title: "10 Streak",
-      description: "Go to the gym 10 times",
-      completeDate: "10/25/2022",
-    },
-    {
-      title: "Ready to roll",
-      description: "Fill out your personal information",
-    },
-    { title: "How do I look?", description: "Hit your target weight" },
-    {
-      title: "Are you going to eat that?",
-      description: "Hit your calorie target 30 times",
-    },
-    {
-      title: "Have to flex somewhere...",
-      description: "Join 3 accountability groups",
-    },
-  ];
+  useEffect(() => {
+    fetchAchievements();
+    fetchCurrentUserId();
+  }, [currentUserId]);
+
+  const fetchCurrentUserId = async () => {
+    if (session) {
+      const { data, error } = await supabase
+        .from("user")
+        .select("id")
+        .eq("auth_id", session.user.id)
+        .single();
+      setCurrentUserId(data.id);
+    }
+  };
+
+  const fetchAchievements = async () => {
+    const { data, error } = await supabase
+      .from("userAchievements")
+      .select(
+        `*, achievements(id, name, requirement), user(first_name, last_name, height, current_weight, target_weight, target_calories, age, gender)`
+      )
+      .eq("user_id", currentUserId);
+    setAchievements(data);
+  };
+  console.log(achievements);
 
   const checkUser = async () => {
     const res = await supabase
@@ -171,80 +139,82 @@ export default function AchievementsPage() {
                   height: "600px",
                 }}
               >
-                {trophies.map((trophy, index) => (
-                  <Grid item key={index} sm={12} md={12} lg={6} xl={6}>
-                    <Card
-                      sx={{
-                        width: "95%",
-                        height: "10vh",
-                        ml: "1.2rem",
-                        mb: "1.2rem",
-                        backgroundColor: "#242424",
-                      }}
-                    >
-                      <CardContent
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                      >
-                        <Box
+                {achievements
+                  ? achievements.map((achievement, index) => (
+                      <Grid item key={index} sm={12} md={12} lg={6} xl={6}>
+                        <Card
                           sx={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
+                            width: "95%",
+                            height: "10vh",
+                            ml: "1.2rem",
+                            mb: "1.2rem",
+                            backgroundColor: "#242424",
                           }}
                         >
-                          {trophy.completeDate ? (
-                            <Box>
-                              <EmojiEventsRoundedIcon
-                                sx={{
-                                  color: "#F6C941",
-                                  fontSize: "4rem",
-                                  ml: "1rem",
-                                  mr: "2rem",
-                                }}
-                              />
-                            </Box>
-                          ) : (
-                            <Box>
-                              <EmojiEventsRoundedIcon
-                                sx={{
-                                  color: "silver",
-                                  fontSize: "4rem",
-                                  ml: "1rem",
-                                  mr: "2rem",
-                                }}
-                              />
-                            </Box>
-                          )}
-                          <Box>
-                            <Typography
-                              variant="h5"
-                              sx={{ color: "#FFFFFF", fontWeight: 700 }}
+                          <CardContent
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <Box
+                              sx={{
+                                display: "flex",
+                                flexDirection: "row",
+                                alignItems: "center",
+                              }}
                             >
-                              {trophy.title}
-                            </Typography>
-                            <Typography
-                              variant="subtitle2"
-                              sx={{ color: "#FFFFFF" }}
-                            >
-                              {trophy.description}
-                            </Typography>
-                          </Box>
-                        </Box>
-                        <Box>
+                              {achievement.achieved ? (
+                                <Box>
+                                  <EmojiEventsRoundedIcon
+                                    sx={{
+                                      color: "#F6C941",
+                                      fontSize: "4rem",
+                                      ml: "1rem",
+                                      mr: "2rem",
+                                    }}
+                                  />
+                                </Box>
+                              ) : (
+                                <Box>
+                                  <EmojiEventsRoundedIcon
+                                    sx={{
+                                      color: "silver",
+                                      fontSize: "4rem",
+                                      ml: "1rem",
+                                      mr: "2rem",
+                                    }}
+                                  />
+                                </Box>
+                              )}
+                              <Box>
+                                <Typography
+                                  variant="h5"
+                                  sx={{ color: "#FFFFFF", fontWeight: 700 }}
+                                >
+                                  {achievement.achievements.name}
+                                </Typography>
+                                <Typography
+                                  variant="subtitle2"
+                                  sx={{ color: "#FFFFFF" }}
+                                >
+                                  {achievement.achievements.requirement}
+                                </Typography>
+                              </Box>
+                            </Box>
+                            {/* <Box>
                           <Typography
                             variant="subtitle2"
                             sx={{ color: "#A4A4A4" }}
                           >
                             {trophy.completeDate}
                           </Typography>
-                        </Box>
-                      </CardContent>
-                    </Card>
-                  </Grid>
-                ))}
+                        </Box> */}
+                          </CardContent>
+                        </Card>
+                      </Grid>
+                    ))
+                  : null}
               </Grid>
             </Container>
           </Container>
