@@ -80,8 +80,6 @@ export default function AddWorkout() {
     { routine: "", exercises: [], notes: "", duration: 0, id: 0 }
   );
 
-  // need to add muscle group
-
   const [exercise, updateExercise] = useReducer(
     (prev, next) => {
       return { ...prev, ...next };
@@ -448,48 +446,50 @@ export default function AddWorkout() {
                       Please enter set information
                     </p>
                   )}
-                  <Container className={styles.setsContainer}>
-                    <FormControl>
-                      <InputLabel htmlFor="set-number">Set #</InputLabel>
-                      <Input
-                        id="set-number"
-                        type="number"
-                        name="set"
-                        value={set.id}
-                        onChange={handleChange}
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <InputLabel htmlFor="rep-count"># of Reps</InputLabel>
-                      <Input
-                        id="rep-count"
-                        type="number"
-                        name="reps"
-                        value={set.reps}
-                        onChange={handleChange}
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <InputLabel htmlFor="weight">Weight (lbs)</InputLabel>
-                      <Input
-                        id="weight"
-                        type="number"
-                        name="weight"
-                        value={set.weight}
-                        onChange={handleChange}
-                      />
-                    </FormControl>
-                    <FormControl>
-                      <IconButton
-                        onClick={edit ? addSetInEdit : addSet}
-                        className={styles.setsItems}
-                      >
-                        <AddCircleIcon
-                          style={{ fontSize: "30px", color: "#03dac5" }}
+                  {!update && (
+                    <Container className={styles.setsContainer}>
+                      <FormControl>
+                        <InputLabel htmlFor="set-number">Set #</InputLabel>
+                        <Input
+                          id="set-number"
+                          type="number"
+                          name="set"
+                          value={set.id}
+                          onChange={handleChange}
                         />
-                      </IconButton>
-                    </FormControl>
-                  </Container>
+                      </FormControl>
+                      <FormControl>
+                        <InputLabel htmlFor="rep-count"># of Reps</InputLabel>
+                        <Input
+                          id="rep-count"
+                          type="number"
+                          name="reps"
+                          value={set.reps}
+                          onChange={handleChange}
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <InputLabel htmlFor="weight">Weight (lbs)</InputLabel>
+                        <Input
+                          id="weight"
+                          type="number"
+                          name="weight"
+                          value={set.weight}
+                          onChange={handleChange}
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <IconButton
+                          onClick={edit ? addSetInEdit : addSet}
+                          className={styles.setsItems}
+                        >
+                          <AddCircleIcon
+                            style={{ fontSize: "30px", color: "#03dac5" }}
+                          />
+                        </IconButton>
+                      </FormControl>
+                    </Container>
+                  )}
                   {edit
                     ? current.sets && (
                         <TableContainer component={Paper}>
@@ -520,6 +520,7 @@ export default function AddWorkout() {
                                               value={
                                                 update ? index + 1 : set.id
                                               }
+                                              disabled={update ? true : false}
                                               onChange={(e) => {
                                                 setCurrent((prevState) => ({
                                                   ...prevState,
@@ -601,7 +602,7 @@ export default function AddWorkout() {
                                             />
                                           )}
                                         </TableCell>
-                                        {edit && (
+                                        {edit && !update && (
                                           <TableCell>
                                             <IconButton
                                               onClick={() => {
@@ -732,16 +733,18 @@ export default function AddWorkout() {
                             style={{ fontSize: "22px", color: "#03dac5" }}
                           />
                         </IconButton>
-                        <IconButton
-                          onClick={() => {
-                            workout.exercises.splice(index, 1);
-                            setCurrent({});
-                          }}
-                        >
-                          <DeleteIcon
-                            style={{ fontSize: "22px", color: "#03dac5" }}
-                          />
-                        </IconButton>
+                        {!update && (
+                          <IconButton
+                            onClick={() => {
+                              workout.exercises.splice(index, 1);
+                              setCurrent({});
+                            }}
+                          >
+                            <DeleteIcon
+                              style={{ fontSize: "22px", color: "#03dac5" }}
+                            />
+                          </IconButton>
+                        )}
                       </Grid>
                       <Grid item lg={3}>
                         <TextField
