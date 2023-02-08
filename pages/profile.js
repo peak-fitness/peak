@@ -42,6 +42,9 @@ export default function Account() {
   const [facebook, setFacebook] = useState(null);
   const [twitter, setTwitter] = useState(null);
   const [youtube, setYoutube] = useState(null);
+  const [targetWeight, setTargetWeight] = useState(null);
+  const [gender, setGender] = useState(null);
+  const [targetCalories, setTargetCalories] = useState(null);
 
   useEffect(() => {
     getProfile();
@@ -54,11 +57,12 @@ export default function Account() {
       let { data, error, status } = await supabase
         .from("user")
         .select(
-          `username, first_name, last_name, email, created_at, height, current_weight, age, location, bio, social_medias`
+          `username, first_name, last_name, email, created_at, height, current_weight, age, location, bio, social_medias, target_calories, gender, target_weight`
         )
         .eq("auth_id", user.id)
         .single();
 
+      console.log(data);
       if (error && status !== 406) {
         throw error;
       }
@@ -76,6 +80,9 @@ export default function Account() {
         setFacebook(data.social_medias.facebook);
         setTwitter(data.social_medias.twitter);
         setYoutube(data.social_medias.youtube);
+        setGender(data.gender);
+        setTargetWeight(data.target_weight);
+        setTargetCalories(data.target_calories);
       }
     } catch (error) {
       return error;
@@ -290,6 +297,43 @@ export default function Account() {
               <Grid item xs={12} sm={12} md={4}>
                 <Typography variant="p" sx={{ color: "#E8E8E8" }}>
                   {age ? `A: ${age} yrs` : `A: `}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              spacing={0}
+              sx={{
+                marginBottom: "2rem",
+                textAlign: { xs: "center", sm: "center", md: "center" },
+              }}
+            >
+              <Grid item xs={6}>
+                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
+                  {targetCalories
+                    ? `Calorie Goal: ${targetCalories}`
+                    : "Calorie Goal:"}
+                </Typography>
+              </Grid>
+              <Grid item xs={6}>
+                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
+                  {targetWeight
+                    ? `Weight Goal: ${targetWeight}`
+                    : "Weight Goal:"}
+                </Typography>
+              </Grid>
+            </Grid>
+            <Grid
+              container
+              spacing={0}
+              sx={{
+                marginBottom: "2rem",
+                textAlign: { xs: "center", sm: "center", md: "start" },
+              }}
+            >
+              <Grid item xs={12}>
+                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
+                  {gender ? `Gender: ${gender}` : "Gender:"}
                 </Typography>
               </Grid>
             </Grid>
