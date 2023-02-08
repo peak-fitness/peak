@@ -38,16 +38,19 @@ export default function Public_Profile() {
         return;
       }
       const username = query.username;
-      const loggedInUserId = await supabase
-        .from("user")
-        .select("id, username")
-        .eq("auth_id", session.user.id)
-        .single();
-      setLoggedInUser(loggedInUserId.data);
-      if (loggedInUserId.data.username === username) {
-        isLoading = true;
-        router.push("/profile");
+      if (session) {
+        const loggedInUserId = await supabase
+          .from("user")
+          .select("id, username")
+          .eq("auth_id", session.user.id)
+          .single();
+        setLoggedInUser(loggedInUserId.data);
+        if (loggedInUserId.data.username === username) {
+          isLoading = true;
+          router.push("/profile");
+        }
       }
+
       const { data, error } = await supabase
         .from("user")
         .select(
@@ -80,6 +83,17 @@ export default function Public_Profile() {
   };
 
   const handleAdd = async (evt) => {
+    if (!session) {
+      toast.error("You must be logged in to add friends", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: false,
+        theme: "dark",
+      });
+      return;
+    }
     const status = evt.target.value;
 
     if (status === "add") {
