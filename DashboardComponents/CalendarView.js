@@ -1,42 +1,51 @@
 import * as React from "react";
-import Link from "@mui/material/Link";
-import Typography from "@mui/material/Typography";
-import Title from "./Title";
-import dayjs, { Dayjs } from "dayjs";
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { CalendarPicker } from "@mui/x-date-pickers/CalendarPicker";
 import { styled } from "@mui/material/styles";
 import Container from "@mui/material/Container";
+import { PickersDay } from "@mui/x-date-pickers/PickersDay";
+import {
+  useSession,
+  useSupabaseClient,
+  useUser,
+} from "@supabase/auth-helpers-react";
+import { useRouter } from "next/router";
+import Link from "next/link";
+import Badge from "@mui/material/Badge";
+import dayjs from "dayjs";
 
 function preventDefault(event) {
   event.preventDefault();
 }
 
 const CustomizedCalendar = styled(CalendarPicker)`
-  max-width: 225px;
-  max-height: 210px;
-
-  & .MuiPickersCalendarHeader-labelContainer {
+  max-width: 90%;
+  max-height: "100vh" & .MuiPickersCalendarHeader-labelContainer {
     margin-right: 0px;
   }
 
   & .MuiPickersCalendarHeader-root {
     padding-left: 0px;
     padding-right: 0px;
-    margin-top: 0px;
+    margin-top: 5px;
     margin-bottom: 0px;
     color: #03dac5;
   }
 
+  & .MuiYearPicker-root {
+    justify-content: center;
+    max-height: 200px;
+  }
+
   & .PrivatePickersYear-yearButton {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   & .MuiPickersCalendarHeader-labelContainer {
-    font-size: 14.5px;
+    font-size: 13.5px;
   }
 
   & .MuiDayPicker-weekContainer {
@@ -50,17 +59,65 @@ const CustomizedCalendar = styled(CalendarPicker)`
 
 export default function CalendarView() {
   const [date, setDate] = useState(null);
+  const supabase = useSupabaseClient();
+  const session = useSession();
+  const router = useRouter();
+  const [highlightedDays, setHighlightedDays] = useState([]);
+  const user = useUser();
+
+  useEffect(() => {
+    fetchHighlightedDays();
+  }, [date]);
+
+  const fetchHighlightedDays = async () => {
+    let days = [];
+    const { data, error } = await supabase.from("workout").select("date");
+    for (const elem of data) {
+      const workoutDate = dayjs(elem.date);
+      const formattedDate = workoutDate.format("YYYY-MM-DD");
+      days.push(formattedDate);
+    }
+    setHighlightedDays(days);
+  };
 
   return (
-    <Container>
-      <div>
+    <Container
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        p: [0],
+      }}
+    >
+      <Grid container>
         <LocalizationProvider dateAdapter={AdapterDayjs}>
           <CustomizedCalendar
             date={date}
             onChange={(newDate) => setDate(newDate)}
+            renderDay={(day, _value, DayComponentProps) => {
+              const isSelected =
+                !DayComponentProps.outsideCurrentMonth &&
+                highlightedDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
+
+              return (
+                <Badge
+                  key={day.toString()}
+                  overlap="circular"
+                  color="primary"
+                  variant={isSelected ? "dot" : null}
+                  sx={{ width: "30px" }}
+                >
+                  <PickersDay
+                    {...DayComponentProps}
+                    onClick={() => {
+                      router.push(`/workouts/myWorkouts/`);
+                    }}
+                  />
+                </Badge>
+              );
+            }}
           />
         </LocalizationProvider>
-      </div>
+      </Grid>
     </Container>
   );
 }
