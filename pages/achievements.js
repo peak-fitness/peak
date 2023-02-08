@@ -35,8 +35,11 @@ export default function AchievementsPage() {
 
   useEffect(() => {
     fetchCurrentUserId();
-    fetchAchievements();
   }, [currentUserId]);
+
+  useEffect(() => {
+    fetchAchievements();
+  });
 
   const fetchCurrentUserId = async () => {
     if (session) {
