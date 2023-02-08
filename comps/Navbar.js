@@ -111,9 +111,7 @@ const Navbar = () => {
                 mr: 2,
                 display: { xs: "none", md: "flex" },
                 fontWeight: 700,
-
                 color: "white",
-                fontWeight: 500,
               }}
               style={{
                 textDecoration: "none",
@@ -195,7 +193,6 @@ const Navbar = () => {
                 fontWeight: 700,
                 letterSpacing: ".1rem",
                 color: "white",
-                fontWeight: 500,
               }}
               style={{ textDecoration: "none", letterSpacing: ".3rem" }}
             >
@@ -370,9 +367,7 @@ const Navbar = () => {
                 mr: 2,
                 display: { xs: "none", md: "flex" },
                 fontWeight: 700,
-
                 color: "white",
-                fontWeight: 500,
               }}
               style={{
                 textDecoration: "none",
@@ -438,9 +433,7 @@ const Navbar = () => {
                 display: { xs: "flex", md: "none" },
                 flexGrow: 1,
                 fontWeight: 700,
-
                 color: "white",
-                fontWeight: 500,
               }}
               style={{ textDecoration: "none", letterSpacing: ".3rem" }}
             >

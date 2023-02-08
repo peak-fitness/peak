@@ -90,7 +90,14 @@ export default function Chart() {
         const dataArray = Object.entries(data).map(([month, totalDuration]) =>
           createData(month, totalDuration / 60)
         );
-        setRows(dataArray);
+        setRows(
+          dataArray.sort((a, b) => {
+            return (
+              new Date(`01 ${a.month} ${selectedYear}`).getTime() -
+              new Date(`01 ${b.month} ${selectedYear}`).getTime()
+            );
+          })
+        );
       })
       .catch((err) => console.error(err));
   }, [supabaseClient, selectedYear]);
