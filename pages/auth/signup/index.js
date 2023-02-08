@@ -111,6 +111,17 @@ export default function Signup() {
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider: evt.target.name,
     });
+    const userId = await supabase
+      .from("user")
+      .select("id")
+      .eq("auth_id", data.user.id);
+    const achievements = await supabase.from("achievements").select();
+    achievements.data.map(async (achievement) => {
+      const { error } = await supabase
+        .from("userAchievements")
+        .insert({ user_id: userId.data[0].id, a_id: achievement.id })
+        .select("*");
+    });
 
     if (error) setFailedLogin(true);
   };
