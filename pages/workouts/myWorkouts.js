@@ -38,14 +38,18 @@ export default function MyWorkouts() {
   const [workout, setWorkout] = useState(null);
   const [exercises, setExercises] = useState([]);
   const [refresh, setRefresh] = useState(false);
+  const [prDays, setPrDays] = useState([]);
   const supabase = useSupabaseClient();
   const session = useSession();
   const router = useRouter();
 
   useEffect(() => {
     // if (!session) router.push('/')
-    fetchWorkouts();
-    fetchHighlightedDays();
+    if (session) {
+      fetchWorkouts();
+      fetchHighlightedDays();
+      fetchPrDays();
+    }
   }, [date]);
 
   const fetchWorkouts = async () => {
@@ -76,13 +80,51 @@ export default function MyWorkouts() {
 
   const fetchHighlightedDays = async () => {
     let days = [];
-    const { data, error } = await supabase.from("workout").select("date");
-    for (const elem of data) {
+    const { data, error } = await supabase
+      .from("user")
+      .select(
+        `
+    auth_id, workout (
+      date
+    )`
+      )
+      .eq("auth_id", session.user.id)
+      .single();
+    for (const elem of data.workout) {
       const workoutDate = dayjs(elem.date);
       const formattedDate = workoutDate.format("YYYY-MM-DD");
       days.push(formattedDate);
     }
     setHighlightedDays(days);
+  };
+
+  const fetchPrDays = async () => {
+    let prs = [];
+    const { data, error } = await supabase
+      .from("user")
+      .select(
+        `
+      auth_id, workout (
+        id, date,
+          exercises (
+            workout_id, is_pr
+        )
+      )`
+      )
+      .eq("auth_id", session.user.id)
+      .single();
+    for (const currentWorkout of data.workout) {
+      if (currentWorkout.exercises) {
+        for (const exercise of currentWorkout.exercises) {
+          if (exercise.is_pr === true) {
+            const prDate = dayjs(currentWorkout.date);
+            const formattedPrDate = prDate.format("YYYY-MM-DD");
+            prs.push(formattedPrDate);
+          }
+        }
+      }
+    }
+    setPrDays(prs);
   };
 
   const handleDelete = async () => {
@@ -138,12 +180,17 @@ export default function MyWorkouts() {
                   !DayComponentProps.outsideCurrentMonth &&
                   highlightedDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
 
+                const isPr =
+                  !DayComponentProps.outsideCurrentMonth &&
+                  prDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
+
                 return (
                   <Badge
                     key={day.toString()}
                     overlap="circular"
-                    color="primary"
-                    variant={isSelected ? "dot" : null}
+                    color={isPr ? "" : "primary"}
+                    badgeContent={isPr ? "🏅" : null}
+                    variant={isPr ? null : isSelected ? "dot" : null}
                   >
                     <PickersDay {...DayComponentProps} />
                   </Badge>
