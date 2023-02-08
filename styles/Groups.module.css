@@ -13,7 +13,6 @@
   display: flex;
   flex-flow: column;
   width: 95%;
-  min-height: 85%;
   margin: 2rem;
   padding: 2rem;
   background-color: #262626;
@@ -22,6 +21,7 @@
 
 .content {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-around;
   gap: 1rem;
 }
@@ -153,84 +153,78 @@
   text-align: center;
 }
 
-.groupsContainer {
-  position: relative;
+.feedContainer {
+  /* position: static; */
   display: flex;
+  /* flex-direction: column-reverse; */
+  width: 70%;
+  height: 600px;
+  /* align-items: center; */
   /* justify-content: center; */
-  width: 80%;
-  align-items: center;
   background-color: #242424;
   padding: 1rem;
   border-radius: 10px;
-  overflow-x: hidden;
-  overflow-y: auto;
+  overflow: auto;
+  /* overflow-x: hidden;
+  overflow-y: auto; */
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px;
 }
 
-.groups {
+.feed {
   display: flex;
-  flex-wrap: wrap;
-  height: 600px;
+  flex-flow: column;
+  height: 300px;
   gap: 2rem;
   padding: 1rem;
 }
 
-.group {
-  flex: 0 0 22%;
-  display: flex;
-  flex-flow: column;
-  justify-content: center;
-  align-items: center;
-  width: 500px;
-  height: 55%;
-  background-color: #202020;
-  color: #a7a7a7;
-  padding: 1rem;
-  text-align: center;
-  border-radius: 10px;
-  box-shadow: rgba(0, 0, 0, 0.06) 0px 2px 4px;
-  transition: all 0.3s ease-in-out;
-}
-
-.group:hover {
-  box-shadow: rgba(3, 218, 197, 0.22) 0px 13px 25px;
-  transform: translate3d(0px, -1px, 0px);
-}
-
-.groupContent {
-  /* justify-self: flex-start;
-  align-self: center; */
-  margin-top: auto;
-  margin-bottom: auto;
-}
-
-.notification {
-  position: absolute;
-  justify-self: flex-end;
-  align-self: flex-end;
-  top: 10%;
-  /* flex: 1 */
-}
-
-.groupName {
-  margin: 0;
-  font-weight: 600;
-}
-
-.members {
-  margin: 0;
-  font-size: 14px;
-}
-
-.groupsContainer::-webkit-scrollbar {
+.feedContainer::-webkit-scrollbar {
   width: 15px;
 }
 
-.groupsContainer::-webkit-scrollbar-thumb {
+.feedContainer::-webkit-scrollbar-thumb {
   background: #161616;
   border-radius: 10px;
 }
 
 .workout {
-  background-color: #a7a7a7;
+  background-color: #191919;
+  border-radius: 15px;
+  padding: 1rem;
+}
+
+.workoutContainer p {
+  margin: 0;
+}
+
+.workoutHeader {
+  display: flex;
+  justify-content: space-between;
+}
+
+.feedUsername {
+  font-weight: 500;
+}
+
+.date {
+  color: #b6b6b6;
+  font-size: 14px;
+}
+
+.duration {
+  display: flex;
+  gap: 0.3rem;
+}
+
+.viewWorkoutBtn {
+  background-color: #03dac5;
+  outline: none;
+  border: none;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  color: #191919;
+  border-radius: 5px;
+  padding: 0.5rem 1rem;
+  margin-top: 0.5rem;
+  cursor: pointer;
 }

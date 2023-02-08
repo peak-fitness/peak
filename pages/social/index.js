@@ -1,6 +1,13 @@
 import { useEffect, useState } from "react";
 import styles from "@/styles/Groups.module.css";
-import { Grid, IconButton } from "@mui/material";
+import {
+  Container,
+  Typography,
+  Box,
+  Grid,
+  Button,
+  IconButton,
+} from "@mui/material";
 import GroupIcon from "@mui/icons-material/Group";
 import EmailIcon from "@mui/icons-material/Email";
 import {
@@ -26,6 +33,7 @@ export default function Groups() {
   const [user, setUser] = useState({});
   const [friends, setFriends] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
+  // const session = useSession();
   const supabase = useSupabaseClient();
   const router = useRouter();
   const { isLoading, session, error } = useSessionContext();
@@ -158,7 +166,7 @@ export default function Groups() {
     getAllUsers();
   }, [session]);
 
-  return (
+  return session ? (
     <>
       <Navbar />
       {isLoading ? (
@@ -321,6 +329,84 @@ export default function Groups() {
         </>
       )}
       <ToastContainer />
+    </>
+  ) : (
+    <>
+      <Navbar />
+      <Container
+        maxWidth="lg"
+        sx={{ display: "flex", justifyContent: "center", minHeight: "100vh" }}
+      >
+        <Box
+          sx={{
+            width: "80rem",
+            height: "20rem",
+            marginTop: "15vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#242424",
+            borderRadius: "8px",
+            boxShadow: "0px 10px 10px rgba(0,0,0,0.2)",
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{ color: "#E8E8E8", textAlign: "center" }}
+          >
+            You need an account to access this page
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "1rem",
+            }}
+          >
+            <Link
+              href="auth/login"
+              style={{
+                padding: "10px",
+                color: "#E8E8E8",
+                textDecoration: "none",
+              }}
+            >
+              <Button
+                variant="contained"
+                sx={{
+                  background:
+                    "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#da6b03, #b59500, #89b33e, #56ca82, #03dac5) border-box",
+                  border: "2px solid transparent",
+                  padding: "1rem 1rem 1rem 1rem",
+                }}
+              >
+                Sign Into Your Account
+              </Button>
+            </Link>
+            <Link
+              href="auth/signup"
+              style={{
+                padding: "10px",
+                color: "#E8E8E8",
+                textDecoration: "none",
+              }}
+            >
+              <Button
+                variant="contained"
+                sx={{
+                  background:
+                    "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#da6b03, #b59500, #89b33e, #56ca82, #03dac5) border-box",
+                  border: "2px solid transparent",
+                  padding: "1rem 1rem 1rem 1rem",
+                }}
+              >
+                Create A New Account
+              </Button>
+            </Link>
+          </Box>
+        </Box>
+      </Container>
     </>
   );
 }
