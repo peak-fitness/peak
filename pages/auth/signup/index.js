@@ -30,11 +30,13 @@ export default function Signup() {
   const session = useSession();
   if (session) router.push("/");
 
-  const insertAchievements = async () => {
-    const achievements = await supabase.from("achievements").select();
-    console.log(achievements.data);
-  };
-  insertAchievements();
+  // const insertAchievements = async () => {
+  //   const achievements = await supabase.from("achievements").select();
+  //   achievements.data.map((achievement) => {
+  //     console.log(achievement.id);
+  //   });
+  // };
+  // insertAchievements();
 
   const handleSubmit = async (evt) => {
     evt.preventDefault();
@@ -82,17 +84,30 @@ export default function Signup() {
             username: username,
           })
           .select("*");
+        const userId = await supabase
+          .from("user")
+          .select("id")
+          .eq("auth_id", data.user.id);
         const achievements = await supabase.from("achievements").select();
-        achievements.data.map((achievement) => {
-          const res = supabase
-            .from("user_achievements")
-            .insert({
-              user_id: data.user.id,
-              a_id: achievement.id,
-              achieved: false,
-            })
+        achievements.data.map(async (achievement) => {
+          const { error } = await supabase
+            .from("userAchievements")
+            .insert({ user_id: userId.data[0].id, a_id: achievement.id })
             .select("*");
         });
+        // const { error } = await supabase
+        //   .from("userAchievements")
+        //   .insert([
+        //     { user_id: userId.data[0].id, a_id: 1 },
+        //     { user_id: userId.data[0].id, a_id: 2 },
+        //     { user_id: userId.data[0].id, a_id: 3 },
+        //     { user_id: userId.data[0].id, a_id: 4 },
+        //     { user_id: userId.data[0].id, a_id: 5 },
+        //     { user_id: userId.data[0].id, a_id: 6 },
+        //     { user_id: userId.data[0].id, a_id: 7 },
+        //     { user_id: userId.data[0].id, a_id: 8 },
+        //   ])
+        //   .select("*");
         setSubmitted(true);
         setUsernameTaken(false);
         setEmailTaken(false);
