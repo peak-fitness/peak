@@ -55,23 +55,12 @@ export default function AddWorkout() {
   const supabase = useSupabaseClient();
   const router = useRouter();
 
-  // for tomorrow, updating works if data exists, need to consider adding new sets and deleting old ones
-  // also rendering sets by number on count instead of by ID
-
-  // const { data } = router.query;
-
-  // room for improvement:
-  // editing sets upon initial add of exercise
-  // adding a set that has set# 1 and set# 3 will add in DB as set 1, and 2 which is good, but can update in real time to have set #'s auto update and sort
-
   useEffect(() => {
     if (session) getUser();
     importData();
   }, [router.query]);
 
   const importedDate = router.query.date;
-
-  //  if (router.isReady) console.log(router.query);
 
   const [workout, updateWorkout] = useReducer(
     (prev, next) => {
@@ -265,9 +254,6 @@ export default function AddWorkout() {
       <Navbar />
       <Container sx={{ justifyContent: "center" }} className={styles.outer}>
         <CssBaseline />
-        {/* <Paper elevation={3}
-                style={{ backgroundColor: "#202020" }}
-                > */}
         <Box>
           <Typography
             variant="h3"
@@ -282,7 +268,6 @@ export default function AddWorkout() {
           </Typography>
         </Box>
         <Box
-          //   onSubmit={handleSubmit}
           sx={{
             mt: 3,
           }}
@@ -710,7 +695,6 @@ export default function AddWorkout() {
             {workout.exercises.length >= 1 &&
               workout.exercises.map((exercise, index) => {
                 return (
-                  // need to change size of grid width
                   <>
                     <Grid container spacing={4}>
                       <Grid item lg={3}>
@@ -788,7 +772,6 @@ export default function AddWorkout() {
             Save
           </Button>
         </Box>
-        {/* </Paper> */}
       </Container>
     </>
   );

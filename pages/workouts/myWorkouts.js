@@ -34,7 +34,7 @@ import dayjs from "dayjs";
 
 export default function MyWorkouts() {
   const [date, setDate] = useState(null);
-  const [highlightedDays, setHighlightedDays] = useState([]); // need to grab day of month and add to array
+  const [highlightedDays, setHighlightedDays] = useState([]);
   const [workout, setWorkout] = useState(null);
   const [exercises, setExercises] = useState([]);
   const [refresh, setRefresh] = useState(false);
@@ -77,17 +77,12 @@ export default function MyWorkouts() {
   const fetchHighlightedDays = async () => {
     let days = [];
     const { data, error } = await supabase.from("workout").select("date");
-    // .eq('date'.slice(5,7), String(date.$M+1).padStart(2,0));
     for (const elem of data) {
       const workoutDate = dayjs(elem.date);
       const formattedDate = workoutDate.format("YYYY-MM-DD");
       days.push(formattedDate);
     }
     setHighlightedDays(days);
-  };
-
-  const handleMonthChange = async () => {
-    setHighlightedDays([]);
   };
 
   const handleDelete = async () => {
@@ -109,8 +104,6 @@ export default function MyWorkouts() {
       query: { data: encodedWorkout, date: workout.date },
     });
   };
-
-  console.log(workout);
 
   return (
     // <ThemeProvider theme={theme}>
@@ -140,7 +133,6 @@ export default function MyWorkouts() {
               renderInput={(params) => <TextField {...params} />}
               dayOfWeekFormatter={(day) => `${day}.`}
               showToolbar
-              // onMonthChange={handleMonthChange}
               renderDay={(day, _value, DayComponentProps) => {
                 const isSelected =
                   !DayComponentProps.outsideCurrentMonth &&
@@ -216,13 +208,7 @@ export default function MyWorkouts() {
                 return (
                   <>
                     <List key={exercise.id}>
-                      <ListItem
-                        secondaryaction={
-                          <IconButton edge="end" aria-label="delete">
-                            {/* <DeleteIcon /> */}
-                          </IconButton>
-                        }
-                      >
+                      <ListItem>
                         {/* <ListItemIcon>
                                 <FitnessCenterIcon/>
                               </ListItemIcon> */}
