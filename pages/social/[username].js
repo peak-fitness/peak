@@ -21,7 +21,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
 export default function Public_Profile() {
-  const { isLoading, session, error } = useSessionContext();
+  let { isLoading, session, error } = useSessionContext();
   const router = useRouter();
   const [loggedInUser, setLoggedInUser] = useState(null);
   const [user, setUser] = useState(null);
@@ -41,6 +41,10 @@ export default function Public_Profile() {
         .eq("auth_id", session.user.id)
         .single();
       setLoggedInUser(loggedInUserId.data);
+      if (loggedInUserId.data.username === username) {
+        isLoading = true;
+        router.push("/profile");
+      }
       const { data, error } = await supabase
         .from("user")
         .select(
@@ -60,7 +64,6 @@ export default function Public_Profile() {
         .select("id, status_code")
         .match({ requester_id: loggedInUserId.data.id, addressee_id: data.id })
         .single();
-      console.log(isAdded);
       if (!isAdded.data) {
         return;
       } else if (isAdded.data.status_code === "Requested") {
@@ -69,7 +72,7 @@ export default function Public_Profile() {
         setFriendStatus("A");
       }
     } catch (error) {
-      console.log(error, "ERROR");
+      return;
     }
   };
 
