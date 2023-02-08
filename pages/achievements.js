@@ -34,8 +34,8 @@ export default function AchievementsPage() {
   const [currentUserId, setCurrentUserId] = useState(null);
 
   useEffect(() => {
-    fetchAchievements();
     fetchCurrentUserId();
+    fetchAchievements();
   }, [currentUserId]);
 
   const fetchCurrentUserId = async () => {
@@ -58,7 +58,6 @@ export default function AchievementsPage() {
       .eq("user_id", currentUserId);
     setAchievements(data);
   };
-  // console.log(achievements);
 
   const checkUser = async () => {
     const res = await supabase
