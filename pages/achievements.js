@@ -58,7 +58,7 @@ export default function AchievementsPage() {
       .eq("user_id", currentUserId);
     setAchievements(data);
   };
-  console.log(achievements);
+  // console.log(achievements);
 
   const checkUser = async () => {
     const res = await supabase
