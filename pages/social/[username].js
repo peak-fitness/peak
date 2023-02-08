@@ -20,6 +20,9 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 export default function Public_Profile() {
   let { isLoading, session, error } = useSessionContext();
   const router = useRouter();
@@ -103,15 +106,31 @@ export default function Public_Profile() {
     }
   };
 
+  const handleShare = async () => {
+    let temp = document.createElement("input"),
+      text = document.URL;
+    document.body.appendChild(temp);
+    temp.value = text;
+    temp.select();
+    document.execCommand("copy");
+    document.body.removeChild(temp);
+    toast.success("Profile url copied to clipboard!", {
+      position: "bottom-right",
+      autoClose: 3000,
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: "false",
+      theme: "dark",
+    });
+  };
+
   useEffect(() => {
     getProfile();
   }, [isReady]);
 
   return (
     <>
-      {/* <div>
-        <h1>{profile}</h1>
-      </div> */}
+      <ToastContainer />
       <Navbar />
       <Container
         maxWidth="lg"
@@ -317,6 +336,7 @@ export default function Public_Profile() {
                           ? ".2rem 5rem .2rem 5rem"
                           : ".2rem 2.5rem .2rem 2.5rem",
                     }}
+                    onClick={handleShare}
                   >
                     SHARE
                   </Button>
@@ -347,6 +367,11 @@ export default function Public_Profile() {
                       Age<br></br>
                       {user.age}
                     </Typography>
+                  </Grid>
+                </Grid>
+                <Grid container sx={{ marginTop: "1rem" }}>
+                  <Grid item xs={6}>
+                    <Typography>{user.location}</Typography>
                   </Grid>
                 </Grid>
                 <Grid container sx={{ marginTop: "1rem" }}>
