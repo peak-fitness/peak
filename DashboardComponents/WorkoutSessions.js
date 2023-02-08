@@ -8,14 +8,19 @@ import TableRow from "@mui/material/TableRow";
 import Title from "./Title";
 import { styled, ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "@material-ui/core/styles";
-import {
-  useSession,
-  useSupabaseClient,
-  useUser,
-} from "@supabase/auth-helpers-react";
-import { useState, useEffect } from "react";
-import { useRouter } from "next/router";
-import { Typography } from "@material-ui/core";
+
+// Generate Order Data
+function createData(id, date, name, shipTo, paymentMethod, amount) {
+  return { id, date, name, shipTo, paymentMethod, amount };
+}
+
+const rows = [
+  createData(0, "01 Jan, 2023", "Crunch Gym", "08:00", "09:30", 90),
+  createData(1, "03 Jan, 2023", "Equinox", "08:10", "09:25", 75),
+  createData(2, "04 Jan, 2023", "Planet Fitness", "08:05", "09:37", 92),
+  createData(3, "05 Jan, 2023", "YMCA", "07:50", "09:13", 83),
+  createData(4, "07 Jan, 2023", "Blink Fitness", "07:55", "09:10", 75),
+];
 
 function preventDefault(event) {
   event.preventDefault();
@@ -30,79 +35,37 @@ const theme = createTheme({
   background: { default: "#161616" },
 });
 
-const rows = [];
-
-function createData(id, date, notes, routine, duration) {
-  return { id, date, notes, routine, duration };
-}
-
 export default function RecentWorkouts() {
-  const supabaseClient = useSupabaseClient();
-  const [rows, setRows] = useState([]);
-  const user = useUser();
-
-  useEffect(() => {
-    supabaseClient
-      .from("workout")
-      .select("*")
-      .then((res) => {
-        setRows(
-          res.data
-            .map((row) =>
-              createData(row.id, row.date, row.notes, row.routine, row.duration)
-            )
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
-        );
-      })
-      .catch((err) => console.error(err));
-  }, [supabaseClient]);
-
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <React.Fragment>
         <Title>Recent Workouts</Title>
         <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell>
-                <Typography>Date</Typography>
-              </TableCell>
-              <TableCell>
-                <Typography>Routine</Typography>
-              </TableCell>
-              <TableCell align="right">
-                <Typography>Duration (Min)</Typography>
-              </TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>Location</TableCell>
+              <TableCell>Start Time</TableCell>
+              <TableCell>End Time</TableCell>
+              <TableCell align="right">Duration (Min)</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.slice(0, 4).map((row) => (
+            {rows.map((row) => (
               <TableRow key={row.id}>
-                <TableCell>
-                  <Typography style={{ fontSize: 15 }}>{row.date}</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography style={{ fontSize: 15 }}>
-                    {row.routine.toUpperCase()}
-                  </Typography>
-                </TableCell>
-                <TableCell align="right">
-                  <Typography
-                    style={{ fontSize: 15 }}
-                  >{`${row.duration}`}</Typography>
-                </TableCell>
+                <TableCell>{row.date}</TableCell>
+                <TableCell>{row.name}</TableCell>
+                <TableCell>{row.shipTo}</TableCell>
+                <TableCell>{row.paymentMethod}</TableCell>
+                <TableCell align="right">{`${row.amount}`}</TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
-        <Link
-          color="primary"
-          onClick={() => (window.location.href = "/workouts/myWorkouts")}
-          sx={{ pt: 1 }}
-        >
+        <Link color="primary" href="#" onClick={preventDefault} sx={{ mt: 3 }}>
           See more workouts
         </Link>
       </React.Fragment>
-    </>
+    </ThemeProvider>
   );
 }
