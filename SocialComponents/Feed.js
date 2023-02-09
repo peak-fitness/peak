@@ -47,21 +47,20 @@ export default function Feed({ user, friends }) {
   //     feedContainer.scrollTop = feedContainer.scrollHeight;
   //   };
 
-  window.onload = function () {};
-
   const handleModalClick = (evt) => {
+    const el = document.querySelector("body");
+    el.classList.toggle("modal-open");
     setSelectedWorkout(evt.target.value);
     setShowModal(true);
   };
 
   useEffect(() => {
     fetchFriendWorkouts();
-    const feedContainer = document.getElementById("feed-container");
-    feedContainer.scrollTop = feedContainer.scrollHeight;
   }, [friends]);
 
   return (
     <div id="feed-container" className={styles.feedContainer}>
+      {showModal ? <div className={styles.modalContainer}></div> : null}
       {showModal ? (
         <WorkoutModal
           setShowModal={setShowModal}
@@ -72,40 +71,42 @@ export default function Feed({ user, friends }) {
         />
       ) : null}
       {/* component stuff */}
-      <div className={styles.feed}>
-        {friendWorkouts.map((workout) => (
-          <div key={workout.id} className={styles.workoutContainer}>
-            <div className={styles.workoutHeader}>
-              <p className={styles.feedUsername}>{workout.username}</p>
-              <p className={styles.date}>{workout.date}</p>
-            </div>
-
-            <div className={styles.workout}>
-              <p>{workout.username} just finished their workout!</p>
-              <hr />
-              <p>Routine: {workout.routine}</p>
-              <p>Notes: {workout.notes}</p>
-              <div className={styles.duration}>
-                <TimerIcon
-                  sx={{
-                    color: "#fafafa",
-                    height: "40px",
-                    width: "40px",
-                  }}
-                />
-                <p>{workout.duration} minutes</p>
+      <div className={styles.mainFeed}>
+        <div className={styles.feed}>
+          {friendWorkouts.map((workout) => (
+            <div key={workout.id} className={styles.workoutContainer}>
+              <div className={styles.workoutHeader}>
+                <p className={styles.feedUsername}>{workout.username}</p>
+                <p className={styles.date}>{workout.date}</p>
               </div>
-              <button
-                className={styles.viewWorkoutBtn}
-                value={workout.id}
-                onClick={handleModalClick}
-              >
-                View Workout
-              </button>
+
+              <div className={styles.workout}>
+                <p>{workout.username} just finished their workout!</p>
+                <hr />
+                <p>Routine: {workout.routine}</p>
+                <p>Notes: {workout.notes}</p>
+                <div className={styles.duration}>
+                  <TimerIcon
+                    sx={{
+                      color: "#fafafa",
+                      height: "40px",
+                      width: "40px",
+                    }}
+                  />
+                  <p>{workout.duration} minutes</p>
+                </div>
+                <button
+                  className={styles.viewWorkoutBtn}
+                  value={workout.id}
+                  onClick={handleModalClick}
+                >
+                  View Workout
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
-        {/* props */}
+          ))}
+          {/* props */}
+        </div>
       </div>
     </div>
   );

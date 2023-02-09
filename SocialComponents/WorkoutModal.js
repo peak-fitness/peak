@@ -41,6 +41,8 @@ export default function WorkoutModal({
   };
 
   const handleToggle = () => {
+    const el = document.querySelector("body");
+    el.classList.toggle("modal-open");
     setShowModal(false);
   };
 
@@ -53,49 +55,51 @@ export default function WorkoutModal({
   // console.log(friendWorkouts, "Friends Workouts");
 
   return (
-    <div className={styles.modalContainer}>
-      <div className={styles.btnBox}>
-        <Button className={styles.closeBtn} onClick={handleToggle}>
-          Close
-        </Button>
-      </div>
-      {isLoading ? (
-        <h1>Loading...</h1>
-      ) : workoutDetails ? (
-        workoutDetails.map((exercise) => (
-          <div key={exercise.id}>
-            <div className={styles.exerciseBox}>
-              <h3 className={styles.header}>{exercise.name}</h3>
-              {exercise.muscle_group && (
-                <p className={styles.header}>{exercise.muscle_group}</p>
-              )}
-              {exercise.is_pr && (
-                <p className={styles.header}>Personal Record</p>
-              )}
-              {exercise.notes && <p>{exercise.notes}</p>}
+    <div className={styles.container}>
+      <div className={styles.modalContainer}>
+        <div className={styles.btnBox}>
+          <Button className={styles.closeBtn} onClick={handleToggle}>
+            Close
+          </Button>
+        </div>
+        {isLoading ? (
+          <h1>Loading...</h1>
+        ) : workoutDetails ? (
+          workoutDetails.map((exercise) => (
+            <div key={exercise.id}>
+              <div className={styles.exerciseBox}>
+                <h3 className={styles.header}>{exercise.name}</h3>
+                {exercise.muscle_group && (
+                  <p className={styles.header}>{exercise.muscle_group}</p>
+                )}
+                {exercise.is_pr && (
+                  <p className={styles.header}>Personal Record</p>
+                )}
+                {exercise.notes && <p>{exercise.notes}</p>}
+              </div>
+              {exercise.sets.map((set, idx) => {
+                return (
+                  // <div className="setsBox" key={set.id}>
+                  <Grid className="setsBox" container key={set.id}>
+                    <Grid className={styles.setsItem} item xs={4}>
+                      <h4>{`Set: ${idx + 1}`}</h4>
+                    </Grid>
+                    <Grid className={styles.setsItem} item xs={4}>
+                      <p>{`Reps: ${set.reps}`}</p>
+                    </Grid>
+                    <Grid className={styles.setsItem} item xs={4}>
+                      <p>{`Weight: ${set.weight}`}</p>
+                    </Grid>
+                  </Grid>
+                  // {/* </div> */}
+                );
+              })}
             </div>
-            {exercise.sets.map((set, idx) => {
-              return (
-                // <div className="setsBox" key={set.id}>
-                <Grid className="setsBox" container key={set.id}>
-                  <Grid className={styles.setsItem} item xs={4}>
-                    <h4>{`Set: ${idx + 1}`}</h4>
-                  </Grid>
-                  <Grid className={styles.setsItem} item xs={4}>
-                    <p>{`Reps: ${set.reps}`}</p>
-                  </Grid>
-                  <Grid className={styles.setsItem} item xs={4}>
-                    <p>{`Weight: ${set.weight}`}</p>
-                  </Grid>
-                </Grid>
-                // {/* </div> */}
-              );
-            })}
-          </div>
-        ))
-      ) : (
-        <h3>{Error ? Error.message : ""}</h3>
-      )}
+          ))
+        ) : (
+          <h3>{Error ? Error.message : ""}</h3>
+        )}
+      </div>
     </div>
   );
 }
