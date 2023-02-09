@@ -31,8 +31,10 @@ export default function Public_Profile() {
   const [friendStatus, setFriendStatus] = useState("N");
   const [Error, setError] = useState(null);
   const { query, isReady } = router;
+  console.log(friendStatus);
 
   const getProfile = async () => {
+    let loggedInUserTest = {};
     try {
       if (!isReady) {
         return;
@@ -44,6 +46,7 @@ export default function Public_Profile() {
           .select("id, username")
           .eq("auth_id", session.user.id)
           .single();
+        loggedInUserTest = loggedInUserId.data;
         setLoggedInUser(loggedInUserId.data);
         if (loggedInUserId.data.username === username) {
           isLoading = true;
@@ -65,20 +68,41 @@ export default function Public_Profile() {
         setUser(data);
       }
 
+      console.log(loggedInUserTest);
+
       const isAdded = await supabase
         .from("friends")
         .select("id, status_code")
-        .match({ requester_id: loggedInUserId.data.id, addressee_id: data.id })
+        .match({ requester_id: loggedInUserTest.id, addressee_id: data.id })
         .single();
+      console.log(isAdded, "isADDDED");
       if (!isAdded.data) {
-        return;
+        setFriendStatus("N");
       } else if (isAdded.data.status_code === "Requested") {
         setFriendStatus("R");
+        return;
       } else if (isAdded.data.status_code === "Accepted") {
         setFriendStatus("A");
+        return;
+      }
+
+      const isAdded2 = await supabase
+        .from("friends")
+        .select("id, status_code")
+        .match({ requester_id: data.id, addressee_id: loggedInUserTest.id })
+        .single();
+      console.log(isAdded2, "isADDDED2");
+      if (!isAdded2.data) {
+        return;
+      } else if (isAdded2.data.status_code === "Requested") {
+        setFriendStatus("R");
+        return;
+      } else if (isAdded2.data.status_code === "Accepted") {
+        setFriendStatus("A");
+        return;
       }
     } catch (error) {
-      return;
+      return error;
     }
   };
 
