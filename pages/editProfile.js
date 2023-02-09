@@ -177,6 +177,30 @@ export default function Account() {
         .eq("user_id", currentUserId)
         .eq("a_id", 2);
     }
+    if (
+      firstName &&
+      lastName &&
+      weight &&
+      height &&
+      age &&
+      location &&
+      bio &&
+      targetCalories &&
+      targetWeight &&
+      gender
+    ) {
+      const { error } = await supabase
+        .from("userAchievements")
+        .update({ achieved: true })
+        .eq("user_id", currentUserId)
+        .eq("a_id", 1);
+    } else {
+      const { error } = await supabase
+        .from("userAchievements")
+        .update({ achieved: false })
+        .eq("user_id", currentUserId)
+        .eq("a_id", 1);
+    }
   };
 
   const responsiveContainer = {
