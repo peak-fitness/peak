@@ -331,6 +331,7 @@ export default function Public_Profile() {
                     display: "flex",
                     flexDirection: "column",
                     justifyContent: "flex-end",
+                    alignItems: "center",
                     gap: "1rem",
                     marginBottom: "1.5rem",
                   }}
@@ -357,7 +358,7 @@ export default function Public_Profile() {
                       {friendStatus === "R" ? "Requested" : "Unfriend"}
                     </Button>
                   ) : friendStatus === "RD" ? (
-                    <>
+                    <Box sx={{ display: "flex", gap: ".5rem" }}>
                       <Button
                         variant="contained"
                         value="accepted"
@@ -386,7 +387,7 @@ export default function Public_Profile() {
                       >
                         Reject
                       </Button>
-                    </>
+                    </Box>
                   ) : (
                     <Button
                       variant="contained"
@@ -412,7 +413,9 @@ export default function Public_Profile() {
                       borderRadius: "1rem",
                       width: "2rem",
                       padding:
-                        friendStatus === "R" || friendStatus === "A"
+                        friendStatus === "R" ||
+                        friendStatus === "A" ||
+                        friendStatus === "RD"
                           ? ".2rem 5rem .2rem 5rem"
                           : ".2rem 2.5rem .2rem 2.5rem",
                     }}
