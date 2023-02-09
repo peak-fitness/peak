@@ -25,7 +25,6 @@ import {
 } from "@mui/material";
 
 import { toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import styles from "@/styles/Profiles.module.css";
@@ -249,12 +248,6 @@ export default function Account() {
       <Container
         maxWidth="lg"
         sx={{
-          // marginTop: "5vh",
-          // backgroundColor: "#262626",
-          // display: "flex",
-          // gap: "2rem",
-          // padding: "5rem",
-          // borderRadius: "8px",
           minHeight: "100vh",
         }}
       >
