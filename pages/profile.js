@@ -12,6 +12,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 
 import { Container, Typography, Box, Grid, Button } from "@mui/material";
+import "react-toastify/dist/ReactToastify.css";
 
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
