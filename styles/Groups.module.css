@@ -153,6 +153,19 @@
   text-align: center;
 }
 
+.modalContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
 .feedContainer {
   /* position: static; */
   display: flex;
@@ -160,7 +173,7 @@
   width: 70%;
   height: 600px;
   /* align-items: center; */
-  /* justify-content: center; */
+  justify-content: center;
   background-color: #242424;
   padding: 1rem;
   border-radius: 10px;
@@ -176,6 +189,10 @@
   height: 300px;
   gap: 2rem;
   padding: 1rem;
+}
+
+.mainFeed {
+  margin-right: auto;
 }
 
 .feedContainer::-webkit-scrollbar {
