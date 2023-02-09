@@ -71,8 +71,12 @@ export default function CalendarView() {
 
   const fetchHighlightedDays = async () => {
     let days = [];
-    const { data, error } = await supabase.from("workout").select("date");
-    for (const elem of data) {
+    const { data, error } = await supabase
+      .from("user")
+      .select(`auth_id, workout (date)`)
+      .eq("auth_id", session.user.id)
+      .single();
+    for (const elem of data.workout) {
       const workoutDate = dayjs(elem.date);
       const formattedDate = workoutDate.format("YYYY-MM-DD");
       days.push(formattedDate);

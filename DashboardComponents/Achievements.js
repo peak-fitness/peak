@@ -53,7 +53,7 @@ export default function Achievements() {
         align="center"
         justifycontent="center"
       >
-        <Title>Trophies</Title>
+        <Title>Achievements</Title>
         <Grid container spacing={2} alignItems="center" justifyContent="center">
           {trophies.map((trophy, index) => (
             <Grid item key={index}>

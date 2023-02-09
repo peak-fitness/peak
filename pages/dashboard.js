@@ -177,7 +177,7 @@ function DashboardContent() {
                               p: 2,
                               display: "flex",
                               flexDirection: "column",
-                              height: 240,
+                              height: 250,
                             }}
                             style={{ backgroundColor: "#202020" }}
                           >
@@ -194,7 +194,7 @@ function DashboardContent() {
                               pr: 0,
                               display: "flex",
                               flexDirection: "column",
-                              height: 240,
+                              height: 250,
                             }}
                             style={{ backgroundColor: "#202020" }}
                           >
