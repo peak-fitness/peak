@@ -33,7 +33,7 @@ import Link from "next/link";
 import dayjs from "dayjs";
 
 export default function MyWorkouts() {
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(dayjs());
   const [highlightedDays, setHighlightedDays] = useState([]);
   const [workout, setWorkout] = useState(null);
   const [exercises, setExercises] = useState([]);

@@ -46,7 +46,7 @@ export default function MealContainer() {
   const [checkDate, setCheckDate] = useState(false);
   const [value, setValue] = useState(0);
   const [userId, setUserId] = useState(null);
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(dayjs());
   const [highlightedDays, setHighlightedDays] = useState([]);
   const [fetchMeals, setFetchMeals] = useState(null);
   const [meals, setMeals] = useState({
