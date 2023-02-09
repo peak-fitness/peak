@@ -30,7 +30,7 @@ export default function WorkoutModal({
       const { data, error } = await supabase
         .from("exercises")
         .select(`*, sets (*)`)
-        .eq("workout_id", selectedWorkout);
+        .eq("workout_id", selectedWorkout.workoutId);
       const username = await supabase.from("user").select("username").eq("");
       setWorkoutDetails(data);
       setIsLoading(false);
