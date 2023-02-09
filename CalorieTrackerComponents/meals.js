@@ -63,11 +63,8 @@ export default function MealContainer() {
   useEffect(() => {
     fetchCurrentUserId();
     fetchUserMeals();
-  }, [date, saved]);
-
-  useEffect(() => {
     fetchHighlightedDays();
-  });
+  }, [date, saved]);
 
   const fetchCurrentUserId = async () => {
     if (session) {
@@ -87,7 +84,6 @@ export default function MealContainer() {
       .from("meals")
       .select("date, meal", "user_id")
       .eq("user_id", userId);
-    // console.log(data);
     if (data) {
       for (const elem of data) {
         if (
@@ -217,6 +213,7 @@ export default function MealContainer() {
       .from("user")
       .update({ target_calories: targetCalories })
       .match({ auth_id: session.user.id });
+    setNoTarget(false);
   };
 
   return (
@@ -274,7 +271,6 @@ export default function MealContainer() {
                 </Typography>
                 <div className={styles.target}>
                   <FormControl>
-                    <InputLabel htmlFor="target-calories">Calories</InputLabel>
                     <Input
                       id="target-calories"
                       type="number"

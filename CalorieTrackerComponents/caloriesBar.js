@@ -176,15 +176,4 @@ const CaloriesBar = ({
   );
 };
 
-export const getServerSideProps = async () => {
-  // const supabase = useSupabaseClient();
-  // const session = useSession();
-  const { data, error } = await supabase.from("user").select("target_calories");
-  console.log("ERROR", data);
-  // .eq("auth_id", session.user.id);
-  return {
-    props: { data },
-  };
-};
-
 export default CaloriesBar;
