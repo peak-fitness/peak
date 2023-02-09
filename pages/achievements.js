@@ -35,8 +35,11 @@ export default function AchievementsPage() {
 
   useEffect(() => {
     fetchCurrentUserId();
-    fetchWorkoutAchievements();
   }, [currentUserId]);
+
+  useEffect(() => {
+    fetchWorkoutAchievements();
+  }, []);
 
   useEffect(() => {
     fetchAchievements();
@@ -74,7 +77,7 @@ export default function AchievementsPage() {
       )
       .eq("auth_id", session.user.id)
       .single();
-    console.log("here", data.workout.length);
+    console.log(data.workout.length);
     if (data.workout.length >= 10) {
       const { error } = await supabase
         .from("userAchievements")
@@ -127,15 +130,6 @@ export default function AchievementsPage() {
         .eq("user_id", data.workout[0].user_id)
         .eq("a_id", 8);
     }
-  };
-
-  const handleRedirect = () => {
-    const encodedWorkout = encodeURIComponent(JSON.stringify(workout));
-    const encodedDate = encodeURIComponent(JSON.stringify(date));
-    router.push({
-      pathname: "/workouts/addWorkout",
-      query: { data: encodedWorkout, date: workout.date },
-    });
   };
 
   const checkUser = async () => {
