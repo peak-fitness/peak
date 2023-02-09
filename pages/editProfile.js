@@ -25,6 +25,7 @@ import {
 } from "@mui/material";
 
 import { toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
@@ -602,6 +603,7 @@ export default function Account() {
           </Box>
         </Box>
       </Container>
+      <ToastContainer />
     </>
   ) : (
     <>
