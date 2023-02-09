@@ -62,7 +62,6 @@ export default function Account() {
         .eq("auth_id", user.id)
         .single();
 
-      console.log(data);
       if (error && status !== 406) {
         throw error;
       }

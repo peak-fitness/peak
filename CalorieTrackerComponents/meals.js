@@ -62,7 +62,7 @@ export default function MealContainer() {
 
   useEffect(() => {
     fetchHighlightedDays();
-  }, [saved, deleted]);
+  });
 
   const fetchCurrentUserId = async () => {
     if (session) {
@@ -77,19 +77,25 @@ export default function MealContainer() {
 
   const fetchHighlightedDays = async () => {
     let days = [];
-    const { data, error } = await supabase.from("meals").select("date, meal");
-    for (const elem of data) {
-      if (
-        elem.meal.breakfast.length !== 0 ||
-        elem.meal.lunch.length !== 0 ||
-        elem.meal.dinner.length !== 0
-      ) {
-        const mealDate = dayjs(elem.date);
-        const formattedDate = mealDate.format("YYYY-MM-DD");
-        days.push(formattedDate);
+    const { data, error } = await supabase
+      .from("meals")
+      .select("date, meal", "user_id")
+      .eq("user_id", userId);
+    // console.log(data);
+    if (data) {
+      for (const elem of data) {
+        if (
+          elem.meal.breakfast.length !== 0 ||
+          elem.meal.lunch.length !== 0 ||
+          elem.meal.dinner.length !== 0
+        ) {
+          const mealDate = dayjs(elem.date);
+          const formattedDate = mealDate.format("YYYY-MM-DD");
+          days.push(formattedDate);
+        }
       }
+      setHighlightedDays(days);
     }
-    setHighlightedDays(days);
   };
 
   const fetchUserMeals = async () => {
