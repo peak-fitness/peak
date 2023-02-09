@@ -68,7 +68,7 @@ export default function AchievementsPage() {
       .from("user")
       .select()
       .eq("auth_id", session.user.id);
-    if (!res.data[0]) {
+    if (!res.data) {
       router.push("/auth/username");
     }
   };
