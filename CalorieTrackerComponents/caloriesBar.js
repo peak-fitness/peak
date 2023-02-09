@@ -33,7 +33,6 @@ const CaloriesBar = ({
         .select("target_calories")
         .eq("auth_id", session.user.id)
         .single();
-      if (!data.target_calories) setNoTarget(true);
       setGoalCalories(data.target_calories);
     }
   };

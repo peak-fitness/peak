@@ -7,6 +7,8 @@ import {
   Button,
   IconButton,
   Typography,
+  FormControl,
+  InputLabel,
 } from "@mui/material";
 import MealForm from "./MealForm";
 import EditMealForm from "./EditMealForm";
@@ -14,7 +16,7 @@ import CaloriesBar from "./caloriesBar";
 import EditIcon from "@mui/icons-material/Edit";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { Badge, TextField, withStyles } from "@material-ui/core";
+import { Badge, Input, TextField, withStyles } from "@material-ui/core";
 import {
   LocalizationProvider,
   PickersDay,
@@ -24,6 +26,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@mui/material/styles";
+import styles from "@/styles/CalorieTracker.module.css";
 
 const theme = createTheme({
   palette: {
@@ -50,6 +53,7 @@ export default function MealContainer() {
   const [highlightedDays, setHighlightedDays] = useState([]);
   const [fetchMeals, setFetchMeals] = useState(null);
   const [noTarget, setNoTarget] = useState(false);
+  const [targetCalories, setTargetCalories] = useState(null);
   const [meals, setMeals] = useState({
     breakfast: [],
     lunch: [],
@@ -208,6 +212,13 @@ export default function MealContainer() {
     setEdited(true);
   };
 
+  const handleSubmit = async () => {
+    const { data, error } = await supabase
+      .from("user")
+      .update({ target_calories: targetCalories })
+      .match({ auth_id: session.user.id });
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -249,10 +260,44 @@ export default function MealContainer() {
               }}
             />
             {noTarget ? (
-              <Typography variant="h6" style={{ textAlign: "center" }}>
-                Please visit your profile and enter a calories goal to use the
-                Calorie Tracker
-              </Typography>
+              <>
+                <Typography
+                  variant="h6"
+                  style={{
+                    textAlign: "center",
+                    color: "white",
+                    fontFamily: "Montserrat, sans serif",
+                  }}
+                >
+                  Please enter your daily calories goal to use the Calorie
+                  Tracker
+                </Typography>
+                <div className={styles.target}>
+                  <FormControl>
+                    <InputLabel htmlFor="target-calories">Calories</InputLabel>
+                    <Input
+                      id="target-calories"
+                      type="number"
+                      name="target-calories"
+                      style={{
+                        color: "white",
+                        fontFamily: "Montserrat, sans serif",
+                      }}
+                      value={targetCalories ? targetCalories : ""}
+                      onChange={(e) => {
+                        e.preventDefault();
+                        setTargetCalories(Number(e.target.value));
+                      }}
+                    />
+                    <button
+                      className={styles.viewWorkoutBtn}
+                      onClick={handleSubmit}
+                    >
+                      Submit
+                    </button>
+                  </FormControl>
+                </div>
+              </>
             ) : (
               <>
                 <CaloriesBar
