@@ -139,7 +139,13 @@ export default function Login() {
         <title>Sign In</title>
       </Head>
       <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
-        <Container maxWidth="xxl">
+        <Container
+          maxWidth="xl"
+          sx={{
+            mt: 1,
+            mb: 1,
+          }}
+        >
           <Toolbar
             disableGutters
             sx={{
@@ -150,28 +156,26 @@ export default function Login() {
             <Typography
               variant="h4"
               noWrap
+              component="a"
+              href="/"
               sx={{
-                display: { xs: "flex", sm: "flex", md: "flex", lg: "flex" },
+                mr: 2,
+                display: { xs: "none", md: "flex" },
+                fontWeight: 700,
+                color: "white",
+              }}
+              style={{
+                textDecoration: "none",
+                letterSpacing: ".3rem",
               }}
             >
-              <Link
-                href="/"
-                style={{
-                  color: "#E8E8E8",
-                  textDecoration: "none",
-                  fontWeight: 700,
-                  letterSpacing: ".1rem",
-                  margin: "15px",
-                }}
-              >
-                Peak
-              </Link>
+              Peak
             </Typography>
             <Box
               sx={{
                 display: "flex",
                 justifyContent: "center",
-                margin: "20px 0 20px 20px",
+                margin: "0px 0 0px 0px",
                 padding: "10px 0 10px 10px",
               }}
             >

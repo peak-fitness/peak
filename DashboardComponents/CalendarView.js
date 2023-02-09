@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Grid from "@mui/material/Grid";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
@@ -7,11 +7,15 @@ import { CalendarPicker } from "@mui/x-date-pickers/CalendarPicker";
 import { styled } from "@mui/material/styles";
 import Container from "@mui/material/Container";
 import { PickersDay } from "@mui/x-date-pickers/PickersDay";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useEffect } from "react";
+import {
+  useSession,
+  useSupabaseClient,
+  useUser,
+} from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import Badge from "@mui/material/Badge";
+import dayjs from "dayjs";
 
 function preventDefault(event) {
   event.preventDefault();
@@ -55,11 +59,11 @@ const CustomizedCalendar = styled(CalendarPicker)`
 
 export default function CalendarView() {
   const [date, setDate] = useState(null);
-
   const supabase = useSupabaseClient();
   const session = useSession();
   const router = useRouter();
   const [highlightedDays, setHighlightedDays] = useState([]);
+  const user = useUser();
 
   useEffect(() => {
     fetchHighlightedDays();
@@ -67,9 +71,15 @@ export default function CalendarView() {
 
   const fetchHighlightedDays = async () => {
     let days = [];
-    const { data, error } = await supabase.from("workout").select("date");
-    for (const elem of data) {
-      days.push(Number(elem.date.slice(8)));
+    const { data, error } = await supabase
+      .from("user")
+      .select(`auth_id, workout (date)`)
+      .eq("auth_id", session.user.id)
+      .single();
+    for (const elem of data.workout) {
+      const workoutDate = dayjs(elem.date);
+      const formattedDate = workoutDate.format("YYYY-MM-DD");
+      days.push(formattedDate);
     }
     setHighlightedDays(days);
   };
@@ -90,7 +100,7 @@ export default function CalendarView() {
             renderDay={(day, _value, DayComponentProps) => {
               const isSelected =
                 !DayComponentProps.outsideCurrentMonth &&
-                highlightedDays.indexOf(day.date()) >= 0;
+                highlightedDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
 
               return (
                 <Badge
@@ -100,7 +110,12 @@ export default function CalendarView() {
                   variant={isSelected ? "dot" : null}
                   sx={{ width: "30px" }}
                 >
-                  <PickersDay {...DayComponentProps} />
+                  <PickersDay
+                    {...DayComponentProps}
+                    onClick={() => {
+                      router.push(`/workouts/myWorkouts/`);
+                    }}
+                  />
                 </Badge>
               );
             }}
