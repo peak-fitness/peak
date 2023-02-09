@@ -13,8 +13,9 @@
   display: flex;
   flex-flow: column;
   width: 95%;
-  margin: 2rem;
-  padding: 2rem;
+  height: 90vh;
+  margin: 1rem;
+  padding: 1rem 2rem;
   background-color: #262626;
   border-radius: 10px;
 }
@@ -39,10 +40,24 @@
   color: #fafafa;
 }
 
+.friendsContainer {
+  overflow: auto;
+}
+
 .friends {
   display: flex;
   flex-flow: column;
+  height: 70vh;
   background-color: #242424;
+  border-radius: 10px;
+}
+
+.friendsContainer::-webkit-scrollbar {
+  width: 5px;
+}
+
+.friendsContainer::-webkit-scrollbar-thumb {
+  background: #161616;
   border-radius: 10px;
 }
 
@@ -164,12 +179,13 @@
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
 .feedContainer {
   display: flex;
   width: 70%;
-  height: 600px;
+  height: 70vh;
   justify-content: center;
   background-color: #242424;
   padding: 1rem;
@@ -209,6 +225,10 @@
   margin: 0;
 }
 
+.workoutContainer {
+  z-index: 0;
+}
+
 .workoutHeader {
   display: flex;
   justify-content: space-between;
@@ -223,9 +243,13 @@
   font-size: 14px;
 }
 
+.details {
+  display: flex;
+  justify-content: space-between;
+}
+
 .duration {
   display: flex;
-  gap: 0.3rem;
 }
 
 .viewWorkoutBtn {
@@ -239,4 +263,26 @@
   padding: 0.5rem 1rem;
   margin-top: 0.5rem;
   cursor: pointer;
+}
+
+.noFriends {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.noFriends p {
+  margin: 0;
+}
+
+.noFeed {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.myWorkout {
+  position: relative;
+  float: right;
+  right: 0;
 }
