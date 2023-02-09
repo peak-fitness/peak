@@ -31,7 +31,6 @@ export default function Public_Profile() {
   const [friendStatus, setFriendStatus] = useState("N");
   const [Error, setError] = useState(null);
   const { query, isReady } = router;
-  console.log(friendStatus);
 
   const getProfile = async () => {
     let loggedInUserTest = {};
@@ -68,14 +67,12 @@ export default function Public_Profile() {
         setUser(data);
       }
 
-      console.log(loggedInUserTest);
-
       const isAdded = await supabase
         .from("friends")
         .select("id, status_code")
         .match({ requester_id: loggedInUserTest.id, addressee_id: data.id })
         .single();
-      console.log(isAdded, "isADDDED");
+
       if (!isAdded.data) {
         setFriendStatus("N");
       } else if (isAdded.data.status_code === "Requested") {
@@ -91,11 +88,11 @@ export default function Public_Profile() {
         .select("id, status_code")
         .match({ requester_id: data.id, addressee_id: loggedInUserTest.id })
         .single();
-      console.log(isAdded2, "isADDDED2");
+
       if (!isAdded2.data) {
         return;
       } else if (isAdded2.data.status_code === "Requested") {
-        setFriendStatus("R");
+        setFriendStatus("RD");
         return;
       } else if (isAdded2.data.status_code === "Accepted") {
         setFriendStatus("A");
@@ -130,17 +127,31 @@ export default function Public_Profile() {
           status_code: "Requested",
         },
       ]);
+
       setFriendStatus("R");
-    } else if (status === "requested" || status === "friend") {
+    } else if (
+      status === "requested" ||
+      status === "friend" ||
+      status === "rejected"
+    ) {
       const { data, error } = await supabase
         .from("friends")
         .delete()
         .match({ requester_id: loggedInUser.id, addressee_id: user.id });
-      if (error) {
-        setError(error);
-      } else {
-        setFriendStatus("N");
-      }
+
+      const delete2 = await supabase
+        .from("friends")
+        .delete()
+        .match({ requester_id: user.id, addressee_id: loggedInUser.id })
+        .select();
+
+      setFriendStatus("N");
+    } else if (status === "accepted") {
+      const accept1 = await supabase
+        .from("friends")
+        .update({ status_code: "Accepted" })
+        .match({ requester_id: user.id, addressee_id: loggedInUser.id });
+      setFriendStatus("A");
     }
   };
 
@@ -345,6 +356,37 @@ export default function Public_Profile() {
                     >
                       {friendStatus === "R" ? "Requested" : "Unfriend"}
                     </Button>
+                  ) : friendStatus === "RD" ? (
+                    <>
+                      <Button
+                        variant="contained"
+                        value="accepted"
+                        sx={{
+                          border: "solid 1px #03DAC5",
+                          backgroundColor: "#242424",
+                          borderRadius: "1rem",
+                          width: "2rem",
+                          padding: ".2rem 2.5rem .2rem 2.5rem",
+                        }}
+                        onClick={handleAdd}
+                      >
+                        Accept
+                      </Button>
+                      <Button
+                        variant="contained"
+                        value="rejected"
+                        sx={{
+                          border: "solid 1px #03DAC5",
+                          backgroundColor: "#242424",
+                          borderRadius: "1rem",
+                          width: "2rem",
+                          padding: ".2rem 2.5rem .2rem 2.5rem",
+                        }}
+                        onClick={handleAdd}
+                      >
+                        Reject
+                      </Button>
+                    </>
                   ) : (
                     <Button
                       variant="contained"
@@ -358,7 +400,7 @@ export default function Public_Profile() {
                       }}
                       onClick={handleAdd}
                     >
-                      ADD
+                      Add
                     </Button>
                   )}
 
