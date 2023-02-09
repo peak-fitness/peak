@@ -62,6 +62,7 @@ export default function AchievementsPage() {
       .select(
         `*, achievements(id, name, requirement), user(first_name, last_name, height, current_weight, target_weight, target_calories, age, gender)`
       )
+      .order("achieved", { ascending: false })
       .eq("user_id", currentUserId);
     setAchievements(data);
   };
@@ -78,6 +79,19 @@ export default function AchievementsPage() {
         )
         .eq("auth_id", session.user.id)
         .single();
+      if (data.workout.length >= 5) {
+        const { error } = await supabase
+          .from("userAchievements")
+          .update({ achieved: true })
+          .eq("user_id", data.workout[0].user_id)
+          .eq("a_id", 4);
+      } else {
+        const { error } = await supabase
+          .from("userAchievements")
+          .update({ achieved: false })
+          .eq("user_id", data.workout[0].user_id)
+          .eq("a_id", 4);
+      }
       if (data.workout.length >= 10) {
         const { error } = await supabase
           .from("userAchievements")
