@@ -4,6 +4,8 @@ import { SessionContextProvider } from "@supabase/auth-helpers-react";
 import { useState } from "react";
 import Layout from "@/comps/Layout";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export const theme = createTheme({
   palette: {
@@ -36,6 +38,7 @@ export default function App({ Component, pageProps }) {
           initialSession={pageProps.initialSession}
         >
           <div className="main-container">
+            <ToastContainer />
             <Component {...pageProps} />
           </div>
         </SessionContextProvider>
