@@ -229,31 +229,38 @@ export default function Groups() {
                         />{" "}
                       </div>
                       {/* Map over all the friends */}
-                      {friends.map((friend) => (
-                        <div key={friend.id} className={styles.friend}>
-                          <AccountCircleIcon
-                            id={styles.icon}
-                            sx={{
-                              color: "#fafafa",
-                              height: "40px",
-                              width: "40px",
-                            }}
-                          />
-                          <Link
-                            href={`/social/${
-                              friend.addressee_username
-                                ? friend.addressee_username
-                                : friend.requester_username
-                            }`}
-                          >
-                            <p>
-                              {friend.addressee_username
-                                ? friend.addressee_username
-                                : friend.requester_username}
-                            </p>
-                          </Link>
+                      {friends.length === 0 ? (
+                        <div className={styles.noFriends}>
+                          <p>No friends yet :&#40;</p>
+                          <p>Search users to add them!</p>
                         </div>
-                      ))}
+                      ) : (
+                        friends.map((friend) => (
+                          <div key={friend.id} className={styles.friend}>
+                            <AccountCircleIcon
+                              id={styles.icon}
+                              sx={{
+                                color: "#fafafa",
+                                height: "40px",
+                                width: "40px",
+                              }}
+                            />
+                            <Link
+                              href={`/social/${
+                                friend.addressee_username
+                                  ? friend.addressee_username
+                                  : friend.requester_username
+                              }`}
+                            >
+                              <p>
+                                {friend.addressee_username
+                                  ? friend.addressee_username
+                                  : friend.requester_username}
+                              </p>
+                            </Link>
+                          </div>
+                        ))
+                      )}
                     </div>
                   ) : (
                     <div className={styles.requestContainer}>
