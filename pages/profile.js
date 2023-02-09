@@ -11,8 +11,8 @@ import Link from "next/link";
 
 import { useRouter } from "next/router";
 
-import { ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
 
 import { Container, Typography, Box, Grid, Button } from "@mui/material";
 
@@ -395,7 +395,7 @@ export default function Account() {
               </Grid>
             </Grid>
           </Box>
-          <ToastContainer />
+          {/* <ToastContainer /> */}
         </Box>
       </Container>
     </>

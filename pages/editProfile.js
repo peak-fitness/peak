@@ -25,7 +25,7 @@ import {
 } from "@mui/material";
 
 import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+// import "react-toastify/dist/ReactToastify.css";
 
 import AccountCircle from "@mui/icons-material/AccountCircle";
 import styles from "@/styles/Profiles.module.css";
