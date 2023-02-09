@@ -137,7 +137,7 @@ const CaloriesBar = ({
                 height: "90px",
                 width: "90px",
                 borderRadius: "50%",
-                backgroundColor: caloriesLeft < 0 ? "red" : "green",
+                backgroundColor: caloriesLeft < 0 ? "#a83c32" : "green",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
