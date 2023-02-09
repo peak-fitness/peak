@@ -11,8 +11,6 @@ import Link from "next/link";
 
 import { useRouter } from "next/router";
 
-import { ToastContainer } from "react-toastify";
-
 import { Container, Typography, Box, Grid, Button } from "@mui/material";
 
 import InstagramIcon from "@mui/icons-material/Instagram";
@@ -45,6 +43,7 @@ export default function Account() {
   const [targetWeight, setTargetWeight] = useState(null);
   const [gender, setGender] = useState(null);
   const [targetCalories, setTargetCalories] = useState(null);
+  const [changeSuccess, setChangeSuccess] = useState(false);
 
   useEffect(() => {
     getProfile();
@@ -394,7 +393,6 @@ export default function Account() {
               </Grid>
             </Grid>
           </Box>
-          <ToastContainer />
         </Box>
       </Container>
     </>
