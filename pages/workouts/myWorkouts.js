@@ -164,7 +164,7 @@ export default function MyWorkouts() {
         .eq("auth_id", session.user.id)
         .single();
       if (data.workout.length > 0) {
-        if (data.workout.length >= 10) {
+        if (data.workout.length >= 5) {
           const { error } = await supabase
             .from("userAchievements")
             .update({ achieved: true })
