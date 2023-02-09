@@ -22,6 +22,7 @@ export default function WorkoutModal({
   const [isLoading, setIsLoading] = useState(false);
   const [Error, setError] = useState(null);
   const [workoutDetails, setWorkoutDetails] = useState(null);
+  const [currentUser, setCurrentUser] = useState(null);
 
   const getDetails = async () => {
     setIsLoading(true);
@@ -30,8 +31,7 @@ export default function WorkoutModal({
         .from("exercises")
         .select(`*, sets (*)`)
         .eq("workout_id", selectedWorkout);
-
-      console.log(data);
+      const username = await supabase.from("user").select("username").eq("");
       setWorkoutDetails(data);
       setIsLoading(false);
     } catch (error) {
@@ -75,12 +75,14 @@ export default function WorkoutModal({
                 {exercise.is_pr && (
                   <p className={styles.header}>Personal Record</p>
                 )}
-                {exercise.notes && <p>{exercise.notes}</p>}
+                {exercise.notes && (
+                  <p className={styles.header}>{exercise.notes}</p>
+                )}
               </div>
               {exercise.sets.map((set, idx) => {
                 return (
                   // <div className="setsBox" key={set.id}>
-                  <Grid className="setsBox" container key={set.id}>
+                  <Grid container key={set.id}>
                     <Grid className={styles.setsItem} item xs={4}>
                       <h4>{`Set: ${idx + 1}`}</h4>
                     </Grid>
@@ -91,7 +93,7 @@ export default function WorkoutModal({
                       <p>{`Weight: ${set.weight}`}</p>
                     </Grid>
                   </Grid>
-                  // {/* </div> */}
+                  // </div>
                 );
               })}
             </div>
