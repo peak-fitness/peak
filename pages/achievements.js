@@ -38,10 +38,6 @@ export default function AchievementsPage() {
   }, [currentUserId]);
 
   useEffect(() => {
-    fetchWorkoutAchievements();
-  }, []);
-
-  useEffect(() => {
     fetchAllAchievements();
   });
 
@@ -65,88 +61,6 @@ export default function AchievementsPage() {
       .order("achieved", { ascending: false })
       .eq("user_id", currentUserId);
     setAchievements(data);
-  };
-
-  const fetchWorkoutAchievements = async () => {
-    if (session) {
-      const { data, error } = await supabase
-        .from("user")
-        .select(
-          `
-        auth_id, workout (
-          user_id
-        )`
-        )
-        .eq("auth_id", session.user.id)
-        .single();
-      if (data.workout.length > 0) {
-        if (data.workout.length >= 5) {
-          const { error } = await supabase
-            .from("userAchievements")
-            .update({ achieved: true })
-            .eq("user_id", data.workout[0].user_id)
-            .eq("a_id", 4);
-        } else {
-          const { error } = await supabase
-            .from("userAchievements")
-            .update({ achieved: false })
-            .eq("user_id", data.workout[0].user_id)
-            .eq("a_id", 4);
-        }
-        if (data.workout.length >= 10) {
-          const { error } = await supabase
-            .from("userAchievements")
-            .update({ achieved: true })
-            .eq("user_id", data.workout[0].user_id)
-            .eq("a_id", 5);
-        } else {
-          const { error } = await supabase
-            .from("userAchievements")
-            .update({ achieved: false })
-            .eq("user_id", data.workout[0].user_id)
-            .eq("a_id", 5);
-        }
-        if (data.workout.length >= 25) {
-          const { error } = await supabase
-            .from("userAchievements")
-            .update({ achieved: true })
-            .eq("user_id", data.workout[0].user_id)
-            .eq("a_id", 6);
-        } else {
-          const { error } = await supabase
-            .from("userAchievements")
-            .update({ achieved: false })
-            .eq("user_id", data.workout[0].user_id)
-            .eq("a_id", 6);
-        }
-        if (data.workout.length >= 50) {
-          const { error } = await supabase
-            .from("userAchievements")
-            .update({ achieved: true })
-            .eq("user_id", data.workout[0].user_id)
-            .eq("a_id", 7);
-        } else {
-          const { error } = await supabase
-            .from("userAchievements")
-            .update({ achieved: false })
-            .eq("user_id", data.workout[0].user_id)
-            .eq("a_id", 7);
-        }
-        if (data.workout.length >= 100) {
-          const { error } = await supabase
-            .from("userAchievements")
-            .update({ achieved: true })
-            .eq("user_id", data.workout[0].user_id)
-            .eq("a_id", 8);
-        } else {
-          const { error } = await supabase
-            .from("userAchievements")
-            .update({ achieved: false })
-            .eq("user_id", data.workout[0].user_id)
-            .eq("a_id", 8);
-        }
-      }
-    }
   };
 
   const checkUser = async () => {
