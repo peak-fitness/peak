@@ -1,5 +1,5 @@
 .header {
-  margin-bottom: 0;
+  margin: 0.5rem;
 }
 
 .container {
@@ -8,6 +8,7 @@
   height: auto;
   align-self: center;
   animation: modal-load 0.7s;
+  z-index: 1;
 }
 
 @keyframes modal-load {
@@ -23,6 +24,8 @@
 
 .modalContainer {
   width: 100%;
+  height: 400px;
+  overflow: auto;
   background-color: #202020;
   padding: 2rem;
   border-radius: 8px;
@@ -33,6 +36,10 @@
   flex-direction: column;
   align-items: center;
   gap: 0;
+  background-color: #191919;
+  padding: 0.5rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
 }
 
 .setsBox {
@@ -49,6 +56,7 @@
   border-radius: 1rem;
   width: 2rem;
   padding: 0rem 2rem 0rem 2rem;
+  margin-bottom: 1rem;
   color: #e8e8e8;
 }
 
