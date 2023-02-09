@@ -167,19 +167,14 @@
 }
 
 .feedContainer {
-  /* position: static; */
   display: flex;
-  /* flex-direction: column-reverse; */
   width: 70%;
   height: 600px;
-  /* align-items: center; */
   justify-content: center;
   background-color: #242424;
   padding: 1rem;
   border-radius: 10px;
   overflow: auto;
-  /* overflow-x: hidden;
-  overflow-y: auto; */
   box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 4px;
 }
 
