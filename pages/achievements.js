@@ -42,7 +42,7 @@ export default function AchievementsPage() {
   }, []);
 
   useEffect(() => {
-    fetchAchievements();
+    fetchAllAchievements();
   });
 
   const fetchCurrentUserId = async () => {
@@ -56,7 +56,7 @@ export default function AchievementsPage() {
     }
   };
 
-  const fetchAchievements = async () => {
+  const fetchAllAchievements = async () => {
     const { data, error } = await supabase
       .from("userAchievements")
       .select(
