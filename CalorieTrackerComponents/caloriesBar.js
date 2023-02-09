@@ -33,6 +33,7 @@ const CaloriesBar = ({
         .select("target_calories")
         .eq("auth_id", session.user.id)
         .single();
+      if (!data.target_calories) setNoTarget(true);
       setGoalCalories(data.target_calories);
     }
   };
@@ -137,18 +138,37 @@ const CaloriesBar = ({
                 height: "90px",
                 width: "90px",
                 borderRadius: "50%",
-                backgroundColor: "green",
+                backgroundColor: caloriesLeft < 0 ? "red" : "green",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <Typography variant="h6" style={{ color: "white" }}>
-                {caloriesLeft}
-              </Typography>
+              {caloriesLeft < 0 ? (
+                <>
+                  <Typography variant="h6" style={{ color: "white" }}>
+                    {Math.abs(caloriesLeft)}
+                  </Typography>
 
-              <Typography variant="subtitle2"> Calories Left</Typography>
+                  <Typography variant="subtitle2"> Calories Over</Typography>
+                </>
+              ) : caloriesLeft === 0 ? (
+                <>
+                  <Typography variant="subtitle2">
+                    {" "}
+                    Calories Goal Reached!
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  <Typography variant="h6" style={{ color: "white" }}>
+                    {caloriesLeft}
+                  </Typography>
+
+                  <Typography variant="subtitle2"> Calories Left</Typography>
+                </>
+              )}
             </div>
           </Grid>
         </Grid>
