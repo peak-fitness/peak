@@ -111,13 +111,11 @@ const Navbar = () => {
                 mr: 2,
                 display: { xs: "none", md: "flex" },
                 fontWeight: 700,
-                letterSpacing: ".3rem",
-
-                textDecoration: "none",
-                fontWeight: 500,
+                color: "white",
               }}
               style={{
-                color: activeLink === "/dashboard" ? "#03dac5" : "white",
+                textDecoration: "none",
+                letterSpacing: ".3rem",
               }}
               onClick={() => handleLinkClick("/dashboard")}
             >
@@ -127,7 +125,7 @@ const Navbar = () => {
               <IconButton
                 size="large"
                 onClick={handleOpenNavMenu}
-                sx={{ color: "white" }}
+                sx={{ color: "white", ml: -1 }}
               >
                 <MenuIcon />
               </IconButton>
@@ -195,9 +193,8 @@ const Navbar = () => {
                 fontWeight: 700,
                 letterSpacing: ".1rem",
                 color: "white",
-                textDecoration: "none",
-                fontWeight: 500,
               }}
+              style={{ textDecoration: "none", letterSpacing: ".3rem" }}
             >
               Peak
             </Typography>
@@ -370,11 +367,11 @@ const Navbar = () => {
                 mr: 2,
                 display: { xs: "none", md: "flex" },
                 fontWeight: 700,
-                letterSpacing: ".3rem",
-                textDecoration: "none",
+                color: "white",
               }}
               style={{
-                color: activeLink === "/" ? "#03dac5" : "white",
+                textDecoration: "none",
+                letterSpacing: ".3rem",
               }}
               onClick={() => handleLinkClick("/")}
             >
@@ -436,14 +433,9 @@ const Navbar = () => {
                 display: { xs: "flex", md: "none" },
                 flexGrow: 1,
                 fontWeight: 700,
-                letterSpacing: ".1rem",
-                textDecoration: "none",
-                marginLeft: "100px",
+                color: "white",
               }}
-              style={{
-                color: activeLink === "/" ? "#03dac5" : "white",
-              }}
-              onClick={() => handleLinkClick("/")}
+              style={{ textDecoration: "none", letterSpacing: ".3rem" }}
             >
               Peak
             </Typography>
