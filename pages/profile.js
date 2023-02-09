@@ -13,6 +13,7 @@ import { useRouter } from "next/router";
 
 import { Container, Typography, Box, Grid, Button } from "@mui/material";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -130,6 +131,7 @@ export default function Account() {
 
   return session ? (
     <>
+      <ToastContainer />
       <Navbar />
       <Container
         maxWidth="lg"
