@@ -134,8 +134,8 @@ const CaloriesBar = ({
           <Grid item xs={2}>
             <div
               style={{
-                height: "90px",
-                width: "90px",
+                height: "95px",
+                width: "95px",
                 borderRadius: "50%",
                 backgroundColor: caloriesLeft < 0 ? "#a83c32" : "green",
                 display: "flex",
@@ -154,7 +154,10 @@ const CaloriesBar = ({
                 </>
               ) : caloriesLeft === 0 ? (
                 <>
-                  <Typography variant="subtitle2">
+                  <Typography
+                    variant="subtitle2"
+                    style={{ textAlign: "center" }}
+                  >
                     {" "}
                     Calories Goal Reached!
                   </Typography>
