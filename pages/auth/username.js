@@ -20,6 +20,8 @@ export default function CreateUsername() {
   const router = useRouter();
   const session = useSession();
 
+  console.log(session.user);
+
   const handleSubmit = async (evt) => {
     evt.preventDefault();
     const id = session.user.id;
@@ -46,6 +48,14 @@ export default function CreateUsername() {
           username: username,
         })
         .select("*");
+      const userId = await supabase.from("user").select("id").eq("auth_id", id);
+      const achievements = await supabase.from("achievements").select();
+      achievements.data.map(async (achievement) => {
+        const { error } = await supabase
+          .from("userAchievements")
+          .insert({ user_id: userId.data[0].id, a_id: achievement.id })
+          .select("*");
+      });
       if (res.data) {
         router.push("/auth/signup/info");
       }
