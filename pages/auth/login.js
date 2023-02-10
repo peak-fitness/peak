@@ -238,7 +238,7 @@ export default function Login() {
               onSubmit={handleSubmit}
               sx={{ mt: 3, width: "20rem" }}
             >
-              <Grid container spacing={2}>
+              <Grid container spacing={1}>
                 <Grid item xs={12}>
                   <TextField
                     sx={{
@@ -265,6 +265,7 @@ export default function Login() {
                       style={{
                         textDecoration: "underline",
                         cursor: "pointer",
+                        margin: "0 0 .3rem 0",
                       }}
                       onClick={() => setResetOpen(true)}
                     >
