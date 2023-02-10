@@ -5,7 +5,7 @@
  * @friends: list of added friends on the current user (id, addressee_id/requester_id, addressee_username/requester_username)
  * @friendWorkouts: List of workouts from the user's friends (id, notes, routine, duration, date, username)
  */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
@@ -24,7 +24,13 @@ export default function WorkoutModal({
   const [workoutDetails, setWorkoutDetails] = useState(null);
   const [currentUser, setCurrentUser] = useState(null);
 
-  const getDetails = async () => {
+  const handleToggle = () => {
+    const el = document.querySelector("body");
+    el.classList.toggle("modal-open");
+    setShowModal(false);
+  };
+
+  const getDetails = useCallback(async () => {
     setIsLoading(true);
     try {
       const { data, error } = await supabase
@@ -38,21 +44,15 @@ export default function WorkoutModal({
       console.log(error);
       setError(error);
     }
-  };
-
-  const handleToggle = () => {
-    const el = document.querySelector("body");
-    el.classList.toggle("modal-open");
-    setShowModal(false);
-  };
+  }, [selectedWorkout.workoutId]);
 
   useEffect(() => {
     getDetails();
-  }, [selectedWorkout]);
+  }, [getDetails]);
 
   // console.log(user, "User");
   // console.log(friends, "Friends");
-  // console.log(friendWorkouts, "Friends Workouts");
+  console.log("SELECTED WORKOUTS", workoutDetails);
 
   return (
     <div className={styles.container}>
