@@ -99,6 +99,10 @@ const CustomizedCalendar = styled(StaticDatePicker)`
     justify-content: flex-start;
     margin: 10px;
   }
+
+  .css-8je8zh-MuiTouchRipple-root {
+    position: static;
+  }
 `;
 
 export default function MyWorkouts() {
