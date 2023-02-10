@@ -52,7 +52,10 @@ const MealForm = ({ addMeal, currentState }) => {
     <Container>
       <div>
         {error && <p style={{ color: "red" }}>{error}</p>}
-        <form onSubmit={handleSubmit} style={{ backgroundColor: "#262626" }}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ backgroundColor: "#262626", borderRadius: "10px" }}
+        >
           <FormControl>
             <InputLabel htmlFor="meal-name">Meal Name</InputLabel>
             <Input
