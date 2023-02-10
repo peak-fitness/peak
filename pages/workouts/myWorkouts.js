@@ -397,6 +397,7 @@ export default function MyWorkouts() {
                         justifyContent: "center",
                         alignItems: "center",
                         fontFamily: "Montserrat, sans-serif",
+                        fontSize: "22px",
                       }}
                     >
                       Workout: {workout.routine}
@@ -462,41 +463,49 @@ export default function MyWorkouts() {
                         style={{
                           backgroundColor: "#262626",
                           margin: "10px",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontFamily: "Montserrat, sans-serif",
                         }}
                         key={exercise.id}
                       >
-                        <List key={exercise.id}>
-                          <ListItem>
-                            <ListItemText
+                        <div
+                          style={{
+                            margin: "10px",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography
+                            style={{
+                              color: "white",
+                              fontSize: "18px",
+                              fontFamily: "Montserrat, sans-serif",
+                            }}
+                          >
+                            {exercise.name}
+                          </Typography>
+
+                          {exercise.sets.map((set, index) => (
+                            <div
+                              className="sets"
+                              key={exercise.id}
                               style={{
-                                color: "white",
-                                fontSize: "20px",
-                                fontFamily: "Montserrat, sans-serif",
+                                color: "#dedcdc",
+                                marginTop: "8px",
+                                marginBottom: "8px",
+                                fontSize: "15px",
                               }}
-                              primary={exercise.name}
-                              secondary={
-                                <ul>
-                                  {exercise.sets.map((set, index) => (
-                                    <li
-                                      className="sets"
-                                      key={exercise.id}
-                                      style={{
-                                        color: "#dedcdc",
-                                        marginTop: "5px",
-                                        marginBottom: "5px",
-                                        fontSize: "15px",
-                                        fontFamily: "Montserrat, sans-serif",
-                                      }}
-                                    >
-                                      Set {index + 1}: {set.reps} Reps x {""}
-                                      {set.weight} lbs
-                                    </li>
-                                  ))}
-                                </ul>
-                              }
-                            />
-                          </ListItem>
-                        </List>
+                            >
+                              Set {index + 1}: {set.reps} Reps x {""}
+                              {set.weight} lbs
+                            </div>
+                          ))}
+                        </div>
                       </Card>
                     );
                   })}

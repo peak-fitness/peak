@@ -255,7 +255,531 @@ export default function AddWorkout() {
         <title>Workouts</title>
       </Head>
       <Navbar />
-      <Container sx={{ justifyContent: "center" }} className={styles.outer}>
+
+      <Grid
+        container
+        direction="column"
+        justifyContent="center"
+        alignItems="stretch"
+        style={{
+          height: "100%",
+          minHeight: "90vh",
+          backgroundColor: "#121212",
+        }}
+      >
+        <Grid
+          item
+          xs={12}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+          }}
+        >
+          <Box>
+            <Typography
+              variant="h4"
+              align="center"
+              sx={{
+                display: "flex",
+                fontFamily: "Montserrat",
+                justifyContent: "center",
+              }}
+            >
+              {update ? "Edit Workout" : "Add a Workout"}
+            </Typography>
+          </Box>
+          <Box
+            sx={{
+              mt: 3,
+            }}
+          >
+            <Grid container spacing={6} className={styles.workoutContainer}>
+              <Grid item lg={3}>
+                <TextField
+                  className={styles.form}
+                  fullWidth
+                  id="routine"
+                  label="Workout Title"
+                  value={workout.routine}
+                  onChange={(e) => updateWorkout({ routine: e.target.value })}
+                />
+              </Grid>
+              <Grid item lg={3}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    className={styles.form}
+                    label="Date"
+                    inputFormat="MM/DD/YYYY"
+                    value={update ? importedDate : date}
+                    disabled={update ? true : false}
+                    onChange={(newDate) => {
+                      setDate(newDate);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+              </Grid>
+            </Grid>
+            <Grid container spacing={6} className={styles.workoutContainer}>
+              <Grid item lg={3}>
+                <TextField
+                  className={styles.form}
+                  fullWidth
+                  id="notes"
+                  label="Notes"
+                  value={workout.notes}
+                  onChange={(e) => updateWorkout({ notes: e.target.value })}
+                />
+              </Grid>
+              <Grid item lg={3}>
+                <TextField
+                  className={styles.form}
+                  fullWidth
+                  id="duration"
+                  label="Duration (mins)"
+                  value={workout.duration}
+                  onChange={(e) =>
+                    updateWorkout({ duration: Number(e.target.value) })
+                  }
+                />
+              </Grid>
+            </Grid>
+          </Box>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="h4"
+            align="center"
+            className={styles.exercisesText}
+          >
+            Exercises
+          </Typography>
+          <Grid container spacing={6} className={styles.workoutContainer}>
+            <Grid item lg={4} className={styles.add}>
+              <Button variant="outlined" onClick={() => setOpen(true)}>
+                Add an Exercise
+              </Button>
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                fullWidth={true}
+                className={styles.dialog}
+              >
+                <DialogTitle
+                  style={{ textDecoration: "underline" }}
+                  className={styles.dialog}
+                >
+                  Exercise Information
+                </DialogTitle>
+                <DialogContent className={styles.dialog}>
+                  <DialogContentText>
+                    Please enter information about your exercise below
+                  </DialogContentText>
+                  {invalidName && (
+                    <p className="invalid-exercise">
+                      Please enter a name for your exercise
+                    </p>
+                  )}
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    label="Exercise Name"
+                    fullWidth
+                    variant="standard"
+                    value={edit ? current.name : null}
+                    onChange={(e) => {
+                      updateExercise({ name: e.target.value });
+                      setCurrent({
+                        ...current,
+                        [e.target.id]: e.target.value,
+                      });
+                    }}
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="notes"
+                    label="Notes"
+                    fullWidth
+                    variant="standard"
+                    value={edit ? current.notes : null}
+                    onChange={(e) => {
+                      updateExercise({ notes: e.target.value });
+                      setCurrent({
+                        ...current,
+                        [e.target.id]: e.target.value,
+                      });
+                    }}
+                  />
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    id="muscle_group"
+                    label="Muscle Groups"
+                    fullWidth
+                    variant="standard"
+                    value={edit ? current.muscle_group : null}
+                    onChange={(e) => {
+                      updateExercise({ muscle_group: e.target.value });
+                      setCurrent({
+                        ...current,
+                        [e.target.id]: e.target.value,
+                      });
+                    }}
+                  />
+                  <FormGroup>
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          id="is_pr"
+                          onChange={(e) => {
+                            updateExercise({ is_pr: e.target.checked });
+                            setCurrent({
+                              ...current,
+                              [e.target.id]: e.target.checked,
+                            });
+                          }}
+                          defaultChecked={edit ? current.is_pr : false}
+                          //   checked={edit ? current.is_pr : null} does not give error but on add exercises doesnt render checked box on
+                          // front end
+                        />
+                      }
+                      label="Personal Best?"
+                    />
+                  </FormGroup>
+                  {invalidExercise && (
+                    <p className="invalid-exercise">
+                      Please enter set information
+                    </p>
+                  )}
+                  {!update && (
+                    <Container className={styles.setsContainer}>
+                      <FormControl>
+                        <InputLabel htmlFor="set-number">Set #</InputLabel>
+                        <Input
+                          id="set-number"
+                          type="number"
+                          name="set"
+                          value={set.id}
+                          onChange={handleChange}
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <InputLabel htmlFor="rep-count"># of Reps</InputLabel>
+                        <Input
+                          id="rep-count"
+                          type="number"
+                          name="reps"
+                          value={set.reps}
+                          onChange={handleChange}
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <InputLabel htmlFor="weight">Weight (lbs)</InputLabel>
+                        <Input
+                          id="weight"
+                          type="number"
+                          name="weight"
+                          value={set.weight}
+                          onChange={handleChange}
+                        />
+                      </FormControl>
+                      <FormControl>
+                        <IconButton
+                          onClick={edit ? addSetInEdit : addSet}
+                          className={styles.setsItems}
+                        >
+                          <AddCircleIcon
+                            style={{ fontSize: "30px", color: "#03dac5" }}
+                          />
+                        </IconButton>
+                      </FormControl>
+                    </Container>
+                  )}
+                  {edit
+                    ? current.sets && (
+                        <TableContainer component={Paper}>
+                          <Table
+                            aria-label="simple table"
+                            style={{ backgroundColor: "#161616" }}
+                          >
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Set #</TableCell>
+                                <TableCell>Reps</TableCell>
+                                <TableCell>Weight (lbs)</TableCell>
+                                <TableCell></TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {current.sets
+                                .sort((a, b) => a.id - b.id)
+                                .map((set, index) => {
+                                  return (
+                                    <>
+                                      <TableRow key={index}>
+                                        <TableCell align="center">
+                                          {edit && (
+                                            <TextField
+                                              className={styles.editSets}
+                                              type="number"
+                                              value={
+                                                update ? index + 1 : set.id
+                                              }
+                                              disabled={update ? true : false}
+                                              onChange={(e) => {
+                                                setCurrent((prevState) => ({
+                                                  ...prevState,
+                                                  sets: prevState.sets.map(
+                                                    (elem) => {
+                                                      if (elem.id === set.id) {
+                                                        return {
+                                                          ...elem,
+                                                          ...{
+                                                            id: Number(
+                                                              e.target.value
+                                                            ),
+                                                          },
+                                                        };
+                                                      }
+                                                      return elem;
+                                                    }
+                                                  ),
+                                                }));
+                                              }}
+                                            />
+                                          )}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          {edit && (
+                                            <TextField
+                                              className={styles.editSets}
+                                              type="number"
+                                              value={set.reps}
+                                              onChange={(e) => {
+                                                setCurrent((prevState) => ({
+                                                  ...prevState,
+                                                  sets: prevState.sets.map(
+                                                    (elem) => {
+                                                      if (elem.id === set.id) {
+                                                        return {
+                                                          ...elem,
+                                                          ...{
+                                                            reps: Number(
+                                                              e.target.value
+                                                            ),
+                                                          },
+                                                        };
+                                                      }
+                                                      return elem;
+                                                    }
+                                                  ),
+                                                }));
+                                              }}
+                                            />
+                                          )}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          {edit && (
+                                            <TextField
+                                              className={styles.editSets}
+                                              type="number"
+                                              value={set.weight}
+                                              onChange={(e) => {
+                                                setCurrent((prevState) => ({
+                                                  ...prevState,
+                                                  sets: prevState.sets.map(
+                                                    (elem) => {
+                                                      if (elem.id === set.id) {
+                                                        return {
+                                                          ...elem,
+                                                          ...{
+                                                            weight: Number(
+                                                              e.target.value
+                                                            ),
+                                                          },
+                                                        };
+                                                      }
+                                                      return elem;
+                                                    }
+                                                  ),
+                                                }));
+                                              }}
+                                            />
+                                          )}
+                                        </TableCell>
+                                        {edit && !update && (
+                                          <TableCell>
+                                            <IconButton
+                                              onClick={() => {
+                                                current.sets.splice(index, 1);
+                                                setRefresh(!refresh);
+                                              }}
+                                            >
+                                              <DeleteIcon
+                                                style={{
+                                                  fontSize: "22px",
+                                                  color: "#03dac5",
+                                                }}
+                                              />
+                                            </IconButton>
+                                          </TableCell>
+                                        )}
+                                      </TableRow>
+                                    </>
+                                  );
+                                })}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      )
+                    : setsInfo.length >= 1 && (
+                        <TableContainer component={Paper}>
+                          <Table aria-label="simple table">
+                            <TableHead>
+                              <TableRow>
+                                <TableCell>Set #</TableCell>
+                                <TableCell>Reps</TableCell>
+                                <TableCell>Weight (lbs)</TableCell>
+                                <TableCell></TableCell>
+                              </TableRow>
+                            </TableHead>
+                            <TableBody>
+                              {setsInfo
+                                .sort((a, b) => a.id - b.id)
+                                .map((set, index) => {
+                                  return (
+                                    <>
+                                      <TableRow key={index}>
+                                        <TableCell align="center">
+                                          {set.id}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          {set.reps}
+                                        </TableCell>
+                                        <TableCell align="center">
+                                          {set.weight}
+                                        </TableCell>
+                                        <TableCell>
+                                          <IconButton
+                                            onClick={() => {
+                                              exercise.sets.splice(index, 1);
+                                              setsInfo.splice(index, 1);
+                                              setRefresh(!refresh);
+                                            }}
+                                          >
+                                            <DeleteIcon
+                                              style={{
+                                                fontSize: "22px",
+                                                color: "#03dac5",
+                                              }}
+                                            />
+                                          </IconButton>
+                                        </TableCell>
+                                      </TableRow>
+                                    </>
+                                  );
+                                })}
+                            </TableBody>
+                          </Table>
+                        </TableContainer>
+                      )}
+                </DialogContent>
+                <DialogActions className={styles.dialog}>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button
+                    onClick={edit ? handleEditSubmit : handleExerciseSubmit}
+                  >
+                    Submit
+                  </Button>
+                </DialogActions>
+              </Dialog>
+            </Grid>
+          </Grid>
+          <Box style={{ margin: "15px" }}>
+            {workout.exercises.length >= 1 && (
+              <TableContainer style={{ backgroundColor: "#262626" }}>
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell></TableCell>
+                      <TableCell>Title</TableCell>
+                      <TableCell>Sets</TableCell>
+                      <TableCell>Notes</TableCell>
+                      <TableCell>PR?</TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {workout.exercises.map((exercise, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
+                          <IconButton
+                            onClick={() => {
+                              setEdit(true);
+                              setOpen(true);
+                              getExercise(index);
+                            }}
+                          >
+                            <EditIcon />
+                          </IconButton>
+                        </TableCell>
+
+                        <TableCell>{exercise.name}</TableCell>
+                        <TableCell>{exercise.sets.length}</TableCell>
+                        <TableCell>
+                          {exercise.notes ? exercise.notes : "N/A"}
+                        </TableCell>
+                        <TableCell>{exercise.is_pr ? "Yes" : "No"}</TableCell>
+                        <TableCell>
+                          {!update && (
+                            <IconButton
+                              onClick={() => {
+                                workout.exercises.splice(index, 1);
+                                setCurrent({});
+                              }}
+                            >
+                              <DeleteIcon />
+                            </IconButton>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
+          </Box>
+
+          <Button
+            className={styles.saveButton}
+            type="submit"
+            onClick={handleSubmit}
+            variant="contained"
+            style={{
+              width: "200px",
+              height: "40px",
+              fontSize: "15px",
+              margin: "10px",
+            }}
+          >
+            Save
+          </Button>
+        </Grid>
+      </Grid>
+
+      {/* <Container sx={{ justifyContent: "center" }} className={styles.outer}>
         <Box>
           <Typography
             variant="h3"
@@ -773,8 +1297,8 @@ export default function AddWorkout() {
           >
             Save
           </Button>
-        </Box>
-      </Container>
+        </Box> */}
+      {/* </Container> */}
     </>
   );
 }
