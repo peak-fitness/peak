@@ -396,6 +396,7 @@ export default function MyWorkouts() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
+                        fontFamily: "Montserrat, sans-serif",
                       }}
                     >
                       Workout: {workout.routine}
@@ -465,6 +466,7 @@ export default function MyWorkouts() {
                           flexDirection: "column",
                           alignItems: "center",
                           justifyContent: "center",
+                          fontFamily: "Montserrat, sans-serif",
                         }}
                         key={exercise.id}
                       >
@@ -481,6 +483,7 @@ export default function MyWorkouts() {
                             style={{
                               color: "white",
                               fontSize: "20px",
+                              fontFamily: "Montserrat, sans-serif",
                             }}
                           >
                             {exercise.name}
