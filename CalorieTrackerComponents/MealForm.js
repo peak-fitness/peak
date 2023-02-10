@@ -9,8 +9,8 @@ import IconButton from "@mui/material/IconButton";
 const MealForm = ({ addMeal, currentState }) => {
   const [meal, setMeal] = useState({
     name: "",
-    calories: "",
-    protein: "",
+    calories: 0,
+    protein: 0,
   });
   const [error, setError] = useState(null);
 
@@ -42,8 +42,8 @@ const MealForm = ({ addMeal, currentState }) => {
     addMeal({ ...meal });
     setMeal({
       name: "",
-      calories: "",
-      protein: "",
+      calories: 0,
+      protein: 0,
     });
     setError(null);
   };
@@ -80,6 +80,7 @@ const MealForm = ({ addMeal, currentState }) => {
               type="number"
               name="protein"
               value={meal.protein}
+              defaultValue="test"
               onChange={handleChange}
             />
           </FormControl>
@@ -91,7 +92,6 @@ const MealForm = ({ addMeal, currentState }) => {
           >
             <AddCircleIcon style={{ fontSize: "30px", color: "green" }} />
           </IconButton>
-          {/* {added && <span>Added!</span>} */}
         </form>
       </div>
     </Container>
