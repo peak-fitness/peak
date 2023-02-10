@@ -39,9 +39,8 @@ export default function Learn() {
             <div className={styles.services}>
               <div className={styles.service}>
                 <GroupIcon
-                  color="secondary"
                   fontSize="large"
-                  sx={{ height: "80px", width: "80px" }}
+                  sx={{ height: "80px", width: "80px", color: "#03dac5" }}
                 />
                 <p className={styles.serviceHeader}>Accountability Groups</p>
                 <p>
@@ -50,9 +49,8 @@ export default function Learn() {
               </div>
               <div className={styles.service}>
                 <CalculateIcon
-                  color="secondary"
                   fontSize="large"
-                  sx={{ height: "80px", width: "80px" }}
+                  sx={{ height: "80px", width: "80px", color: "#03dac5" }}
                 />
                 <p className={styles.serviceHeader}>Calorie Tracker</p>
                 <p>
@@ -62,9 +60,8 @@ export default function Learn() {
               </div>
               <div className={styles.service}>
                 <FitnessCenterIcon
-                  color="secondary"
                   fontSize="large"
-                  sx={{ height: "80px", width: "80px" }}
+                  sx={{ height: "80px", width: "80px", color: "#03dac5" }}
                 />
                 <p className={styles.serviceHeader}>Workout Journal</p>
                 <p>
