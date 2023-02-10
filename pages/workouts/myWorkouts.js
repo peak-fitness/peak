@@ -81,6 +81,28 @@ const CustomizedCalendar = styled(StaticDatePicker)`
     display: flex;
     justify-content: center;
   }
+
+  .css-z3au5x-MuiButtonBase-root-MuiIconButton-root-MuiPickersToolbar-penIconButton {
+    padding: 0;
+    flex: auto;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 10px;
+  }
+
+  .css-1skh3ba-MuiPickerStaticWrapper-root
+    .css-z3au5x-MuiButtonBase-root-MuiIconButton-root-MuiPickersToolbar-penIconButton {
+    padding: 0;
+
+    flex: auto;
+    display: flex;
+    justify-content: flex-start;
+    margin: 10px;
+  }
+
+  .css-8je8zh-MuiTouchRipple-root {
+    position: static;
+  }
 `;
 
 export default function MyWorkouts() {
@@ -95,12 +117,13 @@ export default function MyWorkouts() {
   const router = useRouter();
 
   useEffect(() => {
+    // if (!session) router.push('/')
     if (session) {
       fetchWorkouts();
       fetchHighlightedDays();
       fetchPrDays();
     }
-  }, [date]);
+  }, [date, refresh]);
 
   useEffect(() => {
     updateWorkoutAchievements();
@@ -300,6 +323,9 @@ export default function MyWorkouts() {
           <Grid
             item
             xs={12}
+            lg={12}
+            sm={12}
+            md={12}
             style={{
               backgroundColor: "#202020",
               margin: "50px",
@@ -308,8 +334,10 @@ export default function MyWorkouts() {
             <Grid container spacing={0}>
               <Grid
                 item
-                xs={12}
+                xs={8}
                 sm={8}
+                md={8}
+                lg={8}
                 style={{ borderRight: "10px solid #202020" }}
               >
                 <CustomizedCalendar
@@ -344,7 +372,14 @@ export default function MyWorkouts() {
                   }}
                 />
               </Grid>
-              <Grid item xs={12} sm={4} style={{ backgroundColor: "#161616" }}>
+              <Grid
+                item
+                xs={4}
+                sm={4}
+                md={4}
+                lg={4}
+                style={{ backgroundColor: "#161616" }}
+              >
                 {workout ? (
                   <>
                     <Typography variant="h6">
