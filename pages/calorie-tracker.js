@@ -111,7 +111,6 @@ export default function Calories() {
         <Head>
           <title>Calorie Tracker</title>
         </Head>
-        ;
         <CaloriesContent />
       </>
     );
