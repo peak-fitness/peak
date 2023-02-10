@@ -128,7 +128,7 @@ const CaloriesBar = ({
             </Typography>
 
             <Typography variant="body1">
-              Goal Calories: {goalCalories}
+              Goalsss Calories: {goalCalories}
             </Typography>
           </Grid>
           <Grid item xs={2}>
