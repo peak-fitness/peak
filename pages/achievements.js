@@ -128,7 +128,7 @@ export default function AchievementsPage() {
             sx={{
               display: "flex",
               flexFlow: "column",
-              minWidth: "97.5%",
+              width: "97.5%",
               height: "100vh",
             }}
           >
@@ -152,6 +152,8 @@ export default function AchievementsPage() {
                   fontWeight: 700,
                   marginBottom: "2rem",
                   fontFamily: "Montserrat, sans serif",
+                  pb: "5px",
+                  pl: "6px",
                 }}
               >
                 ACHIEVEMENTS
