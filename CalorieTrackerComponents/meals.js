@@ -69,6 +69,10 @@ export default function MealContainer() {
     fetchHighlightedDays();
   }, [date, saved, refresh]);
 
+  useEffect(() => {
+    handleEditClick();
+  }, [date, value]);
+
   const fetchCurrentUserId = async () => {
     if (session) {
       const { data, error } = await supabase
