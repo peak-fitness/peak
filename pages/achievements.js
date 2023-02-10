@@ -211,8 +211,6 @@ export default function AchievementsPage() {
                                     sx={{ ml: "1rem" }}
                                     style={{
                                       color: "#F6C941",
-                                      // ml: "3rem",
-                                      // mr: "3rem",
                                       fontSize: "4rem",
                                     }}
                                   />
@@ -223,8 +221,6 @@ export default function AchievementsPage() {
                                     sx={{ ml: "1rem" }}
                                     style={{
                                       color: "silver",
-                                      // ml: "3rem",
-                                      // mr: "3rem",
                                       fontSize: "4rem",
                                     }}
                                   />
