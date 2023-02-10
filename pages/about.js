@@ -33,11 +33,7 @@ export default function About() {
           <p className={styles.meetTeam}>Meet the team at Peak</p>
           <div className={styles.profiles}>
             <div className={styles.profile}>
-              <PersonIcon
-                color="secondary"
-                fontSize="large"
-                sx={{ height: "80px", width: "80px" }}
-              />
+              <PersonIcon color="secondary" fontSize="large" />
               <p className={styles.name}>Sean Brown</p>
               <div className={styles.socials}>
                 <IconButton aria-label="linkedin">
@@ -61,11 +57,7 @@ export default function About() {
               </div>
             </div>
             <div className={styles.profile}>
-              <PersonIcon
-                color="secondary"
-                fontSize="large"
-                sx={{ height: "80px", width: "80px" }}
-              />
+              <PersonIcon color="secondary" fontSize="large" />
               <p className={styles.name}>Warren Chan</p>
               <div className={styles.socials}>
                 <IconButton aria-label="linkedin">
@@ -89,11 +81,7 @@ export default function About() {
               </div>
             </div>
             <div className={styles.profile}>
-              <PersonIcon
-                color="secondary"
-                fontSize="large"
-                sx={{ height: "80px", width: "80px" }}
-              />
+              <PersonIcon color="secondary" fontSize="large" />
               <p className={styles.name}>Bryan Olivo</p>
               <div className={styles.socials}>
                 <IconButton aria-label="linkedin">
@@ -117,11 +105,7 @@ export default function About() {
               </div>
             </div>
             <div className={styles.profile}>
-              <PersonIcon
-                color="secondary"
-                fontSize="large"
-                sx={{ height: "80px", width: "80px" }}
-              />
+              <PersonIcon color="secondary" fontSize="large" />
               <p className={styles.name}>Jahed Prince</p>
               <div className={styles.socials}>
                 <IconButton aria-label="linkedin">
@@ -145,11 +129,7 @@ export default function About() {
               </div>
             </div>
             <div className={styles.profile}>
-              <PersonIcon
-                color="secondary"
-                fontSize="large"
-                sx={{ height: "80px", width: "80px" }}
-              />
+              <PersonIcon color="secondary" fontSize="large" />
               <p className={styles.name}>Justin Suh</p>
               <div className={styles.socials}>
                 <IconButton aria-label="linkedin">

@@ -38,20 +38,14 @@ export default function Learn() {
             <p className={styles.contentHeader}>What we offer</p>
             <div className={styles.services}>
               <div className={styles.service}>
-                <GroupIcon
-                  fontSize="large"
-                  sx={{ height: "80px", width: "80px", color: "#03dac5" }}
-                />
+                <GroupIcon style={{ fontSize: "75px", color: "#03dac5" }} />
                 <p className={styles.serviceHeader}>Accountability Groups</p>
                 <p>
                   Find other passionate people to keep you going to the gym!
                 </p>
               </div>
               <div className={styles.service}>
-                <CalculateIcon
-                  fontSize="large"
-                  sx={{ height: "80px", width: "80px", color: "#03dac5" }}
-                />
+                <CalculateIcon style={{ fontSize: "75px", color: "#03dac5" }} />
                 <p className={styles.serviceHeader}>Calorie Tracker</p>
                 <p>
                   Need to keep track of calorie intake to diet or get big? We
@@ -60,8 +54,7 @@ export default function Learn() {
               </div>
               <div className={styles.service}>
                 <FitnessCenterIcon
-                  fontSize="large"
-                  sx={{ height: "80px", width: "80px", color: "#03dac5" }}
+                  style={{ fontSize: "75px", color: "#03dac5" }}
                 />
                 <p className={styles.serviceHeader}>Workout Journal</p>
                 <p>

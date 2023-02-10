@@ -43,7 +43,10 @@ export default function Home() {
           <title>Peak | Home</title>
         </Head>
         <Navbar />
-        <Container maxWidth="lg" sx={{ minHeight: "100vh" }}>
+        <Container
+          maxWidth="lg"
+          style={{ display: "flex", alignItems: "center", minHeight: "100vh" }}
+        >
           <Grid
             container
             spacing={4}
