@@ -19,6 +19,7 @@ import {
 } from "@supabase/auth-helpers-react";
 import Navbar from "../comps/Navbar";
 import { Box, Button } from "@mui/material";
+import CalculateIcon from "@mui/icons-material/Calculate";
 
 const DashboardItems = () => {
   const router = useRouter();
@@ -31,6 +32,7 @@ const DashboardItems = () => {
   const [lastName, setLastName] = useState(null);
   const [weight, setWeight] = useState(null);
   const [height, setHeight] = useState(null);
+  const [pfp, setPfp] = useState(null);
 
   useEffect(() => {
     getProfile();
@@ -42,7 +44,9 @@ const DashboardItems = () => {
 
       let { data, error, status } = await supabase
         .from("user")
-        .select(`username, first_name, last_name, height, current_weight`)
+        .select(
+          `username, first_name, last_name, height, current_weight, avatar_url`
+        )
         .eq("auth_id", user.id)
         .single();
 
@@ -56,6 +60,7 @@ const DashboardItems = () => {
         setLastName(data.last_name);
         setWeight(data.current_weight);
         setHeight(data.height);
+        setPfp(data.avatar_url);
       }
     } catch (error) {
       return error;
@@ -86,7 +91,9 @@ const DashboardItems = () => {
                 onClick={() => (window.location.href = "/profile")}
               >
                 <ListItemIcon>
-                  <Avatar src="/pfp.png" />
+                  <Avatar
+                    src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${pfp}`}
+                  />
                 </ListItemIcon>
                 <div>
                   <Typography variant="body2">
@@ -110,7 +117,11 @@ const DashboardItems = () => {
                 onClick={() => (window.location.href = "/dashboard")}
               >
                 <ListItemIcon>
-                  <DashboardIcon />
+                  <DashboardIcon
+                    style={{
+                      color: "#FF3131",
+                    }}
+                  />
                 </ListItemIcon>
 
                 <ListItemText primary="Dashboard" />
@@ -120,7 +131,11 @@ const DashboardItems = () => {
                 onClick={() => (window.location.href = "/workouts/myWorkouts")}
               >
                 <ListItemIcon>
-                  <FitnessCenterRoundedIcon />
+                  <FitnessCenterRoundedIcon
+                    style={{
+                      color: "#567CFF",
+                    }}
+                  />
                 </ListItemIcon>
                 <ListItemText primary="Workouts" />
               </ListItemButton>
@@ -129,7 +144,11 @@ const DashboardItems = () => {
                 onClick={() => (window.location.href = "/social")}
               >
                 <ListItemIcon>
-                  <Groups2RoundedIcon />
+                  <Groups2RoundedIcon
+                    style={{
+                      color: "#C724B1",
+                    }}
+                  />
                 </ListItemIcon>
                 <ListItemText primary="Social" />
               </ListItemButton>
@@ -138,7 +157,11 @@ const DashboardItems = () => {
                 onClick={() => (window.location.href = "/calorie-tracker")}
               >
                 <ListItemIcon>
-                  <ShowChartRoundedIcon />
+                  <CalculateIcon
+                    style={{
+                      color: "#44D62C",
+                    }}
+                  />
                 </ListItemIcon>
 
                 <ListItemText primary="Calorie Tracker" />
@@ -148,7 +171,7 @@ const DashboardItems = () => {
                 onClick={() => (window.location.href = "/achievements")}
               >
                 <ListItemIcon>
-                  <EmojiEventsRoundedIcon />
+                  <EmojiEventsRoundedIcon style={{ color: "#FFAD00" }} />
                 </ListItemIcon>
                 <ListItemText primary="Achievements" />
               </ListItemButton>

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { styled, ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -19,6 +18,11 @@ import { createTheme } from "@material-ui/core/styles";
 import CaloriesBar from "../CalorieTrackerComponents/caloriesBar";
 import MealContainer from "../CalorieTrackerComponents/meals";
 import DashboardComponents from "../CalorieTrackerComponents/dashboardComponents";
+import { useSessionContext } from "@supabase/auth-helpers-react";
+import { useEffect } from "react";
+import { Button } from "@mui/material";
+import Link from "next/link";
+import Head from "next/head";
 
 const darkTheme = createTheme({
   palette: {
@@ -31,45 +35,9 @@ const darkTheme = createTheme({
   background: { default: "#161616" },
 });
 
-const drawerWidth = 240;
-
-const Drawer = styled(MuiDrawer, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  "& .MuiDrawer-paper": {
-    position: "relative",
-    zIndex: 1,
-    whiteSpace: "nowrap",
-    width: drawerWidth,
-    backgroundColor: "#161616",
-    transition: theme.transitions.create("width", {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-    boxSizing: "border-box",
-    border: "solid #161616 1px",
-    ...(!open && {
-      overflowX: "hidden",
-      transition: theme.transitions.create("width", {
-        easing: theme.transitions.easing.sharp,
-        duration: theme.transitions.duration.leavingScreen,
-      }),
-      width: theme.spacing(7),
-      [theme.breakpoints.up("sm")]: {
-        width: theme.spacing(9),
-      },
-    }),
-  },
-}));
-
 const mdTheme = createTheme();
 
 function CaloriesContent() {
-  const [open, setOpen] = React.useState(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
-
   return (
     <ThemeProvider theme={darkTheme}>
       <div>
@@ -85,25 +53,6 @@ function CaloriesContent() {
           <Grid>
             <Box sx={{ display: "flex" }}>
               {/* <CssBaseline /> */}
-
-              <Drawer variant="permanent" open={open}>
-                <Toolbar
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "flex-start",
-                    px: [2],
-                  }}
-                >
-                  <IconButton onClick={toggleDrawer}>
-                    <WidgetsIcon />
-                  </IconButton>
-                </Toolbar>
-                <Divider />
-                {/* <List component="nav">{mainListItems}</List> */}
-                <DashboardComponents />
-              </Drawer>
-
               <Box
                 component="main"
                 sx={{
@@ -126,7 +75,7 @@ function CaloriesContent() {
                     variant="h5"
                     style={{ color: "#FFFFFF", paddingTop: "10px" }}
                   >
-                    CALORIES TRACKER
+                    CALORIE TRACKER
                   </Typography>
                 </div>
 
@@ -152,5 +101,101 @@ function CaloriesContent() {
 }
 
 export default function Calories() {
-  return <CaloriesContent />;
+  const { isLoading, session } = useSessionContext();
+
+  useEffect(() => {}, [isLoading]);
+
+  if (session && !isLoading) {
+    return (
+      <>
+        <Head>
+          <title>Calorie Tracker</title>
+        </Head>
+        <CaloriesContent />
+      </>
+    );
+  } else if (!session && !isLoading) {
+    return (
+      <>
+        <Head>
+          <title>Calorie Tracker</title>
+        </Head>
+        <Navbar />
+        <Container
+          maxWidth="lg"
+          sx={{ display: "flex", justifyContent: "center", minHeight: "100vh" }}
+        >
+          <Box
+            sx={{
+              width: "80rem",
+              height: "20rem",
+              marginTop: "15vh",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#242424",
+              borderRadius: "8px",
+              boxShadow: "0px 10px 10px rgba(0,0,0,0.2)",
+            }}
+          >
+            <Typography
+              variant="h5"
+              sx={{ color: "#E8E8E8", textAlign: "center" }}
+            >
+              You need an account to access this page
+            </Typography>
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginTop: "1rem",
+              }}
+            >
+              <Link
+                href="auth/login"
+                style={{
+                  padding: "10px",
+                  color: "#E8E8E8",
+                  textDecoration: "none",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  sx={{
+                    background:
+                      "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#da6b03, #b59500, #89b33e, #56ca82, #03dac5) border-box",
+                    border: "2px solid transparent",
+                    padding: "1rem 1rem 1rem 1rem",
+                  }}
+                >
+                  Sign Into Your Account
+                </Button>
+              </Link>
+              <Link
+                href="auth/signup"
+                style={{
+                  padding: "10px",
+                  color: "#E8E8E8",
+                  textDecoration: "none",
+                }}
+              >
+                <Button
+                  variant="contained"
+                  sx={{
+                    background:
+                      "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#da6b03, #b59500, #89b33e, #56ca82, #03dac5) border-box",
+                    border: "2px solid transparent",
+                    padding: "1rem 1rem 1rem 1rem",
+                  }}
+                >
+                  Create A New Account
+                </Button>
+              </Link>
+            </Box>
+          </Box>
+        </Container>
+      </>
+    );
+  }
 }

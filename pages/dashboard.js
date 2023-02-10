@@ -1,7 +1,6 @@
 import Head from "next/head";
 import * as React from "react";
 import { styled, ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -119,8 +118,6 @@ function DashboardContent() {
             >
               <Grid>
                 <Box sx={{ display: "flex" }}>
-                  <CssBaseline />
-
                   <Drawer variant="permanent" open={open}>
                     <Toolbar
                       sx={{
@@ -174,7 +171,10 @@ function DashboardContent() {
                         <Grid item xs={12} md={8} lg={9} sm={12}>
                           <Paper
                             sx={{
-                              p: 2,
+                              pt: 0.5,
+                              pb: 2,
+                              pl: 2,
+                              pr: 2,
                               display: "flex",
                               flexDirection: "column",
                               height: 250,
@@ -205,7 +205,10 @@ function DashboardContent() {
                         <Grid item xs={12} md={8} lg={9} sm={12}>
                           <Paper
                             sx={{
-                              p: 2,
+                              pt: 1,
+                              pb: 2,
+                              pl: 2,
+                              pr: 2,
                               display: "flex",
                               flexDirection: "column",
                             }}
@@ -217,7 +220,14 @@ function DashboardContent() {
 
                         <Grid item xs={12} md={4} lg={3} sm={7}>
                           <Paper
-                            sx={{ p: 1, display: "flex", flexDirection: "row" }}
+                            sx={{
+                              pt: 1,
+                              pb: 2,
+                              pl: 2,
+                              pr: 2,
+                              display: "flex",
+                              flexDirection: "row",
+                            }}
                             style={{ backgroundColor: "#202020" }}
                           >
                             <Achievements />

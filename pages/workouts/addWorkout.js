@@ -4,7 +4,6 @@ import {
   Button,
   Checkbox,
   Container,
-  CssBaseline,
   Dialog,
   DialogActions,
   DialogContent,
@@ -253,7 +252,6 @@ export default function AddWorkout() {
     <>
       <Navbar />
       <Container sx={{ justifyContent: "center" }} className={styles.outer}>
-        <CssBaseline />
         <Box>
           <Typography
             variant="h3"

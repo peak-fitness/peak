@@ -31,9 +31,10 @@ import { useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import dayjs from "dayjs";
+import Head from "next/head";
 
 export default function MyWorkouts() {
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(dayjs());
   const [highlightedDays, setHighlightedDays] = useState([]);
   const [workout, setWorkout] = useState(null);
   const [exercises, setExercises] = useState([]);
@@ -50,7 +51,7 @@ export default function MyWorkouts() {
       fetchHighlightedDays();
       fetchPrDays();
     }
-  }, [date]);
+  }, [date, refresh]);
 
   useEffect(() => {
     updateWorkoutAchievements();
@@ -235,142 +236,148 @@ export default function MyWorkouts() {
 
   return (
     // <ThemeProvider theme={theme}>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Navbar />
-      <Container>
-        <Grid container>
-          <Grid
-            item
-            lg={9}
-            sx={{
-              display: "flex",
-              justifyContent: "center",
-              maxHeight: "100vh",
-            }}
-          >
-            <StaticDatePicker
+    <>
+      <Head>
+        <title>My Workouts</title>
+      </Head>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <Navbar />
+        <Container>
+          <Grid container>
+            <Grid
+              item
+              lg={9}
               sx={{
-                backgroundColor: "#161616",
-                ".MuiTypography-root": { color: "white" },
+                display: "flex",
+                justifyContent: "center",
+                maxHeight: "100vh",
               }}
-              displayStaticWrapperAs="desktop"
-              value={date}
-              onChange={(newDate) => {
-                setDate(newDate);
+            >
+              <StaticDatePicker
+                sx={{
+                  backgroundColor: "#161616",
+                  ".MuiTypography-root": { color: "white" },
+                }}
+                displayStaticWrapperAs="desktop"
+                value={date}
+                onChange={(newDate) => {
+                  setDate(newDate);
+                }}
+                renderInput={(params) => <TextField {...params} />}
+                dayOfWeekFormatter={(day) => `${day}.`}
+                showToolbar
+                renderDay={(day, _value, DayComponentProps) => {
+                  const isSelected =
+                    !DayComponentProps.outsideCurrentMonth &&
+                    highlightedDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
+
+                  const isPr =
+                    !DayComponentProps.outsideCurrentMonth &&
+                    prDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
+
+                  return (
+                    <Badge
+                      key={day.toString()}
+                      overlap="circular"
+                      color={isPr ? "" : "primary"}
+                      badgeContent={isPr ? "🏅" : null}
+                      variant={isPr ? null : isSelected ? "dot" : null}
+                    >
+                      <PickersDay {...DayComponentProps} />
+                    </Badge>
+                  );
+                }}
+              />
+            </Grid>
+            <Grid
+              item
+              lg={3}
+              sx={{
+                justifyContent: "center",
+                ".MuiGrid-root": { justifyContent: "center" },
               }}
-              renderInput={(params) => <TextField {...params} />}
-              dayOfWeekFormatter={(day) => `${day}.`}
-              showToolbar
-              renderDay={(day, _value, DayComponentProps) => {
-                const isSelected =
-                  !DayComponentProps.outsideCurrentMonth &&
-                  highlightedDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
-
-                const isPr =
-                  !DayComponentProps.outsideCurrentMonth &&
-                  prDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
-
-                return (
-                  <Badge
-                    key={day.toString()}
-                    overlap="circular"
-                    color={isPr ? "" : "primary"}
-                    badgeContent={isPr ? "🏅" : null}
-                    variant={isPr ? null : isSelected ? "dot" : null}
+            >
+              {workout ? (
+                <>
+                  <Typography variant="h6">
+                    Workout: {workout.routine}
+                    <IconButton>
+                      <EditIcon
+                        style={{ fontSize: "22px", color: "#03dac5" }}
+                        onClick={handleRedirect}
+                      />
+                    </IconButton>
+                    <IconButton onClick={handleDelete}>
+                      <DeleteIcon
+                        style={{
+                          fontSize: "22px",
+                          color: "#03dac5",
+                        }}
+                      />
+                    </IconButton>
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  <Typography variant="h6">
+                    No workouts for this day! Would you like to add a workout?
+                  </Typography>
+                  <Link
+                    href="/workouts/addWorkout"
+                    style={{
+                      margin: "10px",
+                      padding: "5px",
+                      border: "solid",
+                      borderRadius: "20px",
+                      borderColor: "#03DAC5",
+                      textAlign: "center",
+                      display: "block",
+                      color: "#E8E8E8",
+                      textDecoration: "none",
+                    }}
                   >
-                    <PickersDay {...DayComponentProps} />
-                  </Badge>
-                );
-              }}
-            />
-          </Grid>
-          <Grid
-            item
-            lg={3}
-            sx={{
-              justifyContent: "center",
-              ".MuiGrid-root": { justifyContent: "center" },
-            }}
-          >
-            {workout ? (
-              <>
-                <Typography variant="h6">
-                  Workout: {workout.routine}
-                  <IconButton>
-                    <EditIcon
-                      style={{ fontSize: "22px", color: "#03dac5" }}
-                      onClick={handleRedirect}
-                    />
-                  </IconButton>
-                  <IconButton onClick={handleDelete}>
-                    <DeleteIcon
-                      style={{
-                        fontSize: "22px",
-                        color: "#03dac5",
-                      }}
-                    />
-                  </IconButton>
-                </Typography>
-              </>
-            ) : (
-              <>
-                <Typography variant="h6">
-                  No workouts for this day! Would you like to add a workout?
-                </Typography>
-                <Link
-                  href="/workouts/addWorkout"
-                  style={{
-                    margin: "10px",
-                    padding: "5px",
-                    border: "solid",
-                    borderRadius: "20px",
-                    borderColor: "#03DAC5",
-                    textAlign: "center",
-                    display: "block",
-                    color: "#E8E8E8",
-                    textDecoration: "none",
-                  }}
-                >
-                  {" "}
-                  Add a Workout
-                </Link>
-              </>
-            )}
-            {exercises &&
-              exercises.map((exercise) => {
-                return (
-                  <>
-                    <List key={exercise.id}>
-                      <ListItem>
-                        {/* <ListItemIcon>
+                    {" "}
+                    Add a Workout
+                  </Link>
+                </>
+              )}
+              {exercises &&
+                exercises.map((exercise) => {
+                  return (
+                    <>
+                      <List key={exercise.id}>
+                        <ListItem>
+                          {/* <ListItemIcon>
                                 <FitnessCenterIcon/>
                               </ListItemIcon> */}
-                        <ListItemText
-                          primary={exercise.name}
-                          secondary={
-                            <ul>
-                              {exercise.sets.map((set) => {
-                                return (
-                                  <>
-                                    <li className="sets">
-                                      Set {exercise.sets.indexOf(set) + 1} -
-                                      Reps: {set.reps}, Weight: {set.weight} lbs
-                                    </li>
-                                  </>
-                                );
-                              })}
-                            </ul>
-                          }
-                        />
-                      </ListItem>
-                    </List>
-                  </>
-                );
-              })}
+                          <ListItemText
+                            primary={exercise.name}
+                            secondary={
+                              <ul>
+                                {exercise.sets.map((set) => {
+                                  return (
+                                    <>
+                                      <li className="sets">
+                                        Set {exercise.sets.indexOf(set) + 1} -
+                                        Reps: {set.reps}, Weight: {set.weight}{" "}
+                                        lbs
+                                      </li>
+                                    </>
+                                  );
+                                })}
+                              </ul>
+                            }
+                          />
+                        </ListItem>
+                      </List>
+                    </>
+                  );
+                })}
+            </Grid>
           </Grid>
-        </Grid>
-      </Container>
-    </LocalizationProvider>
-    // </ThemeProvider>
+        </Container>
+      </LocalizationProvider>
+    </>
   );
 }
+//// </ThemeProvider>

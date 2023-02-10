@@ -19,7 +19,7 @@ import { borderRadius } from "@mui/system";
 import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import MenuIcon from "@material-ui/icons/Menu";
 import Menu from "@mui/material/Menu";
 import IconButton from "@mui/material/IconButton";
@@ -45,6 +45,7 @@ const Navbar = () => {
   const currentRoute = router.pathname;
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
+  const [pfp, setPfp] = useState(null);
 
   const signout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -91,6 +92,19 @@ const Navbar = () => {
     setActiveLink(link);
   };
 
+  const getPfp = async () => {
+    const { data, error } = await supabase
+      .from("user")
+      .select("avatar_url")
+      .eq("auth_id", session.user.id)
+      .single();
+    setPfp(data.avatar_url);
+  };
+
+  useEffect(() => {
+    getPfp();
+  }, [session]);
+
   return session ? (
     <ThemeProvider theme={darkTheme}>
       <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
@@ -108,14 +122,14 @@ const Navbar = () => {
               component="a"
               href="/dashboard"
               sx={{
-                mr: 2,
                 display: { xs: "none", md: "flex" },
-                fontWeight: 700,
-                color: "white",
               }}
               style={{
                 textDecoration: "none",
                 letterSpacing: ".3rem",
+                fontWeight: 550,
+                mr: 2,
+                color: "white",
               }}
               onClick={() => handleLinkClick("/dashboard")}
             >
@@ -190,11 +204,14 @@ const Navbar = () => {
               sx={{
                 display: { xs: "flex", md: "none" },
                 flexGrow: 1,
-                fontWeight: 700,
-                letterSpacing: ".1rem",
+              }}
+              style={{
+                textDecoration: "none",
+                letterSpacing: ".3rem",
+                fontWeight: 550,
+                mr: 2,
                 color: "white",
               }}
-              style={{ textDecoration: "none", letterSpacing: ".3rem" }}
             >
               Peak
             </Typography>
@@ -305,7 +322,9 @@ const Navbar = () => {
                 aria-haspopup="true"
                 onClick={handleToggle}
               >
-                <Avatar src="/pfp.png" />
+                <Avatar
+                  src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${pfp}`}
+                />
               </Button>
               <Popper
                 open={open}
@@ -364,14 +383,14 @@ const Navbar = () => {
               component="a"
               href="/"
               sx={{
-                mr: 2,
                 display: { xs: "none", md: "flex" },
-                fontWeight: 700,
-                color: "white",
               }}
               style={{
+                mr: 2,
                 textDecoration: "none",
                 letterSpacing: ".3rem",
+                fontWeight: 550,
+                color: "white",
               }}
               onClick={() => handleLinkClick("/")}
             >
@@ -432,10 +451,14 @@ const Navbar = () => {
               sx={{
                 display: { xs: "flex", md: "none" },
                 flexGrow: 1,
+              }}
+              style={{
+                textDecoration: "none",
+                letterSpacing: ".3rem",
                 fontWeight: 700,
                 color: "white",
+                mr: 2,
               }}
-              style={{ textDecoration: "none", letterSpacing: ".3rem" }}
             >
               Peak
             </Typography>
