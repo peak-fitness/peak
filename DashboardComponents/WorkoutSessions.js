@@ -1,5 +1,4 @@
 import * as React from "react";
-import Link from "@mui/material/Link";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -16,6 +15,7 @@ import {
 import { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import { Typography } from "@material-ui/core";
+import Link from "next/link";
 
 function preventDefault(event) {
   event.preventDefault();
@@ -40,21 +40,28 @@ export default function RecentWorkouts() {
   const supabaseClient = useSupabaseClient();
   const [rows, setRows] = useState([]);
   const user = useUser();
+  const session = useSession();
+
+  const fetchData = async () => {
+    const result = await supabaseClient
+      .from("user")
+      .select(`auth_id, workout (*)`)
+      .eq("auth_id", session.user.id)
+      .single();
+
+    if (result.data) {
+      setRows(
+        result.data.workout
+          .map((row) =>
+            createData(row.id, row.date, row.notes, row.routine, row.duration)
+          )
+          .sort((a, b) => new Date(b.date) - new Date(a.date))
+      );
+    }
+  };
 
   useEffect(() => {
-    supabaseClient
-      .from("workout")
-      .select("*")
-      .then((res) => {
-        setRows(
-          res.data
-            .map((row) =>
-              createData(row.id, row.date, row.notes, row.routine, row.duration)
-            )
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
-        );
-      })
-      .catch((err) => console.error(err));
+    fetchData();
   }, [supabaseClient]);
 
   return (
@@ -75,32 +82,50 @@ export default function RecentWorkouts() {
               </TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-            {rows.slice(0, 4).map((row) => (
-              <TableRow key={row.id}>
-                <TableCell>
-                  <Typography style={{ fontSize: 15 }}>{row.date}</Typography>
-                </TableCell>
-                <TableCell>
-                  <Typography style={{ fontSize: 15 }}>
-                    {row.routine.toUpperCase()}
-                  </Typography>
-                </TableCell>
-                <TableCell align="right">
-                  <Typography
-                    style={{ fontSize: 15 }}
-                  >{`${row.duration}`}</Typography>
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+          {rows.length === 0 ? null : (
+            <TableBody>
+              {rows.slice(0, 4).map((row) => (
+                <TableRow key={row.id}>
+                  <TableCell>
+                    <Typography style={{ fontSize: 15 }}>{row.date}</Typography>
+                  </TableCell>
+                  <TableCell>
+                    <Typography style={{ fontSize: 15 }}>
+                      {row.routine.toUpperCase()}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    <Typography
+                      style={{ fontSize: 15 }}
+                    >{`${row.duration}`}</Typography>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          )}
         </Table>
+
+        {rows.length === 0 ? (
+          <div
+            style={{
+              textAlign: "center",
+              paddingTop: "30px",
+              paddingBottom: "30px",
+            }}
+          >
+            No workouts yet! 😕
+          </div>
+        ) : null}
+
         <Link
-          color="primary"
-          onClick={() => (window.location.href = "/workouts/myWorkouts")}
-          sx={{ pt: 1 }}
+          href="/workouts/myWorkouts"
+          style={{
+            color: "#03DAC5",
+            paddingTop: "10px",
+            textDecoration: "underline",
+          }}
         >
-          See more workouts
+          See all workouts
         </Link>
       </React.Fragment>
     </>
