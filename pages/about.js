@@ -33,17 +33,13 @@ export default function About() {
           <p className={styles.meetTeam}>Meet the team at Peak</p>
           <div className={styles.profiles}>
             <div className={styles.profile}>
-              <PersonIcon
-                color="secondary"
-                fontSize="large"
-                sx={{ height: "80px", width: "80px" }}
-              />
+              <PersonIcon color="secondary" fontSize="large" />
               <p className={styles.name}>Sean Brown</p>
               <div className={styles.socials}>
                 <IconButton aria-label="linkedin">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://www.linkedin.com/in/seanbrown71/"
                     target="_blank"
                   >
                     <LinkedInIcon sx={{ color: "#E8E8E8" }} />
@@ -52,7 +48,7 @@ export default function About() {
                 <IconButton aria-label="github">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://github.com/sbrown5757"
                     target="_blank"
                   >
                     <GitHubIcon sx={{ color: "#E8E8E8" }} />
@@ -61,17 +57,13 @@ export default function About() {
               </div>
             </div>
             <div className={styles.profile}>
-              <PersonIcon
-                color="secondary"
-                fontSize="large"
-                sx={{ height: "80px", width: "80px" }}
-              />
+              <PersonIcon color="secondary" fontSize="large" />
               <p className={styles.name}>Warren Chan</p>
               <div className={styles.socials}>
                 <IconButton aria-label="linkedin">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://www.linkedin.com/in/wachan/"
                     target="_blank"
                   >
                     <LinkedInIcon sx={{ color: "#E8E8E8" }} />
@@ -80,7 +72,7 @@ export default function About() {
                 <IconButton aria-label="github">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://github.com/warrenchan13"
                     target="_blank"
                   >
                     <GitHubIcon sx={{ color: "#E8E8E8" }} />
@@ -89,17 +81,13 @@ export default function About() {
               </div>
             </div>
             <div className={styles.profile}>
-              <PersonIcon
-                color="secondary"
-                fontSize="large"
-                sx={{ height: "80px", width: "80px" }}
-              />
+              <PersonIcon color="secondary" fontSize="large" />
               <p className={styles.name}>Bryan Olivo</p>
               <div className={styles.socials}>
                 <IconButton aria-label="linkedin">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://www.linkedin.com/in/bryanolivo/"
                     target="_blank"
                   >
                     <LinkedInIcon sx={{ color: "#E8E8E8" }} />
@@ -108,7 +96,7 @@ export default function About() {
                 <IconButton aria-label="github">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://github.com/olivob"
                     target="_blank"
                   >
                     <GitHubIcon sx={{ color: "#E8E8E8" }} />
@@ -117,17 +105,13 @@ export default function About() {
               </div>
             </div>
             <div className={styles.profile}>
-              <PersonIcon
-                color="secondary"
-                fontSize="large"
-                sx={{ height: "80px", width: "80px" }}
-              />
+              <PersonIcon color="secondary" fontSize="large" />
               <p className={styles.name}>Jahed Prince</p>
               <div className={styles.socials}>
                 <IconButton aria-label="linkedin">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://www.linkedin.com/in/jahedprince/"
                     target="_blank"
                   >
                     <LinkedInIcon sx={{ color: "#E8E8E8" }} />
@@ -136,7 +120,7 @@ export default function About() {
                 <IconButton aria-label="github">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://github.com/jahedprince/"
                     target="_blank"
                   >
                     <GitHubIcon sx={{ color: "#E8E8E8" }} />
@@ -145,17 +129,13 @@ export default function About() {
               </div>
             </div>
             <div className={styles.profile}>
-              <PersonIcon
-                color="secondary"
-                fontSize="large"
-                sx={{ height: "80px", width: "80px" }}
-              />
+              <PersonIcon color="secondary" fontSize="large" />
               <p className={styles.name}>Justin Suh</p>
               <div className={styles.socials}>
                 <IconButton aria-label="linkedin">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://www.linkedin.com/in/justin-suh98/"
                     target="_blank"
                   >
                     <LinkedInIcon sx={{ color: "#E8E8E8" }} />
@@ -164,7 +144,7 @@ export default function About() {
                 <IconButton aria-label="github">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://github.com/justindjsuh"
                     target="_blank"
                   >
                     <GitHubIcon sx={{ color: "#E8E8E8" }} />

@@ -13,8 +13,9 @@
   display: flex;
   flex-flow: column;
   width: 95%;
-  margin: 2rem;
-  padding: 2rem;
+  height: 85vh;
+  margin: 1rem;
+  padding: 1rem 2rem;
   background-color: #262626;
   border-radius: 10px;
 }
@@ -39,10 +40,24 @@
   color: #fafafa;
 }
 
+.friendsContainer {
+  overflow: auto;
+}
+
 .friends {
   display: flex;
   flex-flow: column;
+  height: 70vh;
   background-color: #242424;
+  border-radius: 10px;
+}
+
+.friendsContainer::-webkit-scrollbar {
+  width: 5px;
+}
+
+.friendsContainer::-webkit-scrollbar-thumb {
+  background: #161616;
   border-radius: 10px;
 }
 
@@ -160,17 +175,14 @@
   bottom: 0;
   right: 0;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: rgba(0, 0, 0, 0.5);
+  z-index: 1;
 }
 
 .feedContainer {
   display: flex;
   width: 70%;
-  height: 600px;
-  justify-content: center;
+  height: 70vh;
   background-color: #242424;
   padding: 1rem;
   border-radius: 10px;
@@ -209,6 +221,10 @@
   margin: 0;
 }
 
+.workoutContainer {
+  z-index: 0;
+}
+
 .workoutHeader {
   display: flex;
   justify-content: space-between;
@@ -223,20 +239,45 @@
   font-size: 14px;
 }
 
+.details {
+  display: flex;
+  justify-content: space-between;
+}
+
 .duration {
   display: flex;
-  gap: 0.3rem;
 }
 
 .viewWorkoutBtn {
   background-color: #03dac5;
   outline: none;
-  border: none;
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
-  color: #191919;
+  color: #161616;
   border-radius: 5px;
   padding: 0.5rem 1rem;
   margin-top: 0.5rem;
   cursor: pointer;
+}
+
+.noFriends {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.noFriends p {
+  margin: 0;
+}
+
+.noFeed {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.myWorkout {
+  position: relative;
+  float: right;
+  right: 0;
 }

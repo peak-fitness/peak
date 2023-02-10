@@ -24,13 +24,8 @@ export default function Contact() {
           <div className={styles.contact}>
             <p className={styles.contactHeader}>Contact Us</p>
             <p>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-              enim ad minim veniam, quis nostrud exercitation ullamco laboris
-              nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-              reprehenderit in voluptate velit esse cillum dolore eu fugiat
-              nulla pariatur. Excepteur sint occaecat cupidatat non proident,
-              sunt in culpa qui officia deserunt mollit anim id est laborum.
+              We would love to hear from you! You can reach us at the below
+              email address for any inquiries or feedback.
             </p>
           </div>
           <div className={styles.contactInfo}>
