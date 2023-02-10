@@ -16,7 +16,7 @@ import CaloriesBar from "./caloriesBar";
 import EditIcon from "@mui/icons-material/Edit";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { Badge, Input, TextField, withStyles } from "@material-ui/core";
+import { Badge, Input, setRef, TextField, withStyles } from "@material-ui/core";
 import {
   LocalizationProvider,
   PickersDay,
@@ -27,6 +27,7 @@ import dayjs from "dayjs";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@mui/material/styles";
 import styles from "@/styles/CalorieTracker.module.css";
+import { useSessionContext } from "@supabase/auth-helpers-react";
 
 const theme = createTheme({
   palette: {
@@ -49,7 +50,7 @@ export default function MealContainer() {
   const [checkDate, setCheckDate] = useState(false);
   const [value, setValue] = useState(0);
   const [userId, setUserId] = useState(null);
-  const [date, setDate] = useState(dayjs());
+  const [date, setDate] = useState(null);
   const [highlightedDays, setHighlightedDays] = useState([]);
   const [fetchMeals, setFetchMeals] = useState(null);
   const [noTarget, setNoTarget] = useState(false);
@@ -59,12 +60,14 @@ export default function MealContainer() {
     lunch: [],
     dinner: [],
   });
+  const [refresh, setRefresh] = useState(false);
+  let { isLoading, error } = useSessionContext();
 
   useEffect(() => {
     fetchCurrentUserId();
     fetchUserMeals();
     fetchHighlightedDays();
-  }, [date, saved]);
+  }, [date, saved, refresh]);
 
   const fetchCurrentUserId = async () => {
     if (session) {
@@ -75,6 +78,7 @@ export default function MealContainer() {
         .single();
       if (!data.target_calories) setNoTarget(true);
       setUserId(data.id);
+      setRefresh(true);
     }
   };
 
@@ -111,7 +115,7 @@ export default function MealContainer() {
         .eq("user_id", userId)
         .eq("date", dateString)
         .single();
-      if (data) {
+      if (data !== null) {
         setFetchMeals(data.meal);
         setMeals(data.meal);
       } else {
