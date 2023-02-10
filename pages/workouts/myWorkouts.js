@@ -32,6 +32,7 @@ import Link from "next/link";
 import dayjs from "dayjs";
 import { styled } from "@mui/material/styles";
 import Head from "next/head";
+import Card from "@mui/material/Card";
 
 const CustomizedCalendar = styled(StaticDatePicker)`
   .MuiPickerStaticWrapper-content {
@@ -381,25 +382,44 @@ export default function MyWorkouts() {
                 style={{ backgroundColor: "#161616" }}
               >
                 {workout ? (
-                  <>
-                    <Typography variant="h6">
+                  <div
+                    style={{
+                      paddingTop: "15px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
                       Workout: {workout.routine}
-                      <IconButton>
-                        <EditIcon
-                          style={{ fontSize: "22px", color: "#03dac5" }}
-                          onClick={handleRedirect}
-                        />
-                      </IconButton>
-                      <IconButton onClick={handleDelete}>
-                        <DeleteIcon
-                          style={{
-                            fontSize: "22px",
-                            color: "#03dac5",
-                          }}
-                        />
-                      </IconButton>
                     </Typography>
-                  </>
+                    <IconButton
+                      style={{ paddingLeft: "5px", paddingRight: "5px" }}
+                    >
+                      <EditIcon
+                        style={{ fontSize: "22px", color: "#03dac5" }}
+                        onClick={handleRedirect}
+                      />
+                    </IconButton>
+                    <IconButton
+                      onClick={handleDelete}
+                      style={{ paddingLeft: "0px", paddingRight: "5px" }}
+                    >
+                      <DeleteIcon
+                        style={{
+                          fontSize: "22px",
+                          color: "#03dac5",
+                        }}
+                      />
+                    </IconButton>
+                  </div>
                 ) : (
                   <div
                     style={{
@@ -437,30 +457,52 @@ export default function MyWorkouts() {
                 {exercises &&
                   exercises.map((exercise) => {
                     return (
-                      <>
-                        <List key={exercise.id}>
-                          <ListItem>
-                            <ListItemText
-                              primary={exercise.name}
-                              secondary={
-                                <ul>
-                                  {exercise.sets.map((set) => {
-                                    return (
-                                      <>
-                                        <li className="sets">
-                                          Set {exercise.sets.indexOf(set) + 1} -
-                                          Reps: {set.reps}, Weight: {set.weight}{" "}
-                                          lbs
-                                        </li>
-                                      </>
-                                    );
-                                  })}
-                                </ul>
-                              }
-                            />
-                          </ListItem>
-                        </List>
-                      </>
+                      <Card
+                        style={{
+                          backgroundColor: "#262626",
+                          margin: "10px",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                        key={exercise.id}
+                      >
+                        <div
+                          style={{
+                            margin: "10px",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography
+                            style={{
+                              color: "white",
+                              fontSize: "20px",
+                            }}
+                          >
+                            {exercise.name}
+                          </Typography>
+
+                          {exercise.sets.map((set, index) => (
+                            <div
+                              className="sets"
+                              key={exercise.id}
+                              style={{
+                                color: "#dedcdc",
+                                marginTop: "8px",
+                                marginBottom: "8px",
+                                fontSize: "15px",
+                              }}
+                            >
+                              Set {index + 1}: {set.reps} Reps x {""}
+                              {set.weight} lbs
+                            </div>
+                          ))}
+                        </div>
+                      </Card>
                     );
                   })}
               </Grid>
