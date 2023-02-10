@@ -50,8 +50,8 @@ export default function Home() {
             sx={{
               display: "flex",
               flexDirection: "row",
-              pt: 8,
-              pb: 5,
+              pt: 5,
+              pb: 0,
               pl: 3,
               pr: 3,
             }}
