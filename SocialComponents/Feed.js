@@ -1,6 +1,6 @@
 import { supabase } from "@/lib/supabaseClient";
 import styles from "@/styles/Groups.module.css";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import WorkoutModal from "./WorkoutModal";
 import TimerIcon from "@mui/icons-material/Timer";
 
@@ -13,14 +13,16 @@ export default function Feed({ user, friends }) {
   );
   // console.log("USER", user);
   // console.log("WORKOUTSSS", friendWorkouts);
-  const fetchFriendWorkouts = async () => {
+  const fetchFriendWorkouts = useCallback(async () => {
     const friendWorkOutArr = [];
-    const userWorkouts = await supabase
-      .from("workout")
-      .select("*")
-      .eq("user_id", user.id);
-    if (userWorkouts.data) {
-      friendWorkOutArr.push(...userWorkouts.data);
+    if (user.id) {
+      const userWorkouts = await supabase
+        .from("workout")
+        .select("*")
+        .eq("user_id", user.id);
+      if (userWorkouts.data) {
+        friendWorkOutArr.push(...userWorkouts.data);
+      }
     }
     for (const index in friends) {
       if (friends[index].requester_id) {
@@ -50,7 +52,7 @@ export default function Feed({ user, friends }) {
     friendWorkOutArr.sort((a, b) => {
       return new Date(b.date) - new Date(a.date);
     });
-  };
+  }, [friends, user.id]);
 
   //   window.onload = function () {
   //     const feedContainer = document.getElementById("feedContainer");
@@ -69,7 +71,7 @@ export default function Feed({ user, friends }) {
 
   useEffect(() => {
     fetchFriendWorkouts();
-  }, [friends]);
+  }, [fetchFriendWorkouts]);
 
   return (
     <div id="feed-container" className={styles.feedContainer}>
