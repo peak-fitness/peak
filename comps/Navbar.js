@@ -108,14 +108,14 @@ const Navbar = () => {
               component="a"
               href="/dashboard"
               sx={{
-                mr: 2,
                 display: { xs: "none", md: "flex" },
-                fontWeight: 700,
-                color: "white",
               }}
               style={{
                 textDecoration: "none",
                 letterSpacing: ".3rem",
+                fontWeight: 550,
+                mr: 2,
+                color: "white",
               }}
               onClick={() => handleLinkClick("/dashboard")}
             >
@@ -190,11 +190,14 @@ const Navbar = () => {
               sx={{
                 display: { xs: "flex", md: "none" },
                 flexGrow: 1,
-                fontWeight: 700,
-                letterSpacing: ".1rem",
+              }}
+              style={{
+                textDecoration: "none",
+                letterSpacing: ".3rem",
+                fontWeight: 550,
+                mr: 2,
                 color: "white",
               }}
-              style={{ textDecoration: "none", letterSpacing: ".3rem" }}
             >
               Peak
             </Typography>
@@ -364,14 +367,14 @@ const Navbar = () => {
               component="a"
               href="/"
               sx={{
-                mr: 2,
                 display: { xs: "none", md: "flex" },
-                fontWeight: 700,
-                color: "white",
               }}
               style={{
+                mr: 2,
                 textDecoration: "none",
                 letterSpacing: ".3rem",
+                fontWeight: 550,
+                color: "white",
               }}
               onClick={() => handleLinkClick("/")}
             >
@@ -432,10 +435,14 @@ const Navbar = () => {
               sx={{
                 display: { xs: "flex", md: "none" },
                 flexGrow: 1,
+              }}
+              style={{
+                textDecoration: "none",
+                letterSpacing: ".3rem",
                 fontWeight: 700,
                 color: "white",
+                mr: 2,
               }}
-              style={{ textDecoration: "none", letterSpacing: ".3rem" }}
             >
               Peak
             </Typography>

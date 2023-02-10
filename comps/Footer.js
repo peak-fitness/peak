@@ -51,8 +51,6 @@ const Footer = () => {
         backgroundColor: "#161616",
       }}
     >
-      <CssBaseline />
-
       <Container display="flex" align="center" maxWidth={false}>
         <Toolbar
           disableGutters

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { styled, ThemeProvider } from "@mui/material/styles";
-import CssBaseline from "@mui/material/CssBaseline";
 import MuiDrawer from "@mui/material/Drawer";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -84,8 +83,6 @@ function CaloriesContent() {
         >
           <Grid>
             <Box sx={{ display: "flex" }}>
-              {/* <CssBaseline /> */}
-
               <Drawer variant="permanent" open={open}>
                 <Toolbar
                   sx={{
