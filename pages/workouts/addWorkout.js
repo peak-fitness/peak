@@ -36,6 +36,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import styles from "@/styles/AddWorkout.module.css";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function AddWorkout() {
   const [open, setOpen] = useState(false);
@@ -250,6 +251,9 @@ export default function AddWorkout() {
 
   return (
     <>
+      <Head>
+        <title>Workouts</title>
+      </Head>
       <Navbar />
       <Container sx={{ justifyContent: "center" }} className={styles.outer}>
         <Box>

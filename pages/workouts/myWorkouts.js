@@ -31,6 +31,7 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import dayjs from "dayjs";
 import { styled } from "@mui/material/styles";
+import Head from "next/head";
 
 const CustomizedCalendar = styled(StaticDatePicker)`
   .MuiPickerStaticWrapper-content {
@@ -286,6 +287,9 @@ export default function MyWorkouts() {
     // <ThemeProvider theme={theme}>
 
     <div>
+      <Head>
+        <title>Workouts</title>
+      </Head>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Navbar />
         <Grid
