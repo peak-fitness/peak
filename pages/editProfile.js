@@ -51,11 +51,15 @@ export default function Account() {
   const [gender, setGender] = useState(null);
   const [targetCalories, setTargetCalories] = useState(null);
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [image, setImage] = useState(null);
+  const [avatarUrl, setAvatarUrl] = useState("");
 
   useEffect(() => {
     getProfile();
     fetchCurrentUserId();
   }, [session]);
+
+  console.log(image);
 
   const fetchCurrentUserId = async () => {
     if (session) {
@@ -74,7 +78,7 @@ export default function Account() {
       let { data, error, status } = await supabase
         .from("user")
         .select(
-          `username, first_name, last_name, created_at, height, current_weight, age, location, bio, social_medias, target_weight, gender, target_calories`
+          `username, first_name, last_name, created_at, height, current_weight, age, location, bio, social_medias, target_weight, gender, target_calories, avatar_url`
         )
         .eq("auth_id", user.id)
         .single();
@@ -99,6 +103,7 @@ export default function Account() {
         setGender(data.gender);
         setTargetWeight(data.target_weight);
         setTargetCalories(data.target_calories);
+        setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
       return error;
@@ -110,6 +115,21 @@ export default function Account() {
   async function updateProfile() {
     try {
       setLoading(true);
+      let avatarUrl2 = avatarUrl;
+
+      if (image) {
+        const pfp = await supabase.storage
+          .from("profile-pics")
+          .upload(`${Date.now()}_${image.name}`, image);
+
+        if (pfp.error) {
+          console.log(pfp.error);
+        }
+        if (pfp.data) {
+          setAvatarUrl(pfp.data.path);
+          avatarUrl2 = pfp.data.path;
+        }
+      }
 
       let { data, error } = await supabase
         .from("user")
@@ -130,6 +150,7 @@ export default function Account() {
             facebook: facebook,
             instagram: instagram,
           },
+          avatar_url: avatarUrl2,
         })
         .eq("auth_id", user.id)
         .select();
@@ -254,10 +275,38 @@ export default function Account() {
         <Box sx={responsiveContainer}>
           <Box sx={responsiveSidePanel}>
             <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <AccountCircle
-                id={styles.defaultProfileIcon}
-                sx={{ width: "10rem", height: "10rem" }}
-              />
+              {avatarUrl ? (
+                <img
+                  src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${avatarUrl}`}
+                  alt=""
+                  className={styles.userPfp}
+                />
+              ) : (
+                <AccountCircle id={styles.defaultProfileIcon} />
+              )}
+            </Box>
+            <Box
+              sx={{
+                marginBottom: ".5rem",
+                marginTop: ".5rem",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
+            >
+              <p className={styles.pfpUrl}>
+                {image ? `${image.name} (Save to change)` : ""}
+              </p>
+              <label for="pfpInput" className={styles.pfpLabel}>
+                Change Image
+                <input
+                  id="pfpInput"
+                  className={styles.pfpInput}
+                  type="file"
+                  accept={"image/jpeg image/png"}
+                  onChange={(e) => setImage(e.target.files[0])}
+                />
+              </label>
             </Box>
             <Typography
               variant="h5"
