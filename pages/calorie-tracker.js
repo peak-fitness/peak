@@ -23,6 +23,7 @@ import { useSessionContext } from "@supabase/auth-helpers-react";
 import { useEffect } from "react";
 import { Button } from "@mui/material";
 import Link from "next/link";
+import Head from "next/head";
 
 const darkTheme = createTheme({
   palette: {
@@ -130,7 +131,7 @@ function CaloriesContent() {
                     variant="h5"
                     style={{ color: "#FFFFFF", paddingTop: "10px" }}
                   >
-                    CALORIES TRACKER
+                    CALORIE TRACKER
                   </Typography>
                 </div>
 
@@ -161,6 +162,9 @@ export default function Calories() {
   useEffect(() => {}, [isLoading]);
 
   if (session && !isLoading) {
+    <Head>
+      <title>Calorie Tracker</title>
+    </Head>;
     return <CaloriesContent />;
   } else if (!session && !isLoading) {
     return (
