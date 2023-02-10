@@ -16,6 +16,8 @@ import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@mui/material/styles";
 import Link from "next/link";
+import { set } from "date-fns";
+import { SecurityUpdate } from "@mui/icons-material";
 
 const darkTheme = createTheme({
   palette: {
@@ -39,8 +41,12 @@ export default function AchievementsPage() {
   useEffect(() => {
     fetchCurrentUserId();
     fetchAllAchievements();
-    // getProfile();
-  }, [currentUserId, session]);
+    getProfile();
+  }, [currentUserId]);
+
+  useEffect(() => {
+    updateFriendsAchievement();
+  }, [friends]);
 
   const fetchCurrentUserId = async () => {
     if (session) {
@@ -66,54 +72,49 @@ export default function AchievementsPage() {
     }
   };
 
-  // const getProfile = async () => {
-  //   if (session !== null) {
-  //     const user = await supabase
-  //       .from("user")
-  //       .select("*, friends!friends_addressee_id_fkey(*)")
-  //       .eq("auth_id", session.user.id)
-  //       .eq("friends.status_code", "Requested")
-  //       .single();
-  //     setUser(user.data);
+  const getProfile = async () => {
+    if (session !== null) {
+      const user = await supabase
+        .from("user")
+        .select("*, friends!friends_addressee_id_fkey(*)")
+        .eq("auth_id", session.user.id)
+        .eq("friends.status_code", "Requested")
+        .single();
+      setUser(user.data);
 
-  //     // Getting friends where the user.id is the requester
-  //     const friendspt1 = await supabase
-  //       .from("friends")
-  //       .select("id, addressee_id, addressee_username")
-  //       .eq("requester_id", user.data.id)
-  //       .eq("status_code", "Accepted");
+      const friendspt1 = await supabase
+        .from("friends")
+        .select("id, addressee_id, addressee_username")
+        .eq("requester_id", user.data.id)
+        .eq("status_code", "Accepted");
 
-  //     // Getting friends where the user.id is the addressee
-  //     const friendspt2 = await supabase
-  //       .from("friends")
-  //       .select("id, requester_id, requester_username")
-  //       .eq("addressee_id", user.data.id)
-  //       .eq("status_code", "Accepted");
-  //     setFriends([...friendspt1.data, ...friendspt2.data]);
-  //   } else return;
-  // };
+      const friendspt2 = await supabase
+        .from("friends")
+        .select("id, requester_id, requester_username")
+        .eq("addressee_id", user.data.id)
+        .eq("status_code", "Accepted");
+      setFriends([...friendspt1.data, ...friendspt2.data]);
+    } else return;
+  };
 
-  // useEffect(() => {
-  //   updateFriendsAchievement();
-  // }, [friends]);
-
-  // const updateFriendsAchievement = async () => {
-  //   if (Object.keys(user).length !== 0) {
-  //     if (friends.length >= 3) {
-  //       const { error } = await supabase
-  //         .from("userAchievements")
-  //         .update({ achieved: true })
-  //         .eq("user_id", user.id)
-  //         .eq("a_id", 3);
-  //     } else {
-  //       const { error } = await supabase
-  //         .from("userAchievements")
-  //         .update({ achieved: false })
-  //         .eq("user_id", user.id)
-  //         .eq("a_id", 3);
-  //     }
-  //   }
-  // };
+  const updateFriendsAchievement = async () => {
+    if (Object.keys(user).length !== 0) {
+      if (friends.length >= 3) {
+        const { error } = await supabase
+          .from("userAchievements")
+          .update({ achieved: true })
+          .eq("user_id", user.id)
+          .eq("a_id", 3);
+      } else {
+        const { error } = await supabase
+          .from("userAchievements")
+          .update({ achieved: false })
+          .eq("user_id", user.id)
+          .eq("a_id", 3);
+      }
+    }
+    fetchAllAchievements();
+  };
 
   return session ? (
     <>
