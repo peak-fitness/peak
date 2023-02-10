@@ -8,7 +8,6 @@ import {
   IconButton,
   Typography,
   FormControl,
-  InputLabel,
 } from "@mui/material";
 import MealForm from "./MealForm";
 import EditMealForm from "./EditMealForm";
@@ -16,7 +15,7 @@ import CaloriesBar from "./caloriesBar";
 import EditIcon from "@mui/icons-material/Edit";
 import RemoveCircleIcon from "@mui/icons-material/RemoveCircle";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import { Badge, Input, setRef, TextField, withStyles } from "@material-ui/core";
+import { Badge, Input, TextField, withStyles } from "@material-ui/core";
 import {
   LocalizationProvider,
   PickersDay,
@@ -231,7 +230,7 @@ export default function MealContainer() {
           <div>
             <StaticDatePicker
               sx={{
-                backgroundColor: "#161616",
+                backgroundColor: "#202020",
                 ".MuiTypography-root": { color: "#FFFFFF" },
               }}
               displayStaticWrapperAs="desktop"
@@ -661,7 +660,7 @@ export default function MealContainer() {
                       justifyContent: "space-between",
                       width: "20%",
                       mt: 3,
-                      mb: 2,
+                      mb: 3,
                       color: "#161616",
                       background:
                         "linear-gradient(90deg, #03dac5, #56ca82, #89b33e, #b59500, #da6b03)",
