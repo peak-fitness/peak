@@ -52,7 +52,7 @@ export default function About() {
                 <IconButton aria-label="github">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://github.com/sbrown5757"
                     target="_blank"
                   >
                     <GitHubIcon sx={{ color: "#E8E8E8" }} />
@@ -71,7 +71,7 @@ export default function About() {
                 <IconButton aria-label="linkedin">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://www.linkedin.com/in/wachan/"
                     target="_blank"
                   >
                     <LinkedInIcon sx={{ color: "#E8E8E8" }} />
@@ -99,7 +99,7 @@ export default function About() {
                 <IconButton aria-label="linkedin">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://www.linkedin.com/in/bryanolivo/"
                     target="_blank"
                   >
                     <LinkedInIcon sx={{ color: "#E8E8E8" }} />
@@ -108,7 +108,7 @@ export default function About() {
                 <IconButton aria-label="github">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://github.com/olivob"
                     target="_blank"
                   >
                     <GitHubIcon sx={{ color: "#E8E8E8" }} />
@@ -127,7 +127,7 @@ export default function About() {
                 <IconButton aria-label="linkedin">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://www.linkedin.com/in/jahedprince/"
                     target="_blank"
                   >
                     <LinkedInIcon sx={{ color: "#E8E8E8" }} />
@@ -136,7 +136,7 @@ export default function About() {
                 <IconButton aria-label="github">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://github.com/jahedprince/"
                     target="_blank"
                   >
                     <GitHubIcon sx={{ color: "#E8E8E8" }} />
@@ -155,7 +155,7 @@ export default function About() {
                 <IconButton aria-label="linkedin">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://www.linkedin.com/in/justin-suh98/"
                     target="_blank"
                   >
                     <LinkedInIcon sx={{ color: "#E8E8E8" }} />
@@ -164,7 +164,7 @@ export default function About() {
                 <IconButton aria-label="github">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://github.com/justindjsuh"
                     target="_blank"
                   >
                     <GitHubIcon sx={{ color: "#E8E8E8" }} />

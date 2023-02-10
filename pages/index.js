@@ -75,10 +75,10 @@ export default function Home() {
                     <br />
                     <br />
                     Our platform offers an attendance tracker, workout journal,
-                    calorie tracker, accountability groups, and challenge
-                    system, making it easy to stay on track and motivated. Keep
-                    track of your gym visits, visualize your progress, input
-                    custom meals, connect with friends, and celebrate your
+                    calorie tracker, accountability system with friends, and
+                    challenges, making it easy to stay on track and motivated.
+                    Keep track of your gym visits, visualize your progress,
+                    input custom meals, connect with friends, and celebrate your
                     achievements.
                     <br />
                     <br />
@@ -146,7 +146,7 @@ export default function Home() {
                   >
                     <CardContent align="center" justifycontent="center">
                       <Typography color="#E8E8E8">
-                        Accountability Groups
+                        Accountability Feed
                       </Typography>
                       <GroupIcon
                         style={{
