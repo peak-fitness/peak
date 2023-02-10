@@ -43,7 +43,7 @@ export default function About() {
                 <IconButton aria-label="linkedin">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://www.linkedin.com/in/seanbrown71/"
                     target="_blank"
                   >
                     <LinkedInIcon sx={{ color: "#E8E8E8" }} />
@@ -80,7 +80,7 @@ export default function About() {
                 <IconButton aria-label="github">
                   <Link
                     color="inherit"
-                    //   href="https://github.com/capstone-peak"
+                    href="https://github.com/warrenchan13"
                     target="_blank"
                   >
                     <GitHubIcon sx={{ color: "#E8E8E8" }} />
