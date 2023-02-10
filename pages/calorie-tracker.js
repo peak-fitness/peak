@@ -1,18 +1,6 @@
 import * as React from "react";
 import { styled, ThemeProvider } from "@mui/material/styles";
-import MuiDrawer from "@mui/material/Drawer";
-import Box from "@mui/material/Box";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-import Badge from "@mui/material/Badge";
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Paper from "@mui/material/Paper";
-import WidgetsIcon from "@mui/icons-material/Widgets";
-import mainListItems from "../DashboardComponents/listItems";
+import { Box, Typography, Container, Grid, Paper, Button } from "@mui/material";
 import Navbar from "../comps/Navbar";
 import { createTheme } from "@material-ui/core/styles";
 import CaloriesBar from "../CalorieTrackerComponents/caloriesBar";
@@ -20,7 +8,6 @@ import MealContainer from "../CalorieTrackerComponents/meals";
 import DashboardComponents from "../CalorieTrackerComponents/dashboardComponents";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import { useEffect } from "react";
-import { Button } from "@mui/material";
 import Link from "next/link";
 import Head from "next/head";
 
@@ -46,45 +33,74 @@ function CaloriesContent() {
         <Container
           sx={{
             display: "flex",
-            flexDirection: "column",
-            px: [0],
+            flexFlow: "column",
+            width: "97.5%",
+            height: "100vh",
           }}
         >
           <Grid>
-            <Box sx={{ display: "flex" }}>
-              {/* <CssBaseline /> */}
-              <Box
-                component="main"
-                sx={{
-                  flexGrow: 1,
-                  height: "100vh",
-                  overflow: "auto",
-                }}
-              >
-                {/* <Toolbar /> */}
+            <Box
+              sx={{
+                display: "flex",
+                flexFlow: "column",
+                margin: "2rem 0",
+                borderRadius: "10px",
+                backgroundColor: "#262626",
+                flexGrow: 1,
+                marginLeft: "7rem",
+                marginRight: "7rem",
+              }}
+            >
+              <Box component="main">
                 <div
                   style={{
                     display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
                     paddingTop: "0px",
                     marginTop: "5px",
                   }}
                 >
                   <Typography
                     variant="h5"
-                    style={{ color: "#FFFFFF", paddingTop: "10px" }}
+                    style={{
+                      color: "#FFFFFF",
+                      paddingTop: "2rem",
+                      fontFamily: "Montserrat, sans serif",
+                      fontSize: "38px",
+                      fontWeight: 700,
+                      paddingLeft: "1.5rem",
+                    }}
                   >
                     CALORIE TRACKER
                   </Typography>
                 </div>
 
                 <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
-                  <Grid container spacing={0}>
+                  <Grid
+                    container
+                    spacing={0}
+                    sx={{
+                      display: "flex",
+                      justifyContent: "center",
+                      overflowX: "hidden",
+                      overflowY: "auto",
+                      "&::-webkit-scrollbar": {
+                        width: "15px",
+                      },
+                      "&::-webkit-scrollbar-thumb": {
+                        backgroundColor: "#161616",
+                        borderRadius: "10px",
+                      },
+                      alignItems: "center",
+                      borderRadius: "10px",
+                      height: "800px",
+                    }}
+                  >
                     <Grid item xs={12}>
                       <Paper
-                        sx={{ pb: 2, display: "flex", flexDirection: "column" }}
-                        style={{ backgroundColor: "#202020" }}
+                        style={{
+                          backgroundColor: "#202020",
+                          paddingBottom: "1rem",
+                        }}
                       >
                         <MealContainer />
                       </Paper>
