@@ -251,10 +251,9 @@
 .viewWorkoutBtn {
   background-color: #03dac5;
   outline: none;
-  border: none;
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
-  color: #191919;
+  color: #161616;
   border-radius: 5px;
   padding: 0.5rem 1rem;
   margin-top: 0.5rem;
