@@ -27,12 +27,11 @@ export default function Learn() {
           <div className={styles.whyContent}>
             <p className={styles.contentHeader}>Why Peak?</p>
             <p>
-              We offer a variety of benefits and services so you can achieve
-              your goals for the year! Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-              exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat.
+              As lifters, we recognize the need to streamline the way we record
+              our workouts. Our unique feed system allows users to share their
+              lifts with friends, promoting accountability and growth. This, in
+              tandem with our various tracking features, makes Peak the ultimate
+              comprehensive workout bookkeeping experience.
             </p>
           </div>
           <div className={styles.offerContent}>
