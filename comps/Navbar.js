@@ -19,7 +19,7 @@ import { borderRadius } from "@mui/system";
 import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import MenuIcon from "@material-ui/icons/Menu";
 import Menu from "@mui/material/Menu";
 import IconButton from "@mui/material/IconButton";
@@ -45,6 +45,7 @@ const Navbar = () => {
   const currentRoute = router.pathname;
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
+  const [pfp, setPfp] = useState(null);
 
   const signout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -90,6 +91,19 @@ const Navbar = () => {
   const handleLinkClick = (link) => {
     setActiveLink(link);
   };
+
+  const getPfp = async () => {
+    const { data, error } = await supabase
+      .from("user")
+      .select("avatar_url")
+      .eq("auth_id", session.user.id)
+      .single();
+    setPfp(data.avatar_url);
+  };
+
+  useEffect(() => {
+    getPfp();
+  }, [session]);
 
   return session ? (
     <ThemeProvider theme={darkTheme}>
@@ -308,7 +322,9 @@ const Navbar = () => {
                 aria-haspopup="true"
                 onClick={handleToggle}
               >
-                <Avatar src="/pfp.png" />
+                <Avatar
+                  src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${pfp}`}
+                />
               </Button>
               <Popper
                 open={open}

@@ -4,6 +4,7 @@ import {
   useSupabaseClient,
   useSession,
 } from "@supabase/auth-helpers-react";
+import Head from "next/head";
 
 import Navbar from "../comps/Navbar";
 
@@ -265,6 +266,9 @@ export default function Account() {
 
   return session ? (
     <>
+      <Head>
+        <title>Edit Profile</title>
+      </Head>
       <Navbar />
       <Container
         maxWidth="lg"

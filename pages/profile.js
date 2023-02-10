@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Head from "next/head";
 import {
   useUser,
   useSupabaseClient,
@@ -130,6 +131,9 @@ export default function Account() {
 
   return session ? (
     <>
+      <Head>
+        <title>Profile</title>
+      </Head>
       <Navbar />
       <Container
         maxWidth="lg"
