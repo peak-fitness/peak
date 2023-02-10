@@ -137,35 +137,43 @@ const CaloriesBar = ({
                 height: "90px",
                 width: "90px",
                 borderRadius: "50%",
-                backgroundColor: "green",
+                backgroundColor: caloriesLeft < 0 ? "#a83c32" : "green",
                 display: "flex",
                 flexDirection: "column",
                 justifyContent: "center",
                 alignItems: "center",
               }}
             >
-              <Typography variant="h6" style={{ color: "white" }}>
-                {caloriesLeft}
-              </Typography>
+              {caloriesLeft < 0 ? (
+                <>
+                  <Typography variant="h6" style={{ color: "white" }}>
+                    {Math.abs(caloriesLeft)}
+                  </Typography>
 
-              <Typography variant="subtitle2"> Calories Left</Typography>
+                  <Typography variant="subtitle2"> Calories Over</Typography>
+                </>
+              ) : caloriesLeft === 0 ? (
+                <>
+                  <Typography variant="subtitle2">
+                    {" "}
+                    Calories Goal Reached!
+                  </Typography>
+                </>
+              ) : (
+                <>
+                  <Typography variant="h6" style={{ color: "white" }}>
+                    {caloriesLeft}
+                  </Typography>
+
+                  <Typography variant="subtitle2"> Calories Left</Typography>
+                </>
+              )}
             </div>
           </Grid>
         </Grid>
       </div>
     </Container>
   );
-};
-
-export const getServerSideProps = async () => {
-  // const supabase = useSupabaseClient();
-  // const session = useSession();
-  const { data, error } = await supabase.from("user").select("target_calories");
-  console.log("ERROR", data);
-  // .eq("auth_id", session.user.id);
-  return {
-    props: { data },
-  };
 };
 
 export default CaloriesBar;
