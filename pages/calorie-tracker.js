@@ -162,13 +162,21 @@ export default function Calories() {
   useEffect(() => {}, [isLoading]);
 
   if (session && !isLoading) {
-    <Head>
-      <title>Calorie Tracker</title>
-    </Head>;
-    return <CaloriesContent />;
+    return (
+      <>
+        <Head>
+          <title>Calorie Tracker</title>
+        </Head>
+        ;
+        <CaloriesContent />
+      </>
+    );
   } else if (!session && !isLoading) {
     return (
       <>
+        <Head>
+          <title>Calorie Tracker</title>
+        </Head>
         <Navbar />
         <Container
           maxWidth="lg"
