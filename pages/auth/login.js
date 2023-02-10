@@ -16,11 +16,14 @@ import {
 
 import { ArrowRightAlt, Google, Facebook, East } from "@mui/icons-material";
 
+import ResetPasswordModal from "@/LoginComponents/ResetPassword";
+
 export default function Login() {
   const supabase = useSupabaseClient();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [failedLogin, setFailedLogin] = useState(false);
+  const [resetOpen, setResetOpen] = useState(false);
   const router = useRouter();
   const session = useSession();
 
@@ -257,6 +260,17 @@ export default function Login() {
                   />
                 </Grid>
                 <Grid item xs={12}>
+                  <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                    <p
+                      style={{
+                        textDecoration: "underline",
+                        cursor: "pointer",
+                      }}
+                      onClick={() => setResetOpen(true)}
+                    >
+                      Forgot Password?
+                    </p>
+                  </Box>
                   <TextField
                     sx={{
                       backgroundColor: "#242424",
@@ -326,6 +340,7 @@ export default function Login() {
               Sign in with Facebook
             </Button>
           </Box>
+          {resetOpen ? <ResetPasswordModal setResetOpen={setResetOpen} /> : ""}
         </Container>
       </Container>
     </>
