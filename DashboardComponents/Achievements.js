@@ -48,11 +48,8 @@ export default function Achievements() {
 
   useEffect(() => {
     fetchCurrentUserId();
-  }, [currentUserId]);
-
-  useEffect(() => {
     fetchAllAchievements();
-  });
+  }, [currentUserId]);
 
   const fetchCurrentUserId = async () => {
     if (session) {
