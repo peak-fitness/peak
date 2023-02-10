@@ -33,11 +33,6 @@ const darkTheme = createTheme({
 const mdTheme = createTheme();
 
 function CaloriesContent() {
-  const [open, setOpen] = React.useState(true);
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
-
   return (
     <ThemeProvider theme={darkTheme}>
       <div>
