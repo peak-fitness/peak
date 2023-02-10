@@ -13,7 +13,7 @@
   display: flex;
   flex-flow: column;
   width: 95%;
-  height: 90vh;
+  height: 85vh;
   margin: 1rem;
   padding: 1rem 2rem;
   background-color: #262626;
@@ -175,9 +175,6 @@
   bottom: 0;
   right: 0;
   height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: rgba(0, 0, 0, 0.5);
   z-index: 1;
 }
@@ -186,7 +183,6 @@
   display: flex;
   width: 70%;
   height: 70vh;
-  justify-content: center;
   background-color: #242424;
   padding: 1rem;
   border-radius: 10px;
