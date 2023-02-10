@@ -93,6 +93,9 @@ const Navbar = () => {
   };
 
   const getPfp = async () => {
+    if (!session) {
+      return;
+    }
     const { data, error } = await supabase
       .from("user")
       .select("avatar_url")
