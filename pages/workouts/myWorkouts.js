@@ -50,7 +50,7 @@ export default function MyWorkouts() {
       fetchHighlightedDays();
       fetchPrDays();
     }
-  }, [date]);
+  }, [date, refresh]);
 
   useEffect(() => {
     updateWorkoutAchievements();
