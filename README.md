@@ -22,7 +22,7 @@ Peak is a health tracking website that strives to bring users closer to their fi
 - Keep track of when you've gone to the gym with the attendance tracker. Visually tracks when you've uploaded a workout to the app and keeps track of your streaks.
 - Workout journal to keep track of your workouts (exercise, sets, reps) for the entire year.
 - Calculate your calories through our tracker that lets you input custom meals for breakfast, lunch, and dinner.
-- Find motivation through accountability groups, where anyone can join up with friends and have their workouts automatically sent to the group.
+- Find motivation and be held accountable by tracking your workouts with friends. Add other users on the app as friends, and get a personalized feed of your friends' lifts.
 - Gain achievements through challenges to push motivation and show off by displaying them on your personal profile.
 
 ## Screenshots
@@ -66,10 +66,10 @@ Peak is a health tracking website that strives to bring users closer to their fi
 
 ## Contributors
 
-| Name         | Github                                    | LinkedIn                              |
-| ------------ | ----------------------------------------- | ------------------------------------- |
-| Sean Brown   | [Github](https://github.com/sbrown5757)   | [LinkedIn](https://www.linkedin.com/) |
-| Warren Chan  | [Github](https://github.com/warrenchan13) | [LinkedIn](https://www.linkedin.com/) |
-| Bryan Olivo  | [Github](https://github.com/olivob)       | [LinkedIn](https://www.linkedin.com/) |
-| Jahed Prince | [Github](https://github.com/jahedprince)  | [LinkedIn](https://www.linkedin.com/) |
-| Justin Suh   | [Github](https://github.com/justindjsuh)  | [LinkedIn](https://www.linkedin.com/) |
+| Name         | Github                                    | LinkedIn                                              |
+| ------------ | ----------------------------------------- | ----------------------------------------------------- |
+| Sean Brown   | [Github](https://github.com/sbrown5757)   | [LinkedIn](https://www.linkedin.com/in/seanbrown71/)  |
+| Warren Chan  | [Github](https://github.com/warrenchan13) | [LinkedIn](https://www.linkedin.com/in/wachan/)       |
+| Bryan Olivo  | [Github](https://github.com/olivob)       | [LinkedIn](https://www.linkedin.com/in/bryanolivo/)   |
+| Jahed Prince | [Github](https://github.com/jahedprince)  | [LinkedIn](https://www.linkedin.com/in/jahedprince/)  |
+| Justin Suh   | [Github](https://github.com/justindjsuh)  | [LinkedIn](https://www.linkedin.com/in/justin-suh98/) |
