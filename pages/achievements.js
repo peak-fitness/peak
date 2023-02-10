@@ -16,8 +16,6 @@ import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@mui/material/styles";
 import Link from "next/link";
-import { set } from "date-fns";
-import { SecurityUpdate } from "@mui/icons-material";
 
 const darkTheme = createTheme({
   palette: {
