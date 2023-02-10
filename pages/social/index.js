@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "@/styles/Groups.module.css";
 import {
   Container,
@@ -27,6 +27,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Feed from "@/SocialComponents/Feed";
+import Head from "next/head";
 
 export default function Groups() {
   const [tab, setTab] = useState(true);
@@ -46,10 +47,10 @@ export default function Groups() {
     setTab(false);
   };
 
-  const getAllUsers = async () => {
+  const getAllUsers = useCallback(async () => {
     const { data, error } = await supabase.from("user").select("id, username");
     setAllUsers(data);
-  };
+  }, [supabase]);
 
   const handleRequestAccept = async (requestId) => {
     try {
@@ -60,6 +61,7 @@ export default function Groups() {
         .eq("id", requestId)
         .single();
       getProfile();
+      updateFriendsAchievement();
       toast.success("Request Accepted!", {
         position: "bottom-right",
         autoClose: 3000,
@@ -104,7 +106,26 @@ export default function Groups() {
     }
   };
 
-  const getProfile = async () => {
+  const updateFriendsAchievement = async () => {
+    if (Object.keys(user).length !== 0) {
+      if (friends.length >= 2) {
+        const { error } = await supabase
+          .from("userAchievements")
+          .update({ achieved: true })
+          .eq("user_id", user.id)
+          .eq("a_id", 3);
+      } else {
+        const { error } = await supabase
+          .from("userAchievements")
+          .update({ achieved: false })
+          .eq("user_id", user.id)
+          .eq("a_id", 3);
+      }
+    }
+  };
+
+  const getProfile = useCallback(async () => {
+    const friendsArr = [];
     if (session !== null) {
       const user = await supabase
         .from("user")
@@ -120,16 +141,21 @@ export default function Groups() {
         .select("id, addressee_id, addressee_username")
         .eq("requester_id", user.data.id)
         .eq("status_code", "Accepted");
-
+      if (friendspt1.data.length > 0) {
+        friendsArr.push(...friendspt2.data);
+      }
       // Getting friends where the user.id is the addressee
       const friendspt2 = await supabase
         .from("friends")
         .select("id, requester_id, requester_username")
         .eq("addressee_id", user.data.id)
         .eq("status_code", "Accepted");
-      setFriends([...friendspt1.data, ...friendspt2.data]);
+      if (friendspt2.data.length > 0) {
+        friendsArr.push(...friendspt2.data);
+      }
+      setFriends(friendsArr);
     } else return;
-  };
+  }, [session, supabase]);
 
   const handleOnSelect = (item) => {
     router.push(`/social/${item.username}`);
@@ -164,10 +190,13 @@ export default function Groups() {
   useEffect(() => {
     getProfile();
     getAllUsers();
-  }, [session]);
+  }, [getProfile, getAllUsers]);
 
   return session ? (
     <>
+      <Head>
+        <title>Social</title>
+      </Head>
       <Navbar />
       {isLoading ? (
         ""
@@ -229,31 +258,38 @@ export default function Groups() {
                         />{" "}
                       </div>
                       {/* Map over all the friends */}
-                      {friends.map((friend) => (
-                        <div key={friend.id} className={styles.friend}>
-                          <AccountCircleIcon
-                            id={styles.icon}
-                            sx={{
-                              color: "#fafafa",
-                              height: "40px",
-                              width: "40px",
-                            }}
-                          />
-                          <Link
-                            href={`/social/${
-                              friend.addressee_username
-                                ? friend.addressee_username
-                                : friend.requester_username
-                            }`}
-                          >
-                            <p>
-                              {friend.addressee_username
-                                ? friend.addressee_username
-                                : friend.requester_username}
-                            </p>
-                          </Link>
+                      {friends.length === 0 ? (
+                        <div className={styles.noFriends}>
+                          <p>No friends yet :&#40;</p>
+                          <p>Search users to add them!</p>
                         </div>
-                      ))}
+                      ) : (
+                        friends.map((friend) => (
+                          <div key={friend.id} className={styles.friend}>
+                            <AccountCircleIcon
+                              id={styles.icon}
+                              sx={{
+                                color: "#fafafa",
+                                height: "40px",
+                                width: "40px",
+                              }}
+                            />
+                            <Link
+                              href={`/social/${
+                                friend.addressee_username
+                                  ? friend.addressee_username
+                                  : friend.requester_username
+                              }`}
+                            >
+                              <p>
+                                {friend.addressee_username
+                                  ? friend.addressee_username
+                                  : friend.requester_username}
+                              </p>
+                            </Link>
+                          </div>
+                        ))
+                      )}
                     </div>
                   ) : (
                     <div className={styles.requestContainer}>
