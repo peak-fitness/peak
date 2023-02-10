@@ -42,7 +42,7 @@ export default function AchievementsPage() {
     fetchCurrentUserId();
     fetchAllAchievements();
     getProfile();
-  }, [currentUserId]);
+  }, [currentUserId, session]);
 
   useEffect(() => {
     updateFriendsAchievement();
