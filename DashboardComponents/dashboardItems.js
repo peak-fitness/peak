@@ -19,6 +19,7 @@ import {
 } from "@supabase/auth-helpers-react";
 import Navbar from "../comps/Navbar";
 import { Box, Button } from "@mui/material";
+import CalculateIcon from "@mui/icons-material/Calculate";
 
 const DashboardItems = () => {
   const router = useRouter();
@@ -110,7 +111,11 @@ const DashboardItems = () => {
                 onClick={() => (window.location.href = "/dashboard")}
               >
                 <ListItemIcon>
-                  <DashboardIcon />
+                  <DashboardIcon
+                    style={{
+                      color: "#FF3131",
+                    }}
+                  />
                 </ListItemIcon>
 
                 <ListItemText primary="Dashboard" />
@@ -120,7 +125,11 @@ const DashboardItems = () => {
                 onClick={() => (window.location.href = "/workouts/myWorkouts")}
               >
                 <ListItemIcon>
-                  <FitnessCenterRoundedIcon />
+                  <FitnessCenterRoundedIcon
+                    style={{
+                      color: "#567CFF",
+                    }}
+                  />
                 </ListItemIcon>
                 <ListItemText primary="Workouts" />
               </ListItemButton>
@@ -129,7 +138,11 @@ const DashboardItems = () => {
                 onClick={() => (window.location.href = "/social")}
               >
                 <ListItemIcon>
-                  <Groups2RoundedIcon />
+                  <Groups2RoundedIcon
+                    style={{
+                      color: "#C724B1",
+                    }}
+                  />
                 </ListItemIcon>
                 <ListItemText primary="Social" />
               </ListItemButton>
@@ -138,7 +151,11 @@ const DashboardItems = () => {
                 onClick={() => (window.location.href = "/calorie-tracker")}
               >
                 <ListItemIcon>
-                  <ShowChartRoundedIcon />
+                  <CalculateIcon
+                    style={{
+                      color: "#44D62C",
+                    }}
+                  />
                 </ListItemIcon>
 
                 <ListItemText primary="Calorie Tracker" />
@@ -148,7 +165,7 @@ const DashboardItems = () => {
                 onClick={() => (window.location.href = "/achievements")}
               >
                 <ListItemIcon>
-                  <EmojiEventsRoundedIcon />
+                  <EmojiEventsRoundedIcon style={{ color: "#FFAD00" }} />
                 </ListItemIcon>
                 <ListItemText primary="Achievements" />
               </ListItemButton>
