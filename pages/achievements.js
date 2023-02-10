@@ -151,6 +151,7 @@ export default function AchievementsPage() {
                   color: "#fafafa",
                   fontWeight: 700,
                   marginBottom: "2rem",
+                  fontFamily: "Montserrat, sans serif",
                 }}
               >
                 ACHIEVEMENTS
@@ -231,26 +232,23 @@ export default function AchievementsPage() {
                                     color: "#FFFFFF",
                                     fontWeight: 700,
                                     ml: "2rem",
+                                    fontFamily: "Montserrat, sans serif",
                                   }}
                                 >
                                   {achievement.achievements.name}
                                 </Typography>
                                 <Typography
                                   variant="subtitle2"
-                                  sx={{ color: "#FFFFFF", ml: "2rem" }}
+                                  sx={{
+                                    color: "#FFFFFF",
+                                    ml: "2rem",
+                                    fontFamily: "Montserrat, sans serif",
+                                  }}
                                 >
                                   {achievement.achievements.requirement}
                                 </Typography>
                               </Box>
                             </Box>
-                            {/* <Box>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{ color: "#A4A4A4" }}
-                          >
-                            {trophy.completeDate}
-                          </Typography>
-                        </Box> */}
                           </CardContent>
                         </Card>
                       </Grid>
