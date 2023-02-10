@@ -108,7 +108,6 @@ export default function Groups() {
 
   const updateFriendsAchievement = async () => {
     if (Object.keys(user).length !== 0) {
-      console.log("TESTTTT", friends);
       if (friends.length >= 2) {
         const { error } = await supabase
           .from("userAchievements")

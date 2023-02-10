@@ -11,8 +11,6 @@ export default function Feed({ user, friends }) {
   const [scrollContainer, setScrollContainer] = useState(
     document.getElementById("feed-container")
   );
-  // console.log("USER", user);
-  // console.log("WORKOUTSSS", friendWorkouts);
   const fetchFriendWorkouts = useCallback(async () => {
     const friendWorkOutArr = [];
     if (user.id) {
@@ -26,7 +24,6 @@ export default function Feed({ user, friends }) {
     }
     for (const index in friends) {
       if (friends[index].requester_id) {
-        // console.log("-----TEST------");
         const workout = await supabase
           .from("workout")
           .select("id, notes, routine, duration, date")
@@ -59,12 +56,21 @@ export default function Feed({ user, friends }) {
   //     feedContainer.scrollTop = feedContainer.scrollHeight;
   //   };
 
-  const handleModalClick = (evt, workoutUsername) => {
+  const handleModalClick = (
+    evt,
+    workoutUsername,
+    workoutDuration,
+    workoutDate,
+    workoutName
+  ) => {
     const el = document.querySelector("body");
     el.classList.toggle("modal-open");
     setSelectedWorkout({
       workoutId: evt.target.value,
       workoutUsername,
+      workoutDuration,
+      workoutDate,
+      workoutName,
     });
     setShowModal(true);
   };
@@ -127,7 +133,13 @@ export default function Feed({ user, friends }) {
                     className={styles.viewWorkoutBtn}
                     value={workout.id}
                     onClick={(e) => {
-                      handleModalClick(e, workout.username);
+                      handleModalClick(
+                        e,
+                        workout.username,
+                        workout.duration,
+                        workout.date,
+                        workout.routine
+                      );
                     }}
                   >
                     View Workout
