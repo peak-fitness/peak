@@ -115,7 +115,7 @@ const CaloriesBar = ({
         flexDirection: "column",
         height: 120,
       }}
-      style={{ backgroundColor: "#0F2B0E" }}
+      style={{ backgroundColor: "#0F2B0E", borderRadius: "10px" }}
     >
       <div>
         <Grid container spacing={3} alignItems="center" justifyContent="center">

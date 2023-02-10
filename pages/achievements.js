@@ -16,8 +16,6 @@ import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@mui/material/styles";
 import Link from "next/link";
-import { set } from "date-fns";
-import { SecurityUpdate } from "@mui/icons-material";
 
 const darkTheme = createTheme({
   palette: {
@@ -130,7 +128,7 @@ export default function AchievementsPage() {
             sx={{
               display: "flex",
               flexFlow: "column",
-              minWidth: "97.5%",
+              width: "97.5%",
               height: "100vh",
             }}
           >
@@ -153,6 +151,9 @@ export default function AchievementsPage() {
                   color: "#fafafa",
                   fontWeight: 700,
                   marginBottom: "2rem",
+                  fontFamily: "Montserrat, sans serif",
+                  pb: "5px",
+                  pl: "6px",
                 }}
               >
                 ACHIEVEMENTS
@@ -233,26 +234,23 @@ export default function AchievementsPage() {
                                     color: "#FFFFFF",
                                     fontWeight: 700,
                                     ml: "2rem",
+                                    fontFamily: "Montserrat, sans serif",
                                   }}
                                 >
                                   {achievement.achievements.name}
                                 </Typography>
                                 <Typography
                                   variant="subtitle2"
-                                  sx={{ color: "#FFFFFF", ml: "2rem" }}
+                                  sx={{
+                                    color: "#FFFFFF",
+                                    ml: "2rem",
+                                    fontFamily: "Montserrat, sans serif",
+                                  }}
                                 >
                                   {achievement.achievements.requirement}
                                 </Typography>
                               </Box>
                             </Box>
-                            {/* <Box>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{ color: "#A4A4A4" }}
-                          >
-                            {trophy.completeDate}
-                          </Typography>
-                        </Box> */}
                           </CardContent>
                         </Card>
                       </Grid>
