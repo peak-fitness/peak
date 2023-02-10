@@ -43,12 +43,12 @@ export default function Achievements() {
   const supabase = useSupabaseClient();
   const session = useSession();
   const router = useRouter();
-  const [achievements, setAchievements] = useState(null);
+  const [achievements, setAchievements] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
 
   useEffect(() => {
     fetchCurrentUserId();
-    fetchAllAchievements();
+    fetchUserAchievements();
   }, [currentUserId]);
 
   const fetchCurrentUserId = async () => {
@@ -62,15 +62,17 @@ export default function Achievements() {
     }
   };
 
-  const fetchAllAchievements = async () => {
-    const { data, error } = await supabase
-      .from("userAchievements")
-      .select(
-        `*, achievements(id, name, requirement), user(first_name, last_name, height, current_weight, target_weight, target_calories, age, gender)`
-      )
-      .order("achieved", { ascending: false })
-      .eq("user_id", currentUserId);
-    setAchievements(data);
+  const fetchUserAchievements = async () => {
+    if (currentUserId) {
+      const { data, error } = await supabase
+        .from("userAchievements")
+        .select(
+          `*, achievements(id, name, requirement), user(first_name, last_name, height, current_weight, target_weight, target_calories, age, gender)`
+        )
+        .eq("user_id", currentUserId)
+        .eq("achieved", true);
+      setAchievements(data);
+    }
   };
 
   const checkUser = async () => {
@@ -92,7 +94,7 @@ export default function Achievements() {
       >
         <Title>Achievements</Title>
         <Grid container spacing={2} alignItems="center" justifyContent="center">
-          {achievements && achievements.achieved ? (
+          {achievements ? (
             achievements.map((achievement, index) => (
               <Grid item key={index}>
                 {achievement.achieved ? (
@@ -104,6 +106,9 @@ export default function Achievements() {
                         fontSize: "3rem",
                       }}
                     />
+                    <Typography variant="p">
+                      {achievement.achievements.name}
+                    </Typography>
                   </Box>
                 ) : null}
               </Grid>
