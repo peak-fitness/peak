@@ -20,48 +20,51 @@ export default function CreateUsername() {
   const router = useRouter();
   const session = useSession();
 
-  console.log(session.user);
-
   const handleSubmit = async (evt) => {
     evt.preventDefault();
-    const id = session.user.id;
-    const email = session.user.email;
+    if (session) {
+      const id = session.user.id;
+      const email = session.user.email;
 
-    const usernames = await supabase.from("user").select("username");
+      const usernames = await supabase.from("user").select("username");
 
-    const checkUsernames = (usernameArr) => {
-      for (const name of usernameArr) {
-        if (name.username === username) {
-          return false;
+      const checkUsernames = (usernameArr) => {
+        for (const name of usernameArr) {
+          if (name.username === username) {
+            return false;
+          }
         }
-      }
-      return true;
-    };
+        return true;
+      };
 
-    if (checkUsernames(usernames.data)) {
-      setFailed(false);
-      const res = await supabase
-        .from("user")
-        .insert({
-          auth_id: id,
-          email: email,
-          username: username,
-        })
-        .select("*");
-      const userId = await supabase.from("user").select("id").eq("auth_id", id);
-      const achievements = await supabase.from("achievements").select();
-      achievements.data.map(async (achievement) => {
-        const { error } = await supabase
-          .from("userAchievements")
-          .insert({ user_id: userId.data[0].id, a_id: achievement.id })
+      if (checkUsernames(usernames.data)) {
+        setFailed(false);
+        const res = await supabase
+          .from("user")
+          .insert({
+            auth_id: id,
+            email: email,
+            username: username,
+          })
           .select("*");
-      });
-      if (res.data) {
-        router.push("/auth/signup/info");
+        const userId = await supabase
+          .from("user")
+          .select("id")
+          .eq("auth_id", id);
+        const achievements = await supabase.from("achievements").select();
+        achievements.data.map(async (achievement) => {
+          const { error } = await supabase
+            .from("userAchievements")
+            .insert({ user_id: userId.data[0].id, a_id: achievement.id })
+            .select("*");
+        });
+        if (res.data) {
+          router.push("/auth/signup/info");
+        }
+      } else {
+        setFailed(true);
+        setUsername("");
       }
-    } else {
-      setFailed(true);
-      setUsername("");
     }
   };
 
