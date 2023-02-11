@@ -30,6 +30,7 @@
   min-height: 70vh;
   background-color: #0c0c0c;
   padding: 2rem;
+  border: 1px solid #0c0c0c;
   border-radius: 10px;
 }
 
@@ -75,7 +76,7 @@
 
 .personalRecord {
   font-size: 12px;
-  transform: translateY(-10px);
+  transform: translateX(-5px) translateY(-8px);
   color: #03dac5;
 }
 
@@ -99,6 +100,7 @@
   border: none;
   border-radius: 10px;
   padding: 0.5rem;
+  cursor: pointer;
 }
 
 .exercise p {
@@ -187,7 +189,7 @@
 
 .weightContainer p:first-child {
   position: absolute;
-  transform: translateX(-15px) translateY(-2px);
+  transform: translateX(-15px) translateY(-4px);
 }
 
 .weightContainer p:last-child {
@@ -197,7 +199,7 @@
 
 .repsContainer p:first-child {
   position: absolute;
-  transform: translateX(-15px) translateY(-2px);
+  transform: translateX(-15px) translateY(-4px);
 }
 
 .repsContainer {
