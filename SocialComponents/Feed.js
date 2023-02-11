@@ -13,15 +13,7 @@ export default function Feed({ user, friends }) {
   );
   const fetchFriendWorkouts = useCallback(async () => {
     const friendWorkOutArr = [];
-    if (user.id) {
-      const userWorkouts = await supabase
-        .from("workout")
-        .select("*")
-        .eq("user_id", user.id);
-      if (userWorkouts.data) {
-        friendWorkOutArr.push(...userWorkouts.data);
-      }
-    }
+
     for (const index in friends) {
       if (friends[index].requester_id) {
         const workout = await supabase

@@ -28,7 +28,6 @@
 .modalContainer {
   width: 100%;
   min-height: 70vh;
-  /* overflow: auto; */
   background-color: #0c0c0c;
   padding: 2rem;
   border-radius: 10px;
@@ -135,7 +134,7 @@
   flex: 1 1 0px;
 }
 
-.notesContainer p {
+.notesContainer p:last-child {
   margin: 0;
 }
 
@@ -143,6 +142,7 @@
   font-size: 22px;
   font-weight: 500;
   margin: 0;
+  margin-bottom: 0.5rem;
 }
 
 .workoutContainer {
@@ -159,6 +159,7 @@
 .setContainerHeader {
   font-size: 22px;
   margin: 0;
+  margin-bottom: 0.5rem;
 }
 
 .sets p {

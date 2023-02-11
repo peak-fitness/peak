@@ -48,7 +48,7 @@
   display: flex;
   flex-flow: column;
   height: 70vh;
-  background-color: #242424;
+  background-color: #1a1a1a;
   border-radius: 10px;
 }
 
@@ -69,6 +69,10 @@
   background-color: #262626;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+}
+
+.friendsTabs button:first-child {
+  transform: translateY(-2px);
 }
 
 .friendsTabs .active {
@@ -183,7 +187,7 @@
   display: flex;
   width: 70%;
   height: 70vh;
-  background-color: #242424;
+  background-color: #1a1a1a;
   padding: 1rem;
   border-radius: 10px;
   overflow: auto;
@@ -212,7 +216,7 @@
 }
 
 .workout {
-  background-color: #191919;
+  background-color: #0c0c0c;
   border-radius: 15px;
   padding: 1rem;
 }
