@@ -216,11 +216,7 @@
   font-weight: 600;
 }
 
-.setsItem {
-  /* text-align: center; */
-}
-
-.closeBtn {
+#close {
   font-size: 12px;
   border: solid 1px #03dac5;
   background-color: transparent;
@@ -232,7 +228,7 @@
   animation-fill-mode: forwards;
 }
 
-.closeBtn:hover {
+#close:hover {
   background-color: #03dac5;
   color: #0c0c0c;
   transition: all 100ms linear;

@@ -65,7 +65,11 @@ export default function WorkoutModal({ setShowModal, selectedWorkout }) {
     <div className={styles.container}>
       <div className={styles.modalContainer}>
         <div className={styles.btnBox}>
-          <Button className={styles.closeBtn} onClick={handleToggle}>
+          <Button
+            id={styles.close}
+            className={styles.closeBtn}
+            onClick={handleToggle}
+          >
             Close
           </Button>
         </div>
