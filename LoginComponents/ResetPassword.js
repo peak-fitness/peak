@@ -9,7 +9,7 @@ export default function ResetPasswordModal({ setResetOpen }) {
 
   const handleReset = async () => {
     const { data, error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: "http://localhost:3000/auth/update-password",
+      redirectTo: "https://peakfitness.netlify.app/auth/update-password",
     });
     if (data) {
       setSent(true);
