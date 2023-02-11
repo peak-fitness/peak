@@ -39,9 +39,10 @@ export default function Learn() {
             <div className={styles.services}>
               <div className={styles.service}>
                 <GroupIcon style={{ fontSize: "75px", color: "#03dac5" }} />
-                <p className={styles.serviceHeader}>Accountability Groups</p>
+                <p className={styles.serviceHeader}>Accountability Feed</p>
                 <p>
-                  Find other passionate people to keep you going to the gym!
+                  Share your workouts with your friends to keep each other
+                  accountable!
                 </p>
               </div>
               <div className={styles.service}>
