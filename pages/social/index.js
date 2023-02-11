@@ -142,7 +142,7 @@ export default function Groups() {
         .eq("requester_id", user.data.id)
         .eq("status_code", "Accepted");
       if (friendspt1.data.length > 0) {
-        friendsArr.push(...friendspt2.data);
+        friendsArr.push(...friendspt1.data);
       }
       // Getting friends where the user.id is the addressee
       const friendspt2 = await supabase
