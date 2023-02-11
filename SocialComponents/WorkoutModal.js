@@ -55,10 +55,12 @@ export default function WorkoutModal({ setShowModal, selectedWorkout }) {
 
   useEffect(() => {
     if (workoutDetails) {
-      setWorkoutDisplayed(workoutDetails[0].name);
-      setSingleWorkout(workoutDetails[0]);
+      if (!singleWorkout) {
+        setWorkoutDisplayed(workoutDetails[0].name);
+        setSingleWorkout(workoutDetails[0]);
+      }
     }
-  }, [workoutDetails]);
+  }, [workoutDetails, singleWorkout]);
 
   return (
     <div className={styles.container}>
@@ -127,6 +129,7 @@ export default function WorkoutModal({ setShowModal, selectedWorkout }) {
               </div>
               <p className={styles.setContainerHeader}>Sets</p>
               <div className={styles.setContainer}>
+                {console.log("SINGLE WORKOUT", singleWorkout)}
                 {singleWorkout.sets &&
                   singleWorkout.sets.map((set, idx) => {
                     return (
