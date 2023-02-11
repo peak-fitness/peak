@@ -266,7 +266,6 @@ export default function Groups() {
                       ) : (
                         friends.map((friend) => (
                           <div key={friend.id} className={styles.friend}>
-                            {console.log(friend)}
                             <AccountCircleIcon
                               id={styles.icon}
                               sx={{

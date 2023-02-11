@@ -92,7 +92,6 @@ export default function Feed({ user, friends }) {
                   key={workout.id}
                   className={`${styles.workoutContainer} ${styles.myWorkout}`}
                 >
-                  {console.log("WORKOUT", workout)}
                   <div className={styles.workout}>
                     <div className={styles.workoutHeader}>
                       <div className={styles.postHeader}>
