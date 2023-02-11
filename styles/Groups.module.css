@@ -15,7 +15,7 @@
   width: 95%;
   height: 85vh;
   margin: 1rem;
-  padding: 1rem 2rem;
+  padding: 1rem;
   background-color: #262626;
   border-radius: 10px;
 }
@@ -23,7 +23,8 @@
 .content {
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-around;
+  justify-content: space-between;
+  height: 100%;
   gap: 1rem;
 }
 
@@ -42,13 +43,14 @@
 
 .friendsContainer {
   overflow: auto;
+  padding: 0.2rem 0.5rem;
 }
 
 .friends {
   display: flex;
   flex-flow: column;
-  height: 70vh;
-  background-color: #242424;
+  height: 100%;
+  background-color: #1a1a1a;
   border-radius: 10px;
 }
 
@@ -65,15 +67,22 @@
   width: 50%;
   height: 100%;
   border: 1px solid #161616;
+  border-bottom: none;
   padding: 0.5rem 3rem;
-  background-color: #262626;
+  background-color: #202020;
+}
+
+.friendsTabs button:first-child {
+  transform: translateY(-2px);
   border-top-left-radius: 10px;
+}
+.friendsTabs button:last-child {
   border-top-right-radius: 10px;
 }
 
 .friendsTabs .active {
   color: #03dac5;
-  background-color: #212121;
+  background-color: #1a1a1a;
 }
 
 .friendsTabs button p {
@@ -94,11 +103,14 @@
 .friend {
   display: flex;
   align-items: center;
-  padding-left: 2rem;
+  padding-left: 1rem;
+  padding-top: 5px;
+  padding-bottom: 5px;
   gap: 1rem;
-  background-color: #202020;
+  background-color: #1a1a1a;
   transition: background-color 0.3s;
-  border-top: 1px solid #161616;
+  border-top: 1px solid #141414;
+  border-radius: 5px;
 }
 
 .friend:last-child {
@@ -110,8 +122,8 @@
 }
 
 #icon {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
 }
 
 .searchUsers {
@@ -128,6 +140,7 @@
   display: flex;
   flex-flow: column;
   margin-top: 1rem;
+  padding: 0.3rem;
 }
 
 .requestContainer a {
@@ -138,15 +151,16 @@
 .request {
   display: flex;
   align-items: center;
-  padding: 0rem 1rem;
+  padding: 0.4rem 1rem;
   gap: 0.5rem;
-  background-color: #202020;
-  border-top: 1px solid #161616;
+  background-color: #1a1a1a;
+  border-radius: 10px;
+  border-top: 1px solid #141414;
   transition: background-color 0.3s;
 }
 
 .request:last-child {
-  border-bottom: 1px solid #161616;
+  border-bottom: 1px solid #141414;
 }
 
 .request:hover {
@@ -181,9 +195,10 @@
 
 .feedContainer {
   display: flex;
-  width: 70%;
-  height: 70vh;
-  background-color: #242424;
+  flex: 1;
+  height: 100%;
+  justify-content: center;
+  background-color: #1a1a1a;
   padding: 1rem;
   border-radius: 10px;
   overflow: auto;
@@ -193,13 +208,12 @@
 .feed {
   display: flex;
   flex-flow: column;
-  height: 300px;
   gap: 2rem;
   padding: 1rem;
 }
 
 .mainFeed {
-  margin-right: auto;
+  width: 100%;
 }
 
 .feedContainer::-webkit-scrollbar {
@@ -211,10 +225,17 @@
   border-radius: 10px;
 }
 
+.postHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .workout {
-  background-color: #191919;
-  border-radius: 15px;
-  padding: 1rem;
+  width: 70%;
+  background-color: #0c0c0c;
+  border-radius: 5px;
+  /* padding: 1rem; */
 }
 
 .workoutContainer p {
@@ -223,11 +244,37 @@
 
 .workoutContainer {
   z-index: 0;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
 }
 
 .workoutHeader {
   display: flex;
   justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  padding: 1rem;
+  font-size: 20px;
+  background-image: linear-gradient(
+    to right top,
+    #0c0c0c,
+    #0f0f0f,
+    #121212,
+    #141414,
+    #161616,
+    #161616,
+    #161616,
+    #161616,
+    #141414,
+    #121212,
+    #0f0f0f,
+    #0c0c0c
+  );
+}
+
+.postContent {
+  padding: 1rem;
 }
 
 .feedUsername {
@@ -235,13 +282,25 @@
 }
 
 .date {
+  display: flex;
+  align-items: center;
   color: #b6b6b6;
   font-size: 14px;
 }
 
 .details {
   display: flex;
-  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+}
+
+.details p:first-child {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.details p:last-child {
+  transform: translateY(3px);
 }
 
 .duration {
@@ -249,18 +308,33 @@
 }
 
 .viewWorkoutBtn {
-  background-color: #03dac5;
+  background-color: #161616;
   outline: none;
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
-  color: #161616;
+  color: #03dac5;
   border-radius: 5px;
   padding: 0.5rem 1rem;
   margin-top: 0.5rem;
   cursor: pointer;
 }
 
+.endOfFeed {
+  width: 100%;
+  text-align: center;
+  border-bottom: 1px solid #03dac5;
+  line-height: 0.1em;
+  margin: 10px 0 20px;
+}
+
+.endOfFeed span {
+  background-color: #1a1a1a;
+  padding: 0 10px;
+  font-weight: 500;
+}
+
 .noFriends {
+  padding: 3rem 0rem;
   text-align: center;
   font-size: 18px;
   font-weight: 500;
