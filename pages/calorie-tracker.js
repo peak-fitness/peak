@@ -35,7 +35,6 @@ function CaloriesContent() {
             display: "flex",
             flexFlow: "column",
             width: "97.5%",
-            height: "100vh",
           }}
         >
           <Grid>
