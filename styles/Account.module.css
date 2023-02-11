@@ -32,6 +32,7 @@
   width: 30%;
   border: 1px solid #03dac5;
   transition: 0.3s;
+  text-align: center;
 }
 
 .accountSettingsItem:hover {
@@ -90,6 +91,7 @@
 }
 
 .cancelBtn {
+  align-self: flex-end;
   width: 20%;
   border: solid 1px #03dac5;
   background-color: #191919;
@@ -147,4 +149,44 @@
 
 .dummyContainer {
   min-height: 100vh;
+}
+
+/* ------------- MODAL (USERNAME) ------------- */
+
+.inputBox {
+  display: flex;
+  flex-direction: column;
+}
+
+.usernameInput {
+  margin-top: 0.5rem;
+  background-color: #262626;
+  border: 1px solid #e8e8e8;
+  border-radius: 4px;
+  padding: 0.5rem;
+  font-size: 16px;
+  color: #e8e8e8;
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.inputLabelSeperator {
+  width: 100%;
+}
+
+.submitBtn {
+  padding: 0.5rem;
+  cursor: pointer;
+  background: linear-gradient(
+    90deg,
+    #03dac5,
+    #56ca82,
+    #89b33e,
+    #b59500,
+    #da6b03
+  );
+  border: none;
+  border-radius: 4px;
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.5);
+  width: 100%;
 }

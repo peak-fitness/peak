@@ -14,13 +14,13 @@ export default function AccountSettings() {
   let { isLoading, session, error } = useSessionContext();
   const [tab, setTab] = useState("");
   const [user, setUser] = useState("");
-  console.log(tab);
+  const [change, setChange] = useState(false);
 
   const getUser = async () => {
     if (!session) {
       return;
     }
-    console.log(session);
+
     let { data, error, status } = await supabase
       .from("user")
       .select(
@@ -32,11 +32,14 @@ export default function AccountSettings() {
       username: data.username,
       email: session.user.email,
     });
+    setChange(false);
   };
+
+  console.log(isLoading);
 
   useEffect(() => {
     getUser();
-  }, [isLoading]);
+  }, [isLoading, change]);
 
   return (
     <>
@@ -97,7 +100,12 @@ export default function AccountSettings() {
             <h1>Temp</h1>
           )}
           {tab !== "" && (
-            <ChangeSettingsModal user={setUser} tab={tab} setTab={setTab} />
+            <ChangeSettingsModal
+              user={user}
+              tab={tab}
+              setTab={setTab}
+              setChange={setChange}
+            />
           )}
         </div>
       </div>

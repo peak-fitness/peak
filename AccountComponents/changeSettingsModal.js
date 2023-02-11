@@ -2,11 +2,15 @@ import { supabase } from "@/lib/supabaseClient";
 import { useState } from "react";
 import styles from "@/styles/Account.module.css";
 import ChangeUsername from "@/AccountComponents/changeUsername";
+import ChangeEmail from "@/AccountComponents/changeEmail";
+import ChangePassword from "@/AccountComponents/changePassword";
 
-export default function ChangeSettingsModal({ user, tab, setTab }) {
+export default function ChangeSettingsModal({ user, tab, setTab, setChange }) {
   const [email, setEmail] = useState(null);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState(null);
+  console.log(user, "tab");
+  console.log(tab);
 
   return (
     <div className={styles.container}>
@@ -14,7 +18,15 @@ export default function ChangeSettingsModal({ user, tab, setTab }) {
         <button className={styles.cancelBtn} onClick={() => setTab("")}>
           Cancel
         </button>
-        {tab === "username" && <ChangeUsername user={user} setTab={setTab} />}
+        {tab === "username" && (
+          <ChangeUsername user={user} setTab={setTab} setChange={setChange} />
+        )}
+        {tab === "email" && (
+          <ChangeEmail user={user} setTab={setTab} setChange={setChange} />
+        )}
+        {tab === "password" && (
+          <ChangePassword user={user} setTab={setTab} setChange={setChange} />
+        )}
         {/* <p>
           Forgot your password? Enter your email and we&apos;ll send you a
           recovery link.
