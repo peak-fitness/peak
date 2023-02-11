@@ -70,6 +70,11 @@ const Navbar = () => {
     router.push("/profile");
   };
 
+  const handleAccount = () => {
+    setOpen(false);
+    router.push("/account");
+  };
+
   function handleListKeyDown(event) {
     if (event.key === "Tab") {
       event.preventDefault();
@@ -372,7 +377,7 @@ const Navbar = () => {
                           onKeyDown={handleListKeyDown}
                         >
                           <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                          <MenuItem onClick={handleClose}>Settings</MenuItem>
+                          <MenuItem onClick={handleAccount}>Account</MenuItem>
                           <MenuItem onClick={signout}>Logout</MenuItem>
                         </MenuList>
                       </ClickAwayListener>
