@@ -91,7 +91,7 @@ const DashboardItems = () => {
                 </ListItemIcon>
                 <div>
                   <Typography variant="body2">
-                    {firstName || `First Name`} {lastName || `Last Name`}
+                    {firstName || username} {lastName || ``}
                   </Typography>
                   <div style={{ width: "100%" }}>
                     <Divider color="5A5A5A" orientation="horizontal" flexItem />
