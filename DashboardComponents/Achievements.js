@@ -106,7 +106,7 @@ export default function Achievements() {
                         fontSize: "3rem",
                       }}
                     />
-                    <Typography variant="p">
+                    <Typography variant="subtitle2">
                       {achievement.achievements.name}
                     </Typography>
                   </Box>
