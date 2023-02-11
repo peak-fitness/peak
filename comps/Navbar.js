@@ -26,6 +26,7 @@ import IconButton from "@mui/material/IconButton";
 import * as React from "react";
 import { createTheme } from "@material-ui/core/styles";
 import { styled, ThemeProvider } from "@mui/material/styles";
+import Image from "next/image";
 
 const darkTheme = createTheme({
   palette: {
@@ -138,6 +139,21 @@ const Navbar = () => {
             >
               Peak
             </Typography>
+            <Box
+              marginLeft="10px"
+              sx={{
+                display: { xs: "none", md: "flex" },
+              }}
+            >
+              <Link href="/dashboard">
+                <Image
+                  src="/../public/logo.png"
+                  alt=""
+                  width={50}
+                  height={50}
+                />
+              </Link>
+            </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
@@ -399,6 +415,21 @@ const Navbar = () => {
             >
               Peak
             </Typography>
+            <Box
+              marginLeft="10px"
+              sx={{
+                display: { xs: "none", md: "flex" },
+              }}
+            >
+              <Link href="/">
+                <Image
+                  src="/../public/logo.png"
+                  alt=""
+                  width={50}
+                  height={50}
+                />
+              </Link>
+            </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
