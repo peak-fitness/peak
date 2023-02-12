@@ -28,6 +28,7 @@ import { ThemeProvider, styled } from "@mui/material/styles";
 import styles from "@/styles/CalorieTracker.module.css";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
+import { Modal } from "@material-ui/core";
 
 const theme = createTheme({
   palette: {
@@ -43,6 +44,10 @@ const CustomBadge = withStyles(() => ({
 const CustomizedCalendar = styled(StaticDatePicker)`
   .css-1x6pt0w-MuiButtonBase-root-MuiPickersDay-root {
     background-color: #262626;
+  }
+
+  .MuiInputBase-input {
+    color: white;
   }
 `;
 
@@ -246,8 +251,8 @@ export default function MealContainer() {
               <Typography style={{ fontFamily: "Montserrat" }}>
                 Select a Date:{" "}
               </Typography>
-              <button
-                onClick={() => setShowCalendar(!showCalendar)}
+              <Button
+                onClick={() => setShowCalendar(true)}
                 style={{
                   backgroundColor: "#202020",
                   border: "1px solid white",
@@ -255,48 +260,57 @@ export default function MealContainer() {
                 }}
               >
                 <CalendarMonthOutlinedIcon style={{ fill: "white" }} />
-              </button>
+              </Button>
               <Typography style={{ fontFamily: "Montserrat" }}>
                 {date ? date.format("MM/DD/YYYY") : ""}
               </Typography>
             </div>
-            {showCalendar && (
-              <CustomizedCalendar
-                sx={{
+            <Modal open={showCalendar} onClose={() => setShowCalendar(false)}>
+              <div
+                style={{
                   backgroundColor: "#202020",
-                  ".MuiTypography-root": { color: "#FFFFFF" },
+                  padding: "20px",
+                  margin: "100px",
                 }}
-                displayStaticWrapperAs="desktop"
-                value={date}
-                onChange={(newDate) => {
-                  setDate(newDate);
-                  setCheckDate(true);
-                  setSaved(false);
-                  setAdded(false);
-                  setDeleted(false);
-                  setEdited(false);
-                }}
-                renderInput={(params) => <TextField {...params} />}
-                dayOfWeekFormatter={(day) => `${day}.`}
-                showToolbar
-                renderDay={(day, _value, DayComponentProps) => {
-                  const isSelected =
-                    !DayComponentProps.outsideCurrentMonth &&
-                    highlightedDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
+              >
+                <CustomizedCalendar
+                  sx={{
+                    backgroundColor: "#202020",
+                    ".MuiTypography-root": { color: "#FFFFFF" },
+                  }}
+                  displayStaticWrapperAs="desktop"
+                  value={date}
+                  onChange={(newDate) => {
+                    setDate(newDate);
+                    setCheckDate(true);
+                    setSaved(false);
+                    setAdded(false);
+                    setDeleted(false);
+                    setEdited(false);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                  dayOfWeekFormatter={(day) => `${day}.`}
+                  showToolbar
+                  renderDay={(day, _value, DayComponentProps) => {
+                    const isSelected =
+                      !DayComponentProps.outsideCurrentMonth &&
+                      highlightedDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
 
-                  return (
-                    <CustomBadge
-                      key={day.toString()}
-                      overlap="circular"
-                      color="primary"
-                      variant={isSelected ? "dot" : null}
-                    >
-                      <PickersDay {...DayComponentProps} />
-                    </CustomBadge>
-                  );
-                }}
-              />
-            )}
+                    return (
+                      <CustomBadge
+                        key={day.toString()}
+                        overlap="circular"
+                        color="primary"
+                        variant={isSelected ? "dot" : null}
+                      >
+                        <PickersDay {...DayComponentProps} />
+                      </CustomBadge>
+                    );
+                  }}
+                />
+              </div>
+            </Modal>
+
             {noTarget ? (
               <>
                 <Typography
