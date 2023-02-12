@@ -306,7 +306,7 @@ export default function AddWorkout() {
                 <TextField
                   className={styles.form}
                   id="routine"
-                  label="Workout Title"
+                  label="Routine (Push, Pull, etc.)"
                   InputLabelProps={{ shrink: true }}
                   value={workout.routine}
                   onChange={(e) => updateWorkout({ routine: e.target.value })}
@@ -355,7 +355,7 @@ export default function AddWorkout() {
                   className={styles.form}
                   id="duration"
                   InputLabelProps={{ shrink: true }}
-                  label="Duration (mins)"
+                  label="Duration (Mins)"
                   value={workout.duration}
                   onChange={(e) =>
                     updateWorkout({ duration: Number(e.target.value) })
@@ -388,7 +388,7 @@ export default function AddWorkout() {
             align="center"
             style={{ marginBottom: "10px" }}
           >
-            (Please fill out the above fields before adding an exercise.)
+            (Please fill out the above fields before adding an exercise)
           </Typography>
           <Grid container spacing={6} className={styles.workoutContainer}>
             <Grid item lg={4} className={styles.add}>
@@ -429,7 +429,7 @@ export default function AddWorkout() {
                     autoFocus
                     margin="dense"
                     id="name"
-                    label="Routine (Push, Pull, Legs, etc.)"
+                    label="Exercise Name"
                     fullWidth
                     variant="standard"
                     InputLabelProps={{ shrink: true }}

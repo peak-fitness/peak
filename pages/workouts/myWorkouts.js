@@ -400,7 +400,7 @@ export default function MyWorkouts() {
                         fontSize: "22px",
                       }}
                     >
-                      Workout: {workout.routine}
+                      Routine: {workout.routine}
                     </Typography>
 
                     <EditIcon
