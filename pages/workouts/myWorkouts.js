@@ -39,7 +39,8 @@ const CustomizedCalendar = styled(StaticDatePicker)`
   .MuiPickerStaticWrapper-content {
     background-color: #161616;
     min-width: 100vh;
-    min-height: 75vh;
+    min-height: 70vh;
+    border-radius: 10px;
   }
 
   .css-xelq0e-MuiPickerStaticWrapper-content {
@@ -329,16 +330,32 @@ export default function MyWorkouts() {
             style={{
               backgroundColor: "#202020",
               margin: "50px",
+              borderRadius: "10px",
             }}
           >
-            <Grid container spacing={0}>
+            <Typography
+              variant="h5"
+              style={{
+                color: "#FFFFFF",
+                fontFamily: "Montserrat, sans serif",
+                fontSize: "38px",
+                fontWeight: 700,
+                marginBottom: "10px",
+              }}
+            >
+              My Workouts
+            </Typography>
+            <Grid container spacing={0} style={{ borderRadius: "10px" }}>
               <Grid
                 item
                 xs={8}
                 sm={8}
                 md={8}
                 lg={8}
-                style={{ borderRight: "10px solid #202020" }}
+                style={{
+                  borderRight: "10px solid #202020",
+                  borderRadius: "10px",
+                }}
               >
                 <CustomizedCalendar
                   className="calendar-container"
@@ -382,7 +399,8 @@ export default function MyWorkouts() {
                 style={{
                   backgroundColor: "#161616",
                   overflow: "auto",
-                  maxHeight: "75vh",
+                  maxHeight: "70vh",
+                  borderRadius: "10px",
                 }}
               >
                 {workout ? (
@@ -436,7 +454,7 @@ export default function MyWorkouts() {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      height: "75vh",
+                      height: "70vh",
                     }}
                   >
                     <div style={{ textAlign: "center" }}>
