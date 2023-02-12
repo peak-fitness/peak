@@ -26,12 +26,87 @@ import {
 } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-import React, { useState } from "react";
-import { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import dayjs from "dayjs";
+import { styled } from "@mui/material/styles";
 import Head from "next/head";
+import Card from "@mui/material/Card";
+import styles from "@/styles/myWorkout.module.css";
+
+const CustomizedCalendar = styled(StaticDatePicker)`
+  .MuiPickerStaticWrapper-content {
+    background-color: #161616;
+    min-width: 100vh;
+    min-height: 70vh;
+    border-radius: 10px;
+  }
+
+  .css-xelq0e-MuiPickerStaticWrapper-content {
+    background-color: #161616;
+    color: white;
+  }
+
+  .css-1hf040o-MuiTypography-root {
+    color: white;
+  }
+
+  &.css-epd502 {
+    overflow-x: hidden;
+    max-height: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+  }
+
+  .MuiTypography-h4 {
+    color: #03dac5;
+  }
+
+  .MuiSvgIcon-root {
+    color: white;
+  }
+
+  .MuiTypography-caption {
+    color: white;
+  }
+
+  .css-3k7djm-MuiButtonBase-root-MuiPickersDay-root {
+    background-color: #262626;
+    color: white;
+  }
+
+  .MuiInputBase-input {
+    font: inherit;
+    color: white;
+    background: #262626;
+    display: flex;
+    justify-content: center;
+  }
+
+  .css-z3au5x-MuiButtonBase-root-MuiIconButton-root-MuiPickersToolbar-penIconButton {
+    padding: 0;
+    flex: auto;
+    display: flex;
+    justify-content: flex-start;
+    margin-left: 10px;
+  }
+
+  .css-1skh3ba-MuiPickerStaticWrapper-root
+    .css-z3au5x-MuiButtonBase-root-MuiIconButton-root-MuiPickersToolbar-penIconButton {
+    padding: 0;
+
+    flex: auto;
+    display: flex;
+    justify-content: flex-start;
+    margin: 10px;
+  }
+
+  .css-8je8zh-MuiTouchRipple-root {
+    position: static;
+  }
+`;
 
 export default function MyWorkouts() {
   const [date, setDate] = useState(dayjs());
@@ -235,149 +310,235 @@ export default function MyWorkouts() {
   };
 
   return (
-    // <ThemeProvider theme={theme}>
-    <>
+    <div>
       <Head>
-        <title>My Workouts</title>
+        <title>Workouts</title>
       </Head>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Navbar />
-        <Container>
-          <Grid container>
-            <Grid
-              item
-              lg={9}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                maxHeight: "100vh",
+        <Grid
+          container
+          spacing={4}
+          style={{ minHeight: "75vh", backgroundColor: "#121212" }}
+        >
+          <Grid
+            item
+            xs={12}
+            lg={12}
+            sm={12}
+            md={12}
+            style={{
+              backgroundColor: "#202020",
+              margin: "50px",
+              borderRadius: "10px",
+            }}
+          >
+            <Typography
+              variant="h5"
+              style={{
+                color: "#FFFFFF",
+                fontFamily: "Montserrat, sans serif",
+                fontSize: "38px",
+                fontWeight: 700,
+                marginBottom: "10px",
               }}
             >
-              <StaticDatePicker
-                sx={{
+              My Workouts
+            </Typography>
+            <Grid container spacing={0} style={{ borderRadius: "10px" }}>
+              <Grid
+                item
+                xs={8}
+                sm={8}
+                md={8}
+                lg={8}
+                style={{
+                  borderRight: "10px solid #202020",
+                  borderRadius: "10px",
+                }}
+              >
+                <CustomizedCalendar
+                  className="calendar-container"
+                  displayStaticWrapperAs="desktop"
+                  value={date}
+                  onChange={(newDate) => {
+                    setDate(newDate);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                  dayOfWeekFormatter={(day) => `${day}.`}
+                  showToolbar
+                  renderDay={(day, _value, DayComponentProps) => {
+                    const isSelected =
+                      !DayComponentProps.outsideCurrentMonth &&
+                      highlightedDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
+
+                    const isPr =
+                      !DayComponentProps.outsideCurrentMonth &&
+                      prDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
+
+                    return (
+                      <Badge
+                        key={day.toString()}
+                        overlap="circular"
+                        color={isPr ? "white" : "primary"}
+                        badgeContent={isPr ? "🏅" : null}
+                        variant={isPr ? null : isSelected ? "dot" : null}
+                      >
+                        <PickersDay {...DayComponentProps} />
+                      </Badge>
+                    );
+                  }}
+                />
+              </Grid>
+              <Grid
+                item
+                xs={4}
+                sm={4}
+                md={4}
+                lg={4}
+                style={{
                   backgroundColor: "#161616",
-                  ".MuiTypography-root": { color: "white" },
+                  overflow: "auto",
+                  maxHeight: "70vh",
+                  borderRadius: "10px",
                 }}
-                displayStaticWrapperAs="desktop"
-                value={date}
-                onChange={(newDate) => {
-                  setDate(newDate);
-                }}
-                renderInput={(params) => <TextField {...params} />}
-                dayOfWeekFormatter={(day) => `${day}.`}
-                showToolbar
-                renderDay={(day, _value, DayComponentProps) => {
-                  const isSelected =
-                    !DayComponentProps.outsideCurrentMonth &&
-                    highlightedDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
-
-                  const isPr =
-                    !DayComponentProps.outsideCurrentMonth &&
-                    prDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
-
-                  return (
-                    <Badge
-                      key={day.toString()}
-                      overlap="circular"
-                      color={isPr ? "" : "primary"}
-                      badgeContent={isPr ? "🏅" : null}
-                      variant={isPr ? null : isSelected ? "dot" : null}
+              >
+                {workout ? (
+                  <div>
+                    <div
+                      style={{
+                        paddingTop: "15px",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
                     >
-                      <PickersDay {...DayComponentProps} />
-                    </Badge>
-                  );
-                }}
-              />
-            </Grid>
-            <Grid
-              item
-              lg={3}
-              sx={{
-                justifyContent: "center",
-                ".MuiGrid-root": { justifyContent: "center" },
-              }}
-            >
-              {workout ? (
-                <>
-                  <Typography variant="h6">
-                    Workout: {workout.routine}
-                    <IconButton>
+                      <Typography
+                        variant="h6"
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          fontFamily: "Montserrat, sans-serif",
+                          fontSize: "22px",
+                        }}
+                      >
+                        Routine: {workout.routine}
+                      </Typography>
+
                       <EditIcon
-                        style={{ fontSize: "22px", color: "#03dac5" }}
+                        style={{
+                          fontSize: "22px",
+                          color: "#03dac5",
+                          marginLeft: "5px",
+                          marginRight: "5px",
+                        }}
                         onClick={handleRedirect}
                       />
-                    </IconButton>
-                    <IconButton onClick={handleDelete}>
+
                       <DeleteIcon
                         style={{
                           fontSize: "22px",
                           color: "#03dac5",
+                          marginLeft: "0px",
+                          marginRight: "5px",
                         }}
+                        onClick={handleDelete}
                       />
-                    </IconButton>
-                  </Typography>
-                </>
-              ) : (
-                <>
-                  <Typography variant="h6">
-                    No workouts for this day! Would you like to add a workout?
-                  </Typography>
-                  <Link
-                    href="/workouts/addWorkout"
+                    </div>
+                  </div>
+                ) : (
+                  <div
                     style={{
-                      margin: "10px",
-                      padding: "5px",
-                      border: "solid",
-                      borderRadius: "20px",
-                      borderColor: "#03DAC5",
-                      textAlign: "center",
-                      display: "block",
-                      color: "#E8E8E8",
-                      textDecoration: "none",
+                      padding: "10px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "70vh",
                     }}
                   >
-                    {" "}
-                    Add a Workout
-                  </Link>
-                </>
-              )}
-              {exercises &&
-                exercises.map((exercise) => {
-                  return (
-                    <>
-                      <List key={exercise.id}>
-                        <ListItem>
-                          {/* <ListItemIcon>
-                                <FitnessCenterIcon/>
-                              </ListItemIcon> */}
-                          <ListItemText
-                            primary={exercise.name}
-                            secondary={
-                              <ul>
-                                {exercise.sets.map((set) => {
-                                  return (
-                                    <>
-                                      <li className="sets">
-                                        Set {exercise.sets.indexOf(set) + 1} -
-                                        Reps: {set.reps}, Weight: {set.weight}{" "}
-                                        lbs
-                                      </li>
-                                    </>
-                                  );
-                                })}
-                              </ul>
-                            }
-                          />
-                        </ListItem>
-                      </List>
-                    </>
-                  );
-                })}
+                    <div style={{ textAlign: "center" }}>
+                      <Typography variant="h6">
+                        No workouts for this day! Would you like to add a
+                        workout?
+                      </Typography>
+                      <Link
+                        href="/workouts/addWorkout"
+                        style={{
+                          margin: "10px",
+                          padding: "5px",
+                          border: "solid",
+                          borderRadius: "20px",
+                          borderColor: "#03DAC5",
+                          textAlign: "center",
+                          display: "block",
+                          color: "#E8E8E8",
+                          textDecoration: "none",
+                        }}
+                      >
+                        Add a Workout
+                      </Link>
+                    </div>
+                  </div>
+                )}
+                {exercises &&
+                  exercises.map((exercise) => {
+                    return (
+                      <Card
+                        style={{
+                          backgroundColor: "#262626",
+                          margin: "10px",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          fontFamily: "Montserrat, sans-serif",
+                        }}
+                        key={exercise.id}
+                      >
+                        <div
+                          style={{
+                            margin: "10px",
+                            display: "flex",
+                            flexDirection: "column",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <Typography
+                            style={{
+                              color: "white",
+                              fontSize: "18px",
+                              fontFamily: "Montserrat, sans-serif",
+                            }}
+                          >
+                            {exercise.name}
+                          </Typography>
+
+                          {exercise.sets.map((set, index) => (
+                            <div
+                              className="sets"
+                              key={exercise.id}
+                              style={{
+                                color: "#dedcdc",
+                                marginTop: "8px",
+                                marginBottom: "8px",
+                                fontSize: "15px",
+                              }}
+                            >
+                              Set {index + 1}: {set.reps} Reps x {""}
+                              {set.weight} lbs
+                            </div>
+                          ))}
+                        </div>
+                      </Card>
+                    );
+                  })}
+              </Grid>
             </Grid>
           </Grid>
-        </Container>
+        </Grid>
       </LocalizationProvider>
-    </>
+    </div>
   );
 }
-//// </ThemeProvider>

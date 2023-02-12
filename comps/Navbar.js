@@ -190,12 +190,6 @@ const Navbar = () => {
                   WORKOUTS
                 </MenuItem>
                 <MenuItem
-                  href="/social"
-                  onClick={() => (window.location.href = "/social")}
-                >
-                  SOCIAL
-                </MenuItem>
-                <MenuItem
                   href="/calorie-tracker"
                   onClick={() => (window.location.href = "/calorie-tracker")}
                 >
@@ -206,6 +200,12 @@ const Navbar = () => {
                   onClick={() => (window.location.href = "/achievements")}
                 >
                   ACHIEVEMENTS
+                </MenuItem>
+                <MenuItem
+                  href="/social"
+                  onClick={() => (window.location.href = "/social")}
+                >
+                  SOCIAL
                 </MenuItem>
               </Menu>
             </Box>
@@ -272,21 +272,7 @@ const Navbar = () => {
               >
                 WORKOUTS
               </Link>
-              <Link
-                href="/social"
-                style={{
-                  textDecoration: "none",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginRight: "20px",
-                  color: activeLink === "/social" ? "#03dac5" : "#E8E8E8",
-                }}
-                onClick={() => handleLinkClick("/social")}
-                className={router.pathname === "/social" ? styles.active : ""}
-              >
-                SOCIAL
-              </Link>
+
               <Link
                 href="/calorie-tracker"
                 style={{
@@ -322,6 +308,21 @@ const Navbar = () => {
                 }
               >
                 ACHIEVEMENTS
+              </Link>
+              <Link
+                href="/social"
+                style={{
+                  textDecoration: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: "20px",
+                  color: activeLink === "/social" ? "#03dac5" : "#E8E8E8",
+                }}
+                onClick={() => handleLinkClick("/social")}
+                className={router.pathname === "/social" ? styles.active : ""}
+              >
+                SOCIAL
               </Link>
             </Box>
             <Box
