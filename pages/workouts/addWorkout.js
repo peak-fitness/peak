@@ -76,12 +76,9 @@ export default function AddWorkout() {
     { name: "", notes: "", is_pr: false, muscle_group: "", sets: [] }
   );
 
-  const [set, updateSet] = useReducer(
-    (prev, next) => {
-      return { ...prev, ...next };
-    },
-    { id: 1, reps: 1, weight: 0 }
-  );
+  const [set, updateSet] = useReducer((prev, next) => {
+    return { ...prev, ...next };
+  }, {});
 
   const importData = () => {
     const encodedWorkout = router.query.data;
@@ -301,6 +298,7 @@ export default function AddWorkout() {
                   fullWidth
                   id="routine"
                   label="Workout Title"
+                  InputLabelProps={{ shrink: true }}
                   value={workout.routine}
                   onChange={(e) => updateWorkout({ routine: e.target.value })}
                 />
@@ -311,6 +309,7 @@ export default function AddWorkout() {
                     className={styles.form}
                     label="Date"
                     inputFormat="MM/DD/YYYY"
+                    InputLabelProps={{ shrink: true }}
                     value={update ? importedDate : date}
                     disabled={update ? true : false}
                     onChange={(newDate) => {
@@ -327,6 +326,7 @@ export default function AddWorkout() {
                   className={styles.form}
                   fullWidth
                   id="notes"
+                  InputLabelProps={{ shrink: true }}
                   label="Notes"
                   value={workout.notes}
                   onChange={(e) => updateWorkout({ notes: e.target.value })}
@@ -337,6 +337,7 @@ export default function AddWorkout() {
                   className={styles.form}
                   fullWidth
                   id="duration"
+                  InputLabelProps={{ shrink: true }}
                   label="Duration (mins)"
                   value={workout.duration}
                   onChange={(e) =>
@@ -458,7 +459,7 @@ export default function AddWorkout() {
                           // front end
                         />
                       }
-                      label="Personal Best?"
+                      label="Personal Record?"
                     />
                   </FormGroup>
                   {invalidExercise && (
