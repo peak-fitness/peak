@@ -23,3 +23,11 @@
   text-align: center;
   font-size: 12px;
 }
+
+.publicPfp {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+  position: absolute;
+  top: 11.6rem;
+}

@@ -97,7 +97,7 @@ export default function AccountSettings() {
               </div>
             </>
           ) : (
-            <h1>Temp</h1>
+            <h1>Loading...</h1>
           )}
           {tab !== "" && (
             <ChangeSettingsModal

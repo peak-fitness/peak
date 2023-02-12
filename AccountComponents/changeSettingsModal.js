@@ -9,8 +9,6 @@ export default function ChangeSettingsModal({ user, tab, setTab, setChange }) {
   const [email, setEmail] = useState(null);
   const [sent, setSent] = useState(false);
   const [error, setError] = useState(null);
-  console.log(user, "tab");
-  console.log(tab);
 
   return (
     <div className={styles.container}>
@@ -27,27 +25,6 @@ export default function ChangeSettingsModal({ user, tab, setTab, setChange }) {
         {tab === "password" && (
           <ChangePassword user={user} setTab={setTab} setChange={setChange} />
         )}
-        {/* <p>
-          Forgot your password? Enter your email and we&apos;ll send you a
-          recovery link.
-        </p>
-        <div className={styles.formBox}>
-          <form>
-            <label className={styles.label} htmlFor="email">
-              Email
-              <input
-                id="email"
-                className={styles.emailInput}
-                onChange={(e) => setEmail(e.target.value)}
-              ></input>
-            </label>
-          </form> */}
-        {/* </div> */}
-        {/* <button className={styles.sendBtn} onClick={handleReset} type="submit">
-          Send Email
-        </button>
-        {sent && <p>Email sent! Please check your email.</p>}
-        {error && <p>Something went wrong. Please try again.</p>} */}
       </div>
     </div>
   );
