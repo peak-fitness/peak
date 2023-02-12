@@ -397,6 +397,7 @@ export default function AddWorkout() {
                     label="Exercise Name"
                     fullWidth
                     variant="standard"
+                    InputLabelProps={{ shrink: true }}
                     value={edit ? current.name : null}
                     onChange={(e) => {
                       updateExercise({ name: e.target.value });
@@ -413,6 +414,7 @@ export default function AddWorkout() {
                     label="Notes"
                     fullWidth
                     variant="standard"
+                    InputLabelProps={{ shrink: true }}
                     value={edit ? current.notes : null}
                     onChange={(e) => {
                       updateExercise({ notes: e.target.value });
@@ -429,6 +431,7 @@ export default function AddWorkout() {
                     label="Muscle Groups"
                     fullWidth
                     variant="standard"
+                    InputLabelProps={{ shrink: true }}
                     value={edit ? current.muscle_group : null}
                     onChange={(e) => {
                       updateExercise({ muscle_group: e.target.value });
@@ -714,10 +717,42 @@ export default function AddWorkout() {
                   <TableHead>
                     <TableRow>
                       <TableCell></TableCell>
-                      <TableCell>Title</TableCell>
-                      <TableCell>Sets</TableCell>
-                      <TableCell>Notes</TableCell>
-                      <TableCell>PR?</TableCell>
+                      <TableCell
+                        style={{
+                          fontSize: "18px",
+                          color: "white",
+                          fontFamily: "Montserrat",
+                        }}
+                      >
+                        Title
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontSize: "18px",
+                          color: "white",
+                          fontFamily: "Montserrat",
+                        }}
+                      >
+                        Sets
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontSize: "18px",
+                          color: "white",
+                          fontFamily: "Montserrat",
+                        }}
+                      >
+                        Notes
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontSize: "18px",
+                          color: "white",
+                          fontFamily: "Montserrat",
+                        }}
+                      >
+                        PR
+                      </TableCell>
                       <TableCell></TableCell>
                     </TableRow>
                   </TableHead>
@@ -732,16 +767,46 @@ export default function AddWorkout() {
                               getExercise(index);
                             }}
                           >
-                            <EditIcon />
+                            <EditIcon style={{ color: "#77C3EC" }} />
                           </IconButton>
                         </TableCell>
 
-                        <TableCell>{exercise.name}</TableCell>
-                        <TableCell>{exercise.sets.length}</TableCell>
-                        <TableCell>
+                        <TableCell
+                          style={{
+                            fontSize: "16px",
+                            color: "white",
+                            fontFamily: "Montserrat",
+                          }}
+                        >
+                          {exercise.name}
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            fontSize: "16px",
+                            color: "white",
+                            fontFamily: "Montserrat",
+                          }}
+                        >
+                          {exercise.sets.length}
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            fontSize: "16px",
+                            color: "white",
+                            fontFamily: "Montserrat",
+                          }}
+                        >
                           {exercise.notes ? exercise.notes : "N/A"}
                         </TableCell>
-                        <TableCell>{exercise.is_pr ? "Yes" : "No"}</TableCell>
+                        <TableCell
+                          style={{
+                            fontSize: "16px",
+                            color: "white",
+                            fontFamily: "Montserrat",
+                          }}
+                        >
+                          {exercise.is_pr ? "Yes" : "No"}
+                        </TableCell>
                         <TableCell>
                           {!update && (
                             <IconButton
@@ -750,7 +815,7 @@ export default function AddWorkout() {
                                 setCurrent({});
                               }}
                             >
-                              <DeleteIcon />
+                              <DeleteIcon style={{ color: "#FF5349" }} />
                             </IconButton>
                           )}
                         </TableCell>
