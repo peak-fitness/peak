@@ -402,25 +402,26 @@ export default function MyWorkouts() {
                     >
                       Workout: {workout.routine}
                     </Typography>
-                    <IconButton
-                      style={{ paddingLeft: "5px", paddingRight: "5px" }}
-                    >
-                      <EditIcon
-                        style={{ fontSize: "22px", color: "#03dac5" }}
-                        onClick={handleRedirect}
-                      />
-                    </IconButton>
-                    <IconButton
+
+                    <EditIcon
+                      style={{
+                        fontSize: "22px",
+                        color: "#03dac5",
+                        marginLeft: "5px",
+                        marginRight: "5px",
+                      }}
+                      onClick={handleRedirect}
+                    />
+
+                    <DeleteIcon
+                      style={{
+                        fontSize: "22px",
+                        color: "#03dac5",
+                        marginLeft: "0px",
+                        marginRight: "5px",
+                      }}
                       onClick={handleDelete}
-                      style={{ paddingLeft: "0px", paddingRight: "5px" }}
-                    >
-                      <DeleteIcon
-                        style={{
-                          fontSize: "22px",
-                          color: "#03dac5",
-                        }}
-                      />
-                    </IconButton>
+                    />
                   </div>
                 ) : (
                   <div
