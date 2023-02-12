@@ -381,7 +381,11 @@ export default function MyWorkouts() {
                 sm={4}
                 md={4}
                 lg={4}
-                style={{ backgroundColor: "#161616" }}
+                style={{
+                  backgroundColor: "#161616",
+                  overflow: "auto",
+                  maxHeight: "75vh",
+                }}
               >
                 {workout ? (
                   <div>
