@@ -255,8 +255,8 @@ export default function AddWorkout() {
 
       <Grid
         container
-        direction="column"
-        justifyContent="center"
+        direction="unset"
+        justifyContent="flex-start"
         alignItems="stretch"
         style={{
           height: "100%",
@@ -287,23 +287,30 @@ export default function AddWorkout() {
             </Typography>
           </Box>
           <Box
-            sx={{
-              mt: 3,
+            style={{
+              marginTop: "10px",
             }}
           >
             <Grid container spacing={6} className={styles.workoutContainer}>
-              <Grid item lg={3}>
+              <Grid
+                item
+                xs={3}
+                sm={3}
+                md={3}
+                lg={3}
+                style={{ display: "flex", justifyContent: "flex-end" }}
+              >
                 <TextField
                   className={styles.form}
-                  fullWidth
                   id="routine"
                   label="Workout Title"
                   InputLabelProps={{ shrink: true }}
                   value={workout.routine}
                   onChange={(e) => updateWorkout({ routine: e.target.value })}
+                  style={{ width: "200px" }}
                 />
               </Grid>
-              <Grid item lg={3}>
+              <Grid item xs={3} sm={3} md={3} lg={3}>
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DatePicker
                     className={styles.form}
@@ -316,26 +323,33 @@ export default function AddWorkout() {
                       setDate(newDate);
                     }}
                     renderInput={(params) => <TextField {...params} />}
+                    style={{ width: "200px" }}
                   />
                 </LocalizationProvider>
               </Grid>
             </Grid>
             <Grid container spacing={6} className={styles.workoutContainer}>
-              <Grid item lg={3}>
+              <Grid
+                item
+                xs={3}
+                sm={3}
+                md={3}
+                lg={3}
+                style={{ display: "flex", justifyContent: "flex-end" }}
+              >
                 <TextField
                   className={styles.form}
-                  fullWidth
                   id="notes"
                   InputLabelProps={{ shrink: true }}
                   label="Notes"
                   value={workout.notes}
                   onChange={(e) => updateWorkout({ notes: e.target.value })}
+                  style={{ width: "200px" }}
                 />
               </Grid>
-              <Grid item lg={3}>
+              <Grid item xs={3} sm={3} md={3} lg={3}>
                 <TextField
                   className={styles.form}
-                  fullWidth
                   id="duration"
                   InputLabelProps={{ shrink: true }}
                   label="Duration (mins)"
@@ -343,6 +357,7 @@ export default function AddWorkout() {
                   onChange={(e) =>
                     updateWorkout({ duration: Number(e.target.value) })
                   }
+                  style={{ width: "200px" }}
                 />
               </Grid>
             </Grid>
@@ -354,7 +369,7 @@ export default function AddWorkout() {
           style={{
             display: "flex",
             flexDirection: "column",
-            justifyContent: "center",
+            justifyContent: "flex-start",
             alignItems: "center",
           }}
         >
