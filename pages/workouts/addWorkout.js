@@ -265,6 +265,8 @@ export default function AddWorkout() {
           height: "100%",
           minHeight: "90vh",
           backgroundColor: "#121212",
+          overflow: "auto",
+          maxHeight: "80vh",
         }}
       >
         <Grid
@@ -285,6 +287,7 @@ export default function AddWorkout() {
                 fontFamily: "Montserrat",
                 justifyContent: "center",
               }}
+              style={{ marginTop: "20px" }}
             >
               {update ? "Edit Workout" : "Add a Workout"}
             </Typography>
@@ -429,7 +432,7 @@ export default function AddWorkout() {
                     autoFocus
                     margin="dense"
                     id="name"
-                    label="Exercise Name"
+                    label="Exercise Name (Bench Press, Squats, etc.)"
                     fullWidth
                     variant="standard"
                     InputLabelProps={{ shrink: true }}
@@ -552,10 +555,7 @@ export default function AddWorkout() {
                   {edit
                     ? current.sets && (
                         <TableContainer component={Paper}>
-                          <Table
-                            aria-label="simple table"
-                            style={{ backgroundColor: "#161616" }}
-                          >
+                          <Table aria-label="simple table">
                             <TableHead>
                               <TableRow>
                                 <TableCell>Set #</TableCell>
@@ -749,45 +749,46 @@ export default function AddWorkout() {
               </Dialog>
             </Grid>
           </Grid>
-          <Box style={{ margin: "15px" }}>
+          <Box style={{ margin: "15px", height: "225px", overflow: "scroll" }}>
             {workout.exercises.length >= 1 && (
-              <TableContainer style={{ backgroundColor: "#262626" }}>
+              <TableContainer
+                style={{
+                  backgroundColor: "#202020",
+                  width: "800px",
+                }}
+              >
                 <Table>
                   <TableHead>
                     <TableRow>
                       <TableCell></TableCell>
                       <TableCell
                         style={{
-                          fontSize: "18px",
+                          fontSize: "16px",
                           color: "white",
-                          fontFamily: "Montserrat",
                         }}
                       >
                         Title
                       </TableCell>
                       <TableCell
                         style={{
-                          fontSize: "18px",
+                          fontSize: "16px",
                           color: "white",
-                          fontFamily: "Montserrat",
                         }}
                       >
                         Sets
                       </TableCell>
                       <TableCell
                         style={{
-                          fontSize: "18px",
+                          fontSize: "16px",
                           color: "white",
-                          fontFamily: "Montserrat",
                         }}
                       >
                         Notes
                       </TableCell>
                       <TableCell
                         style={{
-                          fontSize: "18px",
+                          fontSize: "16px",
                           color: "white",
-                          fontFamily: "Montserrat",
                         }}
                       >
                         PR
@@ -795,6 +796,7 @@ export default function AddWorkout() {
                       <TableCell></TableCell>
                     </TableRow>
                   </TableHead>
+
                   <TableBody>
                     {workout.exercises.map((exercise, index) => (
                       <TableRow key={index}>
@@ -814,7 +816,6 @@ export default function AddWorkout() {
                           style={{
                             fontSize: "16px",
                             color: "white",
-                            fontFamily: "Montserrat",
                           }}
                         >
                           {exercise.name}
@@ -823,7 +824,6 @@ export default function AddWorkout() {
                           style={{
                             fontSize: "16px",
                             color: "white",
-                            fontFamily: "Montserrat",
                           }}
                         >
                           {exercise.sets.length}
@@ -832,7 +832,6 @@ export default function AddWorkout() {
                           style={{
                             fontSize: "16px",
                             color: "white",
-                            fontFamily: "Montserrat",
                           }}
                         >
                           {exercise.notes ? exercise.notes : "N/A"}
@@ -841,7 +840,6 @@ export default function AddWorkout() {
                           style={{
                             fontSize: "16px",
                             color: "white",
-                            fontFamily: "Montserrat",
                           }}
                         >
                           {exercise.is_pr ? "Yes" : "No"}
