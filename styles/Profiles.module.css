@@ -2,3 +2,24 @@
   width: 8rem;
   height: 8rem;
 }
+
+.userPfp {
+  width: 8rem;
+  height: 8rem;
+  border-radius: 50%;
+}
+
+.pfpLabel {
+  cursor: pointer;
+  font-size: 16px;
+  text-decoration: underline;
+}
+
+.pfpInput {
+  display: none;
+}
+
+.pfpUrl {
+  text-align: center;
+  font-size: 12px;
+}

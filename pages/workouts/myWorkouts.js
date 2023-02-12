@@ -309,8 +309,6 @@ export default function MyWorkouts() {
   };
 
   return (
-    // <ThemeProvider theme={theme}>
-
     <div>
       <Head>
         <title>Workouts</title>

@@ -27,34 +27,26 @@ export default function Learn() {
           <div className={styles.whyContent}>
             <p className={styles.contentHeader}>Why Peak?</p>
             <p>
-              We offer a variety of benefits and services so you can achieve
-              your goals for the year! Lorem ipsum dolor sit amet, consectetur
-              adipiscing elit, sed do eiusmod tempor incididunt ut labore et
-              dolore magna aliqua. Ut enim ad minim veniam, quis nostrud
-              exercitation ullamco laboris nisi ut aliquip ex ea commodo
-              consequat.
+              As lifters, we recognize the need to streamline the way we record
+              our workouts. Our unique feed system allows users to share their
+              lifts with friends, promoting accountability and growth. This, in
+              tandem with our various tracking features, makes Peak the ultimate
+              comprehensive workout bookkeeping experience.
             </p>
           </div>
           <div className={styles.offerContent}>
             <p className={styles.contentHeader}>What we offer</p>
             <div className={styles.services}>
               <div className={styles.service}>
-                <GroupIcon
-                  color="secondary"
-                  fontSize="large"
-                  sx={{ height: "80px", width: "80px" }}
-                />
-                <p className={styles.serviceHeader}>Accountability Groups</p>
+                <GroupIcon style={{ fontSize: "75px", color: "#03dac5" }} />
+                <p className={styles.serviceHeader}>Accountability Feed</p>
                 <p>
-                  Find other passionate people to keep you going to the gym!
+                  Share your workouts with your friends to keep each other
+                  accountable!
                 </p>
               </div>
               <div className={styles.service}>
-                <CalculateIcon
-                  color="secondary"
-                  fontSize="large"
-                  sx={{ height: "80px", width: "80px" }}
-                />
+                <CalculateIcon style={{ fontSize: "75px", color: "#03dac5" }} />
                 <p className={styles.serviceHeader}>Calorie Tracker</p>
                 <p>
                   Need to keep track of calorie intake to diet or get big? We
@@ -63,9 +55,7 @@ export default function Learn() {
               </div>
               <div className={styles.service}>
                 <FitnessCenterIcon
-                  color="secondary"
-                  fontSize="large"
-                  sx={{ height: "80px", width: "80px" }}
+                  style={{ fontSize: "75px", color: "#03dac5" }}
                 />
                 <p className={styles.serviceHeader}>Workout Journal</p>
                 <p>

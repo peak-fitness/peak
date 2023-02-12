@@ -1,7 +1,7 @@
 import Head from "next/head";
-import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useSessionContext } from "@supabase/auth-helpers-react";
 import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import Navbar from "../comps/Navbar";
 import {
   Container,
@@ -10,10 +10,12 @@ import {
   Card,
   CardContent,
   Box,
+  Button,
 } from "@mui/material";
 import EmojiEventsRoundedIcon from "@mui/icons-material/EmojiEventsRounded";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider } from "@mui/material/styles";
+import Link from "next/link";
 
 const darkTheme = createTheme({
   palette: {
@@ -27,19 +29,22 @@ const darkTheme = createTheme({
 });
 
 export default function AchievementsPage() {
+  let { isLoading, session, error } = useSessionContext();
   const supabase = useSupabaseClient();
-  const session = useSession();
-  const router = useRouter();
-  const [achievements, setAchievements] = useState(null);
+  const [achievements, setAchievements] = useState([]);
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [user, setUser] = useState({});
+  const [friends, setFriends] = useState([]);
 
   useEffect(() => {
     fetchCurrentUserId();
-  }, [currentUserId]);
+    fetchAllAchievements();
+    getProfile();
+  }, [currentUserId, session]);
 
   useEffect(() => {
-    fetchAllAchievements();
-  });
+    updateFriendsAchievement();
+  }, [friends]);
 
   const fetchCurrentUserId = async () => {
     if (session) {
@@ -53,46 +58,77 @@ export default function AchievementsPage() {
   };
 
   const fetchAllAchievements = async () => {
-    const { data, error } = await supabase
-      .from("userAchievements")
-      .select(
-        `*, achievements(id, name, requirement), user(first_name, last_name, height, current_weight, target_weight, target_calories, age, gender)`
-      )
-      .order("achieved", { ascending: false })
-      .eq("user_id", currentUserId);
-    setAchievements(data);
-  };
-
-  const checkUser = async () => {
-    const res = await supabase
-      .from("user")
-      .select()
-      .eq("auth_id", session.user.id);
-    if (!res.data) {
-      router.push("/auth/username");
+    if (currentUserId) {
+      const { data, error } = await supabase
+        .from("userAchievements")
+        .select(
+          `*, achievements(id, name, requirement), user(first_name, last_name, height, current_weight, target_weight, target_calories, age, gender)`
+        )
+        .order("achieved", { ascending: false })
+        .eq("user_id", currentUserId);
+      setAchievements(data);
     }
   };
 
-  function Redirect({ to }) {
-    useEffect(() => {
-      router.push(to);
-    }, [to]);
-  }
+  const getProfile = async () => {
+    if (session !== null) {
+      const user = await supabase
+        .from("user")
+        .select("*, friends!friends_addressee_id_fkey(*)")
+        .eq("auth_id", session.user.id)
+        .eq("friends.status_code", "Requested")
+        .single();
+      setUser(user.data);
 
-  if (session) {
-    checkUser(session);
-    return (
-      <>
-        <Head>
-          <title>Achievements</title>
-        </Head>
+      const friendspt1 = await supabase
+        .from("friends")
+        .select("id, addressee_id, addressee_username")
+        .eq("requester_id", user.data.id)
+        .eq("status_code", "Accepted");
+
+      const friendspt2 = await supabase
+        .from("friends")
+        .select("id, requester_id, requester_username")
+        .eq("addressee_id", user.data.id)
+        .eq("status_code", "Accepted");
+      setFriends([...friendspt1.data, ...friendspt2.data]);
+    } else return;
+  };
+
+  const updateFriendsAchievement = async () => {
+    if (Object.keys(user).length !== 0) {
+      if (friends.length >= 3) {
+        const { error } = await supabase
+          .from("userAchievements")
+          .update({ achieved: true })
+          .eq("user_id", user.id)
+          .eq("a_id", 3);
+      } else {
+        const { error } = await supabase
+          .from("userAchievements")
+          .update({ achieved: false })
+          .eq("user_id", user.id)
+          .eq("a_id", 3);
+      }
+    }
+    fetchAllAchievements();
+  };
+
+  return session ? (
+    <>
+      <Head>
+        <title>Achievements</title>
+      </Head>
+      {isLoading ? (
+        ""
+      ) : (
         <ThemeProvider theme={darkTheme}>
           <Navbar />
           <Container
             sx={{
               display: "flex",
               flexFlow: "column",
-              minWidth: "97.5%",
+              width: "97.5%",
               height: "100vh",
             }}
           >
@@ -115,6 +151,9 @@ export default function AchievementsPage() {
                   color: "#fafafa",
                   fontWeight: 700,
                   marginBottom: "2rem",
+                  fontFamily: "Montserrat, sans serif",
+                  pb: "5px",
+                  pl: "6px",
                 }}
               >
                 ACHIEVEMENTS
@@ -170,22 +209,20 @@ export default function AchievementsPage() {
                               {achievement.achieved ? (
                                 <Box>
                                   <EmojiEventsRoundedIcon
-                                    sx={{
+                                    sx={{ ml: "1rem" }}
+                                    style={{
                                       color: "#F6C941",
                                       fontSize: "4rem",
-                                      ml: "1rem",
-                                      mr: "2rem",
                                     }}
                                   />
                                 </Box>
                               ) : (
                                 <Box>
                                   <EmojiEventsRoundedIcon
-                                    sx={{
+                                    sx={{ ml: "1rem" }}
+                                    style={{
                                       color: "silver",
                                       fontSize: "4rem",
-                                      ml: "1rem",
-                                      mr: "2rem",
                                     }}
                                   />
                                 </Box>
@@ -193,26 +230,27 @@ export default function AchievementsPage() {
                               <Box>
                                 <Typography
                                   variant="h5"
-                                  sx={{ color: "#FFFFFF", fontWeight: 700 }}
+                                  sx={{
+                                    color: "#FFFFFF",
+                                    fontWeight: 700,
+                                    ml: "2rem",
+                                    fontFamily: "Montserrat, sans serif",
+                                  }}
                                 >
                                   {achievement.achievements.name}
                                 </Typography>
                                 <Typography
                                   variant="subtitle2"
-                                  sx={{ color: "#FFFFFF" }}
+                                  sx={{
+                                    color: "#FFFFFF",
+                                    ml: "2rem",
+                                    fontFamily: "Montserrat, sans serif",
+                                  }}
                                 >
                                   {achievement.achievements.requirement}
                                 </Typography>
                               </Box>
                             </Box>
-                            {/* <Box>
-                          <Typography
-                            variant="subtitle2"
-                            sx={{ color: "#A4A4A4" }}
-                          >
-                            {trophy.completeDate}
-                          </Typography>
-                        </Box> */}
                           </CardContent>
                         </Card>
                       </Grid>
@@ -222,9 +260,85 @@ export default function AchievementsPage() {
             </Container>
           </Container>
         </ThemeProvider>
-      </>
-    );
-  } else {
-    return <Redirect to="/" />;
-  }
+      )}
+    </>
+  ) : (
+    <>
+      <Navbar />
+      <Container
+        maxWidth="lg"
+        sx={{ display: "flex", justifyContent: "center", minHeight: "100vh" }}
+      >
+        <Box
+          sx={{
+            width: "80rem",
+            height: "20rem",
+            marginTop: "15vh",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#242424",
+            borderRadius: "8px",
+            boxShadow: "0px 10px 10px rgba(0,0,0,0.2)",
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{ color: "#E8E8E8", textAlign: "center" }}
+          >
+            You need an account to access this page
+          </Typography>
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "1rem",
+            }}
+          >
+            <Link
+              href="auth/login"
+              style={{
+                padding: "10px",
+                color: "#E8E8E8",
+                textDecoration: "none",
+              }}
+            >
+              <Button
+                variant="contained"
+                sx={{
+                  background:
+                    "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#da6b03, #b59500, #89b33e, #56ca82, #03dac5) border-box",
+                  border: "2px solid transparent",
+                  padding: "1rem 1rem 1rem 1rem",
+                }}
+              >
+                Sign Into Your Account
+              </Button>
+            </Link>
+            <Link
+              href="auth/signup"
+              style={{
+                padding: "10px",
+                color: "#E8E8E8",
+                textDecoration: "none",
+              }}
+            >
+              <Button
+                variant="contained"
+                sx={{
+                  background:
+                    "linear-gradient(#161616, #161616) padding-box, linear-gradient(to right,#da6b03, #b59500, #89b33e, #56ca82, #03dac5) border-box",
+                  border: "2px solid transparent",
+                  padding: "1rem 1rem 1rem 1rem",
+                }}
+              >
+                Create A New Account
+              </Button>
+            </Link>
+          </Box>
+        </Box>
+      </Container>
+    </>
+  );
 }

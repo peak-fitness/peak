@@ -32,6 +32,7 @@ const DashboardItems = () => {
   const [lastName, setLastName] = useState(null);
   const [weight, setWeight] = useState(null);
   const [height, setHeight] = useState(null);
+  const [pfp, setPfp] = useState(null);
 
   useEffect(() => {
     getProfile();
@@ -43,7 +44,9 @@ const DashboardItems = () => {
 
       let { data, error, status } = await supabase
         .from("user")
-        .select(`username, first_name, last_name, height, current_weight`)
+        .select(
+          `username, first_name, last_name, height, current_weight, avatar_url`
+        )
         .eq("auth_id", user.id)
         .single();
 
@@ -57,6 +60,7 @@ const DashboardItems = () => {
         setLastName(data.last_name);
         setWeight(data.current_weight);
         setHeight(data.height);
+        setPfp(data.avatar_url);
       }
     } catch (error) {
       return error;
@@ -87,7 +91,9 @@ const DashboardItems = () => {
                 onClick={() => (window.location.href = "/profile")}
               >
                 <ListItemIcon>
-                  <Avatar src="/pfp.png" />
+                  <Avatar
+                    src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${pfp}`}
+                  />
                 </ListItemIcon>
                 <div>
                   <Typography variant="body2">

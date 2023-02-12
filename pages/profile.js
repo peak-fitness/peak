@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import Head from "next/head";
 import {
   useUser,
   useSupabaseClient,
@@ -43,6 +44,7 @@ export default function Account() {
   const [targetWeight, setTargetWeight] = useState(null);
   const [gender, setGender] = useState(null);
   const [targetCalories, setTargetCalories] = useState(null);
+  const [avatarUrl, setAvatarUrl] = useState(null);
 
   useEffect(() => {
     getProfile();
@@ -55,7 +57,7 @@ export default function Account() {
       let { data, error, status } = await supabase
         .from("user")
         .select(
-          `username, first_name, last_name, email, created_at, height, current_weight, age, location, bio, social_medias, target_calories, gender, target_weight`
+          `username, first_name, last_name, email, created_at, height, current_weight, age, location, bio, social_medias, target_calories, gender, target_weight, avatar_url`
         )
         .eq("auth_id", user.id)
         .single();
@@ -80,6 +82,7 @@ export default function Account() {
         setGender(data.gender);
         setTargetWeight(data.target_weight);
         setTargetCalories(data.target_calories);
+        setAvatarUrl(data.avatar_url);
       }
     } catch (error) {
       return error;
@@ -128,6 +131,9 @@ export default function Account() {
 
   return session ? (
     <>
+      <Head>
+        <title>Profile</title>
+      </Head>
       <Navbar />
       <Container
         maxWidth="lg"
@@ -137,8 +143,22 @@ export default function Account() {
       >
         <Box sx={responsiveContainer}>
           <Box sx={responsiveSidePanel}>
-            <Box sx={{ display: "flex", justifyContent: "center" }}>
-              <AccountCircle id={styles.defaultProfileIcon} />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                marginBottom: "1rem",
+              }}
+            >
+              {avatarUrl ? (
+                <img
+                  src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${avatarUrl}`}
+                  alt=""
+                  className={styles.userPfp}
+                />
+              ) : (
+                <AccountCircle id={styles.defaultProfileIcon} />
+              )}
             </Box>
             <Typography
               variant="h5"

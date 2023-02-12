@@ -19,13 +19,14 @@ import { borderRadius } from "@mui/system";
 import Link from "next/link";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useRouter } from "next/router";
-import { useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import MenuIcon from "@material-ui/icons/Menu";
 import Menu from "@mui/material/Menu";
 import IconButton from "@mui/material/IconButton";
 import * as React from "react";
 import { createTheme } from "@material-ui/core/styles";
 import { styled, ThemeProvider } from "@mui/material/styles";
+import Image from "next/image";
 
 const darkTheme = createTheme({
   palette: {
@@ -45,6 +46,7 @@ const Navbar = () => {
   const currentRoute = router.pathname;
   const anchorRef = useRef(null);
   const [open, setOpen] = useState(false);
+  const [pfp, setPfp] = useState(null);
 
   const signout = async () => {
     const { error } = await supabase.auth.signOut();
@@ -91,6 +93,22 @@ const Navbar = () => {
     setActiveLink(link);
   };
 
+  const getPfp = async () => {
+    if (!session) {
+      return;
+    }
+    const { data, error } = await supabase
+      .from("user")
+      .select("avatar_url")
+      .eq("auth_id", session.user.id)
+      .single();
+    setPfp(data.avatar_url);
+  };
+
+  useEffect(() => {
+    getPfp();
+  }, [session]);
+
   return session ? (
     <ThemeProvider theme={darkTheme}>
       <AppBar position="sticky" sx={{ backgroundColor: "#161616" }}>
@@ -121,6 +139,16 @@ const Navbar = () => {
             >
               Peak
             </Typography>
+            <Box
+              marginLeft="10px"
+              sx={{
+                display: { xs: "none", md: "flex" },
+              }}
+            >
+              <Link href="/dashboard">
+                <Image src="/logo.png" alt="" width={50} height={50} />
+              </Link>
+            </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
@@ -309,7 +337,9 @@ const Navbar = () => {
                 aria-haspopup="true"
                 onClick={handleToggle}
               >
-                <Avatar src="/pfp.png" />
+                <Avatar
+                  src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${pfp}`}
+                />
               </Button>
               <Popper
                 open={open}
@@ -381,6 +411,16 @@ const Navbar = () => {
             >
               Peak
             </Typography>
+            <Box
+              marginLeft="10px"
+              sx={{
+                display: { xs: "none", md: "flex" },
+              }}
+            >
+              <Link href="/">
+                <Image src="/logo.png" alt="" width={50} height={50} />
+              </Link>
+            </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
               <IconButton
                 size="large"
