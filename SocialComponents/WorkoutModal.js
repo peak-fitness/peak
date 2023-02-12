@@ -9,7 +9,6 @@ import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/lib/supabaseClient";
 import Button from "@mui/material/Button";
 import TimerOutlinedIcon from "@mui/icons-material/TimerOutlined";
-
 import styles from "@/styles/socialModal.module.css";
 
 export default function WorkoutModal({ setShowModal, selectedWorkout }) {
@@ -17,7 +16,7 @@ export default function WorkoutModal({ setShowModal, selectedWorkout }) {
   const [Error, setError] = useState(null);
   const [workoutDetails, setWorkoutDetails] = useState(null);
   const [workoutDisplayed, setWorkoutDisplayed] = useState("");
-  const [singleWorkout, setSingleWorkout] = useState({});
+  const [singleWorkout, setSingleWorkout] = useState("");
 
   const handleToggle = () => {
     const el = document.querySelector("body");
@@ -28,7 +27,7 @@ export default function WorkoutModal({ setShowModal, selectedWorkout }) {
   const handleSelector = (e) => {
     setWorkoutDisplayed(e.target.firstChild.textContent);
     const setWorkout = workoutDetails.find(
-      (workout) => workout.name === workoutDisplayed
+      (workout) => workout.name === e.target.firstChild.textContent
     );
     setSingleWorkout(setWorkout);
   };
@@ -55,22 +54,28 @@ export default function WorkoutModal({ setShowModal, selectedWorkout }) {
 
   useEffect(() => {
     if (workoutDetails) {
-      setWorkoutDisplayed(workoutDetails[0].name);
-      setSingleWorkout(workoutDetails[0]);
+      if (!singleWorkout) {
+        setWorkoutDisplayed(workoutDetails[0].name);
+        setSingleWorkout(workoutDetails[0]);
+      }
     }
-  }, [workoutDetails]);
+  }, [workoutDetails, singleWorkout, workoutDisplayed]);
 
   return (
     <div className={styles.container}>
       <div className={styles.modalContainer}>
         <div className={styles.btnBox}>
-          <Button className={styles.closeBtn} onClick={handleToggle}>
+          <Button
+            id={styles.close}
+            className={styles.closeBtn}
+            onClick={handleToggle}
+          >
             Close
           </Button>
         </div>
         {isLoading ? (
           <h1>Loading...</h1>
-        ) : workoutDetails ? (
+        ) : workoutDetails && singleWorkout ? (
           <>
             <div className={styles.exerciseBox}>
               <p className={styles.header}>{selectedWorkout.workoutName}</p>

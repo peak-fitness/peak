@@ -3,25 +3,16 @@ import styles from "@/styles/Groups.module.css";
 import { useCallback, useEffect, useState } from "react";
 import WorkoutModal from "./WorkoutModal";
 import TimerIcon from "@mui/icons-material/Timer";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 export default function Feed({ user, friends }) {
   const [friendWorkouts, setFriendWorkouts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
-  const [scrollContainer, setScrollContainer] = useState(
-    document.getElementById("feed-container")
-  );
+
   const fetchFriendWorkouts = useCallback(async () => {
     const friendWorkOutArr = [];
-    if (user.id) {
-      const userWorkouts = await supabase
-        .from("workout")
-        .select("*")
-        .eq("user_id", user.id);
-      if (userWorkouts.data) {
-        friendWorkOutArr.push(...userWorkouts.data);
-      }
-    }
+
     for (const index in friends) {
       if (friends[index].requester_id) {
         const workout = await supabase
@@ -50,11 +41,6 @@ export default function Feed({ user, friends }) {
       return new Date(b.date) - new Date(a.date);
     });
   }, [friends, user.id]);
-
-  //   window.onload = function () {
-  //     const feedContainer = document.getElementById("feedContainer");
-  //     feedContainer.scrollTop = feedContainer.scrollHeight;
-  //   };
 
   const handleModalClick = (
     evt,
@@ -97,58 +83,71 @@ export default function Feed({ user, friends }) {
           {friendWorkouts.length === 0 ? (
             <p className={styles.noFeed}>
               Your friends haven&apos;t uploaded any workouts or add friends to
-              see their workouts!
+              see more workouts!
             </p>
           ) : (
-            friendWorkouts.map((workout) => (
-              <div
-                key={workout.id}
-                className={`${styles.workoutContainer} ${styles.myWorkout}`}
-              >
-                <div className={styles.workoutHeader}>
-                  <p className={styles.feedUsername}>
-                    {workout.username ? workout.username : user.username}
-                  </p>
-                  <p className={styles.date}>{workout.date}</p>
-                </div>
-
-                <div className={styles.workout}>
-                  <p>Here&apos;s my workout for the day!</p>
-                  <hr />
-                  {/* <p>Notes: {workout.notes}</p> */}
-                  <div className={styles.details}>
-                    <p>Routine: {workout.routine}</p>
-                    <div className={styles.duration}>
-                      <TimerIcon
-                        sx={{
-                          color: "#fafafa",
-                          height: "40px",
-                          width: "40px",
+            <>
+              {friendWorkouts.map((workout) => (
+                <div
+                  key={workout.id}
+                  className={`${styles.workoutContainer} ${styles.myWorkout}`}
+                >
+                  <div className={styles.workout}>
+                    <div className={styles.workoutHeader}>
+                      <div className={styles.postHeader}>
+                        <AccountCircleIcon
+                          id={styles.icon}
+                          sx={{
+                            color: "#fafafa",
+                            height: "40px",
+                            width: "40px",
+                          }}
+                        />
+                        <p className={styles.feedUsername}>
+                          {workout.username ? workout.username : user.username}
+                        </p>
+                      </div>
+                      <p className={styles.date}>{workout.date}</p>
+                    </div>
+                    <div className={styles.postContent}>
+                      <div className={styles.details}>
+                        <p className={styles.routine}>{workout.routine}</p>
+                        <div className={styles.duration}>
+                          <TimerIcon
+                            sx={{
+                              color: "#fafafa",
+                              height: "20px",
+                              width: "20px",
+                            }}
+                          />
+                          <p>{workout.duration} minutes</p>
+                        </div>
+                      </div>
+                      <p>{workout.notes}</p>
+                      <button
+                        className={styles.viewWorkoutBtn}
+                        value={workout.id}
+                        onClick={(e) => {
+                          handleModalClick(
+                            e,
+                            workout.username,
+                            workout.duration,
+                            workout.date,
+                            workout.routine
+                          );
                         }}
-                      />
-                      <p>{workout.duration} minutes</p>
+                      >
+                        View Workout
+                      </button>
                     </div>
                   </div>
-                  <button
-                    className={styles.viewWorkoutBtn}
-                    value={workout.id}
-                    onClick={(e) => {
-                      handleModalClick(
-                        e,
-                        workout.username,
-                        workout.duration,
-                        workout.date,
-                        workout.routine
-                      );
-                    }}
-                  >
-                    View Workout
-                  </button>
                 </div>
-              </div>
-            ))
+              ))}
+              <p className={styles.endOfFeed}>
+                <span>You&apos;ve reached the end!</span>
+              </p>
+            </>
           )}
-          {/* props */}
         </div>
       </div>
     </div>

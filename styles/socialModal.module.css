@@ -28,9 +28,9 @@
 .modalContainer {
   width: 100%;
   min-height: 70vh;
-  /* overflow: auto; */
   background-color: #0c0c0c;
   padding: 2rem;
+  border: 1px solid #0c0c0c;
   border-radius: 10px;
 }
 
@@ -76,7 +76,7 @@
 
 .personalRecord {
   font-size: 12px;
-  transform: translateY(-10px);
+  transform: translateX(-5px) translateY(-8px);
   color: #03dac5;
 }
 
@@ -100,6 +100,7 @@
   border: none;
   border-radius: 10px;
   padding: 0.5rem;
+  cursor: pointer;
 }
 
 .exercise p {
@@ -135,7 +136,7 @@
   flex: 1 1 0px;
 }
 
-.notesContainer p {
+.notesContainer p:last-child {
   margin: 0;
 }
 
@@ -143,6 +144,7 @@
   font-size: 22px;
   font-weight: 500;
   margin: 0;
+  margin-bottom: 0.5rem;
 }
 
 .workoutContainer {
@@ -159,6 +161,7 @@
 .setContainerHeader {
   font-size: 22px;
   margin: 0;
+  margin-bottom: 0.5rem;
 }
 
 .sets p {
@@ -186,7 +189,7 @@
 
 .weightContainer p:first-child {
   position: absolute;
-  transform: translateX(-15px) translateY(-2px);
+  transform: translateX(-15px) translateY(-4px);
 }
 
 .weightContainer p:last-child {
@@ -196,7 +199,7 @@
 
 .repsContainer p:first-child {
   position: absolute;
-  transform: translateX(-15px) translateY(-2px);
+  transform: translateX(-15px) translateY(-4px);
 }
 
 .repsContainer {
@@ -213,11 +216,7 @@
   font-weight: 600;
 }
 
-.setsItem {
-  /* text-align: center; */
-}
-
-.closeBtn {
+#close {
   font-size: 12px;
   border: solid 1px #03dac5;
   background-color: transparent;
@@ -229,7 +228,7 @@
   animation-fill-mode: forwards;
 }
 
-.closeBtn:hover {
+#close:hover {
   background-color: #03dac5;
   color: #0c0c0c;
   transition: all 100ms linear;

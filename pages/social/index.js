@@ -204,7 +204,7 @@ export default function Groups() {
         <>
           <div className={styles.container}>
             <div className={styles.groupContainer}>
-              <p className={styles.header}>SOCIAL</p>
+              {/* <p className={styles.header}>SOCIAL</p> */}
               <div className={styles.content}>
                 <div className={styles.friends}>
                   <div className={styles.friendsTabs}>
@@ -270,8 +270,8 @@ export default function Groups() {
                               id={styles.icon}
                               sx={{
                                 color: "#fafafa",
-                                height: "40px",
-                                width: "40px",
+                                height: "45px",
+                                width: "45px",
                               }}
                             />
                             <Link

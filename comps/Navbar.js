@@ -151,12 +151,7 @@ const Navbar = () => {
               }}
             >
               <Link href="/dashboard">
-                <Image
-                  src="/../public/logo.png"
-                  alt=""
-                  width={50}
-                  height={50}
-                />
+                <Image src="/logo.png" alt="" width={50} height={50} />
               </Link>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
@@ -427,12 +422,7 @@ const Navbar = () => {
               }}
             >
               <Link href="/">
-                <Image
-                  src="/../public/logo.png"
-                  alt=""
-                  width={50}
-                  height={50}
-                />
+                <Image src="/logo.png" alt="" width={50} height={50} />
               </Link>
             </Box>
             <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
