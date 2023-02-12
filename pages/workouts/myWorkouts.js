@@ -33,12 +33,13 @@ import dayjs from "dayjs";
 import { styled } from "@mui/material/styles";
 import Head from "next/head";
 import Card from "@mui/material/Card";
+import styles from "@/styles/myWorkout.module.css";
 
 const CustomizedCalendar = styled(StaticDatePicker)`
   .MuiPickerStaticWrapper-content {
     background-color: #161616;
     min-width: 100vh;
-    min-height: 100vh;
+    min-height: 75vh;
   }
 
   .css-xelq0e-MuiPickerStaticWrapper-content {
@@ -319,7 +320,7 @@ export default function MyWorkouts() {
         <Grid
           container
           spacing={4}
-          style={{ minHeight: "90vh", backgroundColor: "#121212" }}
+          style={{ minHeight: "75vh", backgroundColor: "#121212" }}
         >
           <Grid
             item
@@ -342,6 +343,7 @@ export default function MyWorkouts() {
                 style={{ borderRight: "10px solid #202020" }}
               >
                 <CustomizedCalendar
+                  className="calendar-container"
                   displayStaticWrapperAs="desktop"
                   value={date}
                   onChange={(newDate) => {
@@ -382,46 +384,48 @@ export default function MyWorkouts() {
                 style={{ backgroundColor: "#161616" }}
               >
                 {workout ? (
-                  <div
-                    style={{
-                      paddingTop: "15px",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <Typography
-                      variant="h6"
+                  <div>
+                    <div
                       style={{
+                        paddingTop: "15px",
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        fontFamily: "Montserrat, sans-serif",
-                        fontSize: "22px",
                       }}
                     >
-                      Routine: {workout.routine}
-                    </Typography>
+                      <Typography
+                        variant="h6"
+                        style={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          fontFamily: "Montserrat, sans-serif",
+                          fontSize: "22px",
+                        }}
+                      >
+                        Routine: {workout.routine}
+                      </Typography>
 
-                    <EditIcon
-                      style={{
-                        fontSize: "22px",
-                        color: "#03dac5",
-                        marginLeft: "5px",
-                        marginRight: "5px",
-                      }}
-                      onClick={handleRedirect}
-                    />
+                      <EditIcon
+                        style={{
+                          fontSize: "22px",
+                          color: "#03dac5",
+                          marginLeft: "5px",
+                          marginRight: "5px",
+                        }}
+                        onClick={handleRedirect}
+                      />
 
-                    <DeleteIcon
-                      style={{
-                        fontSize: "22px",
-                        color: "#03dac5",
-                        marginLeft: "0px",
-                        marginRight: "5px",
-                      }}
-                      onClick={handleDelete}
-                    />
+                      <DeleteIcon
+                        style={{
+                          fontSize: "22px",
+                          color: "#03dac5",
+                          marginLeft: "0px",
+                          marginRight: "5px",
+                        }}
+                        onClick={handleDelete}
+                      />
+                    </div>
                   </div>
                 ) : (
                   <div
@@ -430,7 +434,7 @@ export default function MyWorkouts() {
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center",
-                      height: "100vh",
+                      height: "75vh",
                     }}
                   >
                     <div style={{ textAlign: "center" }}>
