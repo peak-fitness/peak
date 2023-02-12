@@ -93,7 +93,7 @@ const MealForm = ({ addMeal, currentState }) => {
             onSubmit={handleSubmit}
             style={{ marginLeft: "10px" }}
           >
-            <AddCircleIcon style={{ fontSize: "30px", color: "green" }} />
+            <AddCircleIcon style={{ fontSize: "30px", fill: "green" }} />
           </IconButton>
         </form>
       </div>

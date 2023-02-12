@@ -39,6 +39,7 @@ import styles from "@/styles/myWorkout.module.css";
 const theme = createTheme({
   palette: {
     primary: { main: "#03DAC5" },
+    type: "dark",
   },
 });
 

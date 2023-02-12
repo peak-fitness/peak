@@ -62,7 +62,7 @@ function CaloriesContent() {
                     variant="h5"
                     style={{
                       color: "#FFFFFF",
-                      paddingTop: "2rem",
+                      paddingTop: "1rem",
                       fontFamily: "Montserrat, sans serif",
                       fontSize: "38px",
                       fontWeight: 700,
@@ -91,7 +91,12 @@ function CaloriesContent() {
                       },
                       alignItems: "center",
                       borderRadius: "10px",
-                      height: "800px",
+                      height: "75vh",
+                    }}
+                    style={{
+                      display: "flex",
+                      justifyContent: "flex-start",
+                      alignItems: "start",
                     }}
                   >
                     <Grid item xs={12}>
@@ -99,6 +104,7 @@ function CaloriesContent() {
                         style={{
                           backgroundColor: "#202020",
                           paddingBottom: "1rem",
+                          height: "75vh",
                         }}
                       >
                         <MealContainer />
