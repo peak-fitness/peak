@@ -24,7 +24,7 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { createTheme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider, styled } from "@mui/material/styles";
 import styles from "@/styles/CalorieTracker.module.css";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 
@@ -38,6 +38,12 @@ const theme = createTheme({
 const CustomBadge = withStyles(() => ({
   badge: { backgroundColor: "#03DAC5" },
 }))(Badge);
+
+const CustomizedCalendar = styled(StaticDatePicker)`
+  .css-1x6pt0w-MuiButtonBase-root-MuiPickersDay-root {
+    background-color: #262626;
+  }
+`;
 
 export default function MealContainer() {
   const supabase = useSupabaseClient();
@@ -228,7 +234,7 @@ export default function MealContainer() {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
           <div>
-            <StaticDatePicker
+            <CustomizedCalendar
               sx={{
                 backgroundColor: "#202020",
                 ".MuiTypography-root": { color: "#FFFFFF" },

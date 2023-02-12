@@ -249,7 +249,13 @@ export default function AddWorkout() {
     setCurrentIndex(index);
   };
 
-  return (
+  function Redirect({ to }) {
+    useEffect(() => {
+      router.push(to);
+    }, [to]);
+  }
+
+  return session ? (
     <>
       <Head>
         <title>Workouts</title>
@@ -881,5 +887,7 @@ export default function AddWorkout() {
         </Grid>
       </Grid>
     </>
+  ) : (
+    <Redirect to="/" />
   );
 }
