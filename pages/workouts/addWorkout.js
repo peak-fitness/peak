@@ -341,7 +341,7 @@ export default function AddWorkout() {
                   className={styles.form}
                   id="notes"
                   InputLabelProps={{ shrink: true }}
-                  label="Notes"
+                  label="Notes (Optional)"
                   value={workout.notes}
                   onChange={(e) => updateWorkout({ notes: e.target.value })}
                   style={{ width: "200px" }}
@@ -382,7 +382,16 @@ export default function AddWorkout() {
           </Typography>
           <Grid container spacing={6} className={styles.workoutContainer}>
             <Grid item lg={4} className={styles.add}>
-              <Button variant="outlined" onClick={() => setOpen(true)}>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  if (workout.routine && date && workout.duration) {
+                    setOpen(true);
+                  } else {
+                    alert("Please fill out all required fields.");
+                  }
+                }}
+              >
                 Add an Exercise
               </Button>
               <Dialog
