@@ -57,6 +57,10 @@ export default function MyWorkouts() {
     updateWorkoutAchievements();
   });
 
+  useEffect(() => {
+    setDate(dayjs(router.query.date));
+  }, [router.query]);
+
   const fetchWorkouts = async () => {
     if (date) {
       const dateString = `${date.$y}-0${date.$M + 1}-${
