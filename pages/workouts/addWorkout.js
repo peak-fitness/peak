@@ -76,9 +76,12 @@ export default function AddWorkout() {
     { name: "", notes: "", is_pr: false, muscle_group: "", sets: [] }
   );
 
-  const [set, updateSet] = useReducer((prev, next) => {
-    return { ...prev, ...next };
-  }, {});
+  const [set, updateSet] = useReducer(
+    (prev, next) => {
+      return { ...prev, ...next };
+    },
+    { id: 1, reps: 1, weight: 0 }
+  );
 
   const importData = () => {
     const encodedWorkout = router.query.data;
@@ -380,6 +383,13 @@ export default function AddWorkout() {
           >
             Exercises
           </Typography>
+          <Typography
+            variant="caption"
+            align="center"
+            style={{ marginBottom: "10px" }}
+          >
+            (Please fill out the above fields before adding an exercise.)
+          </Typography>
           <Grid container spacing={6} className={styles.workoutContainer}>
             <Grid item lg={4} className={styles.add}>
               <Button
@@ -411,15 +421,15 @@ export default function AddWorkout() {
                     Please enter information about your exercise below
                   </DialogContentText>
                   {invalidName && (
-                    <p className="invalid-exercise">
-                      Please enter a name for your exercise
+                    <p className="invalid-exercise" style={{ color: "red" }}>
+                      Please enter a routine for your exercise
                     </p>
                   )}
                   <TextField
                     autoFocus
                     margin="dense"
                     id="name"
-                    label="Exercise Name"
+                    label="Routine (Push, Pull, Legs, etc.)"
                     fullWidth
                     variant="standard"
                     InputLabelProps={{ shrink: true }}
@@ -470,6 +480,7 @@ export default function AddWorkout() {
                     <FormControlLabel
                       control={
                         <Checkbox
+                          style={{ color: "white" }}
                           id="is_pr"
                           onChange={(e) => {
                             updateExercise({ is_pr: e.target.checked });
@@ -492,7 +503,10 @@ export default function AddWorkout() {
                     </p>
                   )}
                   {!update && (
-                    <Container className={styles.setsContainer}>
+                    <Container
+                      className={styles.setsContainer}
+                      style={{ marginTop: "10px" }}
+                    >
                       <FormControl>
                         <InputLabel htmlFor="set-number">Set #</InputLabel>
                         <Input
@@ -858,9 +872,9 @@ export default function AddWorkout() {
             onClick={handleSubmit}
             variant="contained"
             style={{
-              width: "200px",
+              width: "220px",
               height: "40px",
-              fontSize: "15px",
+              fontSize: "18px",
               margin: "10px",
             }}
           >
