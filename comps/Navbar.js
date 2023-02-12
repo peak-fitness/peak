@@ -70,6 +70,11 @@ const Navbar = () => {
     router.push("/profile");
   };
 
+  const handleAccount = () => {
+    setOpen(false);
+    router.push("/account");
+  };
+
   function handleListKeyDown(event) {
     if (event.key === "Tab") {
       event.preventDefault();
@@ -338,7 +343,11 @@ const Navbar = () => {
                 onClick={handleToggle}
               >
                 <Avatar
-                  src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${pfp}`}
+                  src={
+                    pfp
+                      ? `https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${pfp}`
+                      : ""
+                  }
                 />
               </Button>
               <Popper
@@ -368,7 +377,7 @@ const Navbar = () => {
                           onKeyDown={handleListKeyDown}
                         >
                           <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                          <MenuItem onClick={handleClose}>Settings</MenuItem>
+                          <MenuItem onClick={handleAccount}>Account</MenuItem>
                           <MenuItem onClick={signout}>Logout</MenuItem>
                         </MenuList>
                       </ClickAwayListener>

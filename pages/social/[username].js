@@ -56,7 +56,7 @@ export default function Public_Profile() {
       const { data, error } = await supabase
         .from("user")
         .select(
-          "id, username, first_name, last_name, height, current_weight, age, gender, location, bio, social_medias"
+          "id, username, first_name, last_name, height, current_weight, age, gender, location, bio, social_medias, avatar_url"
         )
         .eq("username", username)
         .single();
@@ -219,10 +219,19 @@ export default function Public_Profile() {
                 }}
               >
                 <Box>
-                  <AccountCircle
-                    id={styles.defaultProfileIcon}
-                    sx={{ position: "absolute", top: "11.6rem" }}
-                  />
+                  {user.avatar_url ? (
+                    <img
+                      src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${user.avatar_url}`}
+                      alt=""
+                      className={styles.publicPfp}
+                    />
+                  ) : (
+                    <AccountCircle
+                      id={styles.defaultProfileIcon}
+                      sx={{ position: "absolute", top: "11.6rem" }}
+                    />
+                  )}
+
                   <Typography
                     variant="h5"
                     sx={{ marginBottom: "0", marginTop: "3rem" }}
