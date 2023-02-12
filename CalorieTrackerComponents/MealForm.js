@@ -54,7 +54,10 @@ const MealForm = ({ addMeal, currentState }) => {
         {error && <p style={{ color: "red" }}>{error}</p>}
         <form
           onSubmit={handleSubmit}
-          style={{ backgroundColor: "#262626", borderRadius: "10px" }}
+          style={{
+            backgroundColor: "#262626",
+            borderRadius: "10px",
+          }}
         >
           <FormControl>
             <InputLabel htmlFor="meal-name">Meal Name</InputLabel>
@@ -64,6 +67,7 @@ const MealForm = ({ addMeal, currentState }) => {
               name="name"
               value={meal.name}
               onChange={handleChange}
+              border="solid red"
             />
           </FormControl>
           <FormControl>
