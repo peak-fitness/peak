@@ -556,7 +556,11 @@ export default function AddWorkout() {
                           className={styles.setsItems}
                         >
                           <AddCircleIcon
-                            style={{ fontSize: "30px", color: "#03dac5" }}
+                            style={{
+                              fontSize: "30px",
+                              color: "#03dac5",
+                              cursor: "pointer",
+                            }}
                           />
                         </IconButton>
                       </FormControl>
@@ -683,6 +687,7 @@ export default function AddWorkout() {
                                                 style={{
                                                   fontSize: "22px",
                                                   color: "#03dac5",
+                                                  cursor: "pointer",
                                                 }}
                                               />
                                             </IconButton>
@@ -897,7 +902,10 @@ export default function AddWorkout() {
           <Button
             className={styles.saveButton}
             type="submit"
-            onClick={handleSubmit}
+            onClick={() => {
+              if (workout.exercises.length) handleSubmit();
+              else alert("Please enter at least one exercise before saving");
+            }}
             variant="contained"
             style={{
               width: "220px",
