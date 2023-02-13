@@ -368,10 +368,13 @@ export default function MealContainer() {
                   deleted={deleted}
                   edited={edited}
                 />
-                <div align="center" justifycontent="center">
+                <div
+                  align="center"
+                  justifycontent="center"
+                  className={styles.tabs}
+                >
                   <Tabs
                     letiant="fullWidth"
-                    textColor="#03dac5"
                     value={value}
                     onChange={handleTabChange}
                     centered

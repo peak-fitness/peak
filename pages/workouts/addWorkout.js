@@ -365,7 +365,7 @@ export default function AddWorkout() {
                   id="duration"
                   InputLabelProps={{ shrink: true }}
                   label="Duration (Mins)"
-                  value={workout.duration}
+                  value={String(workout.duration)}
                   onChange={(e) =>
                     updateWorkout({ duration: Number(e.target.value) })
                   }

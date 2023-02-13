@@ -2,18 +2,9 @@ import Navbar from "@/comps/Navbar";
 import {
   createTheme,
   Badge,
-  Box,
-  Button,
-  Container,
   Grid,
   TextField,
   ThemeProvider,
-  List,
-  ListItem,
-  IconButton,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
   Typography,
   ListItemIcon,
   withStyles,
@@ -159,6 +150,10 @@ export default function MyWorkouts() {
   useEffect(() => {
     updateWorkoutAchievements();
   });
+
+  useEffect(() => {
+    setDate(dayjs(router.query.date));
+  }, [router.query]);
 
   const fetchWorkouts = async () => {
     if (date) {
