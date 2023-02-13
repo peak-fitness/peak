@@ -139,7 +139,7 @@ function DashboardContent() {
                       backgroundColor: "#262626",
                       marginTop: "40px",
                       marginRight: "30px",
-                      marginLeft: "30px",
+                      marginLeft: "20px",
                       marginBottom: "20px",
                       borderRadius: "15px",
                     }}
