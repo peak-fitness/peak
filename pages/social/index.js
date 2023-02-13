@@ -28,16 +28,22 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Feed from "@/SocialComponents/Feed";
 import Head from "next/head";
+import ConfirmationModal from "@/SocialComponents/ConfirmationModal";
 
 export default function Groups() {
   const [tab, setTab] = useState(true);
   const [user, setUser] = useState({});
   const [friends, setFriends] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
-  // const session = useSession();
+  const [modal, setModal] = useState({ show: false, id: null, requester: "" });
+
   const supabase = useSupabaseClient();
   const router = useRouter();
   const { isLoading, session, error } = useSessionContext();
+
+  const handleModalOpen = (requestId, requester) => {
+    setModal({ show: true, id: requestId, requester });
+  };
 
   const handleFriendTab = () => {
     setTab(true);
@@ -85,6 +91,8 @@ export default function Groups() {
   const handleRequestDecline = async (requestId) => {
     try {
       await supabase.from("friends").delete().eq("id", requestId).single();
+      setModal({ show: false, id: null, requester: "" });
+      document.body.classList.remove("modal-open");
       getProfile();
       toast.success("Request Declined", {
         position: "bottom-right",
@@ -95,6 +103,8 @@ export default function Groups() {
         theme: "dark",
       });
     } catch (error) {
+      setModal({ show: false, id: null, requester: "" });
+      document.body.classList.remove("modal-open");
       toast.error("Something went wrong :(", {
         position: "bottom-right",
         autoClose: 3000,
@@ -183,10 +193,6 @@ export default function Groups() {
     );
   };
 
-  const signout = async () => {
-    const { error } = await supabase.auth.signOut();
-  };
-
   useEffect(() => {
     getProfile();
     getAllUsers();
@@ -197,6 +203,14 @@ export default function Groups() {
       <Head>
         <title>Social</title>
       </Head>
+      {modal.show && (
+        <ConfirmationModal
+          requests={user.friends}
+          modal={modal}
+          setModal={setModal}
+          handleRequestDecline={handleRequestDecline}
+        />
+      )}
       <Navbar />
       {isLoading ? (
         ""
@@ -338,7 +352,10 @@ export default function Groups() {
                                     className={styles.requestBtn}
                                     aria-label="group-icon"
                                     onClick={() =>
-                                      handleRequestDecline(request.id)
+                                      handleModalOpen(
+                                        request.id,
+                                        request.requester_username
+                                      )
                                     }
                                   >
                                     <CancelIcon
