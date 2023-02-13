@@ -7,6 +7,7 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { makeStyles } from "@material-ui/core/styles";
 import Image from "next/image";
+import LikedUsersModal from "./LikedUsersModal";
 
 const useStyles = makeStyles({
   heart: {
@@ -18,10 +19,10 @@ export default function Feed({ user, friends }) {
   const [friendWorkouts, setFriendWorkouts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
-  const [disabled, setDisabled] = useState(false);
   const classes = useStyles();
-  const [likes, setLikes] = useState({});
-  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState();
+  const [showLikeModal, setShowLikeModal] = useState(false);
+  const [currentLikedUsers, setCurrentLikedUsers] = useState([]);
 
   const fetchFriendWorkouts = useCallback(async () => {
     const friendWorkOutArr = [];
@@ -78,24 +79,29 @@ export default function Feed({ user, friends }) {
   }, [fetchFriendWorkouts]);
 
   const handleLikeClick = async (id) => {
+    const testObj = { ...likes };
     const { data, error } = await supabase
       .from("likes")
       .select("*")
       .eq("user_id", user.id)
       .eq("workout_id", id);
 
-    if (data.length === 1) {
-      console.log("hi");
-    } else {
+    if (!data.length) {
       await supabase.from("likes").insert({
         user_id: user.id,
         workout_id: id,
       });
+      testObj[id]["liked"] = true;
+      setLikes(testObj);
+    } else {
+      await supabase
+        .from("likes")
+        .delete()
+        .eq("user_id", user.id)
+        .eq("workout_id", id);
+      testObj[id]["liked"] = false;
     }
-    setLiked(true);
-
-    // setLikes(data.length);
-    // useEffect with like dependency for re-render
+    getLikes();
   };
 
   const getLikes = useCallback(async () => {
@@ -103,16 +109,32 @@ export default function Feed({ user, friends }) {
     for (const workout of friendWorkouts) {
       const { data, error } = await supabase
         .from("likes")
-        .select("*")
+        .select("user_id")
         .eq("workout_id", workout.id);
-      testObj[workout.id] = data.length;
+      testObj[workout.id] = {};
+      testObj[workout.id]["users"] = [];
+      testObj[workout.id]["count"] = data.length;
+      for (const elem of data) {
+        testObj[workout.id]["users"].push(elem);
+      }
+      const response = await supabase
+        .from("likes")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("workout_id", workout.id);
+      if (response.data.length) testObj[workout.id]["liked"] = true;
     }
     setLikes(testObj);
-  }, [friendWorkouts]);
+  }, [friendWorkouts, user.id]);
 
   useEffect(() => {
     getLikes();
   }, [getLikes]);
+
+  const handleLikeModal = (array) => {
+    setCurrentLikedUsers(array);
+    setShowLikeModal(true);
+  };
 
   return (
     <div id="feed-container" className={styles.feedContainer}>
@@ -124,6 +146,12 @@ export default function Feed({ user, friends }) {
           friends={friends}
           friendWorkouts={friendWorkouts}
           selectedWorkout={selectedWorkout}
+        />
+      ) : null}
+      {showLikeModal ? (
+        <LikedUsersModal
+          setShowLikeModal={setShowLikeModal}
+          currentLikedUsers={currentLikedUsers}
         />
       ) : null}
       {/* component stuff */}
@@ -192,19 +220,27 @@ export default function Feed({ user, friends }) {
                       </button>
 
                       <FavoriteIcon
-                        className={liked ? classes.heart : ""}
+                        className={
+                          likes[workout.id]
+                            ? likes[workout.id]["liked"]
+                              ? classes.heart
+                              : " "
+                            : ""
+                        }
                         onClick={() => {
                           handleLikeClick(workout.id);
-                          // getLikes(workout.id);
-                          // console.log(likes);
                         }}
                       />
                     </div>
-                    <div>
-                      {likes[workout.id] && likes[workout.id] > 0
-                        ? likes[workout.id] === 1
-                          ? `${likes[workout.id]} like`
-                          : `${likes[workout.id]} likes`
+                    <div
+                      onClick={() => {
+                        handleLikeModal(likes[workout.id]["users"]);
+                      }}
+                    >
+                      {likes[workout.id] && likes[workout.id]["count"] > 0
+                        ? likes[workout.id]["count"] === 1
+                          ? `${likes[workout.id]["count"]} like`
+                          : `${likes[workout.id]["count"]} likes`
                         : ""}
                     </div>
                   </div>
@@ -220,14 +256,3 @@ export default function Feed({ user, friends }) {
     </div>
   );
 }
-
-// const getLikes = async (id) => {
-//   const { data, error } = await supabase
-//     .from("likes")
-//     .select("*")
-//     .eq("workout_id", id);
-//   if (data) {
-//     const newState = { ...likes, [id]: { WLikes: data.length, liked: true } };
-//     setLikes(newState);
-//   }
-// };
