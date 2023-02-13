@@ -18,10 +18,8 @@ export default function Feed({ user, friends }) {
   const [friendWorkouts, setFriendWorkouts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
-  const [disabled, setDisabled] = useState(false);
   const classes = useStyles();
   const [likes, setLikes] = useState();
-  const [liked, setLiked] = useState(false);
   const [showLikeModal, setShowLikeModal] = useState(false);
   const [currentLikedUsers, setCurrentLikedUsers] = useState([]);
 
@@ -95,9 +93,15 @@ export default function Feed({ user, friends }) {
       });
       testObj[id]["liked"] = true;
       setLikes(testObj);
+    } else {
+      await supabase
+        .from("likes")
+        .delete()
+        .eq("user_id", user.id)
+        .eq("workout_id", id);
+      testObj[id]["liked"] = false;
     }
-    // setLikes(data.length);
-    // useEffect with like dependency for re-render
+    getLikes();
   };
 
   const getLikes = useCallback(async () => {
@@ -120,7 +124,6 @@ export default function Feed({ user, friends }) {
         .eq("workout_id", workout.id);
       if (response.data.length) testObj[workout.id]["liked"] = true;
     }
-    console.log(testObj);
     setLikes(testObj);
   }, [friendWorkouts, user.id]);
 
@@ -224,8 +227,6 @@ export default function Feed({ user, friends }) {
                         }
                         onClick={() => {
                           handleLikeClick(workout.id);
-                          // getLikes(workout.id);
-                          // console.log(likes);
                         }}
                       />
                     </div>
@@ -253,14 +254,3 @@ export default function Feed({ user, friends }) {
     </div>
   );
 }
-
-// const getLikes = async (id) => {
-//   const { data, error } = await supabase
-//     .from("likes")
-//     .select("*")
-//     .eq("workout_id", id);
-//   if (data) {
-//     const newState = { ...likes, [id]: { WLikes: data.length, liked: true } };
-//     setLikes(newState);
-//   }
-// };

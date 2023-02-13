@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "@/styles/ConfirmationModal.module.css";
 import { supabase } from "@/lib/supabaseClient";
+import Link from "next/link";
 
 export default function LikedUsersModal({
   setShowLikeModal,
@@ -55,7 +56,11 @@ export default function LikedUsersModal({
               {usernames.map((user) => {
                 return (
                   <>
-                    <li key={user.id}>{user.username}</li>
+                    <div key={user.id}>
+                      <Link href={`/social/${user.username}`}>
+                        {user.username}
+                      </Link>
+                    </div>
                   </>
                 );
               })}
