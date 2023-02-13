@@ -71,14 +71,14 @@ export default function RecentWorkouts() {
         <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell>
-                <Typography>Date</Typography>
+              <TableCell align="center">
+                <Typography variant="body1">Date</Typography>
               </TableCell>
-              <TableCell>
-                <Typography>Routine</Typography>
+              <TableCell align="center">
+                <Typography variant="body1">Routine</Typography>
               </TableCell>
-              <TableCell align="right">
-                <Typography>Duration (Min)</Typography>
+              <TableCell align="center">
+                <Typography variant="body1">Duration (Min)</Typography>
               </TableCell>
             </TableRow>
           </TableHead>
@@ -86,18 +86,16 @@ export default function RecentWorkouts() {
             <TableBody>
               {rows.slice(0, 4).map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell>
-                    <Typography style={{ fontSize: 15 }}>{row.date}</Typography>
+                  <TableCell align="center">
+                    <Typography variant="body2">{row.date}</Typography>
                   </TableCell>
-                  <TableCell>
-                    <Typography style={{ fontSize: 15 }}>
+                  <TableCell align="center">
+                    <Typography variant="body2">
                       {row.routine.toUpperCase()}
                     </Typography>
                   </TableCell>
-                  <TableCell align="right">
-                    <Typography
-                      style={{ fontSize: 15 }}
-                    >{`${row.duration}`}</Typography>
+                  <TableCell align="center">
+                    <Typography variant="body2">{`${row.duration}`}</Typography>
                   </TableCell>
                 </TableRow>
               ))}
