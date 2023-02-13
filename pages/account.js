@@ -35,8 +35,6 @@ export default function AccountSettings() {
     setChange(false);
   };
 
-  console.log(isLoading);
-
   useEffect(() => {
     getUser();
   }, [isLoading, change]);
