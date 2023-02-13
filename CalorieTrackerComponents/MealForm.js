@@ -67,7 +67,6 @@ const MealForm = ({ addMeal, currentState }) => {
               name="name"
               value={meal.name}
               onChange={handleChange}
-              border="solid red"
             />
           </FormControl>
           <FormControl>
