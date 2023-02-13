@@ -139,9 +139,9 @@ export default function AchievementsPage() {
                 flexFlow: "column",
                 height: "80%",
                 margin: "2rem 0",
-                padding: "2rem",
+                padding: "1rem",
                 backgroundColor: "#262626",
-                borderRadius: "10px",
+                borderRadius: "15px",
               }}
             >
               <Typography
@@ -150,13 +150,13 @@ export default function AchievementsPage() {
                   fontSize: "38px",
                   color: "#fafafa",
                   fontWeight: 700,
-                  marginBottom: "2rem",
+                  marginBottom: "1.5rem",
                   fontFamily: "Montserrat, sans serif",
                   pb: "5px",
                   pl: "6px",
                 }}
               >
-                ACHIEVEMENTS
+                Achievements
               </Typography>
               <Grid
                 container
@@ -177,7 +177,7 @@ export default function AchievementsPage() {
                   alignItems: "center",
                   backgroundColor: "#202020",
                   padding: "1rem",
-                  borderRadius: "10px",
+                  borderRadius: "15px",
                   height: "600px",
                 }}
               >

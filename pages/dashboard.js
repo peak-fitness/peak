@@ -164,7 +164,7 @@ function DashboardContent() {
                           fontWeight: 700,
                         }}
                       >
-                        DASHBOARD
+                        Dashboard
                       </Typography>
                     </div>
 
