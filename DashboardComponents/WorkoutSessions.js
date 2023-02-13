@@ -71,13 +71,13 @@ export default function RecentWorkouts() {
         <Table size="small">
           <TableHead>
             <TableRow>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography variant="body1">Date</Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="left">
                 <Typography variant="body1">Routine</Typography>
               </TableCell>
-              <TableCell align="center">
+              <TableCell align="right">
                 <Typography variant="body1">Duration (Min)</Typography>
               </TableCell>
             </TableRow>
@@ -86,15 +86,15 @@ export default function RecentWorkouts() {
             <TableBody>
               {rows.slice(0, 4).map((row) => (
                 <TableRow key={row.id}>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography variant="body2">{row.date}</Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="left">
                     <Typography variant="body2">
                       {row.routine.toUpperCase()}
                     </Typography>
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell align="right">
                     <Typography variant="body2">{`${row.duration}`}</Typography>
                   </TableCell>
                 </TableRow>
