@@ -1,6 +1,6 @@
 <div align="center">
 
-# Peak [![website - Peak](https://img.shields.io/badge/Website-Peak-03DAC5)](/CONTRIBUTING.md "Go to contributions doc")
+# Peak [![website - Peak](https://img.shields.io/badge/Website-Peak-03DAC5)](https://peakfitness.netlify.app/ "Visit our website")
 
 [![Made with JavaScript](https://img.shields.io/badge/Made_with-JavaScript-yellow?logo=javascript&logoColor=white)](https://www.javascript.com/ "Go to JavaScript homepage")
 [![Made with Node.js](https://img.shields.io/badge/Node.js->=16-2ea44f?logo=node.js&logoColor=white)](https://nodejs.org "Go to Node.js homepage")

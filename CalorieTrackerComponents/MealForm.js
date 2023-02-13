@@ -54,7 +54,10 @@ const MealForm = ({ addMeal, currentState }) => {
         {error && <p style={{ color: "red" }}>{error}</p>}
         <form
           onSubmit={handleSubmit}
-          style={{ backgroundColor: "#262626", borderRadius: "10px" }}
+          style={{
+            backgroundColor: "#262626",
+            borderRadius: "10px",
+          }}
         >
           <FormControl>
             <InputLabel htmlFor="meal-name">Meal Name</InputLabel>
@@ -64,6 +67,7 @@ const MealForm = ({ addMeal, currentState }) => {
               name="name"
               value={meal.name}
               onChange={handleChange}
+              border="solid red"
             />
           </FormControl>
           <FormControl>
@@ -93,7 +97,7 @@ const MealForm = ({ addMeal, currentState }) => {
             onSubmit={handleSubmit}
             style={{ marginLeft: "10px" }}
           >
-            <AddCircleIcon style={{ fontSize: "30px", color: "green" }} />
+            <AddCircleIcon style={{ fontSize: "30px", fill: "green" }} />
           </IconButton>
         </form>
       </div>

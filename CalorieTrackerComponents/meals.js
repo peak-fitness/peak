@@ -24,9 +24,19 @@ import {
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import { createTheme } from "@material-ui/core/styles";
-import { ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider, styled } from "@mui/material/styles";
 import styles from "@/styles/CalorieTracker.module.css";
 import { useSessionContext } from "@supabase/auth-helpers-react";
+import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
+import { Modal } from "@material-ui/core";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@material-ui/core";
 
 const theme = createTheme({
   palette: {
@@ -39,9 +49,20 @@ const CustomBadge = withStyles(() => ({
   badge: { backgroundColor: "#03DAC5" },
 }))(Badge);
 
+const CustomizedCalendar = styled(StaticDatePicker)`
+  .css-1x6pt0w-MuiButtonBase-root-MuiPickersDay-root {
+    background-color: #262626;
+  }
+
+  .MuiInputBase-input {
+    color: white;
+  }
+`;
+
 export default function MealContainer() {
   const supabase = useSupabaseClient();
   const session = useSession();
+  const [showCalendar, setShowCalendar] = useState(false);
   const [saved, setSaved] = useState(false);
   const [added, setAdded] = useState(false);
   const [deleted, setDeleted] = useState(false);
@@ -228,41 +249,76 @@ export default function MealContainer() {
       <LocalizationProvider dateAdapter={AdapterDayjs}>
         <Container style={{ paddingLeft: 0, paddingRight: 0 }}>
           <div>
-            <StaticDatePicker
-              sx={{
-                backgroundColor: "#202020",
-                ".MuiTypography-root": { color: "#FFFFFF" },
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
               }}
-              displayStaticWrapperAs="desktop"
-              value={date}
-              onChange={(newDate) => {
-                setDate(newDate);
-                setCheckDate(true);
-                setSaved(false);
-                setAdded(false);
-                setDeleted(false);
-                setEdited(false);
-              }}
-              renderInput={(params) => <TextField {...params} />}
-              dayOfWeekFormatter={(day) => `${day}.`}
-              showToolbar
-              renderDay={(day, _value, DayComponentProps) => {
-                const isSelected =
-                  !DayComponentProps.outsideCurrentMonth &&
-                  highlightedDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
+            >
+              <Typography style={{ fontFamily: "Montserrat" }}>
+                Select a Date:{" "}
+              </Typography>
+              <Button
+                onClick={() => setShowCalendar(true)}
+                style={{
+                  backgroundColor: "#202020",
+                  border: "1px solid white",
+                  margin: "10px",
+                }}
+              >
+                <CalendarMonthOutlinedIcon style={{ fill: "white" }} />
+              </Button>
+              <Typography style={{ fontFamily: "Montserrat" }}>
+                {date ? date.format("MM/DD/YYYY") : "MM/DD/YYYY"}
+              </Typography>
+            </div>
+            <Modal open={showCalendar} onClose={() => setShowCalendar(false)}>
+              <div
+                style={{
+                  backgroundColor: "#202020",
+                  padding: "20px",
+                  margin: "100px",
+                }}
+              >
+                <CustomizedCalendar
+                  sx={{
+                    backgroundColor: "#202020",
+                    ".MuiTypography-root": { color: "#FFFFFF" },
+                  }}
+                  displayStaticWrapperAs="desktop"
+                  value={date}
+                  onChange={(newDate) => {
+                    setDate(newDate);
+                    setCheckDate(true);
+                    setSaved(false);
+                    setAdded(false);
+                    setDeleted(false);
+                    setEdited(false);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                  dayOfWeekFormatter={(day) => `${day}.`}
+                  showToolbar
+                  renderDay={(day, _value, DayComponentProps) => {
+                    const isSelected =
+                      !DayComponentProps.outsideCurrentMonth &&
+                      highlightedDays.indexOf(day.format("YYYY-MM-DD")) >= 0;
 
-                return (
-                  <CustomBadge
-                    key={day.toString()}
-                    overlap="circular"
-                    color="primary"
-                    variant={isSelected ? "dot" : null}
-                  >
-                    <PickersDay {...DayComponentProps} />
-                  </CustomBadge>
-                );
-              }}
-            />
+                    return (
+                      <CustomBadge
+                        key={day.toString()}
+                        overlap="circular"
+                        color="primary"
+                        variant={isSelected ? "dot" : null}
+                      >
+                        <PickersDay {...DayComponentProps} />
+                      </CustomBadge>
+                    );
+                  }}
+                />
+              </div>
+            </Modal>
+
             {noTarget ? (
               <>
                 <Typography
@@ -312,10 +368,13 @@ export default function MealContainer() {
                   deleted={deleted}
                   edited={edited}
                 />
-                <div align="center" justifycontent="center">
+                <div
+                  align="center"
+                  justifycontent="center"
+                  className={styles.tabs}
+                >
                   <Tabs
                     letiant="fullWidth"
-                    textColor="#03dac5"
                     value={value}
                     onChange={handleTabChange}
                     centered
@@ -338,99 +397,147 @@ export default function MealContainer() {
                         addMeal={(meal) => addMeal(meal, "breakfast")}
                       />
                       <br />
-                      {!added && !deleted && !edited && !saved
-                        ? fetchMeals &&
-                          fetchMeals.breakfast.map((meal, index) => (
-                            <div
-                              key={index}
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                marginBottom: "0px",
-                                paddingLeft: 40,
-                                paddingRight: 40,
-                              }}
-                            >
-                              <IconButton
-                                onClick={() => removeMeal(index, "breakfast")}
-                                style={{ marginLeft: "10px" }}
-                              >
-                                <RemoveCircleIcon
-                                  style={{ fontSize: "30px", color: "#a83c32" }}
-                                />
-                              </IconButton>
-                              <p style={{ fontSize: "16px" }}>{meal.name}</p>
-                              <p style={{ fontSize: "16px" }}>
-                                {meal.calories} calories
-                              </p>
-                              <p style={{ fontSize: "16px" }}>
-                                {meal.protein}g protein
-                              </p>
+                      <TableContainer
+                        style={{
+                          backgroundColor: "#202020",
+                          width: "70rem",
+                        }}
+                      >
+                        {!added && !deleted && !edited && !saved ? (
+                          <Table>
+                            <TableBody>
+                              {fetchMeals &&
+                                fetchMeals.breakfast.map((meal, index) => (
+                                  <TableRow key={index}>
+                                    <TableCell style={{ borderBottom: "none" }}>
+                                      <IconButton
+                                        onClick={() =>
+                                          removeMeal(index, "breakfast")
+                                        }
+                                        style={{ marginLeft: "10px" }}
+                                      >
+                                        <RemoveCircleIcon
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#a83c32",
+                                          }}
+                                        />
+                                      </IconButton>
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.name}
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.calories} calories
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.protein}g protein
+                                    </TableCell>
+                                    <TableCell style={{ borderBottom: "none" }}>
+                                      <IconButton
+                                        onClick={() =>
+                                          handleEditClick(index, "breakfast")
+                                        }
+                                      >
+                                        <EditIcon
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#326da8",
+                                          }}
+                                        />
+                                      </IconButton>
+                                    </TableCell>
+                                  </TableRow>
+                                ))}
+                            </TableBody>
+                          </Table>
+                        ) : (
+                          <Table>
+                            <TableBody>
+                              {meals &&
+                                meals.breakfast.map((meal, index) => (
+                                  <TableRow key={index}>
+                                    <TableCell style={{ borderBottom: "none" }}>
+                                      <IconButton
+                                        onClick={() =>
+                                          removeMeal(index, "breakfast")
+                                        }
+                                        style={{ marginLeft: "10px" }}
+                                      >
+                                        <RemoveCircleIcon
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#a83c32",
+                                          }}
+                                        />
+                                      </IconButton>
+                                    </TableCell>
 
-                              <div>
-                                <IconButton
-                                  onClick={() =>
-                                    handleEditClick(index, "breakfast")
-                                  }
-                                  style={{}}
-                                >
-                                  <EditIcon
-                                    style={{
-                                      fontSize: "30px",
-                                      color: "#326da8",
-                                    }}
-                                  />
-                                </IconButton>
-                              </div>
-                            </div>
-                          ))
-                        : meals &&
-                          meals.breakfast.map((meal, index) => (
-                            <div
-                              key={index}
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                marginBottom: "0px",
-                                paddingLeft: 40,
-                                paddingRight: 40,
-                              }}
-                            >
-                              <IconButton
-                                onClick={() => removeMeal(index, "breakfast")}
-                                style={{ marginLeft: "10px" }}
-                              >
-                                <RemoveCircleIcon
-                                  style={{ fontSize: "30px", color: "#a83c32" }}
-                                />
-                              </IconButton>
-                              <p style={{ fontSize: "16px" }}>{meal.name}</p>
-                              <p style={{ fontSize: "16px" }}>
-                                {meal.calories} calories
-                              </p>
-                              <p style={{ fontSize: "16px" }}>
-                                {meal.protein}g protein
-                              </p>
-
-                              <div>
-                                <IconButton
-                                  onClick={() =>
-                                    handleEditClick(index, "breakfast")
-                                  }
-                                  style={{}}
-                                >
-                                  <EditIcon
-                                    style={{
-                                      fontSize: "30px",
-                                      color: "#326da8",
-                                    }}
-                                  />
-                                </IconButton>
-                              </div>
-                            </div>
-                          ))}
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.name}
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.calories} calories
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.protein}g protein
+                                    </TableCell>
+                                    <TableCell style={{ borderBottom: "none" }}>
+                                      <IconButton
+                                        onClick={() =>
+                                          handleEditClick(index, "breakfast")
+                                        }
+                                      >
+                                        <EditIcon
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#326da8",
+                                          }}
+                                        />
+                                      </IconButton>
+                                    </TableCell>
+                                  </TableRow>
+                                ))}
+                            </TableBody>
+                          </Table>
+                        )}
+                      </TableContainer>
                       {editMealIndex !== -1 && editMealType === "breakfast" && (
                         <EditMealForm
                           meal={meals.breakfast[editMealIndex]}
@@ -445,99 +552,147 @@ export default function MealContainer() {
                     <div>
                       <MealForm addMeal={(meal) => addMeal(meal, "lunch")} />
                       <br />
-                      {!added && !deleted && !edited && !saved
-                        ? fetchMeals &&
-                          fetchMeals.lunch.map((meal, index) => (
-                            <div
-                              key={index}
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                marginBottom: "0px",
-                                paddingLeft: 40,
-                                paddingRight: 40,
-                              }}
-                            >
-                              <IconButton
-                                onClick={() => removeMeal(index, "lunch")}
-                                style={{ marginLeft: "10px" }}
-                              >
-                                <RemoveCircleIcon
-                                  style={{ fontSize: "30px", color: "#a83c32" }}
-                                />
-                              </IconButton>
-                              <p style={{ fontSize: "16px" }}>{meal.name}</p>
-                              <p style={{ fontSize: "16px" }}>
-                                {meal.calories} calories
-                              </p>
-                              <p style={{ fontSize: "16px" }}>
-                                {meal.protein}g protein
-                              </p>
+                      <TableContainer
+                        style={{
+                          backgroundColor: "#202020",
+                          width: "70rem",
+                        }}
+                      >
+                        {!added && !deleted && !edited && !saved ? (
+                          <Table>
+                            <TableBody>
+                              {fetchMeals &&
+                                fetchMeals.lunch.map((meal, index) => (
+                                  <TableRow key={index}>
+                                    <TableCell style={{ borderBottom: "none" }}>
+                                      <IconButton
+                                        onClick={() =>
+                                          removeMeal(index, "lunch")
+                                        }
+                                        style={{ marginLeft: "10px" }}
+                                      >
+                                        <RemoveCircleIcon
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#a83c32",
+                                          }}
+                                        />
+                                      </IconButton>
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.name}
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.calories} calories
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.protein}g protein
+                                    </TableCell>
+                                    <TableCell style={{ borderBottom: "none" }}>
+                                      <IconButton
+                                        onClick={() =>
+                                          handleEditClick(index, "lunch")
+                                        }
+                                      >
+                                        <EditIcon
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#326da8",
+                                          }}
+                                        />
+                                      </IconButton>
+                                    </TableCell>
+                                  </TableRow>
+                                ))}
+                            </TableBody>
+                          </Table>
+                        ) : (
+                          <Table>
+                            <TableBody>
+                              {meals &&
+                                meals.lunch.map((meal, index) => (
+                                  <TableRow key={index}>
+                                    <TableCell style={{ borderBottom: "none" }}>
+                                      <IconButton
+                                        onClick={() =>
+                                          removeMeal(index, "lunch")
+                                        }
+                                        style={{ marginLeft: "10px" }}
+                                      >
+                                        <RemoveCircleIcon
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#a83c32",
+                                          }}
+                                        />
+                                      </IconButton>
+                                    </TableCell>
 
-                              <div>
-                                <IconButton
-                                  onClick={() =>
-                                    handleEditClick(index, "lunch")
-                                  }
-                                  style={{}}
-                                >
-                                  <EditIcon
-                                    style={{
-                                      fontSize: "30px",
-                                      color: "#326da8",
-                                    }}
-                                  />
-                                </IconButton>
-                              </div>
-                            </div>
-                          ))
-                        : meals &&
-                          meals.lunch.map((meal, index) => (
-                            <div
-                              key={index}
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                marginBottom: "0px",
-                                paddingLeft: 40,
-                                paddingRight: 40,
-                              }}
-                            >
-                              <IconButton
-                                onClick={() => removeMeal(index, "lunch")}
-                                style={{ marginLeft: "10px" }}
-                              >
-                                <RemoveCircleIcon
-                                  style={{ fontSize: "30px", color: "#a83c32" }}
-                                />
-                              </IconButton>
-                              <p style={{ fontSize: "16px" }}>{meal.name}</p>
-                              <p style={{ fontSize: "16px" }}>
-                                {meal.calories} calories
-                              </p>
-                              <p style={{ fontSize: "16px" }}>
-                                {meal.protein}g protein
-                              </p>
-
-                              <div>
-                                <IconButton
-                                  onClick={() =>
-                                    handleEditClick(index, "lunch")
-                                  }
-                                  style={{}}
-                                >
-                                  <EditIcon
-                                    style={{
-                                      fontSize: "30px",
-                                      color: "#326da8",
-                                    }}
-                                  />
-                                </IconButton>
-                              </div>
-                            </div>
-                          ))}
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.name}
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.calories} calories
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.protein}g protein
+                                    </TableCell>
+                                    <TableCell style={{ borderBottom: "none" }}>
+                                      <IconButton
+                                        onClick={() =>
+                                          handleEditClick(index, "lunch")
+                                        }
+                                      >
+                                        <EditIcon
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#326da8",
+                                          }}
+                                        />
+                                      </IconButton>
+                                    </TableCell>
+                                  </TableRow>
+                                ))}
+                            </TableBody>
+                          </Table>
+                        )}
+                      </TableContainer>
                       {editMealIndex !== -1 && editMealType === "lunch" && (
                         <EditMealForm
                           meal={meals.lunch[editMealIndex]}
@@ -552,99 +707,147 @@ export default function MealContainer() {
                     <div>
                       <MealForm addMeal={(meal) => addMeal(meal, "dinner")} />
                       <br />
-                      {!added && !deleted && !edited && !saved
-                        ? fetchMeals &&
-                          fetchMeals.dinner.map((meal, index) => (
-                            <div
-                              key={index}
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                marginBottom: "0px",
-                                paddingLeft: 40,
-                                paddingRight: 40,
-                              }}
-                            >
-                              <IconButton
-                                onClick={() => removeMeal(index, "dinner")}
-                                style={{ marginLeft: "10px" }}
-                              >
-                                <RemoveCircleIcon
-                                  style={{ fontSize: "30px", color: "#a83c32" }}
-                                />
-                              </IconButton>
-                              <p style={{ fontSize: "16px" }}>{meal.name}</p>
-                              <p style={{ fontSize: "16px" }}>
-                                {meal.calories} calories
-                              </p>
-                              <p style={{ fontSize: "16px" }}>
-                                {meal.protein}g protein
-                              </p>
+                      <TableContainer
+                        style={{
+                          backgroundColor: "#202020",
+                          width: "70rem",
+                        }}
+                      >
+                        {!added && !deleted && !edited && !saved ? (
+                          <Table>
+                            <TableBody>
+                              {fetchMeals &&
+                                fetchMeals.dinner.map((meal, index) => (
+                                  <TableRow key={index}>
+                                    <TableCell style={{ borderBottom: "none" }}>
+                                      <IconButton
+                                        onClick={() =>
+                                          removeMeal(index, "dinner")
+                                        }
+                                        style={{ marginLeft: "10px" }}
+                                      >
+                                        <RemoveCircleIcon
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#a83c32",
+                                          }}
+                                        />
+                                      </IconButton>
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.name}
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.calories} calories
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.protein}g protein
+                                    </TableCell>
+                                    <TableCell style={{ borderBottom: "none" }}>
+                                      <IconButton
+                                        onClick={() =>
+                                          handleEditClick(index, "dinner")
+                                        }
+                                      >
+                                        <EditIcon
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#326da8",
+                                          }}
+                                        />
+                                      </IconButton>
+                                    </TableCell>
+                                  </TableRow>
+                                ))}
+                            </TableBody>
+                          </Table>
+                        ) : (
+                          <Table>
+                            <TableBody>
+                              {meals &&
+                                meals.dinner.map((meal, index) => (
+                                  <TableRow key={index}>
+                                    <TableCell style={{ borderBottom: "none" }}>
+                                      <IconButton
+                                        onClick={() =>
+                                          removeMeal(index, "dinner")
+                                        }
+                                        style={{ marginLeft: "10px" }}
+                                      >
+                                        <RemoveCircleIcon
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#a83c32",
+                                          }}
+                                        />
+                                      </IconButton>
+                                    </TableCell>
 
-                              <div>
-                                <IconButton
-                                  onClick={() =>
-                                    handleEditClick(index, "dinner")
-                                  }
-                                  style={{}}
-                                >
-                                  <EditIcon
-                                    style={{
-                                      fontSize: "30px",
-                                      color: "#326da8",
-                                    }}
-                                  />
-                                </IconButton>
-                              </div>
-                            </div>
-                          ))
-                        : meals &&
-                          meals.dinner.map((meal, index) => (
-                            <div
-                              key={index}
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                justifyContent: "space-between",
-                                marginBottom: "0px",
-                                paddingLeft: 40,
-                                paddingRight: 40,
-                              }}
-                            >
-                              <IconButton
-                                onClick={() => removeMeal(index, "dinner")}
-                                style={{ marginLeft: "10px" }}
-                              >
-                                <RemoveCircleIcon
-                                  style={{ fontSize: "30px", color: "#a83c32" }}
-                                />
-                              </IconButton>
-                              <p style={{ fontSize: "16px" }}>{meal.name}</p>
-                              <p style={{ fontSize: "16px" }}>
-                                {meal.calories} calories
-                              </p>
-                              <p style={{ fontSize: "16px" }}>
-                                {meal.protein}g protein
-                              </p>
-
-                              <div>
-                                <IconButton
-                                  onClick={() =>
-                                    handleEditClick(index, "dinner")
-                                  }
-                                  style={{}}
-                                >
-                                  <EditIcon
-                                    style={{
-                                      fontSize: "30px",
-                                      color: "#326da8",
-                                    }}
-                                  />
-                                </IconButton>
-                              </div>
-                            </div>
-                          ))}
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.name}
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.calories} calories
+                                    </TableCell>
+                                    <TableCell
+                                      style={{
+                                        fontSize: "16px",
+                                        color: "white",
+                                        borderBottom: "none",
+                                      }}
+                                    >
+                                      {meal.protein}g protein
+                                    </TableCell>
+                                    <TableCell style={{ borderBottom: "none" }}>
+                                      <IconButton
+                                        onClick={() =>
+                                          handleEditClick(index, "dinner")
+                                        }
+                                      >
+                                        <EditIcon
+                                          style={{
+                                            fontSize: "30px",
+                                            color: "#326da8",
+                                          }}
+                                        />
+                                      </IconButton>
+                                    </TableCell>
+                                  </TableRow>
+                                ))}
+                            </TableBody>
+                          </Table>
+                        )}
+                      </TableContainer>
                       {editMealIndex !== -1 && editMealType === "dinner" && (
                         <EditMealForm
                           meal={meals.dinner[editMealIndex]}
@@ -657,7 +860,6 @@ export default function MealContainer() {
                     variant="contained"
                     sx={{
                       display: "flex",
-                      justifyContent: "space-between",
                       width: "20%",
                       mt: 3,
                       mb: 3,

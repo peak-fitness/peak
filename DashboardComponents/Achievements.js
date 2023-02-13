@@ -95,7 +95,7 @@ export default function Achievements() {
         <Title>Achievements</Title>
         <Grid container spacing={2} alignItems="center" justifyContent="center">
           {achievements ? (
-            achievements.map((achievement, index) => (
+            achievements.slice(0, 5).map((achievement, index) => (
               <Grid item key={index}>
                 {achievement.achieved ? (
                   <Box className={classes.trophyContainer}>
@@ -106,7 +106,7 @@ export default function Achievements() {
                         fontSize: "3rem",
                       }}
                     />
-                    <Typography variant="p">
+                    <Typography variant="subtitle2">
                       {achievement.achievements.name}
                     </Typography>
                   </Box>

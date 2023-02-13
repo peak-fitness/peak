@@ -16,3 +16,11 @@
   margin-top: 0.5rem;
   cursor: pointer;
 }
+
+.tabs {
+  color: white;
+}
+
+.container {
+  font-family: "Monteserrat", sans-serif;
+}

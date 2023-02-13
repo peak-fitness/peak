@@ -70,6 +70,11 @@ const Navbar = () => {
     router.push("/profile");
   };
 
+  const handleAccount = () => {
+    setOpen(false);
+    router.push("/account");
+  };
+
   function handleListKeyDown(event) {
     if (event.key === "Tab") {
       event.preventDefault();
@@ -190,12 +195,6 @@ const Navbar = () => {
                   WORKOUTS
                 </MenuItem>
                 <MenuItem
-                  href="/social"
-                  onClick={() => (window.location.href = "/social")}
-                >
-                  SOCIAL
-                </MenuItem>
-                <MenuItem
                   href="/calorie-tracker"
                   onClick={() => (window.location.href = "/calorie-tracker")}
                 >
@@ -206,6 +205,12 @@ const Navbar = () => {
                   onClick={() => (window.location.href = "/achievements")}
                 >
                   ACHIEVEMENTS
+                </MenuItem>
+                <MenuItem
+                  href="/social"
+                  onClick={() => (window.location.href = "/social")}
+                >
+                  SOCIAL
                 </MenuItem>
               </Menu>
             </Box>
@@ -272,21 +277,7 @@ const Navbar = () => {
               >
                 WORKOUTS
               </Link>
-              <Link
-                href="/social"
-                style={{
-                  textDecoration: "none",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  marginRight: "20px",
-                  color: activeLink === "/social" ? "#03dac5" : "#E8E8E8",
-                }}
-                onClick={() => handleLinkClick("/social")}
-                className={router.pathname === "/social" ? styles.active : ""}
-              >
-                SOCIAL
-              </Link>
+
               <Link
                 href="/calorie-tracker"
                 style={{
@@ -323,6 +314,21 @@ const Navbar = () => {
               >
                 ACHIEVEMENTS
               </Link>
+              <Link
+                href="/social"
+                style={{
+                  textDecoration: "none",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  marginRight: "20px",
+                  color: activeLink === "/social" ? "#03dac5" : "#E8E8E8",
+                }}
+                onClick={() => handleLinkClick("/social")}
+                className={router.pathname === "/social" ? styles.active : ""}
+              >
+                SOCIAL
+              </Link>
             </Box>
             <Box
               justifyContent="flex-end"
@@ -337,7 +343,11 @@ const Navbar = () => {
                 onClick={handleToggle}
               >
                 <Avatar
-                  src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${pfp}`}
+                  src={
+                    pfp
+                      ? `https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${pfp}`
+                      : ""
+                  }
                 />
               </Button>
               <Popper
@@ -367,7 +377,7 @@ const Navbar = () => {
                           onKeyDown={handleListKeyDown}
                         >
                           <MenuItem onClick={handleProfile}>Profile</MenuItem>
-                          <MenuItem onClick={handleClose}>Settings</MenuItem>
+                          <MenuItem onClick={handleAccount}>Account</MenuItem>
                           <MenuItem onClick={signout}>Logout</MenuItem>
                         </MenuList>
                       </ClickAwayListener>
