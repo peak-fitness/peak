@@ -32,7 +32,7 @@ function CaloriesContent() {
           sx={{
             display: "flex",
             flexFlow: "column",
-            width: "97.5%",
+            width: "100%",
           }}
         >
           <Grid>
@@ -44,8 +44,8 @@ function CaloriesContent() {
                 borderRadius: "10px",
                 backgroundColor: "#262626",
                 flexGrow: 1,
-                marginLeft: "7rem",
-                marginRight: "7rem",
+                marginLeft: "3.5rem",
+                marginRight: "3.5rem",
               }}
             >
               <Box component="main">
