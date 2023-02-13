@@ -462,6 +462,7 @@ export default function MyWorkouts() {
                             color: "#03dac5",
                             marginLeft: "5px",
                             marginRight: "5px",
+                            cursor: "pointer",
                           }}
                           onClick={handleRedirect}
                         />
@@ -472,6 +473,7 @@ export default function MyWorkouts() {
                             color: "#03dac5",
                             marginLeft: "0px",
                             marginRight: "5px",
+                            cursor: "pointer",
                           }}
                           onClick={handleDelete}
                         />

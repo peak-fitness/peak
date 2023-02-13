@@ -873,7 +873,10 @@ export default function AddWorkout() {
           <Button
             className={styles.saveButton}
             type="submit"
-            onClick={handleSubmit}
+            onClick={() => {
+              if (workout.exercises.length) handleSubmit();
+              else alert("Please enter at least one exercise before saving");
+            }}
             variant="contained"
             style={{
               width: "220px",
