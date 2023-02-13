@@ -295,97 +295,109 @@ export default function AddWorkout() {
               justifyContent: "center",
             }}
           >
-            <Box>
-              <Typography
-                variant="h4"
-                align="center"
-                sx={{
-                  display: "flex",
-                  fontFamily: "Montserrat",
-                  justifyContent: "center",
-                }}
-                style={{ marginTop: "20px" }}
-              >
-                {update ? "Edit Workout" : "Add a Workout"}
-              </Typography>
-            </Box>
-            <Box
+            <Container
               style={{
-                marginTop: "10px",
+                backgroundColor: "#202020",
+                marginTop: "20px",
+                marginBottom: "10px",
+                borderRadius: "15px",
+                paddingBottom: "15px",
               }}
             >
-              <Grid container spacing={6} className={styles.workoutContainer}>
-                <Grid
-                  item
-                  xs={3}
-                  sm={3}
-                  md={3}
-                  lg={3}
-                  style={{ display: "flex", justifyContent: "flex-end" }}
+              <Box>
+                <Typography
+                  variant="h4"
+                  align="center"
+                  sx={{
+                    display: "flex",
+                    fontFamily: "Montserrat",
+                    justifyContent: "center",
+                  }}
+                  style={{ marginTop: "20px" }}
                 >
-                  <TextField
-                    className={styles.form}
-                    id="routine"
-                    label="Routine (Push, Pull, etc.)"
-                    InputLabelProps={{ shrink: true }}
-                    value={workout.routine}
-                    onChange={(e) => updateWorkout({ routine: e.target.value })}
-                    style={{ width: "200px" }}
-                  />
-                </Grid>
-                <Grid item xs={3} sm={3} md={3} lg={3}>
-                  <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker
+                  {update ? "Edit Workout" : "Add a Workout"}
+                </Typography>
+              </Box>
+              <Box
+                style={{
+                  marginTop: "10px",
+                }}
+              >
+                <Grid container spacing={6} className={styles.workoutContainer}>
+                  <Grid
+                    item
+                    xs={3}
+                    sm={3}
+                    md={3}
+                    lg={3}
+                    style={{ display: "flex", justifyContent: "flex-end" }}
+                  >
+                    <TextField
                       className={styles.form}
-                      label="Date"
-                      inputFormat="MM/DD/YYYY"
+                      id="routine"
+                      label="Routine (Push, Pull, etc.)"
                       InputLabelProps={{ shrink: true }}
-                      value={update ? importedDate : date}
-                      disabled={update ? true : false}
-                      onChange={(newDate) => {
-                        setDate(newDate);
-                      }}
-                      renderInput={(params) => <TextField {...params} />}
+                      value={workout.routine}
+                      onChange={(e) =>
+                        updateWorkout({ routine: e.target.value })
+                      }
                       style={{ width: "200px" }}
                     />
-                  </LocalizationProvider>
+                  </Grid>
+                  <Grid item xs={3} sm={3} md={3} lg={3}>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker
+                        className={styles.form}
+                        label="Date"
+                        inputFormat="MM/DD/YYYY"
+                        InputLabelProps={{ shrink: true }}
+                        value={update ? importedDate : date}
+                        disabled={update ? true : false}
+                        onChange={(newDate) => {
+                          setDate(newDate);
+                        }}
+                        renderInput={(params) => <TextField {...params} />}
+                        style={{ width: "200px" }}
+                      />
+                    </LocalizationProvider>
+                  </Grid>
                 </Grid>
-              </Grid>
 
-              <Grid container spacing={6} className={styles.workoutContainer}>
-                <Grid
-                  item
-                  xs={3}
-                  sm={3}
-                  md={3}
-                  lg={3}
-                  style={{ display: "flex", justifyContent: "flex-end" }}
-                >
-                  <TextField
-                    className={styles.form}
-                    id="notes"
-                    InputLabelProps={{ shrink: true }}
-                    label="Notes (Optional)"
-                    value={workout.notes}
-                    onChange={(e) => updateWorkout({ notes: e.target.value })}
-                    style={{ width: "200px" }}
-                  />
+                <Grid container spacing={6} className={styles.workoutContainer}>
+                  <Grid
+                    item
+                    xs={3}
+                    sm={3}
+                    md={3}
+                    lg={3}
+                    style={{ display: "flex", justifyContent: "flex-end" }}
+                  >
+                    <TextField
+                      className={styles.form}
+                      id="notes"
+                      InputLabelProps={{ shrink: true }}
+                      label="Notes (Optional)"
+                      value={workout.notes}
+                      onChange={(e) => updateWorkout({ notes: e.target.value })}
+                      style={{ width: "200px" }}
+                    />
+                  </Grid>
+                  <Grid item xs={3} sm={3} md={3} lg={3}>
+                    <TextField
+                      className={styles.form}
+                      id="duration"
+                      InputLabelProps={{ shrink: true }}
+                      label="Duration (Mins)"
+                      value={workout.duration}
+                      onChange={(e) =>
+                        updateWorkout({ duration: Number(e.target.value) })
+                      }
+                      style={{ width: "200px" }}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={3} sm={3} md={3} lg={3}>
-                  <TextField
-                    className={styles.form}
-                    id="duration"
-                    InputLabelProps={{ shrink: true }}
-                    label="Duration (Mins)"
-                    value={workout.duration}
-                    onChange={(e) =>
-                      updateWorkout({ duration: Number(e.target.value) })
-                    }
-                    style={{ width: "200px" }}
-                  />
-                </Grid>
-              </Grid>
-            </Box>
+              </Box>
+            </Container>
           </Grid>
           <Grid
             item
