@@ -4,11 +4,23 @@ import { useCallback, useEffect, useState } from "react";
 import WorkoutModal from "./WorkoutModal";
 import TimerIcon from "@mui/icons-material/Timer";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+  heart: {
+    color: "red",
+  },
+});
 
 export default function Feed({ user, friends }) {
   const [friendWorkouts, setFriendWorkouts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
+  const [disabled, setDisabled] = useState(false);
+  const classes = useStyles();
+  const [liked, setIsLiked] = useState(false);
+  // const [likes, setLikes] = useState(0);
 
   const fetchFriendWorkouts = useCallback(async () => {
     const friendWorkOutArr = [];
@@ -40,7 +52,7 @@ export default function Feed({ user, friends }) {
     friendWorkOutArr.sort((a, b) => {
       return new Date(b.date) - new Date(a.date);
     });
-  }, [friends, user.id]);
+  }, [friends]);
 
   const handleModalClick = (
     evt,
@@ -64,6 +76,39 @@ export default function Feed({ user, friends }) {
   useEffect(() => {
     fetchFriendWorkouts();
   }, [fetchFriendWorkouts]);
+
+  const handleLikeClick = async (id) => {
+    const { data, error } = await supabase
+      .from("likes")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("workout_id", id);
+
+    if (data.length === 1) {
+      console.log("hi");
+    } else {
+      await supabase.from("likes").insert({
+        user_id: user.id,
+        workout_id: id,
+      });
+    }
+    setIsLiked(true);
+
+    // setLikes(data.length);
+    // useEffect with like dependency for re-render
+  };
+
+  const getLikes = async (id) => {
+    const { data, error } = await supabase
+      .from("likes")
+      .select("*")
+      .eq("workout_id", id);
+    console.log(data.length);
+    if (data && data.length) return data.length;
+    else return 0;
+  };
+
+  console.log(getLikes(66));
 
   return (
     <div id="feed-container" className={styles.feedContainer}>
@@ -139,6 +184,18 @@ export default function Feed({ user, friends }) {
                       >
                         View Workout
                       </button>
+
+                      <FavoriteIcon
+                        className={liked ? classes.heart : ""}
+                        onClick={() => {
+                          handleLikeClick(workout.id);
+                        }}
+                      />
+                    </div>
+                    <div>
+                      {getLikes(workout.id) > 0
+                        ? `${getLikes(workout.id)} likes`
+                        : "placeholder"}
                     </div>
                   </div>
                 </div>
