@@ -60,6 +60,10 @@ export default function AddWorkout() {
     importData();
   }, [router.query]);
 
+  useEffect(() => {
+    setDate(dayjs(router.query.date));
+  }, [router.query]);
+
   const importedDate = router.query.date;
 
   const [workout, updateWorkout] = useReducer(
