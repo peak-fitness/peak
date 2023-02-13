@@ -13,7 +13,6 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 
 import WidgetsIcon from "@mui/icons-material/Widgets";
-import mainListItems from "../DashboardComponents/listItems";
 import Chart from "../DashboardComponents/Chart";
 import CalendarView from "../DashboardComponents/CalendarView";
 import RecentWorkouts from "../DashboardComponents/WorkoutSessions";
@@ -132,10 +131,6 @@ function DashboardContent() {
                       </IconButton>
                     </Toolbar>
                     <Divider />
-
-                    {/* <mainListItems /> */}
-                    {/* <Divider sx={{ my: 1 }} />
-            {secondaryListItems} */}
                     <DashboardItems />
                   </Drawer>
 
