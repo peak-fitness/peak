@@ -282,16 +282,6 @@ export default function Groups() {
                         friends.map((friend) => (
                           <div key={friend.id} className={styles.friend}>
                             {console.log("FRIEND", friend)}
-                            {/* <Image
-                              src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${
-                                friend.addressee_avatar
-                                  ? friend.addressee_avatar
-                                  : friend.requester_avatar
-                              }`}
-                              width={40}
-                              height={40}
-                              alt="friend profile picture"
-                            /> */}
                             <Image
                               className={styles.avatar}
                               loader={() =>
@@ -310,14 +300,6 @@ export default function Groups() {
                               height={45}
                               alt="friend profile picture"
                             />
-                            {/* <AccountCircleIcon
-                              id={styles.icon}
-                              sx={{
-                                color: "#fafafa",
-                                height: "45px",
-                                width: "45px",
-                              }}
-                            /> */}
                             <Link
                               href={`/social/${
                                 friend.addressee_username
@@ -345,13 +327,15 @@ export default function Groups() {
                       ) : (
                         user.friends.map((request) => (
                           <div key={request.id} className={styles.request}>
-                            <AccountCircleIcon
-                              id={styles.icon}
-                              sx={{
-                                color: "#fafafa",
-                                height: "45px",
-                                width: "45px",
-                              }}
+                            <Image
+                              className={styles.avatar}
+                              loader={() =>
+                                `https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${request.requester_avatar}`
+                              }
+                              src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${request.requester_avatar}`}
+                              width={45}
+                              height={45}
+                              alt="friend profile picture"
                             />
                             <Link
                               href={`/social/${request.requester_username}`}
