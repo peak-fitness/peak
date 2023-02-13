@@ -164,7 +164,7 @@ function DashboardContent() {
                     </div>
 
                     <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
-                      <Grid container spacing={3}>
+                      <Grid container spacing={2}>
                         {/* Chart */}
                         <Grid
                           item
