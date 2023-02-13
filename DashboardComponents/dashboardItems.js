@@ -92,7 +92,11 @@ const DashboardItems = () => {
               >
                 <ListItemIcon>
                   <Avatar
-                    src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${pfp}`}
+                    src={
+                      pfp
+                        ? `https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${pfp}`
+                        : ""
+                    }
                   />
                 </ListItemIcon>
                 <div>

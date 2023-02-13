@@ -1,0 +1,98 @@
+#modalContainer {
+  position: fixed;
+  display: table;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+#modalContainer .modalBackground {
+  display: flex;
+  min-height: 100vh;
+  min-width: 100vh;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  vertical-align: middle;
+}
+
+/* #modalContainer .modalBackground .modal {
+background-color: gray;
+  padding: 50px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 3px;
+  font-weight: 300;
+  position: relative;
+  min-width: 100vh;
+  min-height: 70vh;
+} */
+
+.modalHeader {
+  padding: 1rem;
+  background-color: #1a1a1a;
+  /* color: rgb(237, 52, 78); */
+  font-size: 24px;
+  font-weight: 500;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+}
+
+.modalBody {
+  padding: 0rem 2rem;
+  background-color: #1a1a1a;
+}
+
+.modalBody p:first-child {
+  margin-top: 0;
+}
+
+.modalBody p {
+  color: #fafafa;
+  margin-top: 3px;
+  margin-bottom: 0;
+}
+
+.modalBody hr {
+  border: 1px solid #161616;
+  margin: 0;
+  margin-top: 15px;
+}
+
+.modalFooter {
+  padding: 1rem;
+  background-color: #1a1a1a;
+  color: #fafafa;
+  display: flex;
+  justify-content: center;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.modalBtn {
+  margin: 0.5rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid #3e3e3e;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.modalDelete {
+  color: #fafafa;
+  background-color: rgb(255, 82, 81);
+}
+
+.modalCancel {
+  color: rgb(151, 151, 151);
+  background-color: #1a1a1a;
+}
+
+.modalBtn:hover {
+  cursor: pointer;
+}

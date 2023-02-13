@@ -4,35 +4,48 @@ import { useCallback, useEffect, useState } from "react";
 import WorkoutModal from "./WorkoutModal";
 import TimerIcon from "@mui/icons-material/Timer";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import { makeStyles } from "@material-ui/core/styles";
+import Image from "next/image";
+import LikedUsersModal from "./LikedUsersModal";
+
+const useStyles = makeStyles({
+  heart: {
+    color: "red",
+  },
+});
 
 export default function Feed({ user, friends }) {
   const [friendWorkouts, setFriendWorkouts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
+  const classes = useStyles();
+  const [likes, setLikes] = useState();
+  const [showLikeModal, setShowLikeModal] = useState(false);
+  const [currentLikedUsers, setCurrentLikedUsers] = useState([]);
 
   const fetchFriendWorkouts = useCallback(async () => {
     const friendWorkOutArr = [];
-
     for (const index in friends) {
       if (friends[index].requester_id) {
         const workout = await supabase
           .from("workout")
           .select("id, notes, routine, duration, date")
           .eq("user_id", friends[index].requester_id);
-        workout.data.forEach(
-          (singleWorkout) =>
-            (singleWorkout.username = friends[index].requester_username)
-        );
+        workout.data.forEach((singleWorkout) => {
+          singleWorkout.username = friends[index].requester_username;
+          singleWorkout.avatarUrl = friends[index].requester_avatar;
+        });
         friendWorkOutArr.push(...workout.data);
       } else {
         const workout = await supabase
           .from("workout")
           .select("id, notes, routine, duration, date")
           .eq("user_id", friends[index].addressee_id);
-        workout.data.forEach(
-          (singleWorkout) =>
-            (singleWorkout.username = friends[index].addressee_username)
-        );
+        workout.data.forEach((singleWorkout) => {
+          singleWorkout.username = friends[index].addressee_username;
+          singleWorkout.avatarUrl = friends[index].addressee_avatar;
+        });
         friendWorkOutArr.push(...workout.data);
       }
     }
@@ -40,7 +53,7 @@ export default function Feed({ user, friends }) {
     friendWorkOutArr.sort((a, b) => {
       return new Date(b.date) - new Date(a.date);
     });
-  }, [friends, user.id]);
+  }, [friends]);
 
   const handleModalClick = (
     evt,
@@ -65,6 +78,64 @@ export default function Feed({ user, friends }) {
     fetchFriendWorkouts();
   }, [fetchFriendWorkouts]);
 
+  const handleLikeClick = async (id) => {
+    const testObj = { ...likes };
+    const { data, error } = await supabase
+      .from("likes")
+      .select("*")
+      .eq("user_id", user.id)
+      .eq("workout_id", id);
+
+    if (!data.length) {
+      await supabase.from("likes").insert({
+        user_id: user.id,
+        workout_id: id,
+      });
+      testObj[id]["liked"] = true;
+      setLikes(testObj);
+    } else {
+      await supabase
+        .from("likes")
+        .delete()
+        .eq("user_id", user.id)
+        .eq("workout_id", id);
+      testObj[id]["liked"] = false;
+    }
+    getLikes();
+  };
+
+  const getLikes = useCallback(async () => {
+    const testObj = {};
+    for (const workout of friendWorkouts) {
+      const { data, error } = await supabase
+        .from("likes")
+        .select("user_id")
+        .eq("workout_id", workout.id);
+      testObj[workout.id] = {};
+      testObj[workout.id]["users"] = [];
+      testObj[workout.id]["count"] = data.length;
+      for (const elem of data) {
+        testObj[workout.id]["users"].push(elem);
+      }
+      const response = await supabase
+        .from("likes")
+        .select("*")
+        .eq("user_id", user.id)
+        .eq("workout_id", workout.id);
+      if (response.data.length) testObj[workout.id]["liked"] = true;
+    }
+    setLikes(testObj);
+  }, [friendWorkouts, user.id]);
+
+  useEffect(() => {
+    getLikes();
+  }, [getLikes]);
+
+  const handleLikeModal = (array) => {
+    setCurrentLikedUsers(array);
+    setShowLikeModal(true);
+  };
+
   return (
     <div id="feed-container" className={styles.feedContainer}>
       {showModal ? <div className={styles.modalContainer}></div> : null}
@@ -75,6 +146,12 @@ export default function Feed({ user, friends }) {
           friends={friends}
           friendWorkouts={friendWorkouts}
           selectedWorkout={selectedWorkout}
+        />
+      ) : null}
+      {showLikeModal ? (
+        <LikedUsersModal
+          setShowLikeModal={setShowLikeModal}
+          currentLikedUsers={currentLikedUsers}
         />
       ) : null}
       {/* component stuff */}
@@ -95,13 +172,15 @@ export default function Feed({ user, friends }) {
                   <div className={styles.workout}>
                     <div className={styles.workoutHeader}>
                       <div className={styles.postHeader}>
-                        <AccountCircleIcon
-                          id={styles.icon}
-                          sx={{
-                            color: "#fafafa",
-                            height: "40px",
-                            width: "40px",
-                          }}
+                        <Image
+                          className={styles.avatar}
+                          loader={() =>
+                            `https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${workout.avatarUrl}`
+                          }
+                          src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${workout.avatarUrl}`}
+                          width={45}
+                          height={45}
+                          alt="friend profile picture"
                         />
                         <p className={styles.feedUsername}>
                           {workout.username ? workout.username : user.username}
@@ -139,6 +218,30 @@ export default function Feed({ user, friends }) {
                       >
                         View Workout
                       </button>
+
+                      <FavoriteIcon
+                        className={
+                          likes[workout.id]
+                            ? likes[workout.id]["liked"]
+                              ? classes.heart
+                              : " "
+                            : ""
+                        }
+                        onClick={() => {
+                          handleLikeClick(workout.id);
+                        }}
+                      />
+                    </div>
+                    <div
+                      onClick={() => {
+                        handleLikeModal(likes[workout.id]["users"]);
+                      }}
+                    >
+                      {likes[workout.id] && likes[workout.id]["count"] > 0
+                        ? likes[workout.id]["count"] === 1
+                          ? `${likes[workout.id]["count"]} like`
+                          : `${likes[workout.id]["count"]} likes`
+                        : ""}
                     </div>
                   </div>
                 </div>
