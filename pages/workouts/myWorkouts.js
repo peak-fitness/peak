@@ -42,11 +42,10 @@ const CustomizedCalendar = styled(StaticDatePicker)`
 
   .css-xelq0e-MuiPickerStaticWrapper-content {
     background-color: #202020;
-    color: white;
   }
 
   .css-1hf040o-MuiTypography-root {
-    color: white;
+    color: white !important;
   }
 
   &.css-epd502 {
@@ -74,7 +73,7 @@ const CustomizedCalendar = styled(StaticDatePicker)`
   }
 
   .css-3k7djm-MuiButtonBase-root-MuiPickersDay-root {
-    background-color: #262626;
+    background-color: #262626 !important;
     color: white;
   }
 
