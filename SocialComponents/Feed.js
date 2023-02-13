@@ -40,7 +40,7 @@ export default function Feed({ user, friends }) {
     friendWorkOutArr.sort((a, b) => {
       return new Date(b.date) - new Date(a.date);
     });
-  }, [friends, user.id]);
+  }, [friends]);
 
   const handleModalClick = (
     evt,
