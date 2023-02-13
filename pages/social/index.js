@@ -29,6 +29,7 @@ import { ToastContainer } from "react-toastify";
 import Feed from "@/SocialComponents/Feed";
 import Head from "next/head";
 import ConfirmationModal from "@/SocialComponents/ConfirmationModal";
+import Image from "next/image";
 
 export default function Groups() {
   const [tab, setTab] = useState(true);
@@ -280,14 +281,36 @@ export default function Groups() {
                       ) : (
                         friends.map((friend) => (
                           <div key={friend.id} className={styles.friend}>
-                            <AccountCircleIcon
+                            {/* <Image
+                              src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${
+                                friend.addressee_avatar
+                                  ? friend.addressee_avatar
+                                  : friend.requester_avatar
+                              }`}
+                              width={40}
+                              height={40}
+                              alt="friend profile picture"
+                            /> */}
+                            <Image
+                              className={styles.avatar}
+                              loader={() =>
+                                "https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/1676059411080_squidward.jpeg"
+                              }
+                              src={
+                                "https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/1676059411080_squidward.jpeg"
+                              }
+                              width={40}
+                              height={40}
+                              alt="friend profile picture"
+                            />
+                            {/* <AccountCircleIcon
                               id={styles.icon}
                               sx={{
                                 color: "#fafafa",
                                 height: "45px",
                                 width: "45px",
                               }}
-                            />
+                            /> */}
                             <Link
                               href={`/social/${
                                 friend.addressee_username
