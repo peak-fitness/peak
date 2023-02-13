@@ -270,7 +270,7 @@ export default function MealContainer() {
                 <CalendarMonthOutlinedIcon style={{ fill: "white" }} />
               </Button>
               <Typography style={{ fontFamily: "Montserrat" }}>
-                {date ? date.format("MM/DD/YYYY") : ""}
+                {date ? date.format("MM/DD/YYYY") : "MM/DD/YYYY"}
               </Typography>
             </div>
             <Modal open={showCalendar} onClose={() => setShowCalendar(false)}>
