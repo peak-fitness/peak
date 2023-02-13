@@ -485,7 +485,7 @@ export default function MyWorkouts() {
                   ) : (
                     <div
                       style={{
-                        padding: "10px",
+                        padding: "15px",
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
@@ -500,7 +500,10 @@ export default function MyWorkouts() {
                         <Link
                           href="/workouts/addWorkout"
                           style={{
-                            margin: "10px",
+                            marginTop: "20px",
+                            marginBottom: "20px",
+                            marginLeft: "50px",
+                            marginRight: "50px",
                             padding: "5px",
                             border: "solid",
                             borderRadius: "20px",
