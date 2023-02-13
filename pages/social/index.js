@@ -281,6 +281,7 @@ export default function Groups() {
                       ) : (
                         friends.map((friend) => (
                           <div key={friend.id} className={styles.friend}>
+                            {console.log("FRIEND", friend)}
                             {/* <Image
                               src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${
                                 friend.addressee_avatar
@@ -294,13 +295,19 @@ export default function Groups() {
                             <Image
                               className={styles.avatar}
                               loader={() =>
-                                "https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/1676059411080_squidward.jpeg"
+                                `https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${
+                                  friend.addressee_avatar
+                                    ? friend.addressee_avatar
+                                    : friend.requester_avatar
+                                }`
                               }
-                              src={
-                                "https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/1676059411080_squidward.jpeg"
-                              }
-                              width={40}
-                              height={40}
+                              src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${
+                                friend.addressee_avatar
+                                  ? friend.addressee_avatar
+                                  : friend.requester_avatar
+                              }`}
+                              width={45}
+                              height={45}
                               alt="friend profile picture"
                             />
                             {/* <AccountCircleIcon
