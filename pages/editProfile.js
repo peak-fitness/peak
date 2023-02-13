@@ -301,7 +301,7 @@ export default function Account() {
               <p className={styles.pfpUrl}>
                 {image ? `${image.name} (Save to change)` : ""}
               </p>
-              <label for="pfpInput" className={styles.pfpLabel}>
+              <label htmlFor="pfpInput" className={styles.pfpLabel}>
                 Change Image
                 <input
                   id="pfpInput"
