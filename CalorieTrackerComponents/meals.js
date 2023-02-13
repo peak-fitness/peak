@@ -26,7 +26,6 @@ import dayjs from "dayjs";
 import { createTheme } from "@material-ui/core/styles";
 import { ThemeProvider, styled } from "@mui/material/styles";
 import styles from "@/styles/CalorieTracker.module.css";
-import { useSessionContext } from "@supabase/auth-helpers-react";
 import CalendarMonthOutlinedIcon from "@mui/icons-material/CalendarMonthOutlined";
 import { Modal } from "@material-ui/core";
 import {
@@ -81,7 +80,6 @@ export default function MealContainer() {
     dinner: [],
   });
   const [refresh, setRefresh] = useState(false);
-  let { isLoading, error } = useSessionContext();
 
   useEffect(() => {
     fetchCurrentUserId();
@@ -109,23 +107,28 @@ export default function MealContainer() {
   const fetchHighlightedDays = async () => {
     let days = [];
     const { data, error } = await supabase
-      .from("meals")
-      .select("date, meal", "user_id")
-      .eq("user_id", userId);
-    if (data) {
-      for (const elem of data) {
-        if (
-          elem.meal.breakfast.length !== 0 ||
-          elem.meal.lunch.length !== 0 ||
-          elem.meal.dinner.length !== 0
-        ) {
-          const mealDate = dayjs(elem.date);
-          const formattedDate = mealDate.format("YYYY-MM-DD");
-          days.push(formattedDate);
-        }
+      .from("user")
+      .select(
+        `
+        auth_id, meals (
+          date, meal
+        )
+      `
+      )
+      .eq("auth_id", session.user.id)
+      .single();
+    for (const elem of data.meals) {
+      if (
+        elem.meal.breakfast.length ||
+        elem.meal.lunch.length ||
+        elem.meal.dinner.length
+      ) {
+        const mealDate = dayjs(elem.date);
+        const formattedDate = mealDate.format("YYYY-MM-DD");
+        days.push(formattedDate);
       }
-      setHighlightedDays(days);
     }
+    setHighlightedDays(days);
   };
 
   const fetchUserMeals = async () => {
@@ -134,14 +137,19 @@ export default function MealContainer() {
         date.$D >= 10 ? "" : "0"
       }${date.$D}`;
       const { data, error } = await supabase
-        .from("meals")
-        .select("meal")
-        .eq("user_id", userId)
-        .eq("date", dateString)
+        .from("user")
+        .select(
+          `
+          auth_id, meals (
+           *
+          )`
+        )
+        .eq("auth_id", session.user.id)
+        .eq("meals.date", dateString)
         .single();
-      if (data !== null) {
-        setFetchMeals(data.meal);
-        setMeals(data.meal);
+      if (data.meals.length) {
+        setFetchMeals(data.meals[0].meal);
+        setMeals(data.meals[0].meal);
       } else {
         setFetchMeals(null);
         setMeals({
@@ -161,20 +169,27 @@ export default function MealContainer() {
     if (date) {
       setCheckDate(true);
       const { data, error } = await supabase
-        .from("meals")
-        .select("meal")
-        .eq("user_id", userId)
-        .eq("date", date)
+        .from("user")
+        .select(
+          `
+          auth_id, meals (
+            *
+          )
+          `
+        )
+        .eq("auth_id", session.user.id)
+        .eq("meals.date", date)
         .single();
-      if (data) {
-        const { data, error } = await supabase
+      if (data.meals.length) {
+        await supabase
           .from("meals")
           .update({
             meal: meals,
           })
-          .eq("date", date);
+          .eq("date", date)
+          .eq("user_id", userId);
       } else {
-        const { data, error } = await supabase
+        await supabase
           .from("meals")
           .insert({
             user_id: userId,
@@ -360,7 +375,6 @@ export default function MealContainer() {
             ) : (
               <>
                 <CaloriesBar
-                  userId={userId}
                   date={date}
                   saved={saved}
                   meals={meals}
