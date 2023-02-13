@@ -19,8 +19,8 @@ export default function Feed({ user, friends }) {
   const [selectedWorkout, setSelectedWorkout] = useState(null);
   const [disabled, setDisabled] = useState(false);
   const classes = useStyles();
-  const [liked, setIsLiked] = useState(false);
-  // const [likes, setLikes] = useState(0);
+  const [likes, setLikes] = useState({});
+  const [liked, setLiked] = useState(false);
 
   const fetchFriendWorkouts = useCallback(async () => {
     const friendWorkOutArr = [];
@@ -92,23 +92,31 @@ export default function Feed({ user, friends }) {
         workout_id: id,
       });
     }
-    setIsLiked(true);
+    setLiked(true);
 
     // setLikes(data.length);
     // useEffect with like dependency for re-render
   };
 
-  const getLikes = async (id) => {
-    const { data, error } = await supabase
-      .from("likes")
-      .select("*")
-      .eq("workout_id", id);
-    console.log(data.length);
-    if (data && data.length) return data.length;
-    else return 0;
-  };
+  const getLikes = useCallback(async () => {
+    for (const workout of friendWorkouts) {
+      const { data, error } = await supabase
+        .from("likes")
+        .select("*")
+        .eq("workout_id", workout.id);
+      if (data) {
+        const newState = { ...likes, [workout.id]: data.length };
+        setLikes(newState);
+      } else {
+        const newState = { ...likes, [workout.id]: 0 };
+        setLikes(newState);
+      }
+    }
+  }, []);
 
-  console.log(getLikes(66));
+  useEffect(() => {
+    getLikes();
+  }, []);
 
   return (
     <div id="feed-container" className={styles.feedContainer}>
@@ -189,13 +197,17 @@ export default function Feed({ user, friends }) {
                         className={liked ? classes.heart : ""}
                         onClick={() => {
                           handleLikeClick(workout.id);
+                          // getLikes(workout.id);
+                          // console.log(likes);
                         }}
                       />
                     </div>
                     <div>
-                      {getLikes(workout.id) > 0
-                        ? `${getLikes(workout.id)} likes`
-                        : "placeholder"}
+                      {likes[workout.id] && likes[workout.id] > 0
+                        ? likes[workout.id] === 1
+                          ? `${likes[workout.id]} like`
+                          : `${likes[workout.id]} likes`
+                        : ""}
                     </div>
                   </div>
                 </div>
@@ -210,3 +222,14 @@ export default function Feed({ user, friends }) {
     </div>
   );
 }
+
+// const getLikes = async (id) => {
+//   const { data, error } = await supabase
+//     .from("likes")
+//     .select("*")
+//     .eq("workout_id", id);
+//   if (data) {
+//     const newState = { ...likes, [id]: { WLikes: data.length, liked: true } };
+//     setLikes(newState);
+//   }
+// };
