@@ -13,7 +13,6 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 
 import WidgetsIcon from "@mui/icons-material/Widgets";
-import mainListItems from "../DashboardComponents/listItems";
 import Chart from "../DashboardComponents/Chart";
 import CalendarView from "../DashboardComponents/CalendarView";
 import RecentWorkouts from "../DashboardComponents/WorkoutSessions";
@@ -132,43 +131,54 @@ function DashboardContent() {
                       </IconButton>
                     </Toolbar>
                     <Divider />
-
-                    {/* <mainListItems /> */}
-                    {/* <Divider sx={{ my: 1 }} />
-            {secondaryListItems} */}
                     <DashboardItems />
                   </Drawer>
 
-                  <Box
-                    component="main"
-                    sx={{
-                      flexGrow: 1,
-                      height: "100vh",
-                      overflow: "auto",
+                  <Grid
+                    style={{
+                      backgroundColor: "#262626",
+                      marginTop: "2rem",
+                      marginRight: "1.5rem",
+                      marginLeft: "1rem",
+                      marginBottom: "1rem",
+                      borderRadius: "15px",
                     }}
                   >
                     {/* <Toolbar /> */}
                     <div
                       style={{
                         display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        alignItems: "flex-start",
+                        justifyContent: "flex-start",
                         paddingTop: "0px",
-                        marginTop: "5px",
+                        marginTop: "16px",
+                        paddingLeft: "1.5rem",
                       }}
                     >
                       <Typography
                         variant="h5"
-                        style={{ color: "#03dac5", paddingTop: "10px" }}
+                        style={{
+                          color: "#FFFFFF",
+                          fontFamily: "Montserrat, sans serif",
+                          fontSize: "35px",
+                          fontWeight: 700,
+                        }}
                       >
                         DASHBOARD
                       </Typography>
                     </div>
 
                     <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
-                      <Grid container spacing={3}>
+                      <Grid container spacing={2}>
                         {/* Chart */}
-                        <Grid item xs={12} md={8} lg={9} sm={12}>
+                        <Grid
+                          item
+                          xs={12}
+                          md={8}
+                          lg={9}
+                          sm={12}
+                          style={{ borderRadius: "13px" }}
+                        >
                           <Paper
                             sx={{
                               pt: 0.5,
@@ -179,13 +189,23 @@ function DashboardContent() {
                               flexDirection: "column",
                               height: 250,
                             }}
-                            style={{ backgroundColor: "#202020" }}
+                            style={{
+                              backgroundColor: "#202020",
+                              borderRadius: "13px",
+                            }}
                           >
                             <Chart />
                           </Paper>
                         </Grid>
                         {/* Calendar*/}
-                        <Grid item xs={12} md={4} lg={3} sm={7}>
+                        <Grid
+                          item
+                          xs={12}
+                          md={4}
+                          lg={3}
+                          sm={7}
+                          style={{ borderRadius: "13px" }}
+                        >
                           <Paper
                             sx={{
                               pt: 0,
@@ -196,13 +216,23 @@ function DashboardContent() {
                               flexDirection: "column",
                               height: 250,
                             }}
-                            style={{ backgroundColor: "#202020" }}
+                            style={{
+                              backgroundColor: "#202020",
+                              borderRadius: "13px",
+                            }}
                           >
                             <CalendarView />
                           </Paper>
                         </Grid>
                         {/* Recent Workouts */}
-                        <Grid item xs={12} md={8} lg={9} sm={12}>
+                        <Grid
+                          item
+                          xs={12}
+                          md={8}
+                          lg={9}
+                          sm={12}
+                          style={{ borderRadius: "13px" }}
+                        >
                           <Paper
                             sx={{
                               pt: 1,
@@ -212,13 +242,23 @@ function DashboardContent() {
                               display: "flex",
                               flexDirection: "column",
                             }}
-                            style={{ backgroundColor: "#202020" }}
+                            style={{
+                              backgroundColor: "#202020",
+                              borderRadius: "13px",
+                            }}
                           >
                             <RecentWorkouts />
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} md={4} lg={3} sm={7}>
+                        <Grid
+                          item
+                          xs={12}
+                          md={4}
+                          lg={3}
+                          sm={7}
+                          style={{ borderRadius: "13px" }}
+                        >
                           <Paper
                             sx={{
                               pt: 1,
@@ -228,14 +268,17 @@ function DashboardContent() {
                               display: "flex",
                               flexDirection: "row",
                             }}
-                            style={{ backgroundColor: "#202020" }}
+                            style={{
+                              backgroundColor: "#202020",
+                              borderRadius: "13px",
+                            }}
                           >
                             <Achievements />
                           </Paper>
                         </Grid>
                       </Grid>
                     </Container>
-                  </Box>
+                  </Grid>
                 </Box>
               </Grid>
             </Container>

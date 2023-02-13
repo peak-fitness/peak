@@ -32,7 +32,7 @@ function CaloriesContent() {
           sx={{
             display: "flex",
             flexFlow: "column",
-            width: "97.5%",
+            width: "100%",
           }}
         >
           <Grid>
@@ -41,11 +41,11 @@ function CaloriesContent() {
                 display: "flex",
                 flexFlow: "column",
                 margin: "2rem 0",
-                borderRadius: "10px",
+                borderRadius: "15px",
                 backgroundColor: "#262626",
                 flexGrow: 1,
-                marginLeft: "7rem",
-                marginRight: "7rem",
+                marginLeft: "0.5rem",
+                marginRight: "0.5rem",
               }}
             >
               <Box component="main">
@@ -71,7 +71,7 @@ function CaloriesContent() {
                   </Typography>
                 </div>
 
-                <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
+                <Container maxWidth="lg" sx={{ mt: 1, mb: 1 }}>
                   <Grid
                     container
                     spacing={0}
@@ -89,7 +89,7 @@ function CaloriesContent() {
                       },
                       alignItems: "center",
                       borderRadius: "10px",
-                      height: "75vh",
+                      height: "72vh",
                     }}
                     style={{
                       display: "flex",
@@ -102,7 +102,7 @@ function CaloriesContent() {
                         style={{
                           backgroundColor: "#202020",
                           paddingBottom: "1rem",
-                          height: "75vh",
+                          height: "72vh",
                         }}
                       >
                         <MealContainer />
