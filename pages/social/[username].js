@@ -42,7 +42,7 @@ export default function Public_Profile() {
       if (session) {
         const loggedInUserId = await supabase
           .from("user")
-          .select("id, username")
+          .select("id, username, avatar_url")
           .eq("auth_id", session.user.id)
           .single();
         loggedInUserTest = loggedInUserId.data;
@@ -122,8 +122,10 @@ export default function Public_Profile() {
         {
           requester_id: loggedInUser.id,
           requester_username: loggedInUser.username,
+          requester_avatar: loggedInUser.avatar_url,
           addressee_username: user.username,
           addressee_id: user.id,
+          addressee_avatar: user.avatar_url,
           status_code: "Requested",
         },
       ]);
