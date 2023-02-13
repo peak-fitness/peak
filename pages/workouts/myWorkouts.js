@@ -72,9 +72,8 @@ const CustomizedCalendar = styled(StaticDatePicker)`
     color: #03dac5;
   }
 
-  .MuiBadge-root{
-    #161616
-
+  .MuiBadge-root {
+    color: #161616;
   }
 
   .MuiSvgIcon-root {
