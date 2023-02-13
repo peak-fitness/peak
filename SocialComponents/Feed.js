@@ -81,6 +81,7 @@ export default function Feed({ user, friends }) {
     const { data, error } = await supabase
       .from("likes")
       .select("*")
+      .eq("user_id", user.id)
       .eq("workout_id", id);
 
     if (data.length === 1) {
