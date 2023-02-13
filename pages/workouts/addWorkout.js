@@ -427,12 +427,9 @@ export default function AddWorkout() {
                           color: "darkTheme.text.primary",
                         }}
                         label="Duration (Mins)"
-                        value={workout.duration}
+                        value={workout.duration || ""}
                         onChange={(e) => {
-                          const value = e.target.value;
-                          if (!isNaN(value)) {
-                            updateWorkout({ duration: Number(value) });
-                          }
+                          updateWorkout({ duration: Number(e.target.value) });
                         }}
                         style={{ width: "200px" }}
                       />
