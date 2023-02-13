@@ -6,9 +6,6 @@ import {
   TextField,
   ThemeProvider,
   Typography,
-  ListItemIcon,
-  withStyles,
-  Button,
 } from "@material-ui/core";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -500,17 +497,14 @@ export default function MyWorkouts() {
                           No workouts for this day! Would you like to add a
                           workout?
                         </Typography>
-                        <Button
-                          onClick={handleAddRedirect}
-                          // href="/workouts/addWorkout"
+
+                        <Link
+                          href="/workouts/addWorkout"
                           style={{
-                            marginTop: "20px",
-                            marginBottom: "20px",
-                            marginLeft: "50px",
-                            marginRight: "50px",
+                            margin: "10px",
                             padding: "5px",
                             border: "solid",
-                            borderRadius: "30px",
+                            borderRadius: "20px",
                             borderColor: "#03DAC5",
                             textAlign: "center",
                             display: "block",
@@ -519,7 +513,7 @@ export default function MyWorkouts() {
                           }}
                         >
                           Add a Workout
-                        </Button>
+                        </Link>
                       </div>
                     </div>
                   )}
