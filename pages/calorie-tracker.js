@@ -41,7 +41,7 @@ function CaloriesContent() {
                 display: "flex",
                 flexFlow: "column",
                 margin: "2rem 0",
-                borderRadius: "10px",
+                borderRadius: "15px",
                 backgroundColor: "#262626",
                 flexGrow: 1,
                 marginLeft: "1rem",
