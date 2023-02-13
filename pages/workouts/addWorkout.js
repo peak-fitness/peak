@@ -934,8 +934,9 @@ export default function AddWorkout() {
                 onClick={handleSubmit}
                 variant="contained"
                 style={{
-                  width: "220px",
+                  width: "12%",
                   height: "40px",
+                  borderRadius: "10px",
                   fontSize: "18px",
                   margin: "15px",
                 }}
