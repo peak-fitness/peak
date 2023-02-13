@@ -285,6 +285,20 @@ export default function AddWorkout() {
             minHeight: "80vh",
           }}
         >
+          <Box>
+            <Typography
+              variant="h5"
+              style={{
+                color: "#FFFFFF",
+                fontFamily: "Montserrat, sans serif",
+                fontSize: "35px",
+                paddingTop: "1rem",
+                fontWeight: 700,
+              }}
+            >
+              {update ? "Edit Workout" : "Add a Workout"}
+            </Typography>
+          </Box>
           <Grid
             item
             xs={12}
@@ -303,20 +317,6 @@ export default function AddWorkout() {
                 paddingBottom: "15px",
               }}
             >
-              <Box>
-                <Typography
-                  variant="h4"
-                  align="center"
-                  sx={{
-                    display: "flex",
-                    fontFamily: "Montserrat",
-                    justifyContent: "center",
-                  }}
-                  style={{ marginTop: "20px" }}
-                >
-                  {update ? "Edit Workout" : "Add a Workout"}
-                </Typography>
-              </Box>
               <Box
                 style={{
                   marginTop: "10px",
@@ -421,7 +421,7 @@ export default function AddWorkout() {
               }}
             >
               <Typography
-                variant="h4"
+                style={{ fontSize: "30px" }}
                 align="center"
                 className={styles.exercisesText}
               >
