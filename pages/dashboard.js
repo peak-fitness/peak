@@ -157,7 +157,13 @@ function DashboardContent() {
                     >
                       <Typography
                         variant="h5"
-                        style={{ color: "#03dac5", paddingTop: "10px" }}
+                        style={{
+                          color: "#FFFFFF",
+                          fontFamily: "Montserrat, sans serif",
+                          fontSize: "38px",
+                          fontWeight: 700,
+                          marginBottom: "10px",
+                        }}
                       >
                         DASHBOARD
                       </Typography>
