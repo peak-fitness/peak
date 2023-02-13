@@ -141,7 +141,7 @@ function DashboardContent() {
                       marginRight: "30px",
                       marginLeft: "30px",
                       marginBottom: "20px",
-                      borderRadius: "10px",
+                      borderRadius: "15px",
                     }}
                   >
                     {/* <Toolbar /> */}
@@ -177,7 +177,7 @@ function DashboardContent() {
                           md={8}
                           lg={9}
                           sm={12}
-                          style={{ borderRadius: "10px" }}
+                          style={{ borderRadius: "13px" }}
                         >
                           <Paper
                             sx={{
@@ -191,7 +191,7 @@ function DashboardContent() {
                             }}
                             style={{
                               backgroundColor: "#202020",
-                              borderRadius: "10px",
+                              borderRadius: "13px",
                             }}
                           >
                             <Chart />
@@ -204,7 +204,7 @@ function DashboardContent() {
                           md={4}
                           lg={3}
                           sm={7}
-                          style={{ borderRadius: "10px" }}
+                          style={{ borderRadius: "13px" }}
                         >
                           <Paper
                             sx={{
@@ -218,7 +218,7 @@ function DashboardContent() {
                             }}
                             style={{
                               backgroundColor: "#202020",
-                              borderRadius: "10px",
+                              borderRadius: "13px",
                             }}
                           >
                             <CalendarView />
@@ -231,7 +231,7 @@ function DashboardContent() {
                           md={8}
                           lg={9}
                           sm={12}
-                          style={{ borderRadius: "10px" }}
+                          style={{ borderRadius: "13px" }}
                         >
                           <Paper
                             sx={{
@@ -244,7 +244,7 @@ function DashboardContent() {
                             }}
                             style={{
                               backgroundColor: "#202020",
-                              borderRadius: "10px",
+                              borderRadius: "13px",
                             }}
                           >
                             <RecentWorkouts />
@@ -257,7 +257,7 @@ function DashboardContent() {
                           md={4}
                           lg={3}
                           sm={7}
-                          style={{ borderRadius: "10px" }}
+                          style={{ borderRadius: "13px" }}
                         >
                           <Paper
                             sx={{
@@ -270,7 +270,7 @@ function DashboardContent() {
                             }}
                             style={{
                               backgroundColor: "#202020",
-                              borderRadius: "10px",
+                              borderRadius: "13px",
                             }}
                           >
                             <Achievements />
