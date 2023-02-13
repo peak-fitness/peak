@@ -3,7 +3,6 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Container from "@mui/material/Container";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-
 const CaloriesBar = ({
   userId,
   date,
@@ -120,14 +119,17 @@ const CaloriesBar = ({
       <div>
         <Grid container spacing={3} alignItems="center" justifyContent="center">
           <Grid item xs={10}>
-            <Typography variant="h6">
+            <Typography
+              variant="h6"
+              style={{ fontFamily: "Montserrat", fontWeight: "600" }}
+            >
               {totalCaloriesConsumed} Calories Consumed Today
             </Typography>
-            <Typography variant="body1">
+            <Typography variant="body1" style={{ fontFamily: "Montserrat" }}>
               Total Protein Consumed: {totalProteinConsumed}
             </Typography>
 
-            <Typography variant="body1">
+            <Typography variant="body1" style={{ fontFamily: "Montserrat" }}>
               Goal Calories: {goalCalories}
             </Typography>
           </Grid>
@@ -151,12 +153,16 @@ const CaloriesBar = ({
                     style={{
                       color: "white",
                       fontWeight: "750",
+                      fontFamily: "Montserrat",
                     }}
                   >
                     {Math.abs(caloriesLeft)}
                   </Typography>
 
-                  <Typography variant="subtitle2" style={{ fontWeight: "750" }}>
+                  <Typography
+                    variant="subtitle2"
+                    style={{ fontWeight: "750", fontFamily: "Montserrat" }}
+                  >
                     {" "}
                     Calories Over
                   </Typography>
@@ -165,7 +171,11 @@ const CaloriesBar = ({
                 <>
                   <Typography
                     variant="subtitle2"
-                    style={{ textAlign: "center", fontWeight: "750" }}
+                    style={{
+                      textAlign: "center",
+                      fontWeight: "750",
+                      fontFamily: "Montserrat",
+                    }}
                   >
                     Calories Goal Reached!
                   </Typography>
@@ -174,12 +184,19 @@ const CaloriesBar = ({
                 <>
                   <Typography
                     variant="h6"
-                    style={{ color: "white", fontWeight: "750" }}
+                    style={{
+                      color: "white",
+                      fontWeight: "750",
+                      fontFamily: "Montserrat",
+                    }}
                   >
                     {caloriesLeft}
                   </Typography>
 
-                  <Typography variant="subtitle2" style={{ fontWeight: "750" }}>
+                  <Typography
+                    variant="subtitle2"
+                    style={{ fontWeight: "750", fontFamily: "Montserrat" }}
+                  >
                     {" "}
                     Calories Left
                   </Typography>
