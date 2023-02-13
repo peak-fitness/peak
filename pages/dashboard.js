@@ -137,10 +137,10 @@ function DashboardContent() {
                   <Grid
                     style={{
                       backgroundColor: "#262626",
-                      marginTop: "40px",
-                      marginRight: "30px",
-                      marginLeft: "20px",
-                      marginBottom: "20px",
+                      marginTop: "2rem",
+                      marginRight: "1.5rem",
+                      marginLeft: "1rem",
+                      marginBottom: "1rem",
                       borderRadius: "15px",
                     }}
                   >
