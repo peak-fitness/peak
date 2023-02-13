@@ -552,7 +552,11 @@ export default function AddWorkout() {
                           className={styles.setsItems}
                         >
                           <AddCircleIcon
-                            style={{ fontSize: "30px", color: "#03dac5" }}
+                            style={{
+                              fontSize: "30px",
+                              color: "#03dac5",
+                              cursor: "pointer",
+                            }}
                           />
                         </IconButton>
                       </FormControl>
@@ -679,6 +683,7 @@ export default function AddWorkout() {
                                                 style={{
                                                   fontSize: "22px",
                                                   color: "#03dac5",
+                                                  cursor: "pointer",
                                                 }}
                                               />
                                             </IconButton>
