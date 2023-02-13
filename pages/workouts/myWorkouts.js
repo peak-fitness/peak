@@ -380,7 +380,7 @@ export default function MyWorkouts() {
               >
                 My Workouts
               </Typography>
-              <Grid container spacing={0} style={{ borderRadius: "10px" }}>
+              <Grid container spacing={0} style={{ borderRadius: "15px" }}>
                 <Grid
                   item
                   xs={8}
@@ -388,8 +388,8 @@ export default function MyWorkouts() {
                   md={8}
                   lg={8}
                   style={{
-                    borderRight: "1.5rem solid #262626",
-                    borderRadius: "10px",
+                    borderRight: "1rem solid #262626",
+                    borderRadius: "15px",
                   }}
                 >
                   <CustomizedCalendar
@@ -435,7 +435,7 @@ export default function MyWorkouts() {
                     backgroundColor: "#202020",
                     overflow: "auto",
                     maxHeight: "70vh",
-                    borderRadius: "10px",
+                    borderRadius: "15px",
                   }}
                 >
                   {workout ? (
@@ -506,7 +506,7 @@ export default function MyWorkouts() {
                             marginRight: "50px",
                             padding: "5px",
                             border: "solid",
-                            borderRadius: "20px",
+                            borderRadius: "30px",
                             borderColor: "#03DAC5",
                             textAlign: "center",
                             display: "block",
