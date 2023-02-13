@@ -290,6 +290,9 @@ export default function AddWorkout() {
             backgroundColor: "#121212",
             overflow: "auto",
             maxHeight: "90vh",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <Container
@@ -314,7 +317,7 @@ export default function AddWorkout() {
                   fontWeight: 700,
                 }}
               >
-                {update ? "Edit Workout" : "Add a Workout"}
+                {update ? "Edit Workout" : "Add Workout"}
               </Typography>
             </Box>
             <Grid

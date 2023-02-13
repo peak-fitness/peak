@@ -67,7 +67,7 @@ function CaloriesContent() {
                       paddingLeft: "1.5rem",
                     }}
                   >
-                    CALORIE TRACKER
+                    Calorie Tracker
                   </Typography>
                 </div>
 
