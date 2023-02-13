@@ -1,5 +1,5 @@
 import * as React from "react";
-import { styled, ThemeProvider } from "@mui/material/styles";
+import { ThemeProvider } from "@mui/material/styles";
 import { Box, Typography, Container, Grid, Paper, Button } from "@mui/material";
 import Navbar from "../comps/Navbar";
 import { createTheme } from "@material-ui/core/styles";
