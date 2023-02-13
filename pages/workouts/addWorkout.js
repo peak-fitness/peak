@@ -424,9 +424,12 @@ export default function AddWorkout() {
                         }}
                         label="Duration (Mins)"
                         value={workout.duration}
-                        onChange={(e) =>
-                          updateWorkout({ duration: Number(e.target.value) })
-                        }
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          if (!isNaN(value)) {
+                            updateWorkout({ duration: Number(value) });
+                          }
+                        }}
                         style={{ width: "200px" }}
                       />
                     </Grid>
