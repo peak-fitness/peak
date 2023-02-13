@@ -308,8 +308,9 @@
 }
 
 .viewWorkoutBtn {
-  background-color: #161616;
+  background-color: #1a1a1a;
   outline: none;
+  border: none;
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
   color: #03dac5;
@@ -358,4 +359,11 @@
 
 .avatar {
   border-radius: 50%;
+}
+
+.likes {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 }

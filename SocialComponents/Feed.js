@@ -11,7 +11,7 @@ import LikedUsersModal from "./LikedUsersModal";
 
 const useStyles = makeStyles({
   heart: {
-    color: "red",
+    color: "#e71a6c",
   },
 });
 
@@ -203,6 +203,31 @@ export default function Feed({ user, friends }) {
                         </div>
                       </div>
                       <p>{workout.notes}</p>
+                      <div className={styles.likes}>
+                        <FavoriteIcon
+                          className={
+                            likes[workout.id]
+                              ? likes[workout.id]["liked"]
+                                ? classes.heart
+                                : " "
+                              : ""
+                          }
+                          onClick={() => {
+                            handleLikeClick(workout.id);
+                          }}
+                        />
+                        <div
+                          onClick={() => {
+                            handleLikeModal(likes[workout.id]["users"]);
+                          }}
+                        >
+                          {likes[workout.id] && likes[workout.id]["count"] > 0
+                            ? likes[workout.id]["count"] === 1
+                              ? `${likes[workout.id]["count"]} like`
+                              : `${likes[workout.id]["count"]} likes`
+                            : ""}
+                        </div>
+                      </div>
                       <button
                         className={styles.viewWorkoutBtn}
                         value={workout.id}
@@ -218,30 +243,6 @@ export default function Feed({ user, friends }) {
                       >
                         View Workout
                       </button>
-
-                      <FavoriteIcon
-                        className={
-                          likes[workout.id]
-                            ? likes[workout.id]["liked"]
-                              ? classes.heart
-                              : " "
-                            : ""
-                        }
-                        onClick={() => {
-                          handleLikeClick(workout.id);
-                        }}
-                      />
-                    </div>
-                    <div
-                      onClick={() => {
-                        handleLikeModal(likes[workout.id]["users"]);
-                      }}
-                    >
-                      {likes[workout.id] && likes[workout.id]["count"] > 0
-                        ? likes[workout.id]["count"] === 1
-                          ? `${likes[workout.id]["count"]} like`
-                          : `${likes[workout.id]["count"]} likes`
-                        : ""}
                     </div>
                   </div>
                 </div>
