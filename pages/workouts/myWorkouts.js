@@ -39,6 +39,7 @@ import styles from "@/styles/myWorkout.module.css";
 const theme = createTheme({
   palette: {
     primary: { main: "#03DAC5" },
+    type: "dark",
   },
 });
 
@@ -69,6 +70,10 @@ const CustomizedCalendar = styled(StaticDatePicker)`
 
   .MuiTypography-h4 {
     color: #03dac5;
+  }
+
+  .MuiBadge-root {
+    color: #161616;
   }
 
   .MuiSvgIcon-root {
