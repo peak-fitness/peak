@@ -28,16 +28,23 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Feed from "@/SocialComponents/Feed";
 import Head from "next/head";
+import ConfirmationModal from "@/SocialComponents/ConfirmationModal";
+import Image from "next/image";
 
 export default function Groups() {
   const [tab, setTab] = useState(true);
   const [user, setUser] = useState({});
   const [friends, setFriends] = useState([]);
   const [allUsers, setAllUsers] = useState([]);
-  // const session = useSession();
+  const [modal, setModal] = useState({ show: false, id: null, requester: "" });
+
   const supabase = useSupabaseClient();
   const router = useRouter();
   const { isLoading, session, error } = useSessionContext();
+
+  const handleModalOpen = (requestId, requester) => {
+    setModal({ show: true, id: requestId, requester });
+  };
 
   const handleFriendTab = () => {
     setTab(true);
@@ -85,6 +92,8 @@ export default function Groups() {
   const handleRequestDecline = async (requestId) => {
     try {
       await supabase.from("friends").delete().eq("id", requestId).single();
+      setModal({ show: false, id: null, requester: "" });
+      document.body.classList.remove("modal-open");
       getProfile();
       toast.success("Request Declined", {
         position: "bottom-right",
@@ -95,6 +104,8 @@ export default function Groups() {
         theme: "dark",
       });
     } catch (error) {
+      setModal({ show: false, id: null, requester: "" });
+      document.body.classList.remove("modal-open");
       toast.error("Something went wrong :(", {
         position: "bottom-right",
         autoClose: 3000,
@@ -138,7 +149,7 @@ export default function Groups() {
       // Getting friends where the user.id is the requester
       const friendspt1 = await supabase
         .from("friends")
-        .select("id, addressee_id, addressee_username")
+        .select("id, addressee_id, addressee_username, addressee_avatar")
         .eq("requester_id", user.data.id)
         .eq("status_code", "Accepted");
       if (friendspt1.data.length > 0) {
@@ -147,7 +158,7 @@ export default function Groups() {
       // Getting friends where the user.id is the addressee
       const friendspt2 = await supabase
         .from("friends")
-        .select("id, requester_id, requester_username")
+        .select("id, requester_id, requester_username, requester_avatar")
         .eq("addressee_id", user.data.id)
         .eq("status_code", "Accepted");
       if (friendspt2.data.length > 0) {
@@ -183,10 +194,6 @@ export default function Groups() {
     );
   };
 
-  const signout = async () => {
-    const { error } = await supabase.auth.signOut();
-  };
-
   useEffect(() => {
     getProfile();
     getAllUsers();
@@ -197,6 +204,14 @@ export default function Groups() {
       <Head>
         <title>Social</title>
       </Head>
+      {modal.show && (
+        <ConfirmationModal
+          requests={user.friends}
+          modal={modal}
+          setModal={setModal}
+          handleRequestDecline={handleRequestDecline}
+        />
+      )}
       <Navbar />
       {isLoading ? (
         ""
@@ -266,13 +281,23 @@ export default function Groups() {
                       ) : (
                         friends.map((friend) => (
                           <div key={friend.id} className={styles.friend}>
-                            <AccountCircleIcon
-                              id={styles.icon}
-                              sx={{
-                                color: "#fafafa",
-                                height: "45px",
-                                width: "45px",
-                              }}
+                            <Image
+                              className={styles.avatar}
+                              loader={() =>
+                                `https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${
+                                  friend.addressee_avatar
+                                    ? friend.addressee_avatar
+                                    : friend.requester_avatar
+                                }`
+                              }
+                              src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${
+                                friend.addressee_avatar
+                                  ? friend.addressee_avatar
+                                  : friend.requester_avatar
+                              }`}
+                              width={45}
+                              height={45}
+                              alt="friend profile picture"
                             />
                             <Link
                               href={`/social/${
@@ -301,13 +326,15 @@ export default function Groups() {
                       ) : (
                         user.friends.map((request) => (
                           <div key={request.id} className={styles.request}>
-                            <AccountCircleIcon
-                              id={styles.icon}
-                              sx={{
-                                color: "#fafafa",
-                                height: "45px",
-                                width: "45px",
-                              }}
+                            <Image
+                              className={styles.avatar}
+                              loader={() =>
+                                `https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${request.requester_avatar}`
+                              }
+                              src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${request.requester_avatar}`}
+                              width={45}
+                              height={45}
+                              alt="friend profile picture"
                             />
                             <Link
                               href={`/social/${request.requester_username}`}
@@ -338,7 +365,10 @@ export default function Groups() {
                                     className={styles.requestBtn}
                                     aria-label="group-icon"
                                     onClick={() =>
-                                      handleRequestDecline(request.id)
+                                      handleModalOpen(
+                                        request.id,
+                                        request.requester_username
+                                      )
                                     }
                                   >
                                     <CancelIcon

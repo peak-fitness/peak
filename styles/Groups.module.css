@@ -355,3 +355,7 @@
   float: right;
   right: 0;
 }
+
+.avatar {
+  border-radius: 50%;
+}
