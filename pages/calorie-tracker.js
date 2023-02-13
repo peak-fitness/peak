@@ -5,7 +5,6 @@ import Navbar from "../comps/Navbar";
 import { createTheme } from "@material-ui/core/styles";
 import CaloriesBar from "../CalorieTrackerComponents/caloriesBar";
 import MealContainer from "../CalorieTrackerComponents/meals";
-import DashboardComponents from "../CalorieTrackerComponents/dashboardComponents";
 import { useSessionContext } from "@supabase/auth-helpers-react";
 import { useEffect } from "react";
 import Link from "next/link";
