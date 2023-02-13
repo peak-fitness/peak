@@ -99,24 +99,20 @@ export default function Feed({ user, friends }) {
   };
 
   const getLikes = useCallback(async () => {
+    const testObj = {};
     for (const workout of friendWorkouts) {
       const { data, error } = await supabase
         .from("likes")
         .select("*")
         .eq("workout_id", workout.id);
-      if (data) {
-        const newState = { ...likes, [workout.id]: data.length };
-        setLikes(newState);
-      } else {
-        const newState = { ...likes, [workout.id]: 0 };
-        setLikes(newState);
-      }
+      testObj[workout.id] = data.length;
     }
-  }, []);
+    setLikes(testObj);
+  }, [friendWorkouts]);
 
   useEffect(() => {
     getLikes();
-  }, []);
+  }, [getLikes]);
 
   return (
     <div id="feed-container" className={styles.feedContainer}>
