@@ -151,7 +151,8 @@ function DashboardContent() {
                         alignItems: "flex-start",
                         justifyContent: "flex-start",
                         paddingTop: "0px",
-                        marginTop: "5px",
+                        marginTop: "16px",
+                        paddingLeft: "1.5rem",
                       }}
                     >
                       <Typography
@@ -159,9 +160,8 @@ function DashboardContent() {
                         style={{
                           color: "#FFFFFF",
                           fontFamily: "Montserrat, sans serif",
-                          fontSize: "38px",
+                          fontSize: "35px",
                           fontWeight: 700,
-                          marginBottom: "10px",
                         }}
                       >
                         DASHBOARD
