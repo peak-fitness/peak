@@ -60,6 +60,10 @@ export default function AddWorkout() {
     importData();
   }, [router.query]);
 
+  useEffect(() => {
+    setDate(dayjs(router.query.date));
+  }, [router.query]);
+
   const importedDate = router.query.date;
 
   const [workout, updateWorkout] = useReducer(
@@ -759,18 +763,22 @@ export default function AddWorkout() {
             {workout.exercises.length >= 1 && (
               <TableContainer
                 style={{
-                  backgroundColor: "#202020",
-                  width: "800px",
+                  backgroundColor: "#181818",
+                  width: "50rem",
                 }}
               >
                 <Table>
                   <TableHead>
                     <TableRow>
-                      <TableCell></TableCell>
+                      <TableCell
+                        style={{ borderBottom: "1px solid grey" }}
+                      ></TableCell>
                       <TableCell
                         style={{
                           fontSize: "16px",
                           color: "white",
+                          fontFamily: "Montserrat",
+                          borderBottom: "1px solid grey",
                         }}
                       >
                         Title
@@ -779,6 +787,8 @@ export default function AddWorkout() {
                         style={{
                           fontSize: "16px",
                           color: "white",
+                          fontFamily: "Montserrat",
+                          borderBottom: "1px solid grey",
                         }}
                       >
                         Sets
@@ -787,6 +797,8 @@ export default function AddWorkout() {
                         style={{
                           fontSize: "16px",
                           color: "white",
+                          fontFamily: "Montserrat",
+                          borderBottom: "1px solid grey",
                         }}
                       >
                         Notes
@@ -795,18 +807,22 @@ export default function AddWorkout() {
                         style={{
                           fontSize: "16px",
                           color: "white",
+                          fontFamily: "Montserrat",
+                          borderBottom: "1px solid grey",
                         }}
                       >
                         PR
                       </TableCell>
-                      <TableCell></TableCell>
+                      <TableCell
+                        style={{ borderBottom: "1px solid grey" }}
+                      ></TableCell>
                     </TableRow>
                   </TableHead>
 
                   <TableBody>
                     {workout.exercises.map((exercise, index) => (
                       <TableRow key={index}>
-                        <TableCell>
+                        <TableCell style={{ borderBottom: "none" }}>
                           <IconButton
                             onClick={() => {
                               setEdit(true);
@@ -822,6 +838,8 @@ export default function AddWorkout() {
                           style={{
                             fontSize: "16px",
                             color: "white",
+                            borderBottom: "none",
+                            fontFamily: "Montserrat",
                           }}
                         >
                           {exercise.name}
@@ -830,6 +848,8 @@ export default function AddWorkout() {
                           style={{
                             fontSize: "16px",
                             color: "white",
+                            borderBottom: "none",
+                            fontFamily: "Montserrat",
                           }}
                         >
                           {exercise.sets.length}
@@ -838,6 +858,8 @@ export default function AddWorkout() {
                           style={{
                             fontSize: "16px",
                             color: "white",
+                            borderBottom: "none",
+                            fontFamily: "Montserrat",
                           }}
                         >
                           {exercise.notes ? exercise.notes : "N/A"}
@@ -846,11 +868,13 @@ export default function AddWorkout() {
                           style={{
                             fontSize: "16px",
                             color: "white",
+                            borderBottom: "none",
+                            fontFamily: "Montserrat",
                           }}
                         >
                           {exercise.is_pr ? "Yes" : "No"}
                         </TableCell>
-                        <TableCell>
+                        <TableCell style={{ borderBottom: "none" }}>
                           {!update && (
                             <IconButton
                               onClick={() => {

@@ -140,8 +140,8 @@ const CaloriesBar = ({ date, saved, meals, added, deleted, edited }) => {
           <Grid item xs={2}>
             <div
               style={{
-                height: "100px",
-                width: "100px",
+                height: "105px",
+                width: "105px",
                 borderRadius: "50%",
                 backgroundColor: caloriesLeft < 0 ? "#a83c32" : "green",
                 display: "flex",
@@ -156,7 +156,7 @@ const CaloriesBar = ({ date, saved, meals, added, deleted, edited }) => {
                     variant="h6"
                     style={{
                       color: "white",
-                      fontWeight: "750",
+                      fontWeight: "600",
                       fontFamily: "Montserrat",
                     }}
                   >
@@ -165,7 +165,7 @@ const CaloriesBar = ({ date, saved, meals, added, deleted, edited }) => {
 
                   <Typography
                     variant="subtitle2"
-                    style={{ fontWeight: "750", fontFamily: "Montserrat" }}
+                    style={{ fontWeight: "600", fontFamily: "Montserrat" }}
                   >
                     {" "}
                     Calories Over
@@ -177,7 +177,7 @@ const CaloriesBar = ({ date, saved, meals, added, deleted, edited }) => {
                     variant="subtitle2"
                     style={{
                       textAlign: "center",
-                      fontWeight: "750",
+                      fontWeight: "600",
                       fontFamily: "Montserrat",
                     }}
                   >
@@ -190,7 +190,7 @@ const CaloriesBar = ({ date, saved, meals, added, deleted, edited }) => {
                     variant="h6"
                     style={{
                       color: "white",
-                      fontWeight: "750",
+                      fontWeight: "600",
                       fontFamily: "Montserrat",
                     }}
                   >
@@ -199,7 +199,7 @@ const CaloriesBar = ({ date, saved, meals, added, deleted, edited }) => {
 
                   <Typography
                     variant="subtitle2"
-                    style={{ fontWeight: "750", fontFamily: "Montserrat" }}
+                    style={{ fontWeight: "600", fontFamily: "Montserrat" }}
                   >
                     {" "}
                     Calories Left
