@@ -6,6 +6,7 @@ import TimerIcon from "@mui/icons-material/Timer";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import { makeStyles } from "@material-ui/core/styles";
+import Image from "next/image";
 
 const useStyles = makeStyles({
   heart: {
@@ -24,27 +25,26 @@ export default function Feed({ user, friends }) {
 
   const fetchFriendWorkouts = useCallback(async () => {
     const friendWorkOutArr = [];
-
     for (const index in friends) {
       if (friends[index].requester_id) {
         const workout = await supabase
           .from("workout")
           .select("id, notes, routine, duration, date")
           .eq("user_id", friends[index].requester_id);
-        workout.data.forEach(
-          (singleWorkout) =>
-            (singleWorkout.username = friends[index].requester_username)
-        );
+        workout.data.forEach((singleWorkout) => {
+          singleWorkout.username = friends[index].requester_username;
+          singleWorkout.avatarUrl = friends[index].requester_avatar;
+        });
         friendWorkOutArr.push(...workout.data);
       } else {
         const workout = await supabase
           .from("workout")
           .select("id, notes, routine, duration, date")
           .eq("user_id", friends[index].addressee_id);
-        workout.data.forEach(
-          (singleWorkout) =>
-            (singleWorkout.username = friends[index].addressee_username)
-        );
+        workout.data.forEach((singleWorkout) => {
+          singleWorkout.username = friends[index].addressee_username;
+          singleWorkout.avatarUrl = friends[index].addressee_avatar;
+        });
         friendWorkOutArr.push(...workout.data);
       }
     }
@@ -144,13 +144,15 @@ export default function Feed({ user, friends }) {
                   <div className={styles.workout}>
                     <div className={styles.workoutHeader}>
                       <div className={styles.postHeader}>
-                        <AccountCircleIcon
-                          id={styles.icon}
-                          sx={{
-                            color: "#fafafa",
-                            height: "40px",
-                            width: "40px",
-                          }}
+                        <Image
+                          className={styles.avatar}
+                          loader={() =>
+                            `https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${workout.avatarUrl}`
+                          }
+                          src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${workout.avatarUrl}`}
+                          width={45}
+                          height={45}
+                          alt="friend profile picture"
                         />
                         <p className={styles.feedUsername}>
                           {workout.username ? workout.username : user.username}
