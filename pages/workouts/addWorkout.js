@@ -36,6 +36,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import styles from "@/styles/AddWorkout.module.css";
 import { useRouter } from "next/router";
+import Head from "next/head";
 
 export default function AddWorkout() {
   const [open, setOpen] = useState(false);
@@ -248,91 +249,168 @@ export default function AddWorkout() {
     setCurrentIndex(index);
   };
 
-  return (
+  function Redirect({ to }) {
+    useEffect(() => {
+      router.push(to);
+    }, [to]);
+  }
+
+  return session ? (
     <>
+      <Head>
+        <title>Workouts</title>
+      </Head>
       <Navbar />
-      <Container sx={{ justifyContent: "center" }} className={styles.outer}>
-        <Box>
-          <Typography
-            variant="h3"
-            align="center"
-            sx={{
-              display: "flex",
-              fontFamily: "Montserrat",
-              justifyContent: "center",
-            }}
-          >
-            {update ? "Edit Workout" : "Add a Workout"}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            mt: 3,
+
+      <Grid
+        container
+        direction="unset"
+        justifyContent="flex-start"
+        alignItems="stretch"
+        style={{
+          height: "100%",
+          minHeight: "90vh",
+          backgroundColor: "#121212",
+          overflow: "auto",
+          maxHeight: "80vh",
+        }}
+      >
+        <Grid
+          item
+          xs={12}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
           }}
         >
-          <Grid container spacing={6} className={styles.workoutContainer}>
-            <Grid item lg={3}>
-              <TextField
-                className={styles.form}
-                fullWidth
-                id="routine"
-                label="Workout Title"
-                value={workout.routine}
-                onChange={(e) => updateWorkout({ routine: e.target.value })}
-              />
-            </Grid>
-            <Grid item lg={3}>
-              <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker
+          <Box>
+            <Typography
+              variant="h4"
+              align="center"
+              sx={{
+                display: "flex",
+                fontFamily: "Montserrat",
+                justifyContent: "center",
+              }}
+              style={{ marginTop: "20px" }}
+            >
+              {update ? "Edit Workout" : "Add a Workout"}
+            </Typography>
+          </Box>
+          <Box
+            style={{
+              marginTop: "10px",
+            }}
+          >
+            <Grid container spacing={6} className={styles.workoutContainer}>
+              <Grid
+                item
+                xs={3}
+                sm={3}
+                md={3}
+                lg={3}
+                style={{ display: "flex", justifyContent: "flex-end" }}
+              >
+                <TextField
                   className={styles.form}
-                  label="Date"
-                  inputFormat="MM/DD/YYYY"
-                  value={update ? importedDate : date}
-                  disabled={update ? true : false}
-                  onChange={(newDate) => {
-                    setDate(newDate);
-                  }}
-                  renderInput={(params) => <TextField {...params} />}
+                  id="routine"
+                  label="Routine (Push, Pull, etc.)"
+                  InputLabelProps={{ shrink: true }}
+                  value={workout.routine}
+                  onChange={(e) => updateWorkout({ routine: e.target.value })}
+                  style={{ width: "200px" }}
                 />
-              </LocalizationProvider>
-            </Grid>
-          </Grid>
-          <Grid container spacing={6} className={styles.workoutContainer}>
-            <Grid item lg={3}>
-              <TextField
-                className={styles.form}
-                fullWidth
-                id="notes"
-                label="Notes"
-                value={workout.notes}
-                onChange={(e) => updateWorkout({ notes: e.target.value })}
-              />
-            </Grid>
-            <Grid item lg={3}>
-              <TextField
-                className={styles.form}
-                fullWidth
-                id="duration"
-                label="Duration (mins)"
-                value={workout.duration}
-                onChange={(e) =>
-                  updateWorkout({ duration: Number(e.target.value) })
-                }
-              />
+              </Grid>
+              <Grid item xs={3} sm={3} md={3} lg={3}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    className={styles.form}
+                    label="Date"
+                    inputFormat="MM/DD/YYYY"
+                    InputLabelProps={{ shrink: true }}
+                    value={update ? importedDate : date}
+                    disabled={update ? true : false}
+                    onChange={(newDate) => {
+                      setDate(newDate);
+                    }}
+                    renderInput={(params) => <TextField {...params} />}
+                    style={{ width: "200px" }}
+                  />
+                </LocalizationProvider>
+              </Grid>
             </Grid>
             <Grid container spacing={6} className={styles.workoutContainer}>
-              <Typography
-                variant="h5"
-                align="center"
-                className={styles.exercisesText}
+              <Grid
+                item
+                xs={3}
+                sm={3}
+                md={3}
+                lg={3}
+                style={{ display: "flex", justifyContent: "flex-end" }}
               >
-                Exercises
-              </Typography>
+                <TextField
+                  className={styles.form}
+                  id="notes"
+                  InputLabelProps={{ shrink: true }}
+                  label="Notes (Optional)"
+                  value={workout.notes}
+                  onChange={(e) => updateWorkout({ notes: e.target.value })}
+                  style={{ width: "200px" }}
+                />
+              </Grid>
+              <Grid item xs={3} sm={3} md={3} lg={3}>
+                <TextField
+                  className={styles.form}
+                  id="duration"
+                  InputLabelProps={{ shrink: true }}
+                  label="Duration (Mins)"
+                  value={workout.duration}
+                  onChange={(e) =>
+                    updateWorkout({ duration: Number(e.target.value) })
+                  }
+                  style={{ width: "200px" }}
+                />
+              </Grid>
             </Grid>
-          </Grid>
+          </Box>
+        </Grid>
+        <Grid
+          item
+          xs={12}
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            alignItems: "center",
+          }}
+        >
+          <Typography
+            variant="h4"
+            align="center"
+            className={styles.exercisesText}
+          >
+            Exercises
+          </Typography>
+          <Typography
+            variant="caption"
+            align="center"
+            style={{ marginBottom: "10px" }}
+          >
+            (Please fill out the above fields before adding an exercise)
+          </Typography>
           <Grid container spacing={6} className={styles.workoutContainer}>
             <Grid item lg={4} className={styles.add}>
-              <Button variant="outlined" onClick={() => setOpen(true)}>
+              <Button
+                variant="outlined"
+                onClick={() => {
+                  if (workout.routine && date && workout.duration) {
+                    setOpen(true);
+                  } else {
+                    alert("Please fill out all required fields.");
+                  }
+                }}
+              >
                 Add an Exercise
               </Button>
               <Dialog
@@ -352,17 +430,18 @@ export default function AddWorkout() {
                     Please enter information about your exercise below
                   </DialogContentText>
                   {invalidName && (
-                    <p className="invalid-exercise">
-                      Please enter a name for your exercise
+                    <p className="invalid-exercise" style={{ color: "red" }}>
+                      Please enter a routine for your exercise
                     </p>
                   )}
                   <TextField
                     autoFocus
                     margin="dense"
                     id="name"
-                    label="Exercise Name"
+                    label="Exercise Name (Bench Press, Squats, etc.)"
                     fullWidth
                     variant="standard"
+                    InputLabelProps={{ shrink: true }}
                     value={edit ? current.name : null}
                     onChange={(e) => {
                       updateExercise({ name: e.target.value });
@@ -379,6 +458,7 @@ export default function AddWorkout() {
                     label="Notes"
                     fullWidth
                     variant="standard"
+                    InputLabelProps={{ shrink: true }}
                     value={edit ? current.notes : null}
                     onChange={(e) => {
                       updateExercise({ notes: e.target.value });
@@ -395,6 +475,7 @@ export default function AddWorkout() {
                     label="Muscle Groups"
                     fullWidth
                     variant="standard"
+                    InputLabelProps={{ shrink: true }}
                     value={edit ? current.muscle_group : null}
                     onChange={(e) => {
                       updateExercise({ muscle_group: e.target.value });
@@ -408,6 +489,7 @@ export default function AddWorkout() {
                     <FormControlLabel
                       control={
                         <Checkbox
+                          style={{ color: "white" }}
                           id="is_pr"
                           onChange={(e) => {
                             updateExercise({ is_pr: e.target.checked });
@@ -421,7 +503,7 @@ export default function AddWorkout() {
                           // front end
                         />
                       }
-                      label="Personal Best?"
+                      label="Personal Record?"
                     />
                   </FormGroup>
                   {invalidExercise && (
@@ -430,7 +512,10 @@ export default function AddWorkout() {
                     </p>
                   )}
                   {!update && (
-                    <Container className={styles.setsContainer}>
+                    <Container
+                      className={styles.setsContainer}
+                      style={{ marginTop: "10px" }}
+                    >
                       <FormControl>
                         <InputLabel htmlFor="set-number">Set #</InputLabel>
                         <Input
@@ -476,10 +561,7 @@ export default function AddWorkout() {
                   {edit
                     ? current.sets && (
                         <TableContainer component={Paper}>
-                          <Table
-                            aria-label="simple table"
-                            style={{ backgroundColor: "#161616" }}
-                          >
+                          <Table aria-label="simple table">
                             <TableHead>
                               <TableRow>
                                 <TableCell>Set #</TableCell>
@@ -673,104 +755,139 @@ export default function AddWorkout() {
               </Dialog>
             </Grid>
           </Grid>
-          <Box>
+          <Box style={{ margin: "15px", height: "225px", overflow: "scroll" }}>
             {workout.exercises.length >= 1 && (
-              <Grid container spacing={4}>
-                <Grid item lg={3}>
-                  <Typography className={styles.setsText}>Title</Typography>
-                </Grid>
-                <Grid item lg={3}>
-                  <Typography className={styles.setsText}>Sets</Typography>
-                </Grid>
-                <Grid item lg={3}>
-                  <Typography className={styles.setsText}>Notes</Typography>
-                </Grid>
-                <Grid item lg={3}>
-                  <Typography className={styles.setsText}>PR?</Typography>
-                </Grid>
-              </Grid>
-            )}
-            {workout.exercises.length >= 1 &&
-              workout.exercises.map((exercise, index) => {
-                return (
-                  <>
-                    <Grid container spacing={4}>
-                      <Grid item lg={3}>
-                        <TextField
-                          className={styles.sets}
-                          value={exercise.name}
-                          InputProps={{
-                            readOnly: true,
-                          }}
-                        />
-                        <IconButton
-                          onClick={() => {
-                            setEdit(true);
-                            setOpen(true);
-                            getExercise(index);
-                          }}
-                          className={styles.setsItems}
-                        >
-                          <EditIcon
-                            style={{ fontSize: "22px", color: "#03dac5" }}
-                          />
-                        </IconButton>
-                        {!update && (
+              <TableContainer
+                style={{
+                  backgroundColor: "#202020",
+                  width: "800px",
+                }}
+              >
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell></TableCell>
+                      <TableCell
+                        style={{
+                          fontSize: "16px",
+                          color: "white",
+                        }}
+                      >
+                        Title
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontSize: "16px",
+                          color: "white",
+                        }}
+                      >
+                        Sets
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontSize: "16px",
+                          color: "white",
+                        }}
+                      >
+                        Notes
+                      </TableCell>
+                      <TableCell
+                        style={{
+                          fontSize: "16px",
+                          color: "white",
+                        }}
+                      >
+                        PR
+                      </TableCell>
+                      <TableCell></TableCell>
+                    </TableRow>
+                  </TableHead>
+
+                  <TableBody>
+                    {workout.exercises.map((exercise, index) => (
+                      <TableRow key={index}>
+                        <TableCell>
                           <IconButton
                             onClick={() => {
-                              workout.exercises.splice(index, 1);
-                              setCurrent({});
+                              setEdit(true);
+                              setOpen(true);
+                              getExercise(index);
                             }}
                           >
-                            <DeleteIcon
-                              style={{ fontSize: "22px", color: "#03dac5" }}
-                            />
+                            <EditIcon style={{ color: "#77C3EC" }} />
                           </IconButton>
-                        )}
-                      </Grid>
-                      <Grid item lg={3}>
-                        <TextField
-                          className={styles.sets}
-                          value={exercise.sets.length}
-                          InputProps={{
-                            readOnly: true,
+                        </TableCell>
+
+                        <TableCell
+                          style={{
+                            fontSize: "16px",
+                            color: "white",
                           }}
-                        />
-                      </Grid>
-                      <Grid item lg={3}>
-                        <TextField
-                          className={styles.sets}
-                          value={exercise.notes ? exercise.notes : "N/A"}
-                          InputProps={{
-                            readOnly: true,
+                        >
+                          {exercise.name}
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            fontSize: "16px",
+                            color: "white",
                           }}
-                        />
-                      </Grid>
-                      <Grid item lg={3}>
-                        <TextField
-                          className={styles.sets}
-                          value={exercise.is_pr ? "Yes" : "No"}
-                          InputProps={{
-                            readOnly: true,
+                        >
+                          {exercise.sets.length}
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            fontSize: "16px",
+                            color: "white",
                           }}
-                        />
-                      </Grid>
-                    </Grid>
-                  </>
-                );
-              })}
+                        >
+                          {exercise.notes ? exercise.notes : "N/A"}
+                        </TableCell>
+                        <TableCell
+                          style={{
+                            fontSize: "16px",
+                            color: "white",
+                          }}
+                        >
+                          {exercise.is_pr ? "Yes" : "No"}
+                        </TableCell>
+                        <TableCell>
+                          {!update && (
+                            <IconButton
+                              onClick={() => {
+                                workout.exercises.splice(index, 1);
+                                setCurrent({});
+                              }}
+                            >
+                              <DeleteIcon style={{ color: "#FF5349" }} />
+                            </IconButton>
+                          )}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+            )}
           </Box>
+
           <Button
             className={styles.saveButton}
             type="submit"
             onClick={handleSubmit}
-            fullWidth
             variant="contained"
+            style={{
+              width: "220px",
+              height: "40px",
+              fontSize: "18px",
+              margin: "10px",
+            }}
           >
             Save
           </Button>
-        </Box>
-      </Container>
+        </Grid>
+      </Grid>
     </>
+  ) : (
+    <Redirect to="/" />
   );
 }
