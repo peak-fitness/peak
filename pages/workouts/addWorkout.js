@@ -602,7 +602,11 @@ export default function AddWorkout() {
                             style={{ marginTop: "10px" }}
                           >
                             <FormControl>
-                              <InputLabel htmlFor="set-number">
+                              <InputLabel
+                                htmlFor="set-number"
+                                style={{ color: "darkTheme.text.primary" }}
+                                shrink={true}
+                              >
                                 Set #
                               </InputLabel>
                               <Input
@@ -617,6 +621,7 @@ export default function AddWorkout() {
                               <InputLabel
                                 htmlFor="rep-count"
                                 style={{ color: "darkTheme.text.primary" }}
+                                shrink={true}
                               >
                                 # of Reps
                               </InputLabel>
@@ -629,7 +634,11 @@ export default function AddWorkout() {
                               />
                             </FormControl>
                             <FormControl>
-                              <InputLabel htmlFor="weight">
+                              <InputLabel
+                                htmlFor="weight"
+                                style={{ color: "darkTheme.text.primary" }}
+                                shrink={true}
+                              >
                                 Weight (lbs)
                               </InputLabel>
                               <Input

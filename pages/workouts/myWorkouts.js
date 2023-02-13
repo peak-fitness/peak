@@ -6,6 +6,7 @@ import {
   TextField,
   ThemeProvider,
   Typography,
+  Button,
 } from "@material-ui/core";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -499,9 +500,8 @@ export default function MyWorkouts() {
                           No workouts for this day! Would you like to add a
                           workout?
                         </Typography>
-
-                        <Link
-                          href="/workouts/addWorkout"
+                        <Button
+                          onClick={handleAddRedirect}
                           style={{
                             margin: "10px",
                             padding: "5px",
@@ -515,7 +515,7 @@ export default function MyWorkouts() {
                           }}
                         >
                           Add a Workout
-                        </Link>
+                        </Button>
                       </div>
                     </div>
                   )}
