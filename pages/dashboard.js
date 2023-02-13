@@ -134,12 +134,15 @@ function DashboardContent() {
                     <DashboardItems />
                   </Drawer>
 
-                  <Box
-                    component="main"
-                    sx={{
-                      flexGrow: 1,
-                      height: "100vh",
-                      overflow: "auto",
+                  <Grid
+                    style={{
+                      backgroundColor: "#262626",
+                      marginTop: "30px",
+                      marginRight: "20px",
+                      marginLeft: "20px",
+                      marginBottom: "50px",
+
+                      borderRadius: "10px",
                     }}
                   >
                     {/* <Toolbar /> */}
@@ -163,7 +166,14 @@ function DashboardContent() {
                     <Container maxWidth="lg" sx={{ mt: 2, mb: 2 }}>
                       <Grid container spacing={3}>
                         {/* Chart */}
-                        <Grid item xs={12} md={8} lg={9} sm={12}>
+                        <Grid
+                          item
+                          xs={12}
+                          md={8}
+                          lg={9}
+                          sm={12}
+                          style={{ borderRadius: "10px" }}
+                        >
                           <Paper
                             sx={{
                               pt: 0.5,
@@ -174,13 +184,23 @@ function DashboardContent() {
                               flexDirection: "column",
                               height: 250,
                             }}
-                            style={{ backgroundColor: "#202020" }}
+                            style={{
+                              backgroundColor: "#202020",
+                              borderRadius: "10px",
+                            }}
                           >
                             <Chart />
                           </Paper>
                         </Grid>
                         {/* Calendar*/}
-                        <Grid item xs={12} md={4} lg={3} sm={7}>
+                        <Grid
+                          item
+                          xs={12}
+                          md={4}
+                          lg={3}
+                          sm={7}
+                          style={{ borderRadius: "10px" }}
+                        >
                           <Paper
                             sx={{
                               pt: 0,
@@ -191,13 +211,23 @@ function DashboardContent() {
                               flexDirection: "column",
                               height: 250,
                             }}
-                            style={{ backgroundColor: "#202020" }}
+                            style={{
+                              backgroundColor: "#202020",
+                              borderRadius: "10px",
+                            }}
                           >
                             <CalendarView />
                           </Paper>
                         </Grid>
                         {/* Recent Workouts */}
-                        <Grid item xs={12} md={8} lg={9} sm={12}>
+                        <Grid
+                          item
+                          xs={12}
+                          md={8}
+                          lg={9}
+                          sm={12}
+                          style={{ borderRadius: "10px" }}
+                        >
                           <Paper
                             sx={{
                               pt: 1,
@@ -207,13 +237,23 @@ function DashboardContent() {
                               display: "flex",
                               flexDirection: "column",
                             }}
-                            style={{ backgroundColor: "#202020" }}
+                            style={{
+                              backgroundColor: "#202020",
+                              borderRadius: "10px",
+                            }}
                           >
                             <RecentWorkouts />
                           </Paper>
                         </Grid>
 
-                        <Grid item xs={12} md={4} lg={3} sm={7}>
+                        <Grid
+                          item
+                          xs={12}
+                          md={4}
+                          lg={3}
+                          sm={7}
+                          style={{ borderRadius: "10px" }}
+                        >
                           <Paper
                             sx={{
                               pt: 1,
@@ -223,14 +263,17 @@ function DashboardContent() {
                               display: "flex",
                               flexDirection: "row",
                             }}
-                            style={{ backgroundColor: "#202020" }}
+                            style={{
+                              backgroundColor: "#202020",
+                              borderRadius: "10px",
+                            }}
                           >
                             <Achievements />
                           </Paper>
                         </Grid>
                       </Grid>
                     </Container>
-                  </Box>
+                  </Grid>
                 </Box>
               </Grid>
             </Container>
