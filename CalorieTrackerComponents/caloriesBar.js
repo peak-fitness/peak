@@ -110,7 +110,7 @@ const CaloriesBar = ({
   return (
     <Container
       sx={{
-        p: 2,
+        p: 1,
         display: "flex",
         flexDirection: "column",
         height: 120,
@@ -134,8 +134,8 @@ const CaloriesBar = ({
           <Grid item xs={2}>
             <div
               style={{
-                height: "95px",
-                width: "95px",
+                height: "100px",
+                width: "100px",
                 borderRadius: "50%",
                 backgroundColor: caloriesLeft < 0 ? "#a83c32" : "green",
                 display: "flex",
@@ -146,29 +146,43 @@ const CaloriesBar = ({
             >
               {caloriesLeft < 0 ? (
                 <>
-                  <Typography variant="h6" style={{ color: "white" }}>
+                  <Typography
+                    variant="h6"
+                    style={{
+                      color: "white",
+                      fontWeight: "750",
+                    }}
+                  >
                     {Math.abs(caloriesLeft)}
                   </Typography>
 
-                  <Typography variant="subtitle2"> Calories Over</Typography>
+                  <Typography variant="subtitle2" style={{ fontWeight: "750" }}>
+                    {" "}
+                    Calories Over
+                  </Typography>
                 </>
               ) : caloriesLeft === 0 ? (
                 <>
                   <Typography
                     variant="subtitle2"
-                    style={{ textAlign: "center" }}
+                    style={{ textAlign: "center", fontWeight: "750" }}
                   >
-                    {" "}
                     Calories Goal Reached!
                   </Typography>
                 </>
               ) : (
                 <>
-                  <Typography variant="h6" style={{ color: "white" }}>
+                  <Typography
+                    variant="h6"
+                    style={{ color: "white", fontWeight: "750" }}
+                  >
                     {caloriesLeft}
                   </Typography>
 
-                  <Typography variant="subtitle2"> Calories Left</Typography>
+                  <Typography variant="subtitle2" style={{ fontWeight: "750" }}>
+                    {" "}
+                    Calories Left
+                  </Typography>
                 </>
               )}
             </div>
