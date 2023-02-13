@@ -388,7 +388,7 @@ export default function MyWorkouts() {
                   md={8}
                   lg={8}
                   style={{
-                    borderRight: "1rem solid #262626",
+                    borderRight: "1.5rem solid #262626",
                     borderRadius: "15px",
                   }}
                 >
