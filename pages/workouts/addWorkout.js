@@ -938,7 +938,10 @@ export default function AddWorkout() {
                   height: "40px",
                   borderRadius: "10px",
                   fontSize: "18px",
-                  margin: "15px",
+
+                  marginBottom: "15px",
+                  marginRight: "15px",
+                  marginLeft: "15px",
                 }}
               >
                 Save
