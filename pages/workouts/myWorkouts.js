@@ -364,8 +364,8 @@ export default function MyWorkouts() {
               md={12}
               style={{
                 backgroundColor: "#262626",
-                margin: "50px",
-                borderRadius: "10px",
+                margin: "3rem",
+                borderRadius: "15px",
               }}
             >
               <Typography
@@ -388,7 +388,7 @@ export default function MyWorkouts() {
                   md={8}
                   lg={8}
                   style={{
-                    borderRight: "10px solid #262626",
+                    borderRight: "1.5rem solid #262626",
                     borderRadius: "10px",
                   }}
                 >

@@ -44,8 +44,8 @@ function CaloriesContent() {
                 borderRadius: "10px",
                 backgroundColor: "#262626",
                 flexGrow: 1,
-                marginLeft: "3.5rem",
-                marginRight: "3.5rem",
+                marginLeft: "1rem",
+                marginRight: "1rem",
               }}
             >
               <Box component="main">
