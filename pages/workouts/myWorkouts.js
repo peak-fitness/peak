@@ -2,21 +2,13 @@ import Navbar from "@/comps/Navbar";
 import {
   createTheme,
   Badge,
-  Box,
-  Button,
-  Container,
   Grid,
   TextField,
   ThemeProvider,
-  List,
-  ListItem,
-  IconButton,
-  ListItemAvatar,
-  Avatar,
-  ListItemText,
   Typography,
   ListItemIcon,
   withStyles,
+  Button,
 } from "@material-ui/core";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -159,6 +151,10 @@ export default function MyWorkouts() {
   useEffect(() => {
     updateWorkoutAchievements();
   });
+
+  useEffect(() => {
+    setDate(dayjs(router.query.date));
+  }, [router.query]);
 
   const fetchWorkouts = async () => {
     if (date) {
@@ -343,6 +339,13 @@ export default function MyWorkouts() {
     }, [to]);
   }
 
+  const handleAddRedirect = () => {
+    router.push({
+      pathname: "/workouts/addWorkout",
+      query: { date: date.format() },
+    });
+  };
+
   return session ? (
     <div>
       <Head>
@@ -497,8 +500,9 @@ export default function MyWorkouts() {
                           No workouts for this day! Would you like to add a
                           workout?
                         </Typography>
-                        <Link
-                          href="/workouts/addWorkout"
+                        <Button
+                          onClick={handleAddRedirect}
+                          // href="/workouts/addWorkout"
                           style={{
                             marginTop: "20px",
                             marginBottom: "20px",
@@ -515,7 +519,7 @@ export default function MyWorkouts() {
                           }}
                         >
                           Add a Workout
-                        </Link>
+                        </Button>
                       </div>
                     </div>
                   )}

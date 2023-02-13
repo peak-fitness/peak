@@ -63,11 +63,21 @@ export default function CalendarView() {
   const session = useSession();
   const router = useRouter();
   const [highlightedDays, setHighlightedDays] = useState([]);
+  const [clicked, setClicked] = useState(false);
   const user = useUser();
 
   useEffect(() => {
     fetchHighlightedDays();
   }, [date]);
+
+  useEffect(() => {
+    if (date) {
+      router.push({
+        pathname: "/workouts/myWorkouts",
+        query: { date: date.format() },
+      });
+    }
+  }, [clicked]);
 
   const fetchHighlightedDays = async () => {
     let days = [];
@@ -113,7 +123,7 @@ export default function CalendarView() {
                   <PickersDay
                     {...DayComponentProps}
                     onClick={() => {
-                      router.push(`/workouts/myWorkouts/`);
+                      setClicked(!clicked);
                     }}
                   />
                 </Badge>

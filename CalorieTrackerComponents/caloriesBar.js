@@ -3,15 +3,7 @@ import Typography from "@material-ui/core/Typography";
 import Grid from "@material-ui/core/Grid";
 import Container from "@mui/material/Container";
 import { useSession, useSupabaseClient } from "@supabase/auth-helpers-react";
-const CaloriesBar = ({
-  userId,
-  date,
-  saved,
-  meals,
-  added,
-  deleted,
-  edited,
-}) => {
+const CaloriesBar = ({ date, saved, meals, added, deleted, edited }) => {
   const supabase = useSupabaseClient();
   const session = useSession();
   const [goalCalories, setGoalCalories] = useState(null);
@@ -42,25 +34,31 @@ const CaloriesBar = ({
         date.$D >= 10 ? "" : "0"
       }${date.$D}`;
       const { data, error } = await supabase
-        .from("meals")
-        .select("meal")
-        .eq("user_id", userId)
-        .eq("date", dateString)
+        .from("user")
+        .select(
+          `
+          auth_id, meals (
+            *
+          )
+          `
+        )
+        .eq("auth_id", session.user.id)
+        .eq("meals.date", dateString)
         .single();
-      if (data) {
+      if (data.meals.length) {
         let calorieCalc = 0;
-        if (data.meal.breakfast) {
-          data.meal.breakfast.map((food) => {
+        if (data.meals[0].meal.breakfast) {
+          data.meals[0].meal.breakfast.map((food) => {
             calorieCalc += food.calories;
           });
         }
-        if (data.meal.lunch) {
-          data.meal.lunch.map((food) => {
+        if (data.meals[0].meal.lunch) {
+          data.meals[0].meal.lunch.map((food) => {
             calorieCalc += food.calories;
           });
         }
-        if (data.meal.dinner) {
-          data.meal.dinner.map((food) => {
+        if (data.meals[0].meal.dinner) {
+          data.meals[0].meal.dinner.map((food) => {
             calorieCalc += food.calories;
           });
         }
@@ -77,25 +75,31 @@ const CaloriesBar = ({
         date.$D >= 10 ? "" : "0"
       }${date.$D}`;
       const { data, error } = await supabase
-        .from("meals")
-        .select("meal")
-        .eq("user_id", userId)
-        .eq("date", dateString)
+        .from("user")
+        .select(
+          `
+          auth_id, meals (
+            *
+          )
+          `
+        )
+        .eq("auth_id", session.user.id)
+        .eq("meals.date", dateString)
         .single();
-      if (data) {
+      if (data.meals.length) {
         let proteinCalc = 0;
-        if (data.meal.breakfast) {
-          data.meal.breakfast.map((food) => {
+        if (data.meals[0].meal.breakfast) {
+          data.meals[0].meal.breakfast.map((food) => {
             proteinCalc += food.protein;
           });
         }
-        if (data.meal.lunch) {
-          data.meal.lunch.map((food) => {
+        if (data.meals[0].meal.lunch) {
+          data.meals[0].meal.lunch.map((food) => {
             proteinCalc += food.protein;
           });
         }
-        if (data.meal.dinner) {
-          data.meal.dinner.map((food) => {
+        if (data.meals[0].meal.dinner) {
+          data.meals[0].meal.dinner.map((food) => {
             proteinCalc += food.protein;
           });
         }
@@ -136,8 +140,8 @@ const CaloriesBar = ({
           <Grid item xs={2}>
             <div
               style={{
-                height: "100px",
-                width: "100px",
+                height: "105px",
+                width: "105px",
                 borderRadius: "50%",
                 backgroundColor: caloriesLeft < 0 ? "#a83c32" : "green",
                 display: "flex",
@@ -152,7 +156,7 @@ const CaloriesBar = ({
                     variant="h6"
                     style={{
                       color: "white",
-                      fontWeight: "750",
+                      fontWeight: "600",
                       fontFamily: "Montserrat",
                     }}
                   >
@@ -161,7 +165,7 @@ const CaloriesBar = ({
 
                   <Typography
                     variant="subtitle2"
-                    style={{ fontWeight: "750", fontFamily: "Montserrat" }}
+                    style={{ fontWeight: "600", fontFamily: "Montserrat" }}
                   >
                     {" "}
                     Calories Over
@@ -173,7 +177,7 @@ const CaloriesBar = ({
                     variant="subtitle2"
                     style={{
                       textAlign: "center",
-                      fontWeight: "750",
+                      fontWeight: "600",
                       fontFamily: "Montserrat",
                     }}
                   >
@@ -186,7 +190,7 @@ const CaloriesBar = ({
                     variant="h6"
                     style={{
                       color: "white",
-                      fontWeight: "750",
+                      fontWeight: "600",
                       fontFamily: "Montserrat",
                     }}
                   >
@@ -195,7 +199,7 @@ const CaloriesBar = ({
 
                   <Typography
                     variant="subtitle2"
-                    style={{ fontWeight: "750", fontFamily: "Montserrat" }}
+                    style={{ fontWeight: "600", fontFamily: "Montserrat" }}
                   >
                     {" "}
                     Calories Left
