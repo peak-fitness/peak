@@ -141,7 +141,6 @@ function DashboardContent() {
                       marginRight: "30px",
                       marginLeft: "30px",
                       marginBottom: "20px",
-
                       borderRadius: "10px",
                     }}
                   >
@@ -149,8 +148,8 @@ function DashboardContent() {
                     <div
                       style={{
                         display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
+                        alignItems: "flex-start",
+                        justifyContent: "flex-start",
                         paddingTop: "0px",
                         marginTop: "5px",
                       }}
