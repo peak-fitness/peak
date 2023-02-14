@@ -97,7 +97,7 @@ export default function AddWorkout() {
     (prev, next) => {
       return { ...prev, ...next };
     },
-    { id: 1, reps: 1, weight: 0 }
+    { id: 1, reps: 0, weight: 0 }
   );
 
   const importData = () => {
@@ -147,7 +147,7 @@ export default function AddWorkout() {
       name: "",
       notes: "",
       is_pr: false,
-      muscle_grou: "",
+      muscle_group: "",
       sets: [],
     });
     setSetsInfo([]);
@@ -155,13 +155,13 @@ export default function AddWorkout() {
 
   const handleChange = (e) => {
     if (e.target.name === "set") {
-      e.target.value < 1 ? (e.target.value = 1) : e.target.value;
+      e.target.value < 1 ? (e.target.value = "") : e.target.value;
       updateSet({ id: Number(e.target.value) });
     } else if (e.target.name === "reps") {
-      e.target.value < 1 ? (e.target.value = 1) : e.target.value;
+      e.target.value < 1 ? (e.target.value = "") : e.target.value;
       updateSet({ reps: Number(e.target.value) });
     } else if (e.target.name === "weight") {
-      e.target.value < 1 ? (e.target.value = 0) : e.target.value;
+      e.target.value < 0 ? (e.target.value = "") : e.target.value;
       updateSet({ weight: Number(e.target.value) });
     }
   };
@@ -430,12 +430,9 @@ export default function AddWorkout() {
                           color: "darkTheme.text.primary",
                         }}
                         label="Duration (Mins)"
-                        value={workout.duration}
+                        value={workout.duration || ""}
                         onChange={(e) => {
-                          const value = e.target.value;
-                          if (!isNaN(value)) {
-                            updateWorkout({ duration: Number(value) });
-                          }
+                          updateWorkout({ duration: Number(e.target.value) });
                         }}
                         style={{ width: "200px" }}
                       />
@@ -592,8 +589,6 @@ export default function AddWorkout() {
                                   });
                                 }}
                                 defaultChecked={edit ? current.is_pr : false}
-                                //   checked={edit ? current.is_pr : null} does not give error but on add exercises doesnt render checked box on
-                                // front end
                               />
                             }
                             label="Personal Record?"
@@ -610,38 +605,50 @@ export default function AddWorkout() {
                             style={{ marginTop: "10px" }}
                           >
                             <FormControl>
-                              <InputLabel htmlFor="set-number">
+                              <InputLabel
+                                htmlFor="set-number"
+                                style={{ color: "darkTheme.text.primary" }}
+                                shrink={true}
+                              >
                                 Set #
                               </InputLabel>
                               <Input
                                 id="set-number"
                                 type="number"
                                 name="set"
-                                value={set.id}
+                                value={set.id || ""}
                                 onChange={handleChange}
                               />
                             </FormControl>
                             <FormControl>
-                              <InputLabel htmlFor="rep-count">
+                              <InputLabel
+                                htmlFor="rep-count"
+                                style={{ color: "darkTheme.text.primary" }}
+                                shrink={true}
+                              >
                                 # of Reps
                               </InputLabel>
                               <Input
                                 id="rep-count"
                                 type="number"
                                 name="reps"
-                                value={set.reps}
+                                value={set.reps || ""}
                                 onChange={handleChange}
                               />
                             </FormControl>
                             <FormControl>
-                              <InputLabel htmlFor="weight">
+                              <InputLabel
+                                htmlFor="weight"
+                                style={{ color: "darkTheme.text.primary" }}
+                                shrink={true}
+                              >
                                 Weight (lbs)
                               </InputLabel>
                               <Input
                                 id="weight"
                                 type="number"
                                 name="weight"
-                                value={set.weight}
+                                value={set.weight || ""}
                                 onChange={handleChange}
                               />
                             </FormControl>
@@ -722,7 +729,7 @@ export default function AddWorkout() {
                                                   <TextField
                                                     className={styles.editSets}
                                                     type="number"
-                                                    value={set.reps}
+                                                    value={set.reps || ""}
                                                     onChange={(e) => {
                                                       setCurrent(
                                                         (prevState) => ({
@@ -757,7 +764,7 @@ export default function AddWorkout() {
                                                   <TextField
                                                     className={styles.editSets}
                                                     type="number"
-                                                    value={set.weight}
+                                                    value={set.weight || ""}
                                                     onChange={(e) => {
                                                       setCurrent(
                                                         (prevState) => ({
