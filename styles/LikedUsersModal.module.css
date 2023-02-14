@@ -43,11 +43,11 @@
   justify-content: space-between;
   gap: 25px;
   padding: 0.8rem 1rem;
-  /* border-top: 1px solid #141414; */
+  border-bottom: 1px solid #141414;
 }
 
-.likedUser:hover {
-  background-color: #161616;
+.likedUser:last-child {
+  border-bottom: transparent;
 }
 
 .likedUsers a {
@@ -55,7 +55,7 @@
   text-decoration: none;
 }
 
-.likedUser button {
+.viewProfileBtn button {
   font-size: 12px;
   font-weight: 600;
   background-color: #03dac5;
@@ -63,6 +63,18 @@
   color: #161616;
   border-radius: 5px;
   padding: 5px 10px;
+  cursor: pointer;
+}
+
+.viewMyProfile button {
+  font-size: 12px;
+  font-weight: 500;
+  background-color: #1a1a1a;
+  border: 1px solid #0c0c0c;
+  color: #fafafa;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
 .modal hr {
@@ -92,4 +104,8 @@
 
 .modalBtn:hover {
   cursor: pointer;
+}
+
+.avatar {
+  border-radius: 50%;
 }

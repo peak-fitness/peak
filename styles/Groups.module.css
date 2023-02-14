@@ -320,6 +320,11 @@
   cursor: pointer;
 }
 
+.viewWorkoutBtn {
+  position: relative;
+  z-index: 2;
+}
+
 .endOfFeed {
   width: 100%;
   text-align: center;
@@ -372,11 +377,14 @@
   font-size: 14px;
   font-weight: 900;
   color: #ababab;
+  z-index: 1;
+  cursor: pointer;
 }
 
 .likeButton {
   display: flex;
   align-items: center;
+  gap: 8px;
 }
 
 .likeButton .heartIcon {
@@ -401,8 +409,8 @@
 .likeButton .heartBg {
   background: rgba(255, 192, 200, 0);
   border-radius: 50%;
-  height: 50px;
-  width: 50px;
+  height: 40px;
+  width: 40px;
   display: flex;
   align-items: center;
   justify-content: center;

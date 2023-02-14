@@ -2,10 +2,12 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "@/styles/LikedUsersModal.module.css";
 import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function LikedUsersModal({
   setShowLikeModal,
   currentLikedUsers,
+  user,
 }) {
   const modalRef = useRef();
   const [usernames, setUsernames] = useState([]);
@@ -31,7 +33,7 @@ export default function LikedUsersModal({
     for (const user of currentLikedUsers) {
       const { data, error } = await supabase
         .from("user")
-        .select("username, id")
+        .select("username, id, avatar_url")
         .match({ id: user.user_id })
         .single();
       usernameArr.push(data);
@@ -57,13 +59,35 @@ export default function LikedUsersModal({
           </div>
           <div className={styles.modalBody}>
             <div className={styles.likedUsers}>
-              {usernames.map((user) => {
+              {usernames.map((likedUser) => {
                 return (
-                  <div key={user.id} className={styles.likedUser}>
-                    <Link href={`/social/${user.username}`}>
-                      {user.username}
+                  <div key={likedUser.id} className={styles.likedUser}>
+                    {console.log("USER", user)}
+                    <Image
+                      className={styles.avatar}
+                      loader={() =>
+                        `https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${likedUser.avatar_url}`
+                      }
+                      src={`https://cfbogj_upbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${likedUser.avatarUrl}`}
+                      width={45}
+                      height={45}
+                      alt="liked user profile picture"
+                    />
+                    <Link href={`/social/${likedUser.username}`}>
+                      {likedUser.username}
                     </Link>
-                    <button>View Profile</button>
+                    {user.id === likedUser.id ? (
+                      <Link href={"/profile"} className={styles.viewMyProfile}>
+                        <button>My Profile</button>
+                      </Link>
+                    ) : (
+                      <Link
+                        href={`/social/${likedUser.username}`}
+                        className={styles.viewProfileBtn}
+                      >
+                        <button>View Profile</button>
+                      </Link>
+                    )}
                   </div>
                 );
               })}
