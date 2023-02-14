@@ -74,7 +74,7 @@ export default function LikedUsersModal({
               className={`${styles.modalBtn} ${styles.modalCancel}`}
               onClick={handleDeleteFalse}
             >
-              Cancel
+              Close
             </button>
           </div>
         </div>
