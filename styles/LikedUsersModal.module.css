@@ -1,0 +1,95 @@
+#modalContainer {
+  position: fixed;
+  display: table;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+#modalContainer .modalBackground {
+  display: flex;
+  min-height: 100vh;
+  min-width: 100vh;
+  justify-content: center;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.5);
+  text-align: center;
+  vertical-align: middle;
+}
+
+.modal {
+  background-color: #1a1a1a;
+  display: flex;
+  flex-flow: column;
+  padding: 1rem;
+  border-radius: 10px;
+}
+
+.modalBody {
+  padding: 0rem 2rem;
+}
+
+.likedUsers {
+  display: flex;
+  flex-flow: column;
+  background-color: #1a1a1a;
+}
+
+.likedUser {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 0.8rem 1rem;
+  /* border-top: 1px solid #141414; */
+}
+
+.likedUser:hover {
+  background-color: #161616;
+}
+
+.likedUsers a {
+  color: #fafafa;
+  text-decoration: none;
+}
+
+.likedUser button {
+  font-size: 12px;
+  font-weight: 600;
+  background-color: #03dac5;
+  border: none;
+  color: #161616;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+
+.modal hr {
+  border: 1px solid #141414;
+  margin: 0;
+}
+
+.modalFooter {
+  color: #fafafa;
+  display: flex;
+  justify-content: center;
+}
+
+.modalBtn {
+  margin: 0.5rem;
+  padding: 0.7rem 1rem;
+  border: 1px solid #3e3e3e;
+  border-radius: 5px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.modalCancel {
+  color: rgb(151, 151, 151);
+  background-color: #1a1a1a;
+}
+
+.modalBtn:hover {
+  cursor: pointer;
+}

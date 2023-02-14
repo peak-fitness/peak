@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import styles from "@/styles/ConfirmationModal.module.css";
+import styles from "@/styles/LikedUsersModal.module.css";
 import { supabase } from "@/lib/supabaseClient";
 import Link from "next/link";
 
@@ -51,21 +51,23 @@ export default function LikedUsersModal({
         className={styles.modalBackground}
       >
         <div className={styles.modal}>
+          <div className={styles.modalHeader}>
+            <h3>Likes</h3>
+            <hr />
+          </div>
           <div className={styles.modalBody}>
-            <ul>
+            <div className={styles.likedUsers}>
               {usernames.map((user) => {
                 return (
-                  <>
-                    <div key={user.id}>
-                      <Link href={`/social/${user.username}`}>
-                        {user.username}
-                      </Link>
-                    </div>
-                  </>
+                  <div key={user.id} className={styles.likedUser}>
+                    <Link href={`/social/${user.username}`}>
+                      {user.username}
+                    </Link>
+                    <button>View Profile</button>
+                  </div>
                 );
               })}
-            </ul>
-            <hr />
+            </div>
           </div>
           <div className={styles.modalFooter}>
             <button
