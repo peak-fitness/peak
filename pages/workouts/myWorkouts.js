@@ -78,22 +78,22 @@ const CustomizedCalendar = styled(StaticDatePicker)`
     background-color: #03dac5 !important;
   }
 
-  .css-1ry8zgk{
-    background-color: #262626
-    color: #FFFFFF
+  .css-1ry8zgk {
+    background-color: #262626 !important;
+    color: #ffffff !important;
   }
 
   .css-1ry8zgk.Mui-selected {
     background-color: #03dac5 !important;
   }
 
-  .css-1f4sm8m.Mui-selected{
+  .css-1f4sm8m.Mui-selected {
     background-color: #03dac5 !important;
-    color: #FFFFFF
+    color: #ffffff;
   }
 
   .css-1f4sm8m:hover {
-    animation: none
+    animation: none;
   }
 
   .css-1f4sm8m:not(.Mui-selected) {
@@ -101,6 +101,10 @@ const CustomizedCalendar = styled(StaticDatePicker)`
     color: #fff;
     border: solid #fff;
     border-width: thin;
+  }
+
+  .css-1pljq11 {
+    color: #ffffff;
   }
 
   .MuiInputBase-input {
