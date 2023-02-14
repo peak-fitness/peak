@@ -666,7 +666,6 @@ export default function AddWorkout() {
                                       <TableCell>Set #</TableCell>
                                       <TableCell>Reps</TableCell>
                                       <TableCell>Weight (lbs)</TableCell>
-                                      <TableCell></TableCell>
                                     </TableRow>
                                   </TableHead>
                                   <TableBody>
