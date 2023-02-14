@@ -34,7 +34,7 @@ const theme = createTheme({
   },
 });
 
-const CustomizedCalendar = styled(StaticDatePicker)`
+const CustomizedWorkoutCalendar = styled(StaticDatePicker)`
   .MuiPickerStaticWrapper-content {
     background-color: #161616;
     min-width: 100vh;
@@ -43,7 +43,7 @@ const CustomizedCalendar = styled(StaticDatePicker)`
   }
 
   .css-xelq0e-MuiPickerStaticWrapper-content {
-    background-color: #202020;
+    background-color: #202020 !important;
   }
 
   .css-1hf040o-MuiTypography-root {
@@ -99,8 +99,7 @@ const CustomizedCalendar = styled(StaticDatePicker)`
     margin-left: 10px;
   }
 
-  .css-1skh3ba-MuiPickerStaticWrapper-root
-    .css-z3au5x-MuiButtonBase-root-MuiIconButton-root-MuiPickersToolbar-penIconButton {
+  .css-z3au5x-MuiButtonBase-root-MuiIconButton-root-MuiPickersToolbar-penIconButton {
     padding: 0;
 
     flex: auto;
@@ -392,8 +391,7 @@ export default function MyWorkouts() {
                     borderRadius: "10px",
                   }}
                 >
-                  <CustomizedCalendar
-                    className="calendar-container"
+                  <CustomizedWorkoutCalendar
                     displayStaticWrapperAs="desktop"
                     value={date}
                     onChange={(newDate) => {

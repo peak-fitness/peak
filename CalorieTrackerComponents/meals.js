@@ -207,12 +207,13 @@ export default function MealContainer() {
     }
   };
 
-  const addMeal = async (meal, mealType) => {
-    setMeals({
-      ...meals,
-      [mealType]: [...meals[mealType], meal],
-    });
+  const addMeal = (meal, type, date, userId) => {
+    const newMeals = { ...meals };
+    newMeals[type].push(meal);
+    setMeals(newMeals);
     setAdded(true);
+
+    handleSave(date, userId, newMeals);
   };
 
   const removeMeal = async (mealIndex, mealType) => {
@@ -409,6 +410,8 @@ export default function MealContainer() {
                     <div>
                       <MealForm
                         addMeal={(meal) => addMeal(meal, "breakfast")}
+                        date={date}
+                        userId={userId}
                       />
                       <br />
                       <TableContainer
@@ -564,7 +567,11 @@ export default function MealContainer() {
                   {/* Lunch */}
                   {value === 1 && (
                     <div>
-                      <MealForm addMeal={(meal) => addMeal(meal, "lunch")} />
+                      <MealForm
+                        addMeal={(meal) => addMeal(meal, "lunch")}
+                        date={date}
+                        userId={userId}
+                      />
                       <br />
                       <TableContainer
                         style={{
@@ -719,7 +726,11 @@ export default function MealContainer() {
                   {/* Dinner */}
                   {value === 2 && (
                     <div>
-                      <MealForm addMeal={(meal) => addMeal(meal, "dinner")} />
+                      <MealForm
+                        addMeal={(meal) => addMeal(meal, "dinner")}
+                        date={date}
+                        userId={userId}
+                      />
                       <br />
                       <TableContainer
                         style={{
