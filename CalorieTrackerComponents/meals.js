@@ -895,9 +895,9 @@ export default function MealContainer() {
                   >
                     SAVE
                   </Button> */}
-                  {!checkDate && (
+                  {/* {!checkDate && (
                     <p style={{ color: "#FF3434" }}>*Please Select A Date!</p>
-                  )}
+                  )} */}
                 </div>
               </>
             )}

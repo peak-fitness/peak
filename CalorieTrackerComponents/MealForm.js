@@ -5,6 +5,8 @@ import Input from "@mui/material/Input";
 import InputLabel from "@mui/material/InputLabel";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import IconButton from "@mui/material/IconButton";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const MealForm = ({ addMeal, currentState, date, userId }) => {
   const [meal, setMeal] = useState({
@@ -28,12 +30,26 @@ const MealForm = ({ addMeal, currentState, date, userId }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!date) {
+      toast.dark("Please select a date.", {
+        position: "bottom-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        theme: "dark",
+      });
+      return;
+    }
+
     if (!meal.name || !meal.calories) {
       setError(
         "Please make sure you fill in the 'Meal Name' and 'Calories' fields."
       );
       return;
     }
+
     if (meal.calories < 0 || meal.protein < 0) {
       setError("Amount of calories and protein cannot be lower than 0.");
       return;
