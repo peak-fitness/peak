@@ -226,7 +226,36 @@ export default function Feed({ user, friends }) {
                         </div>
                       </div>
                       <p>{workout.notes}</p>
-                      <div className={styles.likes}>
+                      <div className={styles.likeButton}>
+                        <div className={styles.heartBg}>
+                          <div
+                            className={
+                              likes[workout.id]
+                                ? likes[workout.id]["liked"]
+                                  ? `${styles.heartIcon} ${styles.liked}`
+                                  : `${styles.heartIcon}`
+                                : `${styles.heartIcon}`
+                            }
+                            onClick={() => {
+                              handleLikeClick(workout.id);
+                            }}
+                          ></div>
+                        </div>
+
+                        <div
+                          className={styles.likeCount}
+                          onClick={() => {
+                            handleLikeModal(likes[workout.id]["users"]);
+                          }}
+                        >
+                          {likes[workout.id] && likes[workout.id]["count"] > 0
+                            ? likes[workout.id]["count"] === 1
+                              ? `${likes[workout.id]["count"]} like`
+                              : `${likes[workout.id]["count"]} likes`
+                            : ""}
+                        </div>
+                      </div>
+                      {/* <div className={styles.likes}>
                         <FavoriteIcon
                           className={
                             likes[workout.id]
@@ -239,18 +268,7 @@ export default function Feed({ user, friends }) {
                             handleLikeClick(workout.id);
                           }}
                         />
-                        <div
-                          onClick={() => {
-                            handleLikeModal(likes[workout.id]["users"]);
-                          }}
-                        >
-                          {likes[workout.id] && likes[workout.id]["count"] > 0
-                            ? likes[workout.id]["count"] === 1
-                              ? `${likes[workout.id]["count"]} like`
-                              : `${likes[workout.id]["count"]} likes`
-                            : ""}
-                        </div>
-                      </div>
+                      </div> */}
                       <button
                         className={styles.viewWorkoutBtn}
                         value={workout.id}

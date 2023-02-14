@@ -367,3 +367,44 @@
   align-items: center;
   gap: 5px;
 }
+
+.likeCount {
+  font-size: 14px;
+  font-weight: 900;
+  color: #ababab;
+}
+
+.likeButton {
+  display: flex;
+  align-items: center;
+}
+
+.likeButton .heartIcon {
+  height: 100px;
+  width: 100px;
+  background: url("/heart.png");
+  background-position: left;
+  cursor: pointer;
+  position: absolute;
+}
+
+.likeButton .heartIcon.liked {
+  animation: like-anim 0.7s steps(28) forwards;
+}
+
+@keyframes like-anim {
+  to {
+    background-position: right;
+  }
+}
+
+.likeButton .heartBg {
+  background: rgba(255, 192, 200, 0);
+  border-radius: 50%;
+  height: 50px;
+  width: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 100ms ease;
+}
