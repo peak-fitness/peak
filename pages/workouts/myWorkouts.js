@@ -6,6 +6,8 @@ import {
   TextField,
   ThemeProvider,
   Typography,
+  ListItemIcon,
+  withStyles,
 } from "@material-ui/core";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -41,7 +43,7 @@ const CustomizedCalendar = styled(StaticDatePicker)`
   }
 
   .css-1hf040o-MuiTypography-root {
-    color: white;
+    color: white !important;
   }
 
   &.css-epd502 {
@@ -49,7 +51,6 @@ const CustomizedCalendar = styled(StaticDatePicker)`
     max-height: 100%;
     display: flex;
     flex-direction: column;
-    margin: 0;
   }
 
   .MuiTypography-h4 {
@@ -69,7 +70,7 @@ const CustomizedCalendar = styled(StaticDatePicker)`
   }
 
   .css-3k7djm-MuiButtonBase-root-MuiPickersDay-root {
-    background-color: #262626;
+    background-color: #262626 !important;
     color: white;
   }
 
@@ -157,7 +158,6 @@ export default function MyWorkouts() {
   const router = useRouter();
 
   useEffect(() => {
-    // if (!session) router.push('/')
     if (session) {
       fetchWorkouts();
       fetchHighlightedDays();
@@ -261,7 +261,6 @@ export default function MyWorkouts() {
 
   const handleRedirect = () => {
     const encodedWorkout = encodeURIComponent(JSON.stringify(workout));
-    const encodedDate = encodeURIComponent(JSON.stringify(date));
     router.push({
       pathname: "/workouts/addWorkout",
       query: { data: encodedWorkout, date: workout.date },
@@ -356,7 +355,8 @@ export default function MyWorkouts() {
     }, [to]);
   }
 
-  const handleAddRedirect = () => {
+  const handleAddRedirect = (e) => {
+    e.preventDefault();
     router.push({
       pathname: "/workouts/addWorkout",
       query: { date: date.format() },
@@ -384,8 +384,8 @@ export default function MyWorkouts() {
               md={12}
               style={{
                 backgroundColor: "#262626",
-                margin: "3rem",
-                borderRadius: "15px",
+                margin: "50px",
+                borderRadius: "10px",
               }}
             >
               <Typography
@@ -400,7 +400,7 @@ export default function MyWorkouts() {
               >
                 My Workouts
               </Typography>
-              <Grid container spacing={0} style={{ borderRadius: "15px" }}>
+              <Grid container spacing={0} style={{ borderRadius: "10px" }}>
                 <Grid
                   item
                   xs={8}
@@ -408,8 +408,8 @@ export default function MyWorkouts() {
                   md={8}
                   lg={8}
                   style={{
-                    borderRight: "1.5rem solid #262626",
-                    borderRadius: "15px",
+                    borderRight: "10px solid #262626",
+                    borderRadius: "10px",
                   }}
                 >
                   <CustomizedCalendar
@@ -455,7 +455,7 @@ export default function MyWorkouts() {
                     backgroundColor: "#202020",
                     overflow: "auto",
                     maxHeight: "70vh",
-                    borderRadius: "15px",
+                    borderRadius: "10px",
                   }}
                 >
                   {workout ? (
@@ -487,7 +487,6 @@ export default function MyWorkouts() {
                             color: "#03dac5",
                             marginLeft: "5px",
                             marginRight: "5px",
-                            cursor: "pointer",
                           }}
                           onClick={handleRedirect}
                         />
@@ -498,7 +497,6 @@ export default function MyWorkouts() {
                             color: "#03dac5",
                             marginLeft: "0px",
                             marginRight: "5px",
-                            cursor: "pointer",
                           }}
                           onClick={handleDelete}
                         />
@@ -507,7 +505,7 @@ export default function MyWorkouts() {
                   ) : (
                     <div
                       style={{
-                        padding: "15px",
+                        padding: "10px",
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
@@ -519,9 +517,9 @@ export default function MyWorkouts() {
                           No workouts for this day! Would you like to add a
                           workout?
                         </Typography>
-
                         <Link
-                          href="/workouts/addWorkout"
+                          href="#"
+                          onClick={handleAddRedirect}
                           style={{
                             margin: "10px",
                             padding: "5px",
