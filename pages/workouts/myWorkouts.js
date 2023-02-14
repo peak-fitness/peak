@@ -36,7 +36,7 @@ const theme = createTheme({
 
 const CustomizedWorkoutCalendar = styled(StaticDatePicker)`
   .MuiPickerStaticWrapper-content {
-    background-color: #161616;
+    background-color: #202020;
     min-width: 100vh;
     min-height: 70vh;
     border-radius: 10px;
@@ -55,7 +55,6 @@ const CustomizedWorkoutCalendar = styled(StaticDatePicker)`
     max-height: 100%;
     display: flex;
     flex-direction: column;
-    margin: 0;
   }
 
   .MuiTypography-h4 {
@@ -81,6 +80,35 @@ const CustomizedWorkoutCalendar = styled(StaticDatePicker)`
 
   .css-3k7djm-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
     background-color: #03dac5 !important;
+  }
+
+  .css-1ry8zgk {
+    background-color: #262626 !important;
+    color: #ffffff !important;
+  }
+
+  .css-1ry8zgk.Mui-selected {
+    background-color: #03dac5 !important;
+  }
+
+  .css-1f4sm8m.Mui-selected {
+    background-color: #03dac5 !important;
+    color: #ffffff;
+  }
+
+  .css-1f4sm8m:hover {
+    animation: none;
+  }
+
+  .css-1f4sm8m:not(.Mui-selected) {
+    background-color: #262626;
+    color: #fff;
+    border: solid #fff;
+    border-width: thin;
+  }
+
+  .css-1pljq11 {
+    color: #ffffff;
   }
 
   .MuiInputBase-input {

@@ -56,6 +56,14 @@ const CustomizedCalendar = styled(StaticDatePicker)`
   .MuiInputBase-input {
     color: white;
   }
+
+  .css-1300cgj h4.MuiTypography-root {
+    color: #03dac5;
+  }
+
+  .css-1lelqnx {
+    background-color: #262626;
+  }
 `;
 
 export default function MealContainer() {
@@ -297,6 +305,7 @@ export default function MealContainer() {
                   sx={{
                     backgroundColor: "#202020",
                     ".MuiTypography-root": { color: "#FFFFFF" },
+                    "h4.MuiTypography-root": { color: "#03dac5" },
                   }}
                   displayStaticWrapperAs="desktop"
                   value={date}
