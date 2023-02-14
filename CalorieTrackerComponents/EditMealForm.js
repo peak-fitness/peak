@@ -51,11 +51,14 @@ const EditMealForm = ({ meal, onEdit }) => {
         size="medium"
         style={{
           borderRadius: 35,
-          backgroundColor: "#6D6D6D",
           padding: "9px 18px",
           fontSize: "9px",
           marginTop: "20px",
           marginLeft: "10px",
+          color: "#161616",
+          background:
+            "linear-gradient(90deg, #03dac5, #56ca82, #89b33e, #b59500, #da6b03)",
+          fontFamily: "Montserrat",
         }}
         onClick={handleSubmit}
       >
