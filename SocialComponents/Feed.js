@@ -106,25 +106,61 @@ export default function Feed({ user, friends }) {
 
   const getLikes = useCallback(async () => {
     const testObj = {};
-    for (const workout of friendWorkouts) {
-      const { data, error } = await supabase
+    const promises = friendWorkouts.map(async (workout) => {
+      const { data } = await supabase
         .from("likes")
-        .select("user_id")
+        .select("user_id, workout_id")
         .eq("workout_id", workout.id);
       testObj[workout.id] = {};
       testObj[workout.id]["users"] = [];
-      testObj[workout.id]["count"] = data.length;
-      for (const elem of data) {
-        testObj[workout.id]["users"].push(elem);
+      return data;
+    });
+
+    const dataValues = await Promise.all(promises);
+    dataValues.map((data) => {
+      if (data.length) {
+        testObj[data[0].workout_id]["count"] = data.length;
+        data.map((innerData) =>
+          testObj[innerData.workout_id]["users"].push(innerData.user_id)
+        );
       }
-      const response = await supabase
+    });
+
+    const likePromises = friendWorkouts.map(async (workout) => {
+      const { data } = await supabase
         .from("likes")
         .select("*")
         .eq("user_id", user.id)
         .eq("workout_id", workout.id);
-      if (response.data.length) testObj[workout.id]["liked"] = true;
-    }
+      return data[0];
+    });
+
+    const likedValues = await Promise.all(likePromises);
+
+    likedValues.map((data) => {
+      if (data) {
+        testObj[data.workout_id]["liked"] = true;
+      }
+    });
+
     setLikes(testObj);
+
+    // for (const workout of friendWorkouts) {
+    //   const { data, error } = await supabase
+    //     .from("likes")
+    //     .select("user_id")
+    //     .eq("workout_id", workout.id);
+    //   for (const elem of data) {
+    //     testObj[workout.id]["users"].push(elem);
+    //   }
+    //   const response = await supabase
+    //     .from("likes")
+    //     .select("*")
+    //     .eq("user_id", user.id)
+    //     .eq("workout_id", workout.id);
+    //   if (response.data.length) testObj[workout.id]["liked"] = true;
+    // }
+    // setLikes(testObj);
   }, [friendWorkouts, user.id]);
 
   useEffect(() => {
@@ -135,6 +171,8 @@ export default function Feed({ user, friends }) {
     setCurrentLikedUsers(array);
     setShowLikeModal(true);
   };
+
+  console.log(likes);
 
   return (
     <div id="feed-container" className={styles.feedContainer}>
