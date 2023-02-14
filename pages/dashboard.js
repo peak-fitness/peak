@@ -113,6 +113,7 @@ function DashboardContent() {
                 display: "flex",
                 flexDirection: "column",
                 px: [0],
+                height: "100vh",
               }}
             >
               <Grid>
