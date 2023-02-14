@@ -146,23 +146,6 @@ export default function Feed({ user, friends }) {
     });
 
     setLikes(testObj);
-
-    // for (const workout of friendWorkouts) {
-    //   const { data, error } = await supabase
-    //     .from("likes")
-    //     .select("user_id")
-    //     .eq("workout_id", workout.id);
-    //   for (const elem of data) {
-    //     testObj[workout.id]["users"].push(elem);
-    //   }
-    //   const response = await supabase
-    //     .from("likes")
-    //     .select("*")
-    //     .eq("user_id", user.id)
-    //     .eq("workout_id", workout.id);
-    //   if (response.data.length) testObj[workout.id]["liked"] = true;
-    // }
-    // setLikes(testObj);
   }, [friendWorkouts, user.id]);
 
   useEffect(() => {
