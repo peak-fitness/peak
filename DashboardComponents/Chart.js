@@ -145,9 +145,9 @@ export default function Chart() {
             <LineChart
               data={rows}
               margin={{
-                top: 20,
+                top: 15,
                 right: 10,
-                bottom: 30,
+                bottom: 20,
                 left: 10,
               }}
             >

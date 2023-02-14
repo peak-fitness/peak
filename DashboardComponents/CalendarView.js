@@ -30,7 +30,7 @@ const CustomizedCalendar = styled(CalendarPicker)`
   & .MuiPickersCalendarHeader-root {
     padding-left: 0px;
     padding-right: 0px;
-    margin-top: 5px;
+    margin-top: 10px;
     margin-bottom: 0px;
     color: #03dac5;
   }

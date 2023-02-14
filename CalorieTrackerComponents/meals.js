@@ -882,12 +882,15 @@ export default function MealContainer() {
                         "linear-gradient(90deg, #03dac5, #56ca82, #89b33e, #b59500, #da6b03)",
                       fontFamily: "Montserrat",
                       justifyContent: "center",
+                      fontSize: "15px",
                     }}
                     onClick={handleSave}
                   >
                     SAVE
                   </Button>
-                  {!checkDate && <p>Please Select Date!</p>}
+                  {!checkDate && (
+                    <p style={{ color: "#FF3434" }}>*Please Select A Date!</p>
+                  )}
                 </div>
               </>
             )}
