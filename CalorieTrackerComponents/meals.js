@@ -183,7 +183,7 @@ export default function MealContainer() {
           auth_id, meals (
             *
           )
-          `
+        `
         )
         .eq("auth_id", session.user.id)
         .eq("meals.date", date)
@@ -191,21 +191,18 @@ export default function MealContainer() {
       if (data.meals.length) {
         await supabase
           .from("meals")
-          .update({
-            meal: meals,
-          })
+          .delete()
           .eq("date", date)
           .eq("user_id", userId);
-      } else {
-        await supabase
-          .from("meals")
-          .insert({
-            user_id: userId,
-            date: date,
-            meal: meals,
-          })
-          .select("*");
       }
+      await supabase
+        .from("meals")
+        .insert({
+          user_id: userId,
+          date: date,
+          meal: meals,
+        })
+        .select("*");
       setSaved(true);
       setAdded(false);
       setDeleted(false);
@@ -215,33 +212,34 @@ export default function MealContainer() {
     }
   };
 
-  const addMeal = async (meal, mealType) => {
-    setMeals({
-      ...meals,
-      [mealType]: [...meals[mealType], meal],
-    });
+  const addMeal = (meal, type, date, userId) => {
+    const newMeals = { ...meals };
+    newMeals[type].push(meal);
+    setMeals(newMeals);
     setAdded(true);
+
+    handleSave(date, userId, newMeals);
   };
 
-  const removeMeal = async (mealIndex, mealType) => {
-    const removedMeal = fetchMeals[mealType][mealIndex];
-    setMeals({
-      ...meals,
-      [mealType]: meals[mealType].filter((meal, index) => index !== mealIndex),
-    });
+  const removeMeal = (mealIndex, mealType) => {
+    const newMeals = { ...meals };
+    const removedMeal = newMeals[mealType][mealIndex];
+    newMeals[mealType].splice(mealIndex, 1);
+    setMeals(newMeals);
     setDeleted(true);
+    handleSave(date, userId, removedMeal);
   };
 
-  const editMeal = (index, mealType, updatedMeal) => {
-    const oldMeal = fetchMeals[mealType][index];
-    setMeals({
-      ...meals,
-      [mealType]: [
-        ...meals[mealType].slice(0, index),
-        updatedMeal,
-        ...meals[mealType].slice(index + 1),
-      ],
-    });
+  const editMeal = async (index, mealType, updatedMeal, date, userId) => {
+    const newMeals = { ...meals };
+    newMeals[mealType][index] = updatedMeal;
+    setMeals(newMeals);
+    setEdited(true);
+    await supabase
+      .from("meals")
+      .update({ meal: newMeals })
+      .eq("user_id", userId)
+      .eq("date", date);
   };
 
   const [editMealIndex, setEditMealIndex] = useState(-1);
@@ -253,10 +251,9 @@ export default function MealContainer() {
   };
 
   const handleEditSubmit = (updatedMeal) => {
-    editMeal(editMealIndex, editMealType, updatedMeal);
+    editMeal(editMealIndex, editMealType, updatedMeal, date, userId);
     setEditMealIndex(-1);
     setEditMealType("");
-    setEdited(true);
   };
 
   const handleSubmit = async () => {
@@ -418,6 +415,8 @@ export default function MealContainer() {
                     <div>
                       <MealForm
                         addMeal={(meal) => addMeal(meal, "breakfast")}
+                        date={date}
+                        userId={userId}
                       />
                       <br />
                       <TableContainer
@@ -573,7 +572,11 @@ export default function MealContainer() {
                   {/* Lunch */}
                   {value === 1 && (
                     <div>
-                      <MealForm addMeal={(meal) => addMeal(meal, "lunch")} />
+                      <MealForm
+                        addMeal={(meal) => addMeal(meal, "lunch")}
+                        date={date}
+                        userId={userId}
+                      />
                       <br />
                       <TableContainer
                         style={{
@@ -728,7 +731,11 @@ export default function MealContainer() {
                   {/* Dinner */}
                   {value === 2 && (
                     <div>
-                      <MealForm addMeal={(meal) => addMeal(meal, "dinner")} />
+                      <MealForm
+                        addMeal={(meal) => addMeal(meal, "dinner")}
+                        date={date}
+                        userId={userId}
+                      />
                       <br />
                       <TableContainer
                         style={{
@@ -879,7 +886,7 @@ export default function MealContainer() {
                       )}
                     </div>
                   )}
-                  <Button
+                  {/* <Button
                     variant="contained"
                     sx={{
                       display: "flex",
@@ -896,10 +903,10 @@ export default function MealContainer() {
                     onClick={handleSave}
                   >
                     SAVE
-                  </Button>
-                  {!checkDate && (
+                  </Button> */}
+                  {/* {!checkDate && (
                     <p style={{ color: "#FF3434" }}>*Please Select A Date!</p>
-                  )}
+                  )} */}
                 </div>
               </>
             )}

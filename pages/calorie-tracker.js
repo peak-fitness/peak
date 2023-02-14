@@ -44,8 +44,8 @@ function CaloriesContent() {
                 borderRadius: "15px",
                 backgroundColor: "#262626",
                 flexGrow: 1,
-                marginLeft: "0.5rem",
-                marginRight: "0.5rem",
+                marginLeft: "1rem",
+                marginRight: "1rem",
               }}
             >
               <Box component="main">
@@ -89,7 +89,7 @@ function CaloriesContent() {
                       },
                       alignItems: "center",
                       borderRadius: "10px",
-                      height: "72vh",
+                      height: "70vh",
                     }}
                     style={{
                       display: "flex",
@@ -102,7 +102,7 @@ function CaloriesContent() {
                         style={{
                           backgroundColor: "#202020",
                           paddingBottom: "1rem",
-                          height: "72vh",
+                          height: "69vh",
                         }}
                       >
                         <MealContainer />
