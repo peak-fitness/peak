@@ -240,6 +240,7 @@ export default function MealContainer() {
       .update({ meal: newMeals })
       .eq("user_id", userId)
       .eq("date", date);
+    handleSave(date, userId, newMeals);
   };
 
   const [editMealIndex, setEditMealIndex] = useState(-1);
