@@ -494,16 +494,3 @@ export default function Public_Profile() {
     </>
   );
 }
-
-// export async function getServerSideProps(context) {
-//   const { username } = context.query;
-//   console.log(username);
-//   // const { data } = await supabase
-//   //   .from("user")
-//   //   .select(
-//   //     "username, first_name, last_name, height, current_weight, age, gender, location, bio, social_medias"
-//   //   )
-//   //   .eq("username", username)
-//   //   .single();
-//   return { props: { profile: username } };
-// }

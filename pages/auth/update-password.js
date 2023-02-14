@@ -21,7 +21,6 @@ export default function ResetPassword() {
         setError(false);
         setSuccess(true);
       } else {
-        console.log(error);
         setError(true);
       }
     }

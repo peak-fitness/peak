@@ -281,7 +281,6 @@ export default function Groups() {
                       ) : (
                         friends.map((friend) => (
                           <div key={friend.id} className={styles.friend}>
-                            {console.log("FRIEND", friend)}
                             <Link
                               className={styles.requestRow}
                               href={`/social/${
