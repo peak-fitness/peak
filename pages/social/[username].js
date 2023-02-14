@@ -238,7 +238,9 @@ export default function Public_Profile() {
                     variant="h5"
                     sx={{ marginBottom: "0", marginTop: "3rem" }}
                   >
-                    {user.first_name + " " + user.last_name}
+                    {`${user.first_name ? user.first_name : ""} ${
+                      user.last_name ? user.last_name : ""
+                    }`}
                   </Typography>
                   <Typography variant="h5" sx={{ marginTop: "0" }} />
                   {"@" + user.username}

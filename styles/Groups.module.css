@@ -416,3 +416,13 @@
   justify-content: center;
   transition: all 100ms ease;
 }
+
+#defaultProfileIcon {
+  width: 3rem;
+  height: 3rem;
+}
+
+.requestRow {
+  display: flex;
+  gap: 10px;
+}

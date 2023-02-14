@@ -350,7 +350,7 @@ export default function Account() {
             >
               <Grid item xs={12}>
                 <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                  {gender ? `Gender: ${gender}` : "Gender:"}
+                  {gender ? `Gender: ${gender}` : "Gender not specified"}
                 </Typography>
               </Grid>
             </Grid>
