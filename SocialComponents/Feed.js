@@ -121,7 +121,9 @@ export default function Feed({ user, friends }) {
       if (data.length) {
         testObj[data[0].workout_id]["count"] = data.length;
         data.map((innerData) =>
-          testObj[innerData.workout_id]["users"].push(innerData.user_id)
+          testObj[innerData.workout_id]["users"].push({
+            user_id: innerData.user_id,
+          })
         );
       }
     });
