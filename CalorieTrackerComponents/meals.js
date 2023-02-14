@@ -175,7 +175,7 @@ export default function MealContainer() {
           auth_id, meals (
             *
           )
-          `
+        `
         )
         .eq("auth_id", session.user.id)
         .eq("meals.date", date)
@@ -183,21 +183,18 @@ export default function MealContainer() {
       if (data.meals.length) {
         await supabase
           .from("meals")
-          .update({
-            meal: meals,
-          })
+          .delete()
           .eq("date", date)
           .eq("user_id", userId);
-      } else {
-        await supabase
-          .from("meals")
-          .insert({
-            user_id: userId,
-            date: date,
-            meal: meals,
-          })
-          .select("*");
       }
+      await supabase
+        .from("meals")
+        .insert({
+          user_id: userId,
+          date: date,
+          meal: meals,
+        })
+        .select("*");
       setSaved(true);
       setAdded(false);
       setDeleted(false);
@@ -216,25 +213,25 @@ export default function MealContainer() {
     handleSave(date, userId, newMeals);
   };
 
-  const removeMeal = async (mealIndex, mealType) => {
-    const removedMeal = fetchMeals[mealType][mealIndex];
-    setMeals({
-      ...meals,
-      [mealType]: meals[mealType].filter((meal, index) => index !== mealIndex),
-    });
+  const removeMeal = (mealIndex, mealType) => {
+    const newMeals = { ...meals };
+    const removedMeal = newMeals[mealType][mealIndex];
+    newMeals[mealType].splice(mealIndex, 1);
+    setMeals(newMeals);
     setDeleted(true);
+    handleSave(date, userId, removedMeal);
   };
 
-  const editMeal = (index, mealType, updatedMeal) => {
-    const oldMeal = fetchMeals[mealType][index];
-    setMeals({
-      ...meals,
-      [mealType]: [
-        ...meals[mealType].slice(0, index),
-        updatedMeal,
-        ...meals[mealType].slice(index + 1),
-      ],
-    });
+  const editMeal = async (index, mealType, updatedMeal, date, userId) => {
+    const newMeals = { ...meals };
+    newMeals[mealType][index] = updatedMeal;
+    setMeals(newMeals);
+    setEdited(true);
+    await supabase
+      .from("meals")
+      .update({ meal: newMeals })
+      .eq("user_id", userId)
+      .eq("date", date);
   };
 
   const [editMealIndex, setEditMealIndex] = useState(-1);
@@ -246,10 +243,9 @@ export default function MealContainer() {
   };
 
   const handleEditSubmit = (updatedMeal) => {
-    editMeal(editMealIndex, editMealType, updatedMeal);
+    editMeal(editMealIndex, editMealType, updatedMeal, date, userId);
     setEditMealIndex(-1);
     setEditMealType("");
-    setEdited(true);
   };
 
   const handleSubmit = async () => {
