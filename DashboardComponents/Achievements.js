@@ -94,7 +94,7 @@ export default function Achievements() {
       >
         <Title>Achievements</Title>
         <Grid container spacing={2} alignItems="center" justifyContent="center">
-          {achievements ? (
+          {achievements.length !== 0 ? (
             achievements.slice(0, 5).map((achievement, index) => (
               <Grid item key={index}>
                 {achievement.achieved ? (
