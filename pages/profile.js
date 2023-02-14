@@ -374,34 +374,6 @@ export default function Account() {
               sx={{
                 marginBottom: "2rem",
                 textAlign: { xs: "center", sm: "center", md: "start" },
-              }}
-            >
-              <Grid item xs={12}>
-                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                  {`Current Streak: ${streak || `0`}`}
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              spacing={0}
-              sx={{
-                marginBottom: "2rem",
-                textAlign: { xs: "center", sm: "center", md: "start" },
-              }}
-            >
-              <Grid item xs={12}>
-                <Typography variant="p" sx={{ color: "#E8E8E8" }}>
-                  PRs or Achievements
-                </Typography>
-              </Grid>
-            </Grid>
-            <Grid
-              container
-              spacing={0}
-              sx={{
-                marginBottom: "2rem",
-                textAlign: { xs: "center", sm: "center", md: "start" },
                 overflowWrap: "break-word",
               }}
             >
