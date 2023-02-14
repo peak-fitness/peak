@@ -34,15 +34,10 @@ const theme = createTheme({
 
 const CustomizedCalendar = styled(StaticDatePicker)`
   .MuiPickerStaticWrapper-content {
-    background-color: #161616;
+    background-color: #202020;
     min-width: 100vh;
     min-height: 70vh;
     border-radius: 10px;
-  }
-
-  .css-xelq0e-MuiPickerStaticWrapper-content {
-    background-color: #202020;
-    color: white;
   }
 
   .css-1hf040o-MuiTypography-root {
@@ -80,6 +75,31 @@ const CustomizedCalendar = styled(StaticDatePicker)`
 
   .css-3k7djm-MuiButtonBase-root-MuiPickersDay-root.Mui-selected {
     background-color: #03dac5 !important;
+  }
+
+  .css-1ry8zgk{
+    background-color: #262626
+    color: #FFFFFF
+  }
+
+  .css-1ry8zgk.Mui-selected {
+    background-color: #03dac5 !important;
+  }
+
+  .css-1f4sm8m.Mui-selected{
+    background-color: #03dac5 !important;
+    color: #FFFFFF
+  }
+
+  .css-1f4sm8m:hover {
+    animation: none
+  }
+
+  .css-1f4sm8m:not(.Mui-selected) {
+    background-color: #262626;
+    color: #fff;
+    border: solid #fff;
+    border-width: thin;
   }
 
   .MuiInputBase-input {
