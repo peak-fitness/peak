@@ -56,8 +56,13 @@ const CustomizedCalendar = styled(StaticDatePicker)`
   .MuiInputBase-input {
     color: white;
   }
+
   .css-1300cgj h4.MuiTypography-root {
     color: #03dac5;
+  }
+
+  .css-1lelqnx {
+    background-color: #262626;
   }
 `;
 
