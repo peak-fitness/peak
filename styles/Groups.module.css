@@ -308,8 +308,9 @@
 }
 
 .viewWorkoutBtn {
-  background-color: #161616;
+  background-color: #1a1a1a;
   outline: none;
+  border: none;
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
   color: #03dac5;
@@ -317,6 +318,11 @@
   padding: 0.5rem 1rem;
   margin-top: 0.5rem;
   cursor: pointer;
+}
+
+.viewWorkoutBtn {
+  position: relative;
+  z-index: 2;
 }
 
 .endOfFeed {
@@ -358,4 +364,55 @@
 
 .avatar {
   border-radius: 50%;
+}
+
+.likes {
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.likeCount {
+  font-size: 14px;
+  font-weight: 900;
+  color: #ababab;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.likeButton {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.likeButton .heartIcon {
+  height: 100px;
+  width: 100px;
+  background: url("/heart.png");
+  background-position: left;
+  cursor: pointer;
+  position: absolute;
+}
+
+.likeButton .heartIcon.liked {
+  animation: like-anim 0.7s steps(28) forwards;
+}
+
+@keyframes like-anim {
+  to {
+    background-position: right;
+  }
+}
+
+.likeButton .heartBg {
+  background: rgba(255, 192, 200, 0);
+  border-radius: 50%;
+  height: 40px;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 100ms ease;
 }

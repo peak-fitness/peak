@@ -3,23 +3,13 @@ import styles from "@/styles/Groups.module.css";
 import { useCallback, useEffect, useState } from "react";
 import WorkoutModal from "./WorkoutModal";
 import TimerIcon from "@mui/icons-material/Timer";
-import AccountCircleIcon from "@mui/icons-material/AccountCircle";
-import FavoriteIcon from "@material-ui/icons/Favorite";
-import { makeStyles } from "@material-ui/core/styles";
 import Image from "next/image";
 import LikedUsersModal from "./LikedUsersModal";
-
-const useStyles = makeStyles({
-  heart: {
-    color: "red",
-  },
-});
 
 export default function Feed({ user, friends }) {
   const [friendWorkouts, setFriendWorkouts] = useState([]);
   const [showModal, setShowModal] = useState(false);
   const [selectedWorkout, setSelectedWorkout] = useState(null);
-  const classes = useStyles();
   const [likes, setLikes] = useState();
   const [showLikeModal, setShowLikeModal] = useState(false);
   const [currentLikedUsers, setCurrentLikedUsers] = useState([]);
@@ -90,6 +80,7 @@ export default function Feed({ user, friends }) {
       await supabase.from("likes").insert({
         user_id: user.id,
         workout_id: id,
+        avatar_url: user.avatar_url,
       });
       testObj[id]["liked"] = true;
       setLikes(testObj);
@@ -109,7 +100,7 @@ export default function Feed({ user, friends }) {
     const promises = friendWorkouts.map(async (workout) => {
       const { data } = await supabase
         .from("likes")
-        .select("user_id, workout_id")
+        .select("user_id, workout_id, avatar_url")
         .eq("workout_id", workout.id);
       testObj[workout.id] = {};
       testObj[workout.id]["users"] = [];
@@ -123,6 +114,7 @@ export default function Feed({ user, friends }) {
         data.map((innerData) =>
           testObj[innerData.workout_id]["users"].push({
             user_id: innerData.user_id,
+            avatar_url: innerData.avatar_url,
           })
         );
       }
@@ -157,8 +149,6 @@ export default function Feed({ user, friends }) {
     setShowLikeModal(true);
   };
 
-  console.log(likes);
-
   return (
     <div id="feed-container" className={styles.feedContainer}>
       {showModal ? <div className={styles.modalContainer}></div> : null}
@@ -175,6 +165,7 @@ export default function Feed({ user, friends }) {
         <LikedUsersModal
           setShowLikeModal={setShowLikeModal}
           currentLikedUsers={currentLikedUsers}
+          user={user}
         />
       ) : null}
       {/* component stuff */}
@@ -226,6 +217,34 @@ export default function Feed({ user, friends }) {
                         </div>
                       </div>
                       <p>{workout.notes}</p>
+                      <div className={styles.likeButton}>
+                        <div className={styles.heartBg}>
+                          <div
+                            className={
+                              likes[workout.id]
+                                ? likes[workout.id]["liked"]
+                                  ? `${styles.heartIcon} ${styles.liked}`
+                                  : `${styles.heartIcon}`
+                                : `${styles.heartIcon}`
+                            }
+                            onClick={() => {
+                              handleLikeClick(workout.id);
+                            }}
+                          ></div>
+                        </div>
+                        <div
+                          className={styles.likeCount}
+                          onClick={() => {
+                            handleLikeModal(likes[workout.id]["users"]);
+                          }}
+                        >
+                          {likes[workout.id] && likes[workout.id]["count"] > 0
+                            ? likes[workout.id]["count"] === 1
+                              ? `${likes[workout.id]["count"]} like`
+                              : `${likes[workout.id]["count"]} likes`
+                            : ""}
+                        </div>
+                      </div>
                       <button
                         className={styles.viewWorkoutBtn}
                         value={workout.id}
@@ -241,30 +260,6 @@ export default function Feed({ user, friends }) {
                       >
                         View Workout
                       </button>
-
-                      <FavoriteIcon
-                        className={
-                          likes[workout.id]
-                            ? likes[workout.id]["liked"]
-                              ? classes.heart
-                              : " "
-                            : ""
-                        }
-                        onClick={() => {
-                          handleLikeClick(workout.id);
-                        }}
-                      />
-                    </div>
-                    <div
-                      onClick={() => {
-                        handleLikeModal(likes[workout.id]["users"]);
-                      }}
-                    >
-                      {likes[workout.id] && likes[workout.id]["count"] > 0
-                        ? likes[workout.id]["count"] === 1
-                          ? `${likes[workout.id]["count"]} like`
-                          : `${likes[workout.id]["count"]} likes`
-                        : ""}
                     </div>
                   </div>
                 </div>
