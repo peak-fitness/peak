@@ -10,25 +10,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { Card, CardContent } from "@mui/material";
 import Link from "next/link";
-const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    padding: theme.spacing(0),
-  },
-  trophy: {
-    color: "#F6C941",
-    fontSize: "3rem",
-    alignItems: "center",
-  },
-  trophyContainer: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    marginBottom: theme.spacing(2),
-  },
-}));
 
 const theme = createTheme({
   palette: {
@@ -38,8 +19,6 @@ const theme = createTheme({
 });
 
 export default function Achievements() {
-  const classes = useStyles();
-
   const supabase = useSupabaseClient();
   const session = useSession();
   const router = useRouter();
@@ -88,31 +67,55 @@ export default function Achievements() {
   return (
     <ThemeProvider theme={theme}>
       <Container
-        className={classes.container}
-        align="center"
-        justifycontent="center"
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-start",
+          justifycontent: "center",
+        }}
       >
         <Title>Achievements</Title>
-        <Grid container spacing={2} alignItems="center" justifyContent="center">
+        <Grid
+          container
+          spacing={0.5}
+          style={{
+            marginTop: "1rem",
+            display: "flex",
+            alignItems: "flex-start",
+            justifyContent: "center",
+          }}
+        >
           {achievements.length !== 0 ? (
-            achievements.slice(0, 5).map((achievement, index) => (
-              <Grid item key={index}>
-                {achievement.achieved ? (
-                  <Box className={classes.trophyContainer}>
-                    <EmojiEventsRoundedIcon
-                      className={classes.trophy}
-                      sx={{
-                        color: "#F6C941",
-                        fontSize: "3rem",
+            <Grid container spacing={2}>
+              {achievements.slice(0, 4).map((achievement, index) => (
+                <Grid item key={index} xs={6}>
+                  {achievement.achieved ? (
+                    <Box
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        justifyContent: "flex-start",
                       }}
-                    />
-                    <Typography variant="subtitle2">
-                      {achievement.achievements.name}
-                    </Typography>
-                  </Box>
-                ) : null}
-              </Grid>
-            ))
+                    >
+                      <EmojiEventsRoundedIcon
+                        style={{
+                          color: "#F6C941",
+                          fontSize: "3rem",
+                          alignItems: "center",
+                        }}
+                      />
+                      <Typography
+                        variant="subtitle2"
+                        style={{ textAlign: "center" }}
+                      >
+                        {achievement.achievements.name}
+                      </Typography>
+                    </Box>
+                  ) : null}
+                </Grid>
+              ))}
+            </Grid>
           ) : (
             <Box
               style={{
