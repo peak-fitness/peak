@@ -677,6 +677,9 @@ export default function AddWorkout() {
                                       <TableCell>Set #</TableCell>
                                       <TableCell>Reps</TableCell>
                                       <TableCell>Weight (lbs)</TableCell>
+                                      <TableCell
+                                        style={{ backgroundColor: "#161616" }}
+                                      ></TableCell>
                                     </TableRow>
                                   </TableHead>
                                   <TableBody>
@@ -854,7 +857,11 @@ export default function AddWorkout() {
                                               <TableCell align="center">
                                                 {set.weight}
                                               </TableCell>
-                                              <TableCell>
+                                              <TableCell
+                                                style={{
+                                                  backgroundColor: "#161616",
+                                                }}
+                                              >
                                                 <IconButton
                                                   onClick={() => {
                                                     exercise.sets.splice(

@@ -264,8 +264,9 @@ function DashboardContent() {
                             sx={{
                               pt: 1,
                               pb: 2,
-                              pl: 2,
-                              pr: 2,
+                              pl: 0,
+                              pr: 1,
+                              height: 250,
                               display: "flex",
                               flexDirection: "row",
                             }}
