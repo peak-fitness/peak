@@ -1,10 +1,14 @@
 <div align="center">
+<p align="center">
+    <img src="./public/homepage.png" alt="peak landing page" width="738">
+</p>
 
-# Peak [![website - Peak](https://img.shields.io/badge/Website-Peak-03DAC5)](https://peakfitness.netlify.app/ "Visit our website")
+# Peak ![Peak](https://img.shields.io/badge/Peak%20Website-gray?style=for-the-badge)
 
-[![Made with JavaScript](https://img.shields.io/badge/Made_with-JavaScript-yellow?logo=javascript&logoColor=white)](https://www.javascript.com/ "Go to JavaScript homepage")
-[![Made with Node.js](https://img.shields.io/badge/Node.js->=16-2ea44f?logo=node.js&logoColor=white)](https://nodejs.org "Go to Node.js homepage")
-[![Made with React](https://img.shields.io/badge/React-18-blue?logo=react&logoColor=white)](https://reactjs.org "Go to React homepage")
+![Next JS](https://img.shields.io/badge/Next-black?style=for-the-badge&logo=next.js&logoColor=white)
+![JavaScript](https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 
 [Features](#features) •
 [Screenshots](#screenshots) •
@@ -16,7 +20,6 @@
 
 ## Features
 
-<hr/>
 Peak is a health tracking website that strives to bring users closer to their fitness goals with a long-term mindset.
 
 - Keep track of when you've gone to the gym with the attendance tracker. Visually tracks when you've uploaded a workout to the app and keeps track of your streaks.
@@ -27,23 +30,34 @@ Peak is a health tracking website that strives to bring users closer to their fi
 
 ## Screenshots
 
-<hr />
-<h3 align="center">Landing Page<h3>
+<h3 align="center">Dashboard<h3>
 
 <p align="center">
-    <img src="./public/homepage.png" alt="peak landing page" width="738">
+    <img src="./peak-screenshots/dashboard.PNG" alt="peak dashboard" width="738">
 </p>
 
-<h3 align="center">Learn More Page<h3>
+<h3 align="center">Workouts<h3>
 
 <p align="center">
-    <img src="./public/learn-more.PNG" alt="peak landing page" width="738">
+    <img src="./peak-screenshots/workouts.PNG" alt="peak workouts page" width="738">
 </p>
 
-<h3 align="center">Sign-in Page<h3>
+<h3 align="center">Social<h3>
 
 <p align="center">
-    <img src="./public/sign-in.png" alt="peak landing page" width="738">
+    <img src="./peak-screenshots/social.PNG" alt="peak social page" width="738">
+</p>
+
+<h3 align="center">Calorie Tracker<h3>
+
+<p align="center">
+    <img src="./peak-screenshots/calorie-tracker.PNG" alt="peak calorie tracker page" width="738">
+</p>
+
+<h3 align="center">Achievements<h3>
+
+<p align="center">
+    <img src="./peak-screenshots/achievements.PNG" alt="peak achievements page" width="738">
 </p>
 
 ## Technology
