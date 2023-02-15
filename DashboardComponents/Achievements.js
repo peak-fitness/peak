@@ -96,6 +96,7 @@ export default function Achievements() {
                         flexDirection: "row",
                         alignItems: "center",
                         justifyContent: "flex-start",
+                        marginRight: "1px",
                       }}
                     >
                       <EmojiEventsRoundedIcon

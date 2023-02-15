@@ -266,6 +266,7 @@ function DashboardContent() {
                               pb: 2,
                               pl: 0,
                               pr: 1,
+                              height: 250,
                               display: "flex",
                               flexDirection: "row",
                             }}
