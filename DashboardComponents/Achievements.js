@@ -156,7 +156,7 @@ export default function Achievements() {
             textDecoration: "underline",
             position: "absolute", // add position absolute to link
             bottom: 0, // position at the bottom
-            paddingBottom: "10px", // add some padding
+            paddingBottom: "5px", // add some padding
           }}
           href="/achievements"
         >
