@@ -109,7 +109,14 @@ export default function Achievements() {
                       />
                       <Typography
                         variant="subtitle2"
-                        style={{ textAlign: "center" }}
+                        style={{
+                          textAlign: "center",
+                          whiteSpace: "nowrap", // add whiteSpace nowrap
+                          overflow: "hidden", // hide overflowing text
+                          textOverflow: "ellipsis", // add ellipses
+
+                          // maxWidth: "80px", // set the maximum width of the achievement name
+                        }}
                       >
                         {achievement.achievements.name}
                       </Typography>
