@@ -839,7 +839,9 @@ export default function AddWorkout() {
                                       <TableCell>Set #</TableCell>
                                       <TableCell>Reps</TableCell>
                                       <TableCell>Weight (lbs)</TableCell>
-                                      <TableCell></TableCell>
+                                      <TableCell
+                                        style={{ backgroundColor: "#161616" }}
+                                      ></TableCell>
                                     </TableRow>
                                   </TableHead>
                                   <TableBody>
@@ -1031,7 +1033,6 @@ export default function AddWorkout() {
                     borderRadius: "10px",
                     fontSize: "18px",
                     justifyContent: "center",
-
                     marginBottom: "15px",
                     marginRight: "15px",
                     marginLeft: "15px",
