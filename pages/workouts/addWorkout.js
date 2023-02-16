@@ -1,19 +1,13 @@
 import Navbar from "@/comps/Navbar";
 import {
   Box,
-  Button,
   Checkbox,
-  Container,
   Dialog,
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
-  FormControl,
-  FormControlLabel,
-  FormGroup,
   Grid,
-  IconButton,
   Input,
   InputLabel,
   Paper,
@@ -24,8 +18,19 @@ import {
   TableHead,
   TableRow,
   TextField,
-  Typography,
 } from "@material-ui/core";
+import {
+  Container,
+  Tab,
+  Tabs,
+  Button,
+  IconButton,
+  Typography,
+  FormControl,
+  FormControlLabel,
+  FormGroup,
+} from "@mui/material";
+
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 import EditIcon from "@mui/icons-material/Edit";
@@ -838,7 +843,9 @@ export default function AddWorkout() {
                                       <TableCell>Set #</TableCell>
                                       <TableCell>Reps</TableCell>
                                       <TableCell>Weight (lbs)</TableCell>
-                                      <TableCell></TableCell>
+                                      <TableCell
+                                        style={{ backgroundColor: "#161616" }}
+                                      ></TableCell>
                                     </TableRow>
                                   </TableHead>
                                   <TableBody>
@@ -1029,7 +1036,7 @@ export default function AddWorkout() {
                     height: "40px",
                     borderRadius: "10px",
                     fontSize: "18px",
-
+                    justifyContent: "center",
                     marginBottom: "15px",
                     marginRight: "15px",
                     marginLeft: "15px",

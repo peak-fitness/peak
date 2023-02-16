@@ -72,6 +72,7 @@ export default function Achievements() {
           flexDirection: "column",
           alignItems: "flex-start",
           justifycontent: "center",
+          position: "relative", // add position relative to container
         }}
       >
         <Title>Achievements</Title>
@@ -108,7 +109,14 @@ export default function Achievements() {
                       />
                       <Typography
                         variant="subtitle2"
-                        style={{ textAlign: "center" }}
+                        style={{
+                          textAlign: "center",
+                          whiteSpace: "nowrap", // add whiteSpace nowrap
+                          overflow: "hidden", // hide overflowing text
+                          textOverflow: "ellipsis", // add ellipses
+
+                          // maxWidth: "80px", // set the maximum width of the achievement name
+                        }}
                       >
                         {achievement.achievements.name}
                       </Typography>
@@ -145,8 +153,10 @@ export default function Achievements() {
         <Link
           style={{
             color: "#03DAC5",
-            paddingTop: "35px",
             textDecoration: "underline",
+            position: "absolute", // add position absolute to link
+            bottom: 0, // position at the bottom
+            paddingBottom: "5px", // add some padding
           }}
           href="/achievements"
         >
