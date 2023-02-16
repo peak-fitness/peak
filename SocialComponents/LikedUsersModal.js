@@ -62,7 +62,6 @@ export default function LikedUsersModal({
               {usernames.map((likedUser) => {
                 return (
                   <div key={likedUser.id} className={styles.likedUser}>
-                    {console.log("USER", user)}
                     <Image
                       className={styles.avatar}
                       loader={() =>

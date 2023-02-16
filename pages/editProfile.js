@@ -60,8 +60,6 @@ export default function Account() {
     fetchCurrentUserId();
   }, [session]);
 
-  console.log(image);
-
   const fetchCurrentUserId = async () => {
     if (session) {
       const { data, error } = await supabase
@@ -156,6 +154,15 @@ export default function Account() {
         .eq("auth_id", user.id)
         .select();
       checkAchievements();
+
+      const updatedFriendPFP = await supabase
+        .from("friends")
+        .update({ requester_avatar: avatarUrl2 })
+        .eq("requester_id", currentUserId);
+      const updatedFriendPFP2 = await supabase
+        .from("friends")
+        .update({ addressee_avatar: avatarUrl2 })
+        .eq("addressee_id", currentUserId);
 
       if (error) throw error;
     } catch (error) {
@@ -329,7 +336,7 @@ export default function Account() {
                   sx: { color: "#E8E8E8" },
                 }}
                 name="instagram"
-                value={instagram}
+                value={instagram ? instagram : ""}
                 sx={{
                   backgroundColor: "#242424",
                   input: { color: "#E8E8E8" },
@@ -347,7 +354,7 @@ export default function Account() {
                   sx: { color: "#E8E8E8" },
                 }}
                 name="facebook"
-                value={facebook}
+                value={facebook ? facebook : ""}
                 sx={{
                   backgroundColor: "#242424",
                   input: { color: "#E8E8E8" },
@@ -364,7 +371,7 @@ export default function Account() {
                   sx: { color: "#E8E8E8" },
                 }}
                 name="twitter"
-                value={twitter}
+                value={twitter ? twitter : ""}
                 sx={{
                   backgroundColor: "#242424",
                   input: { color: "#E8E8E8" },
@@ -381,7 +388,7 @@ export default function Account() {
                   sx: { color: "#E8E8E8" },
                 }}
                 name="youtube"
-                value={youtube}
+                value={youtube ? youtube : ""}
                 sx={{
                   backgroundColor: "#242424",
                   input: { color: "#E8E8E8" },
@@ -452,7 +459,7 @@ export default function Account() {
                     sx: { color: "#E8E8E8" },
                   }}
                   name="first_name"
-                  value={firstName}
+                  value={firstName ? firstName : ""}
                   sx={{
                     backgroundColor: "#242424",
                     input: { color: "#E8E8E8" },
@@ -470,7 +477,7 @@ export default function Account() {
                     sx: { color: "#E8E8E8" },
                   }}
                   name="last_name"
-                  value={lastName}
+                  value={lastName ? lastName : ""}
                   sx={{
                     backgroundColor: "#242424",
                     input: { color: "#E8E8E8" },
@@ -490,7 +497,7 @@ export default function Account() {
                     sx: { color: "#E8E8E8" },
                   }}
                   name="height"
-                  value={height}
+                  value={height ? height : ""}
                   sx={{
                     backgroundColor: "#242424",
                     input: { color: "#E8E8E8" },
@@ -509,7 +516,7 @@ export default function Account() {
                     sx: { color: "#E8E8E8" },
                   }}
                   name="weight"
-                  value={weight}
+                  value={weight ? weight : ""}
                   sx={{
                     backgroundColor: "#242424",
                     input: { color: "#E8E8E8" },
@@ -528,7 +535,7 @@ export default function Account() {
                     sx: { color: "#E8E8E8" },
                   }}
                   name="age"
-                  value={age}
+                  value={age ? age : ""}
                   sx={{
                     backgroundColor: "#242424",
                     input: { color: "#E8E8E8" },
@@ -549,7 +556,7 @@ export default function Account() {
                     sx: { color: "#E8E8E8" },
                   }}
                   name="target calories"
-                  value={targetCalories}
+                  value={targetCalories ? targetCalories : ""}
                   sx={{
                     backgroundColor: "#242424",
                     input: { color: "#E8E8E8" },
@@ -568,7 +575,7 @@ export default function Account() {
                     sx: { color: "#E8E8E8" },
                   }}
                   name="target weight"
-                  value={targetWeight}
+                  value={targetWeight ? targetWeight : ""}
                   sx={{
                     backgroundColor: "#242424",
                     input: { color: "#E8E8E8" },
@@ -613,7 +620,7 @@ export default function Account() {
                     sx: { color: "#E8E8E8" },
                   }}
                   name="age"
-                  value={location}
+                  value={location ? location : ""}
                   sx={{
                     backgroundColor: "#242424",
                     input: { color: "#E8E8E8" },
@@ -636,7 +643,7 @@ export default function Account() {
                   }}
                   InputProps={{ style: { color: "#E8E8E8" } }}
                   name="age"
-                  value={bio}
+                  value={bio ? bio : ""}
                   sx={{
                     backgroundColor: "#242424",
                     input: { color: "#E8E8E8" },

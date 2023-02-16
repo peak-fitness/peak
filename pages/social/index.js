@@ -281,31 +281,40 @@ export default function Groups() {
                       ) : (
                         friends.map((friend) => (
                           <div key={friend.id} className={styles.friend}>
-                            <Image
-                              className={styles.avatar}
-                              loader={() =>
-                                `https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${
-                                  friend.addressee_avatar
-                                    ? friend.addressee_avatar
-                                    : friend.requester_avatar
-                                }`
-                              }
-                              src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${
-                                friend.addressee_avatar
-                                  ? friend.addressee_avatar
-                                  : friend.requester_avatar
-                              }`}
-                              width={45}
-                              height={45}
-                              alt="friend profile picture"
-                            />
                             <Link
+                              className={styles.requestRow}
                               href={`/social/${
                                 friend.addressee_username
                                   ? friend.addressee_username
                                   : friend.requester_username
                               }`}
                             >
+                              {friend.addressee_avatar ||
+                              friend.requester_avatar ? (
+                                <Image
+                                  className={styles.avatar}
+                                  loader={() =>
+                                    `https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${
+                                      friend.addressee_avatar
+                                        ? friend.addressee_avatar
+                                        : friend.requester_avatar
+                                    }`
+                                  }
+                                  src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${
+                                    friend.addressee_avatar
+                                      ? friend.addressee_avatar
+                                      : friend.requester_avatar
+                                  }`}
+                                  width={45}
+                                  height={45}
+                                  alt="friend profile picture"
+                                />
+                              ) : (
+                                <AccountCircleIcon
+                                  id={styles.defaultProfileIcon}
+                                />
+                              )}
+
                               <p>
                                 {friend.addressee_username
                                   ? friend.addressee_username
@@ -326,19 +335,27 @@ export default function Groups() {
                       ) : (
                         user.friends.map((request) => (
                           <div key={request.id} className={styles.request}>
-                            <Image
-                              className={styles.avatar}
-                              loader={() =>
-                                `https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${request.requester_avatar}`
-                              }
-                              src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${request.requester_avatar}`}
-                              width={45}
-                              height={45}
-                              alt="friend profile picture"
-                            />
                             <Link
+                              className={styles.requestRow}
                               href={`/social/${request.requester_username}`}
                             >
+                              {request.requester_avatar ? (
+                                <Image
+                                  className={styles.avatar}
+                                  loader={() =>
+                                    `https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${request.requester_avatar}`
+                                  }
+                                  src={`https://cfbogjupbnvkonljmcuq.supabase.co/storage/v1/object/public/profile-pics/${request.requester_avatar}`}
+                                  width={45}
+                                  height={45}
+                                  alt="friend profile picture"
+                                />
+                              ) : (
+                                <AccountCircleIcon
+                                  id={styles.defaultProfileIcon}
+                                />
+                              )}
+
                               <p>{request.requester_username}</p>
                             </Link>
                             <div className={styles.requestBtns}>

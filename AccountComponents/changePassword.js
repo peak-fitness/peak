@@ -42,12 +42,10 @@ export default function ChangePassword({ user, setTab, setChange }) {
     const access_token = session.access_token;
     const refresh_token = session.refresh_token;
     const res = await supabase.auth.setSession({ access_token, refresh_token });
-    console.log(res);
     const { data, error } = await supabase.auth.updateUser({
       password: newPassword,
     });
     if (error) {
-      console.log(error);
       toast.error("Something went wrong, try again", {
         position: "bottom-right",
         autoClose: 3000,

@@ -475,27 +475,31 @@ export default function AddWorkout() {
                 >
                   Exercises
                 </Typography>
-                <Typography
-                  variant="caption"
-                  align="center"
-                  style={{ marginBottom: "10px" }}
-                >
-                  (Please fill out the above fields before adding an exercise)
-                </Typography>
+                {!update && (
+                  <Typography
+                    variant="caption"
+                    align="center"
+                    style={{ marginBottom: "10px" }}
+                  >
+                    (Please fill out the above fields before adding an exercise)
+                  </Typography>
+                )}
                 <Grid container spacing={6} className={styles.workoutContainer}>
                   <Grid item lg={4} className={styles.add}>
-                    <Button
-                      variant="outlined"
-                      onClick={() => {
-                        if (workout.routine && date && workout.duration) {
-                          setOpen(true);
-                        } else {
-                          alert("Please fill out all required fields.");
-                        }
-                      }}
-                    >
-                      Add an Exercise
-                    </Button>
+                    {!update && (
+                      <Button
+                        variant="outlined"
+                        onClick={() => {
+                          if (workout.routine && date && workout.duration) {
+                            setOpen(true);
+                          } else {
+                            alert("Please fill out all required fields.");
+                          }
+                        }}
+                      >
+                        Add an Exercise
+                      </Button>
+                    )}
                     <Dialog
                       open={open}
                       onClose={handleClose}

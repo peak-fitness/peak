@@ -238,7 +238,9 @@ export default function Public_Profile() {
                     variant="h5"
                     sx={{ marginBottom: "0", marginTop: "3rem" }}
                   >
-                    {user.first_name + " " + user.last_name}
+                    {`${user.first_name ? user.first_name : ""} ${
+                      user.last_name ? user.last_name : ""
+                    }`}
                   </Typography>
                   <Typography variant="h5" sx={{ marginTop: "0" }} />
                   {"@" + user.username}
@@ -492,16 +494,3 @@ export default function Public_Profile() {
     </>
   );
 }
-
-// export async function getServerSideProps(context) {
-//   const { username } = context.query;
-//   console.log(username);
-//   // const { data } = await supabase
-//   //   .from("user")
-//   //   .select(
-//   //     "username, first_name, last_name, height, current_weight, age, gender, location, bio, social_medias"
-//   //   )
-//   //   .eq("username", username)
-//   //   .single();
-//   return { props: { profile: username } };
-// }
